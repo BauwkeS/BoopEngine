@@ -4,7 +4,7 @@
 #include <memory>
 #include "Singleton.h"
 
-namespace dae
+namespace boop
 {
 	class Scene;
 	class SceneManager final : public Singleton<SceneManager>
@@ -14,9 +14,12 @@ namespace dae
 
 		void Update();
 		void Render();
+		void Delete();
+
 	private:
 		friend class Singleton<SceneManager>;
-		SceneManager() = default;
-		std::vector<std::shared_ptr<Scene>> m_scenes;
+		SceneManager();
+		~SceneManager();
+		std::vector<std::unique_ptr<Scene>> m_scenes;
 	};
 }

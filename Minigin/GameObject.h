@@ -1,12 +1,11 @@
 #pragma once
+#include <string>
 #include <memory>
 #include "Transform.h"
 
-namespace dae
+namespace boop
 {
 	class Texture2D;
-
-	// todo: this should become final.
 	class GameObject 
 	{
 	public:
@@ -25,7 +24,6 @@ namespace dae
 
 	private:
 		Transform m_transform{};
-		// todo: mmm, every gameobject has a texture? Is that correct?
-		std::shared_ptr<Texture2D> m_texture{};
+		std::unique_ptr<Texture2D> m_texture{};
 	};
 }

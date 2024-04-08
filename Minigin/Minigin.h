@@ -1,15 +1,18 @@
 #pragma once
 #include <string>
 #include <functional>
+#include <filesystem>
 
-namespace dae
+namespace boop
 {
-	class Minigin
+	class Minigin final
 	{
+		bool m_quit{};
 	public:
-		explicit Minigin(const std::string& dataPath);
+		explicit Minigin(const std::filesystem::path& dataPath);
 		~Minigin();
 		void Run(const std::function<void()>& load);
+		void RunOneFrame();
 
 		Minigin(const Minigin& other) = delete;
 		Minigin(Minigin&& other) = delete;

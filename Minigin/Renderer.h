@@ -1,19 +1,17 @@
 #pragma once
 #include <SDL.h>
 #include "Singleton.h"
+#include "Texture2D.h"
 
-namespace dae
+namespace boop
 {
-	class Texture2D;
 	/**
 	 * Simple RAII wrapper for the SDL renderer
 	 */
 	class Renderer final : public Singleton<Renderer>
 	{
-		SDL_Renderer* m_renderer{};
-		SDL_Window* m_window{};
-		SDL_Color m_clearColor{};	
 	public:
+
 		void Init(SDL_Window* window);
 		void Render() const;
 		void Destroy();
@@ -25,6 +23,15 @@ namespace dae
 
 		const SDL_Color& GetBackgroundColor() const { return m_clearColor; }
 		void SetBackgroundColor(const SDL_Color& color) { m_clearColor = color; }
+
+	private:
+		friend class Singleton<Renderer>;
+		explicit Renderer();
+		~Renderer();
+
+		SDL_Renderer* m_renderer{};
+		SDL_Window* m_window{};
+		SDL_Color m_clearColor{};
 	};
 }
 

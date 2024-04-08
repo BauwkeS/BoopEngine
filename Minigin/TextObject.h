@@ -3,10 +3,11 @@
 #include <memory>
 #include "GameObject.h"
 #include "Transform.h"
+#include "Font.h"
+#include "Texture2D.h"
 
-namespace dae
+namespace boop
 {
-	class Font;
 	class Texture2D;
 	class TextObject final : public GameObject
 	{
@@ -17,8 +18,8 @@ namespace dae
 		void SetText(const std::string& text);
 		void SetPosition(float x, float y);
 
-		TextObject(const std::string& text, std::shared_ptr<Font> font);
-		virtual ~TextObject() = default;
+		TextObject(const std::string& text, std::unique_ptr<Font>& font);
+		virtual ~TextObject();
 		TextObject(const TextObject& other) = delete;
 		TextObject(TextObject&& other) = delete;
 		TextObject& operator=(const TextObject& other) = delete;
@@ -27,7 +28,7 @@ namespace dae
 		bool m_needsUpdate;
 		std::string m_text;
 		Transform m_transform{};
-		std::shared_ptr<Font> m_font;
-		std::shared_ptr<Texture2D> m_textTexture;
+		std::unique_ptr<Font> m_font;
+		std::unique_ptr<Texture2D> m_textTexture;
 	};
 }
