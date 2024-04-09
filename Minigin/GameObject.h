@@ -24,6 +24,7 @@ namespace boop
 
 	private:
 		Transform m_transform{};
-		std::unique_ptr<Texture2D> m_texture{};
+		//std::unique_ptr<Texture2D> m_texture{};
+		Texture2D* m_texture{};
 	};
 }
