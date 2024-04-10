@@ -1,11 +1,27 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+void boop::SceneManager::FixedUpdate()
+{
+	for (auto& scene : m_scenes)
+	{
+		scene->FixedUpdate();
+	}
+}
+
 void boop::SceneManager::Update()
 {
 	for(auto& scene : m_scenes)
 	{
 		scene->Update();
+	}
+}
+
+void boop::SceneManager::LateUpdate()
+{
+	for (auto& scene : m_scenes)
+	{
+		scene->LateUpdate();
 	}
 }
 

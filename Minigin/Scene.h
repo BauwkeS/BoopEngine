@@ -12,7 +12,9 @@ namespace boop
 		void Remove(std::unique_ptr<GameObject>& object);
 		void RemoveAll();
 
+		void FixedUpdate();
 		void Update();
+		void LateUpdate();
 		void Render() const;
 
 		Scene();

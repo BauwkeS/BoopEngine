@@ -5,7 +5,15 @@
 
 boop::GameObject::~GameObject() = default;
 
+void boop::GameObject::FixedUpdate()
+{
+}
+
 void boop::GameObject::Update(){}
+
+void boop::GameObject::LateUpdate()
+{
+}
 
 void boop::GameObject::Render() const
 {

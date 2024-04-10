@@ -32,11 +32,27 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
+void boop::Scene::FixedUpdate()
+{
+	for (auto& object : m_objects)
+	{
+		object->FixedUpdate();
+	}
+}
+
 void Scene::Update()
 {
 	for(auto& object : m_objects)
 	{
 		object->Update();
+	}
+}
+
+void boop::Scene::LateUpdate()
+{
+	for (auto& object : m_objects)
+	{
+		object->LateUpdate();
 	}
 }
 
