@@ -20,10 +20,10 @@ namespace boop
 		Component& operator=(const Component& other) = delete;
 		Component& operator=(Component&& other) = delete;
 
-		void FixedUpdate(float deltaTime) { deltaTime = 1; }
-		void Update(float deltaTime) { deltaTime = 1; }
-		void LateUpdate(float deltaTime) { deltaTime = 1; }
-		virtual void Render() const=0;
+		virtual void FixedUpdate(float deltaTime) =0;
+		virtual void Update(float deltaTime) = 0;
+		virtual void LateUpdate(float deltaTime) = 0;
+		virtual void Render() const = 0;
 
 		void SetOwner(GameObject* pOwner) { m_pOwner = pOwner; }
 	};

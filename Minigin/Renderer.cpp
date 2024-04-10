@@ -2,7 +2,7 @@
 #include <cstring>
 #include "Renderer.h"
 #include "SceneManager.h"
-#include "Texture2D.h"
+#include "HelperFiles/Texture2D.h"
 
 int GetOpenGLDriverIndex()
 {

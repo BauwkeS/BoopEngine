@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL.h>
-#include "Singleton.h"
-#include "Texture2D.h"
+#include "HelperFiles/Singleton.h"
+#include "HelperFiles/Texture2D.h"
 
 namespace boop
 {

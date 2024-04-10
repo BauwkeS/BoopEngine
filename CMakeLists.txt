@@ -15,8 +15,6 @@ endif()
 
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
-  Minigin/Font.cpp
-  Minigin/Font.h
   Minigin/GameObject.cpp
   Minigin/GameObject.h
   Minigin/InputManager.cpp
@@ -32,12 +30,16 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Scene.h
   Minigin/SceneManager.cpp
   Minigin/SceneManager.h
-  Minigin/TextObject.cpp
-  Minigin/TextObject.h
-  Minigin/Texture2D.cpp
-  Minigin/Texture2D.h
-  Minigin/Transform.cpp
-  Minigin/Transform.h
+
+
+  Minigin/HelperFiles/Font.cpp
+  Minigin/HelperFiles/Font.h
+  Minigin/HelperFiles/TextObject.cpp
+  Minigin/HelperFiles/TextObject.h
+  Minigin/HelperFiles/Texture2D.cpp
+  Minigin/HelperFiles/Texture2D.h
+  Minigin/HelperFiles/Transform.cpp
+  Minigin/HelperFiles/Transform.h
 
   Minigin/Components/Component.h
   Minigin/Components/Component.cpp

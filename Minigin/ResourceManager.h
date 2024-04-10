@@ -3,9 +3,9 @@
 #include <string>
 #include <memory>
 #include <map>
-#include "Singleton.h"
-#include "Texture2D.h"
-#include "Font.h"
+#include "HelperFiles/Singleton.h"
+#include "HelperFiles/Texture2D.h"
+#include "HelperFiles/Font.h"
 
 namespace boop
 {

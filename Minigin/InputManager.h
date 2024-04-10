@@ -1,5 +1,5 @@
 #pragma once
-#include "Singleton.h"
+#include "HelperFiles/Singleton.h"
 
 namespace boop
 {
