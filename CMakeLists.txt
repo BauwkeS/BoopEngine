@@ -43,7 +43,12 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
 
   Minigin/Components/Component.h
   Minigin/Components/Component.cpp
- "Minigin/Components/TextureComponent.h" "Minigin/Components/TextureComponent.cpp")
+  Minigin/Components/TextureComponent.h
+  Minigin/Components/TextureComponent.cpp
+  Minigin/Components/TextComponent.h
+  Minigin/Components/TextComponent.cpp
+
+)
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
