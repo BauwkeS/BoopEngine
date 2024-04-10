@@ -27,7 +27,7 @@ namespace boop
 		TextComponent* m_TextCompPtr;
 		float m_NumFrameCalls{};
 		float m_AccuFrameTime{};
-		float m_AvgSampleTime{ .2f };
+ 		float m_AvgSampleTime{ .2f };
 		int m_DecimalPlaces{ 1 };
 		float prevFPS{};
 	};
