@@ -15,6 +15,7 @@
 #include <filesystem>
 #include <Components/TextureComponent.h>
 #include <Components/TextComponent.h>
+#include <Components/FPSComponent.h>
 namespace fs = std::filesystem;
 
 void load()
@@ -35,11 +36,11 @@ void load()
 	go = std::make_unique<boop::GameObject>();
 	go->AddComponent<boop::TextComponent>("Programming 4 Assignment");
 	go->SetPosition(80, 30);
-	scene.Add(go);/*
+	scene.Add(go);
 
 	go = std::make_unique<boop::GameObject>();
 	go->AddComponent<boop::FPSComponent>();
-	scene.Add(go);*/
+	scene.Add(go);
 
 	/*auto go = std::make_unique<boop::GameObject>();
 	go->SetTexture("background.tga");

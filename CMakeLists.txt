@@ -47,6 +47,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Components/TextureComponent.cpp
   Minigin/Components/TextComponent.h
   Minigin/Components/TextComponent.cpp
+  Minigin/Components/FPSComponent.h
+  Minigin/Components/FPSComponent.cpp
 
 )
 
