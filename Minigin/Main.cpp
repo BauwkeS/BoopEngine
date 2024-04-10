@@ -10,7 +10,6 @@
 #include "Minigin.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
-#include "HelperFiles/TextObject.h"
 #include "Scene.h"
 
 #include <filesystem>

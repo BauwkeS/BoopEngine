@@ -1,6 +1,5 @@
 #include <stdexcept>
 #include <SDL_ttf.h>
-#include "HelperFiles/TextObject.h"
 #include "Renderer.h"
 #include "HelperFiles/Font.h"
 #include "HelperFiles/Texture2D.h"

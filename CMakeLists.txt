@@ -34,8 +34,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
 
   Minigin/HelperFiles/Font.cpp
   Minigin/HelperFiles/Font.h
-  Minigin/HelperFiles/TextObject.cpp
-  Minigin/HelperFiles/TextObject.h
+  
+  
   Minigin/HelperFiles/Texture2D.cpp
   Minigin/HelperFiles/Texture2D.h
   Minigin/HelperFiles/Transform.cpp
