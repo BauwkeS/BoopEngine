@@ -32,7 +32,7 @@ void load()
 	/*auto font = boop::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto to = std::make_unique<boop::TextObject>("Programming 4 Assignment", font);
 	to->SetPosition(80, 20);
-	scene.Add(to);*/
+	scene.Add(to)*/;
 }
 
 int main(int, char*[]) {

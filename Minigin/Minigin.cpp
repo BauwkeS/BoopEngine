@@ -99,18 +99,54 @@ boop::Minigin::~Minigin()
 
 void boop::Minigin::Run(const std::function<void()>& load)
 {
+//	load();
+//#ifndef __EMSCRIPTEN__
+//	while (!m_quit)
+//		RunOneFrame();
+//#else
+//	emscripten_set_main_loop_arg(&LoopCallback, this, 0, true);
+//#endif
+
 	load();
-#ifndef __EMSCRIPTEN__
+
+	m_quit = !InputManager::GetInstance().ProcessInput();
+	//SceneManager::GetInstance().Update();
+	//Renderer::GetInstance().Render();
+
+	//bool doContinue = true;
+	auto lastTime = std::chrono::high_resolution_clock::now();
+	float lag = 0.0f;
+	float fixedTimeStep{ 0.03333f }; //from Unity
+	int msPerFrame{ 1000 / 165 };
 	while (!m_quit)
-		RunOneFrame();
-#else
-	emscripten_set_main_loop_arg(&LoopCallback, this, 0, true);
-#endif
+	{
+		const auto currentTime = std::chrono::high_resolution_clock::now();
+		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+		lastTime = currentTime;
+		lag += deltaTime;
+
+		m_quit = !InputManager::GetInstance().ProcessInput();
+		//doContinue = input.ProcessInput();
+		while (lag >= fixedTimeStep)
+		{
+			//sceneManager.FixedUpdate();
+			lag -= fixedTimeStep;
+		}
+		SceneManager::GetInstance().Update();
+		//sceneManager.Update(deltaTime);
+		//sceneManager.LateUpdate();
+		Renderer::GetInstance().Render();
+
+		const auto sleepTime{ currentTime + std::chrono::milliseconds(msPerFrame) - std::chrono::high_resolution_clock::now() };
+
+		std::this_thread::sleep_for(sleepTime);
+
+	}
 }
 
 void boop::Minigin::RunOneFrame()
 {
-	m_quit = !InputManager::GetInstance().ProcessInput();
+	/*m_quit = !InputManager::GetInstance().ProcessInput();
 	SceneManager::GetInstance().Update();
-	Renderer::GetInstance().Render();
+	Renderer::GetInstance().Render();*/
 }
