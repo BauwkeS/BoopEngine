@@ -1,27 +1,27 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-void boop::SceneManager::FixedUpdate()
+void boop::SceneManager::FixedUpdate(float deltaTime)
 {
 	for (auto& scene : m_scenes)
 	{
-		scene->FixedUpdate();
+		scene->FixedUpdate(deltaTime);
 	}
 }
 
-void boop::SceneManager::Update()
+void boop::SceneManager::Update(float deltaTime)
 {
 	for(auto& scene : m_scenes)
 	{
-		scene->Update();
+		scene->Update(deltaTime);
 	}
 }
 
-void boop::SceneManager::LateUpdate()
+void boop::SceneManager::LateUpdate(float deltaTime)
 {
 	for (auto& scene : m_scenes)
 	{
-		scene->LateUpdate();
+		scene->LateUpdate(deltaTime);
 	}
 }
 

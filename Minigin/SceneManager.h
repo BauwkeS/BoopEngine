@@ -12,9 +12,9 @@ namespace boop
 	public:
 		Scene& CreateScene(const std::string& name);
 
-		void FixedUpdate();
-		void Update();
-		void LateUpdate();
+		void FixedUpdate(float deltaTime);
+		void Update(float deltaTime);
+		void LateUpdate(float deltaTime);
 		void Render();
 		void Delete();
 
