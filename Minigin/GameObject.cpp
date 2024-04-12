@@ -59,5 +59,79 @@ void boop::GameObject::RemoveComponent(int componentIdx)
 
 void boop::GameObject::SetPosition(float x, float y)
 {
-	m_Transform.SetPosition(x, y, 0.0f);
+	//m_Transform.SetPosition(x, y, 0.0f);
+	m_LocalPosition = glm::vec3(x, y, 0.0f);
+}
+
+void boop::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
+{
+	if (IsChild(parent) || parent == this || m_pParent == parent) return;
+
+	if (parent == nullptr) SetLocalPosition(GetWorldPosition());
+	else {
+		if (keepWorldPosition) SetLocalPosition(GetWorldPosition() - parent->GetWorldPosition());
+		SetPositionDirty();
+	}
+
+	if (m_pParent) m_pParent->RemoveChild(this);
+	m_pParent = parent;
+	if (m_pParent) m_pParent->AddChild(this);
+}
+
+void boop::GameObject::RemoveChild(GameObject* child)
+{
+	//m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), child), m_pChildren.end());
+	std::erase(m_pChildren, child);
+}
+
+void boop::GameObject::AddChild(GameObject* child)
+{
+	m_pChildren.emplace_back(child);
+}
+
+boop::GameObject * boop::GameObject::GetChildAt(int index) const
+{
+	return m_pChildren[index];
+}
+
+bool boop::GameObject::IsChild(GameObject* parent) const
+{
+	for (auto child : m_pChildren) {
+		if (parent == child) return true;
+		if (m_pChildren.size() > 0) {
+			if (child->IsChild(parent)) return true;
+		}
+	}
+	
+	return false;
+}
+
+void boop::GameObject::SetPositionDirty()
+{
+	for (auto child : m_pChildren) {
+		child->SetPositionDirty(); //so all the children have it too
+	}
+	m_PositionIsDirty = true;
+}
+
+void boop::GameObject::SetLocalPosition(const glm::vec3& pos)
+{
+	m_LocalPosition = pos;
+	SetPositionDirty();
+}
+
+const glm::vec3& boop::GameObject::GetWorldPosition()
+{
+	// TODO: insert return statement here
+	if (m_PositionIsDirty) UpdateWorldPosition();
+	return m_WorldPosition;
+}
+
+void boop::GameObject::UpdateWorldPosition()
+{
+	if (m_PositionIsDirty) {
+		if (m_pParent == nullptr) m_WorldPosition = m_LocalPosition;
+		else m_WorldPosition = m_pParent->GetWorldPosition() + m_LocalPosition;
+	}
+	m_PositionIsDirty = true;
 }

@@ -16,6 +16,15 @@ namespace boop
 
 	class GameObject final
 	{
+	private:
+		//Transform m_Transform{};
+		std::vector<std::unique_ptr<boop::Component>> m_pComponents;
+		GameObject* m_pParent{};
+		std::vector<GameObject*> m_pChildren{};
+
+		glm::vec3 m_LocalPosition{};
+		glm::vec3 m_WorldPosition{};
+		bool m_PositionIsDirty;
 	public:
 		virtual void FixedUpdate(float deltaTime);
 		virtual void Update(float deltaTime);
@@ -33,14 +42,22 @@ namespace boop
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-		glm::vec3 GetPosition() const { return m_Transform.GetPosition(); }
-	private:
-		Transform m_Transform{};
-		std::vector<std::unique_ptr<boop::Component>> m_pComponents;
+		glm::vec3 GetPosition() const { return m_LocalPosition; }
 
-	public:
+		//---
 
-	public:
+		void SetParent(GameObject* parent, bool keepWorldPosition);
+		void RemoveChild(GameObject* child);
+		void AddChild(GameObject* child);
+		GameObject* GetParent() const { return m_pParent; }
+		GameObject* GetChildAt(int index) const;
+		bool IsChild(GameObject* parent) const;
+		void SetPositionDirty();
+		void SetLocalPosition(const glm::vec3& pos);
+		const glm::vec3& GetWorldPosition();
+		void UpdateWorldPosition();
+
+		//--
 		//stolen template from Wannes -> to be improved by myself pls
 		template <ComponentConcept ComponentType, typename... Args>
 		void AddComponent(const Args&... args)
