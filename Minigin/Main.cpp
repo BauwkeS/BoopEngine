@@ -12,10 +12,14 @@
 #include "ResourceManager.h"
 #include "Scene.h"
 
+#include <glm/ext/scalar_constants.hpp>
+#include "glm/vec3.hpp"
+
 #include <filesystem>
 #include <Components/TextureComponent.h>
 #include <Components/TextComponent.h>
 #include <Components/FPSComponent.h>
+#include <Components/RotatorComponent.h>
 namespace fs = std::filesystem;
 
 void load()
@@ -38,9 +42,31 @@ void load()
 	go->SetPosition(80, 30);
 	scene.Add(go);
 
-	go = std::make_unique<boop::GameObject>();
+	//FPS COMPONENT
+	/*go = std::make_unique<boop::GameObject>();
 	go->AddComponent<boop::FPSComponent>();
-	scene.Add(go);
+	scene.Add(go);*/
+
+	glm::vec3 center{ 200.f,200.f,0.f };
+	auto character{ std::make_unique<boop::GameObject>() };
+	character->AddComponent<boop::TextureComponent>("burger.png");
+	character->AddComponent<boop::RotatorComponent>(5.f, 50.f);
+	character->GetComponent<boop::RotatorComponent>()->SetPosition(center);
+
+	auto charOrb{ std::make_unique <boop::GameObject>() };
+	charOrb->AddComponent<boop::TextureComponent>("burger.png");
+	charOrb->SetParent(std::move(character.get()));
+	scene.Add(character);
+	scene.Add(charOrb);
+	//charOrb = std::make_unique <boop::GameObject>();
+	//charOrb->AddComponent<boop::TextureComponent>("burger.png");
+	//charOrb->SetParent(character.get(), false);
+	//scene.Add(charOrb);
+	//charOrb = std::make_unique <boop::GameObject>();
+	//charOrb->AddComponent<boop::TextureComponent>("burger.png");
+	//charOrb->SetParent(character.get(), false);
+	//scene.Add(charOrb);
+
 
 	/*auto go = std::make_unique<boop::GameObject>();
 	go->SetTexture("background.tga");

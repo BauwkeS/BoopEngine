@@ -46,7 +46,7 @@ namespace boop
 
 		//---
 
-		void SetParent(GameObject* parent, bool keepWorldPosition);
+		void SetParent(GameObject* parent, bool keepWorldPosition= true);
 		void RemoveChild(GameObject* child);
 		void AddChild(GameObject* child);
 		GameObject* GetParent() const { return m_pParent; }

@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include "HelperFiles/Singleton.h"
 #include "HelperFiles/Texture2D.h"
+#include "Components/Component.h"
 
 namespace boop
 {
@@ -32,6 +33,8 @@ namespace boop
 		SDL_Renderer* m_renderer{};
 		SDL_Window* m_window{};
 		SDL_Color m_clearColor{};
+
+		//std::list<boop::Component*> m_pComponentRenderList{};
 	};
 }
 
