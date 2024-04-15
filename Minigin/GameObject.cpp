@@ -57,9 +57,9 @@ void boop::GameObject::RemoveComponent(int componentIdx)
 	m_pComponents[componentIdx].reset();
 }
 
-void boop::GameObject::SetPosition(float x, float y)
+void boop::GameObject::SetLocalPosition(float x, float y)
 {
-	//m_Transform.SetPosition(x, y, 0.0f);
+	//m_Transform.SetLocalPosition(x, y, 0.0f);
 	m_LocalPosition = glm::vec3(x, y, 0.0f);
 }
 
@@ -133,5 +133,5 @@ void boop::GameObject::UpdateWorldPosition()
 		if (m_pParent == nullptr) m_WorldPosition = m_LocalPosition;
 		else m_WorldPosition = m_pParent->GetWorldPosition() + m_LocalPosition;
 	}
-	m_PositionIsDirty = true;
+	m_PositionIsDirty = false;
 }

@@ -13,6 +13,6 @@ boop::TextureComponent::TextureComponent(boop::GameObject* const ownerPtr, std::
 
 void boop::TextureComponent::Render() const
 {
-	auto pos{ GetOwner()->GetPosition() };
+	auto pos{ GetOwner()->GetWorldPosition() };
 	boop::Renderer::GetInstance().RenderTexture(*m_TexturePtr, pos.x, pos.y);
 }

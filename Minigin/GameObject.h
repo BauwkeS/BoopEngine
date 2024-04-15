@@ -33,7 +33,7 @@ namespace boop
 		virtual void Render() const;
 
 		void RemoveComponent(int componentIdx);
-		void SetPosition(float x, float y);
+		void SetLocalPosition(float x, float y);
 
 		GameObject() = default;
 		~GameObject() = default;
@@ -41,8 +41,6 @@ namespace boop
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
-
-		glm::vec3 GetPosition() const { return m_LocalPosition; }
 
 		//---
 

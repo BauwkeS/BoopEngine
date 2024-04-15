@@ -3,7 +3,7 @@
 #if _DEBUG
 // ReSharper disable once CppUnusedIncludeDirective
 #if __has_include(<vld.h>)
-#include <vld.h>
+//#include <vld.h>
 #endif
 #endif
 
@@ -16,6 +16,7 @@
 #include "glm/vec3.hpp"
 
 #include <filesystem>
+#include <iostream>
 #include <Components/TextureComponent.h>
 #include <Components/TextComponent.h>
 #include <Components/FPSComponent.h>
@@ -34,12 +35,12 @@ void load()
 
 	go = std::make_unique<boop::GameObject>();
 	go->AddComponent<boop::TextureComponent>("logo.tga");
-	go->SetPosition(216, 180);
+	go->SetLocalPosition(216, 180);
 	scene.Add(go);
 
 	go = std::make_unique<boop::GameObject>();
 	go->AddComponent<boop::TextComponent>("Programming 4 Assignment");
-	go->SetPosition(80, 30);
+	go->SetLocalPosition(80, 30);
 	scene.Add(go);
 
 	//FPS COMPONENT
@@ -55,7 +56,9 @@ void load()
 
 	auto charOrb{ std::make_unique <boop::GameObject>() };
 	charOrb->AddComponent<boop::TextureComponent>("burger.png");
-	charOrb->SetParent(std::move(character.get()));
+	charOrb->SetParent(character.get());
+	charOrb->SetLocalPosition(50, 50);
+
 	scene.Add(character);
 	scene.Add(charOrb);
 	//charOrb = std::make_unique <boop::GameObject>();
@@ -74,12 +77,12 @@ void load()
 
 	go = std::make_unique<boop::GameObject>();
 	go->SetTexture("logo.tga");
-	go->SetPosition(216, 180);
+	go->SetLocalPosition(216, 180);
 	scene.Add(go);
 
 	auto font = boop::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto to = std::make_unique<boop::TextObject>("Programming 4 Assignment", font);
-	to->SetPosition(80, 20);
+	to->SetLocalPosition(80, 20);
 	scene.Add(to)*/;
 }
 
