@@ -49,8 +49,14 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Components/TextComponent.cpp
   Minigin/Components/FPSComponent.h
   Minigin/Components/FPSComponent.cpp
+  Minigin/Components/RotatorComponent.h
+  Minigin/Components/RotatorComponent.cpp
 
- "Minigin/Components/RotatorComponent.cpp" "Minigin/Components/RotatorComponent.h" "Minigin/Command.h" "Minigin/Command.cpp")
+  Minigin/Command.h
+  Minigin/Command.cpp
+  Minigin/Controller.h
+  Minigin/Controller.cpp
+)
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
@@ -141,6 +147,11 @@ if (WIN32)
         set(VLD_LIBRARY "${VLD_DIR}/lib/Win32/vld.lib")
     endif()
   endif()
+
+  SET( XINPUT_LIB XInput )
+target_link_libraries(${TARGET_NAME} PUBLIC
+    ${XINPUT_LIB} 
+)
 
   # set all include directories
   target_include_directories(${TARGET_NAME} PRIVATE
