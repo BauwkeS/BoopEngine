@@ -111,7 +111,7 @@ void boop::Minigin::Run(const std::function<void()>& load)
 
 	load();
 
-	m_quit = !InputManager::GetInstance().ProcessInput();
+	//m_quit = !InputManager::GetInstance().ProcessInput();
 	//SceneManager::GetInstance().Update();
 	//Renderer::GetInstance().Render();
 
@@ -127,7 +127,7 @@ void boop::Minigin::Run(const std::function<void()>& load)
 		lastTime = currentTime;
 		lag += deltaTime;
 
-		m_quit = !InputManager::GetInstance().ProcessInput();
+		m_quit = !InputManager::GetInstance().ProcessInput(deltaTime);
 		//doContinue = input.ProcessInput();
 		while (lag >= fixedTimeStep)
 		{
