@@ -17,14 +17,16 @@ namespace boop
 		void LateUpdate(float deltaTime);
 		void Render() const;
 
+		std::string GetName() const;
+
 		Scene();
 		explicit Scene(const std::string& name);
 		~Scene();
 
-		//Scene(const Scene& other) = delete;
-		//Scene(Scene&& other) = delete;
-		//Scene& operator=(const Scene& other) = delete;
-		//Scene& operator=(Scene&& other) = delete;
+		Scene(const Scene& other) = delete;
+		Scene(Scene&& other) = delete;
+		Scene& operator=(const Scene& other) = delete;
+		Scene& operator=(Scene&& other) = delete;
 
 	private:
 

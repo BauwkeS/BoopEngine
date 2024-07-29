@@ -7,6 +7,7 @@
 #include "HelperFiles/Singleton.h"
 #include "Controller.h"
 #include "Command.h"
+#include "SceneManager.h"
 
 namespace boop
 {
@@ -43,6 +44,8 @@ namespace boop
 
 		std::vector<Uint8> m_PreviousKeyState{ std::vector<Uint8>(SDL_NUM_SCANCODES) };
 		std::vector<Uint8> m_CurrentPressed{ std::vector<Uint8>(SDL_NUM_SCANCODES) };
+
+		SceneManager& m_SceneManager{ SceneManager::GetInstance() };
 
 	public:
 		bool ProcessInput(float deltaTime);

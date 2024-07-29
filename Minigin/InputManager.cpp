@@ -2,6 +2,8 @@
 #include "InputManager.h"
 #include <functional>
 
+#include "Scene.h"
+
 namespace boop
 {
 	bool InputManager::ProcessInput(float deltaTime)
@@ -55,9 +57,7 @@ namespace boop
 		}
 
 		// Retrieve the name of the active scene
-		//std::string sceneName = m_pSceneManager.GetActiveScene().GetSceneName();
-		std::string sceneName = "one";
-
+		std::string sceneName = m_SceneManager.GetActiveScene().GetName();
 
 
 		//--

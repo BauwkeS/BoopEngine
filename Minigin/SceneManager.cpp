@@ -3,7 +3,7 @@
 
 void boop::SceneManager::FixedUpdate(float deltaTime)
 {
-	for (auto& scene : m_scenes)
+	for (auto& scene : m_Scenes)
 	{
 		scene->FixedUpdate(deltaTime);
 	}
@@ -11,7 +11,7 @@ void boop::SceneManager::FixedUpdate(float deltaTime)
 
 void boop::SceneManager::Update(float deltaTime)
 {
-	for(auto& scene : m_scenes)
+	for(auto& scene : m_Scenes)
 	{
 		scene->Update(deltaTime);
 	}
@@ -19,7 +19,7 @@ void boop::SceneManager::Update(float deltaTime)
 
 void boop::SceneManager::LateUpdate(float deltaTime)
 {
-	for (auto& scene : m_scenes)
+	for (auto& scene : m_Scenes)
 	{
 		scene->LateUpdate(deltaTime);
 	}
@@ -27,18 +27,10 @@ void boop::SceneManager::LateUpdate(float deltaTime)
 
 void boop::SceneManager::Render()
 {
-	for (const auto& scene : m_scenes)
+	for (const auto& scene : m_Scenes)
 	{
 		scene->Render();
 	}
-}
-
-void boop::SceneManager::Delete()
-{
-	/*for (const auto& scene : m_ScenesPtr)
-	{
-		scene->CleanUp();
-	}*/
 }
 
 boop::SceneManager::SceneManager()
@@ -47,11 +39,29 @@ boop::SceneManager::SceneManager()
 
 boop::SceneManager::~SceneManager()
 {
+	/*delete m_pActiveScene;
+	m_pActiveScene = nullptr;*/
 }
 
-boop::Scene& boop::SceneManager::CreateScene(const std::string& name)
+boop::Scene& boop::SceneManager::AddScene(const std::string& name)
 {
 	//const auto& scene = std::make_unique<Scene>(name);
-	const auto& scene = m_scenes.emplace_back(std::make_unique<Scene>(name));
+	const auto& scene = m_Scenes.emplace_back(std::make_unique<Scene>(name));
 	return *scene;
+}
+
+void boop::SceneManager::ChangeScene(const std::string& toSceneName)
+{
+	for (int i = 0; i < m_Scenes.size(); ++i)
+	{
+		if (m_Scenes[i]->GetName() == toSceneName)
+		{
+			m_ActiveSceneId = i;
+		}
+	}
+}
+
+boop::Scene& boop::SceneManager::GetActiveScene()
+{
+	return *m_Scenes[m_ActiveSceneId];
 }

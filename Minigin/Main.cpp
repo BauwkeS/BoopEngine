@@ -25,7 +25,7 @@ namespace fs = std::filesystem;
 
 void load()
 {
-	auto& scene = boop::SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = boop::SceneManager::GetInstance().AddScene("Demo");
 
 
 	auto go = std::make_unique<boop::GameObject>();
