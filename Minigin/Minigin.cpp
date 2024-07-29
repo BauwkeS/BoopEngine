@@ -1,6 +1,8 @@
 #include <stdexcept>
 #include <sstream>
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 #if WIN32
 #define WIN32_LEAN_AND_MEAN 
@@ -134,8 +136,6 @@ void boop::Minigin::Run(const std::function<void()>& load)
 			lag -= fixedTimeStep;
 		}
 		SceneManager::GetInstance().Update(deltaTime);
-		//sceneManager.Update(deltaTime);
-		//sceneManager.LateUpdate();
 		SceneManager::GetInstance().LateUpdate(deltaTime);
 		Renderer::GetInstance().Render();
 

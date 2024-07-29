@@ -50,7 +50,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Components/FPSComponent.h
   Minigin/Components/FPSComponent.cpp
 
- "Minigin/Components/RotatorComponent.cpp" "Minigin/Components/RotatorComponent.h")
+ "Minigin/Components/RotatorComponent.cpp" "Minigin/Components/RotatorComponent.h" "Minigin/Command.h" "Minigin/Command.cpp")
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
