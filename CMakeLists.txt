@@ -56,7 +56,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Command.cpp
   Minigin/Controller.h
   Minigin/Controller.cpp
-)
+ "Minigin/Event.h" "Minigin/Observer.h" "Minigin/Observer.cpp" "Minigin/Subject.h" "Minigin/Subject.cpp")
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
