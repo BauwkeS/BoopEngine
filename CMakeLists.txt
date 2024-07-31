@@ -47,10 +47,10 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Components/TextureComponent.cpp
   Minigin/Components/TextComponent.h
   Minigin/Components/TextComponent.cpp
-  Minigin/Components/FPSComponent.h
-  Minigin/Components/FPSComponent.cpp
-  Minigin/Components/RotatorComponent.h
-  Minigin/Components/RotatorComponent.cpp
+  
+  
+  
+  
 
   Minigin/Command.h
   Minigin/Command.cpp
