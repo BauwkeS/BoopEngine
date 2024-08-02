@@ -19,8 +19,6 @@
 #include <iostream>
 #include <Components/TextureComponent.h>
 #include <Components/TextComponent.h>
-#include <Components/FPSComponent.h>
-#include <Components/RotatorComponent.h>
 namespace fs = std::filesystem;
 
 void load()
@@ -51,9 +49,7 @@ void load()
 	glm::vec3 center{ 200.f,200.f,0.f };
 	auto character{ std::make_unique<boop::GameObject>() };
 	character->AddComponent<boop::TextureComponent>("burger.png");
-	character->AddComponent<boop::RotatorComponent>(5.f, 50.f);
-	character->GetComponent<boop::RotatorComponent>()->SetPosition(center);
-
+	
 	auto charOrb{ std::make_unique <boop::GameObject>() };
 	charOrb->AddComponent<boop::TextureComponent>("burger.png");
 	charOrb->SetParent(character.get());

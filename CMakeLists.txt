@@ -40,6 +40,11 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/HelperFiles/Texture2D.h
   Minigin/HelperFiles/Transform.cpp
   Minigin/HelperFiles/Transform.h
+  Minigin/HelperFiles/Sprite.h
+  Minigin/HelperFiles/Sprite.cpp
+  Minigin/HelperFiles/Texture.h
+  Minigin/HelperFiles/Texture.cpp
+
 
   Minigin/Components/Component.h
   Minigin/Components/Component.cpp
@@ -47,8 +52,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Components/TextureComponent.cpp
   Minigin/Components/TextComponent.h
   Minigin/Components/TextComponent.cpp
-  
-  
+  Minigin/Components/SpriteComponent.h
+  Minigin/Components/SpriteComponent.cpp
   
   
 
