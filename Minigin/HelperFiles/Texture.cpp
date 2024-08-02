@@ -2,6 +2,9 @@
 #include <string>
 #include "Texture.h"
 
+#include "Renderer.h"
+#include "ResourceManager.h"
+
 namespace boop
 {
 	Texture::Texture(const std::string& imagePath)
@@ -64,6 +67,14 @@ namespace boop
 	{
 		m_CreationOk = true;
 
+		/*LPSTR bufferinfo{};
+		GetCurrentDirectory(100, bufferinfo);
+		std::cout << bufferinfo << std::endl;*/
+
+		TCHAR ExecutionPath[300];
+		GetCurrentDirectory(300, ExecutionPath);
+
+
 		// Load image at specified path
 		SDL_Surface* pLoadedSurface = IMG_Load(path.c_str());
 		if (pLoadedSurface == nullptr)
@@ -77,6 +88,8 @@ namespace boop
 		// Free loaded surface
 		SDL_FreeSurface(pLoadedSurface);
 
+
+		m_TexturePtr = boop::ResourceManager::GetInstance().LoadTexture("kirb.png");
 	}
 
 	void Texture::CreateFromString(const std::string& text, const std::string& fontPath, int ptSize, const glm::vec4& textColor)
@@ -322,6 +335,12 @@ namespace boop
 			glEnd();
 		}
 		glDisable(GL_TEXTURE_2D);
+
+
+		SDL_Rect theSource{ static_cast<int>(srcRect.x),static_cast<int>(srcRect.y),
+			static_cast<int>(srcRect.z),static_cast<int>(srcRect.w) };
+		glm::ivec2 test = m_TexturePtr->GetSize();
+		//boop::Renderer::GetInstance().RenderTexture(*m_TexturePtr, 300, 300, theSource,);
 	}
 
 	float Texture::GetWidth() const

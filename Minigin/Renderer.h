@@ -18,6 +18,7 @@ namespace boop
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
+		void RenderTexture(const Texture2D& texture, SDL_Rect& dstRect ,const SDL_Rect& scrRect) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
 
 		SDL_Renderer* GetSDLRenderer() const;

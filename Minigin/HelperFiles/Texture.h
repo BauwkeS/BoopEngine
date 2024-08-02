@@ -8,6 +8,8 @@
 #include <SDL_image.h>
 #include <glm/glm.hpp>
 
+#include "Texture2D.h"
+
 #pragma comment (lib,"opengl32.lib")
 #pragma comment (lib,"Glu32.lib")
 
@@ -38,6 +40,8 @@ namespace boop
 		float m_Width;
 		float m_Height;
 		bool m_CreationOk;
+
+		Texture2D* m_TexturePtr;
 
 		// FUNCTIONS
 		void CreateFromImage(const std::string& path);

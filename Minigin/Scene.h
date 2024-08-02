@@ -1,6 +1,8 @@
 #pragma once
 #include "SceneManager.h"
 #include "GameObject.h"
+#include "HelperFiles/Sprite.h"
+#include <HelperFiles/AnimatedTexture.h>
 
 namespace boop
 {
@@ -34,6 +36,9 @@ namespace boop
 		std::vector<std::unique_ptr<GameObject>> m_objects{};
 
 		static unsigned int m_idCounter;
+
+		AnimatedTexture* m_test = { new AnimatedTexture("Avatar.png", 7, 6, 0.2f, 0, 7, 4) };
+		
 	};
 
 }
