@@ -15,6 +15,7 @@ namespace boop
 		int m_StartPic{};
 		int m_AmountPic{};
 		float m_AccuSec;
+		//int m_ActFrame;
 		float m_Scale;
 
 

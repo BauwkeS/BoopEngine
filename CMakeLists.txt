@@ -40,10 +40,10 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/HelperFiles/Texture2D.h
   Minigin/HelperFiles/Transform.cpp
   Minigin/HelperFiles/Transform.h
-  
-  
-  
-  
+  Minigin/HelperFiles/Sprite.h
+  Minigin/HelperFiles/Sprite.cpp
+  Minigin/HelperFiles/Texture.h
+  Minigin/HelperFiles/Texture.cpp
 
 
   Minigin/Components/Component.h
