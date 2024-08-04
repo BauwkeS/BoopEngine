@@ -9,7 +9,6 @@ unsigned int Scene::m_idCounter = 0;
 
 boop::Scene::Scene():
 	m_name{"DefaultName"}
-	//m_pSprite{ new Sprite("KirbySpriteSheet.png", 18, 44, 0.2f, 4) }
 {
 }
 
@@ -48,8 +47,6 @@ void Scene::Update(float deltaTime)
 	{
 		object->Update(deltaTime);
 	}
-	//m_pSprite = new Sprite("Data/kirb.png", 18, 44, 0.2f, 50);
-		m_test->Update(deltaTime, glm::vec2(300, 300));
 }
 
 void boop::Scene::LateUpdate(float deltaTime)
@@ -67,8 +64,6 @@ void Scene::Render() const
 	{
 		object->Render();
 	}
-
-	m_test->Render();
 }
 
 std::string Scene::GetName() const

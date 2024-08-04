@@ -22,15 +22,17 @@ namespace boop
 		explicit AnimatedTexture(std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale);
 
 		AnimatedTexture(const AnimatedTexture& other) = delete;
+		AnimatedTexture(AnimatedTexture&& other) = delete;
 		AnimatedTexture& operator=(const AnimatedTexture& other) = delete;
-		AnimatedTexture(AnimatedTexture&& other) noexcept;
-		AnimatedTexture& operator=(AnimatedTexture&& other) noexcept;
+		AnimatedTexture& operator=(AnimatedTexture&& other) = delete;
 		~AnimatedTexture();
 
 		Texture2D* GetTexture();
 		
 		void Render();
 		void Update(float deltaTime, glm::vec2 pos);
+
+		void SetFramesSec(float sec) { m_FrameSec = sec; }
 
 	protected:
 		Texture2D* m_pTexture{};

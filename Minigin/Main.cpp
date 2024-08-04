@@ -19,6 +19,7 @@
 #include <iostream>
 #include <Components/TextureComponent.h>
 #include <Components/TextComponent.h>
+#include <Components/SpriteComponent.h>
 namespace fs = std::filesystem;
 
 void load()
@@ -28,35 +29,45 @@ void load()
 
 	auto go = std::make_unique<boop::GameObject>();
 
-	go->AddComponent<boop::TextureComponent>("background.tga");
+	 go->AddComponent<boop::TextureComponent>(nullptr,"background.tga");
 	scene.Add(go);
+	/*
 
 	go = std::make_unique<boop::GameObject>();
 	go->AddComponent<boop::TextureComponent>("logo.tga");
 	go->SetLocalPosition(216, 180);
-	scene.Add(go);
 
 	go = std::make_unique<boop::GameObject>();
 	go->AddComponent<boop::TextComponent>("Programming 4 Assignment");
 	go->SetLocalPosition(80, 30);
+	scene.Add(go);*/
+
+	//go = std::make_unique<boop::GameObject>();
+
+	go = std::make_unique<boop::GameObject>();
+	//boop::AnimatedTexture texture{static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4  };
+	//go->AddComponent<boop::SpriteComponent>(nullptr, &texture);
+	go->AddComponent<boop::SpriteComponent>(nullptr, static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f);
+	go->SetLocalPosition(300.f, 300.f);
 	scene.Add(go);
+	
 
 	//FPS COMPONENT
 	/*go = std::make_unique<boop::GameObject>();
 	go->AddComponent<boop::FPSComponent>();
 	scene.Add(go);*/
 
-	glm::vec3 center{ 200.f,200.f,0.f };
-	auto character{ std::make_unique<boop::GameObject>() };
-	character->AddComponent<boop::TextureComponent>("burger.png");
-	
-	auto charOrb{ std::make_unique <boop::GameObject>() };
-	charOrb->AddComponent<boop::TextureComponent>("burger.png");
-	charOrb->SetParent(character.get());
-	charOrb->SetLocalPosition(50, 50);
+	//glm::vec3 center{ 200.f,200.f,0.f };
+	//auto character{ std::make_unique<boop::GameObject>() };
+	//character->AddComponent<boop::TextureComponent>("burger.png");
+	//
+	//auto charOrb{ std::make_unique <boop::GameObject>() };
+	//charOrb->AddComponent<boop::TextureComponent>("burger.png");
+	//charOrb->SetParent(character.get());
+	//charOrb->SetLocalPosition(50, 50);
 
-	scene.Add(character);
-	scene.Add(charOrb);
+	//scene.Add(character);
+	//scene.Add(charOrb);
 	//charOrb = std::make_unique <boop::GameObject>();
 	//charOrb->AddComponent<boop::TextureComponent>("burger.png");
 	//charOrb->SetParent(character.get(), false);
@@ -79,7 +90,7 @@ void load()
 	auto font = boop::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto to = std::make_unique<boop::TextObject>("Programming 4 Assignment", font);
 	to->SetLocalPosition(80, 20);
-	scene.Add(to)*/;
+	scene.Add(to)*/
 }
 
 int main(int, char*[]) {

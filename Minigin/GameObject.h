@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <iostream>
 #include <vector>
 #include <concepts>
 #include "HelperFiles/Transform.h"
@@ -18,7 +19,7 @@ namespace boop
 	{
 	private:
 		//Transform m_Transform{};
-		std::vector<std::unique_ptr<boop::Component>> m_pComponents;
+		std::vector<std::unique_ptr<boop::Component>> m_pComponents{};
 		GameObject* m_pParent{};
 		std::vector<GameObject*> m_pChildren{};
 
@@ -56,68 +57,88 @@ namespace boop
 		void UpdateWorldPosition();
 
 		//--
-		//stolen template from Wannes -> to be improved by myself pls
-		template <ComponentConcept ComponentType, typename... Args>
-		void AddComponent(const Args&... args)
+		//stolen template from Mendel Debrabandere -> to be improved by myself pls
+
+		template <class T, typename... Args>
+		T* AddComponent(GameObject* owner = nullptr, const Args&... args)
 		{
-			auto component{ std::make_unique<ComponentType>(this, args...) };
-			bool componentAdded{ false };
+			static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
 
-			for (unsigned int compIdx = 0; compIdx < m_pComponents.size(); compIdx++)
+
+		/*	if (HasComponent<T>())
 			{
-				if (m_pComponents[compIdx].get())
-					continue;
+				std::cout << "Trying to add an already existing component\n";
+				return nullptr;
+			}*/
 
-				m_pComponents[compIdx] = std::move(component);
-				componentAdded = true;
-				break;
+			std::unique_ptr<T> pComponent{};
+
+			if (owner == nullptr)
+			{
+				pComponent = std::make_unique<T>(this, args...);
 			}
+			else pComponent = std::make_unique<T>(owner, args...);
 
-			if (!componentAdded)
-				m_pComponents.emplace_back(std::move(component));
+
+			//pComponent->Initialize();
+
+			T* rawPtr = pComponent.get();
+			m_pComponents.emplace_back(std::move(pComponent));
+
+			return rawPtr;
 		}
 
+		template <class T>
+		bool RemoveComponent();
 
-		template<ComponentConcept ComponentType>
-		void RemoveComponent()
-		{
-			//use stl lib
-			auto compPtr{ GetComponent<ComponentType>() };
+		template <class T>
+		T* GetComponent() const;
 
-			for (unsigned int compIdx = 0; compIdx < m_pComponents.size(); compIdx++)
-			{
-				if (m_pComponents[compIdx].get() != compPtr)
-					continue;
+		template <class T>
+		bool HasComponent() const;
 
-				m_pComponents[compIdx].reset();
-				return;
-			}
-		}
-
-		template <ComponentConcept ComponentType>
-		bool HasComponent()
-		{
-			//switch to using std::any_of
-			for (int compIdx = 0; compIdx < m_pComponents.size(); compIdx++)
-			{
-				bool present{ dynamic_cast<ComponentType*>(m_pComponents[compIdx].get()) != nullptr };
-				if (present)
-					return true;
-			}
-			return false;
-		}
-
-		template <ComponentConcept ComponentType>
-		ComponentType* const GetComponent()
-		{
-			//switch to using std::find_if
-			for (unsigned int compIdx = 0; compIdx < m_pComponents.size(); compIdx++)
-			{
-				auto compPtr{ dynamic_cast<ComponentType*>(m_pComponents[compIdx].get()) };
-				if (compPtr)
-					return compPtr;
-			}
-			return nullptr;
-		}
 	};
+
+	template <class T>
+	inline bool GameObject::RemoveComponent()
+	{
+		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
+
+		for (auto it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
+		{
+			if (dynamic_cast<T*>(it->get()) != nullptr)
+			{
+				m_pComponents.erase(it);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	template<class T>
+	inline T* boop::GameObject::GetComponent() const
+	{
+		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
+
+		for (const auto& component : m_pComponents)
+		{
+			if (dynamic_cast<T*>(component.get()))
+				return dynamic_cast<T*>(component.get());
+		}
+
+		return nullptr;
+	}
+
+	template <class T>
+	inline bool boop::GameObject::HasComponent() const
+	{
+		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
+
+		for (const auto& component : m_pComponents)
+		{
+			if (dynamic_cast<T*>(component.get()))
+				return true;
+		}
+		return false;
+	}
 }
