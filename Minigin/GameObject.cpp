@@ -60,7 +60,15 @@ void boop::GameObject::RemoveComponent(int componentIdx)
 void boop::GameObject::SetLocalPosition(float x, float y)
 {
 	//m_Transform.SetLocalPosition(x, y, 0.0f);
-	m_LocalPosition = glm::vec3(x, y, 0.0f);
+	//m_LocalPosition = glm::vec3(x, y, 0.0f);
+	SetLocalPosition(glm::vec3(x, y, 0.0f));
+
+}
+
+void boop::GameObject::SetLocalPosition(const glm::vec3& pos)
+{
+	m_LocalPosition = pos;
+	SetPositionDirty();
 }
 
 void boop::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
@@ -112,12 +120,6 @@ void boop::GameObject::SetPositionDirty()
 		child->SetPositionDirty(); //so all the children have it too
 	}
 	m_PositionIsDirty = true;
-}
-
-void boop::GameObject::SetLocalPosition(const glm::vec3& pos)
-{
-	m_LocalPosition = pos;
-	SetPositionDirty();
 }
 
 const glm::vec3& boop::GameObject::GetWorldPosition()
