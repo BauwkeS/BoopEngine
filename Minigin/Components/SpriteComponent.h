@@ -22,7 +22,7 @@ namespace boop
 		SpriteComponent& operator=(SpriteComponent&& other) = delete;
 
 		void FixedUpdate(float deltaTime) override { deltaTime = 1; }
-		void LateUpdate(float deltaTime) override;
+		void LateUpdate(float deltaTime) override { deltaTime = 1; }
 		void Update(float deltaTime) override;
 		void Render() const override;
 

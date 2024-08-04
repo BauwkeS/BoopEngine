@@ -25,15 +25,15 @@ namespace boop
 		m_pCollision = nullptr;
 	}
 
-	void SpriteComponent::LateUpdate(float deltaTime)
-	{
-		deltaTime;
-		if (m_pCollision)
-		{
-			auto result = m_pCollision->CheckCollision();
-			result;
-		}
-	}
+	//void SpriteComponent::FixedUpdate(float deltaTime)
+	//{
+	//	deltaTime;
+	//	/*if (m_pCollision)
+	//	{
+	//		auto result = m_pCollision->CheckCollision();
+	//		result;
+	//	}*/
+	//}
 
 	void SpriteComponent::Update(float deltaTime)
 	{
