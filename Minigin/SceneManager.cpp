@@ -3,34 +3,38 @@
 
 void boop::SceneManager::FixedUpdate(float deltaTime)
 {
-	for (auto& scene : m_Scenes)
+	/*for (auto& scene : m_Scenes)
 	{
 		scene->FixedUpdate(deltaTime);
-	}
+	}*/
+	m_Scenes[m_ActiveSceneId]->FixedUpdate(deltaTime);
 }
 
 void boop::SceneManager::Update(float deltaTime)
 {
-	for(auto& scene : m_Scenes)
+	/*for(auto& scene : m_Scenes)
 	{
 		scene->Update(deltaTime);
-	}
+	}*/
+	m_Scenes[m_ActiveSceneId]->Update(deltaTime);
 }
 
 void boop::SceneManager::LateUpdate(float deltaTime)
 {
-	for (auto& scene : m_Scenes)
+	/*for (auto& scene : m_Scenes)
 	{
 		scene->LateUpdate(deltaTime);
-	}
+	}*/
+	m_Scenes[m_ActiveSceneId]->LateUpdate(deltaTime);
 }
 
 void boop::SceneManager::Render()
 {
-	for (const auto& scene : m_Scenes)
+	/*for (const auto& scene : m_Scenes)
 	{
 		scene->Render();
-	}
+	}*/
+	m_Scenes[m_ActiveSceneId]->Render();
 }
 
 boop::SceneManager::SceneManager()
