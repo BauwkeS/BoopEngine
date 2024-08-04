@@ -28,8 +28,11 @@ namespace boop
 	void SpriteComponent::LateUpdate(float deltaTime)
 	{
 		deltaTime;
-		bool result;
-		if (m_pCollision) result = m_pCollision->CheckCollision();
+		if (m_pCollision)
+		{
+			auto result = m_pCollision->CheckCollision();
+			result;
+		}
 	}
 
 	void SpriteComponent::Update(float deltaTime)

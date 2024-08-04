@@ -2,6 +2,8 @@
 
 namespace boop
 {
+	class Component;
+
 	class Collision final
 	{
 	private:
@@ -18,6 +20,6 @@ namespace boop
 		void SetCollisionRect(SDL_Rect rect);
 		SDL_Rect GetCollisionRect() const;
 
-		bool CheckCollision() const;
+		Component* CheckCollision() const;
 	};
 }

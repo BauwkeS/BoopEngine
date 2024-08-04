@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 #include "Components/SpriteComponent.h"
+#include "Components/Component.h"
 
 namespace boop
 {
@@ -21,7 +22,7 @@ namespace boop
 		return m_CollisionRect;
 	}
 
-	bool Collision::CheckCollision() const
+	Component* Collision::CheckCollision() const
 	{
 		//TO BE IMPROVED:
 		//- maybe send back the component so I know what collided
@@ -31,7 +32,7 @@ namespace boop
 		//2. Check if they have a collision component -> give to sprites
 		//3. Check if collision is not empty
 		//4. if not then check if it overlaps
-		// return result
+		//5. if it overlaps, send back which component
 
 		SDL_bool intersect{};
 
@@ -50,7 +51,13 @@ namespace boop
 
 				intersect = SDL_IntersectRect(&m_CollisionRect, &otherRect, nullptr);
 			}
+
+			//intersecting
+			if (intersect) return collComponent;
+
 		}
-		return intersect;
+			
+		//not intersecting
+		return nullptr;
 	}
 }
