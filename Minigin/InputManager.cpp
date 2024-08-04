@@ -57,7 +57,7 @@ namespace boop
 		}
 
 		// Retrieve the name of the active scene
-		std::string sceneName = m_SceneManager.GetActiveScene().GetName();
+		std::string sceneName = m_SceneManager.GetActiveScene()->GetName();
 
 
 		//--

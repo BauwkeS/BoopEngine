@@ -12,7 +12,7 @@ namespace boop
 	public:
 		Scene& AddScene(const std::string& name);
 		void ChangeScene(const std::string& toSceneName);
-		Scene& GetActiveScene();
+		Scene* GetActiveScene();
 
 		void FixedUpdate(float deltaTime);
 		void Update(float deltaTime);

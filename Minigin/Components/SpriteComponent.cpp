@@ -1,21 +1,37 @@
 #include "SpriteComponent.h"
-
+#include "HelperFiles/Collision.h"
 #include "GameObject.h"
 
 namespace boop
 {
-	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, AnimatedTexture* const texture)
+	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, AnimatedTexture* const texture, Collision* collision)
 		: Component(ownerPtr)
 	{
 		m_pTexture = texture;
-
+		m_pCollision = collision;
 	}
-	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale)
+	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale, Collision* collision)
 		: Component(ownerPtr)
 	{
 		m_pTexture = new AnimatedTexture(texture, cols, rows, frameSec, startPicIndex,  AmountPics, scale);
-
+		m_pCollision = collision;
 	}
+
+	SpriteComponent::~SpriteComponent()
+	{
+		delete m_pTexture;
+		m_pTexture = nullptr;
+		delete m_pCollision;
+		m_pCollision = nullptr;
+	}
+
+	void SpriteComponent::LateUpdate(float deltaTime)
+	{
+		deltaTime;
+		bool result;
+		if (m_pCollision) result = m_pCollision->CheckCollision();
+	}
+
 	void SpriteComponent::Update(float deltaTime)
 	{
 		auto pos{ GetOwner()->GetWorldPosition() };

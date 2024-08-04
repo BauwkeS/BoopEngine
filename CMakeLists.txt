@@ -34,12 +34,14 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
 
   Minigin/HelperFiles/Font.cpp
   Minigin/HelperFiles/Font.h
-  
-  
   Minigin/HelperFiles/Texture2D.cpp
   Minigin/HelperFiles/Texture2D.h
   Minigin/HelperFiles/Transform.cpp
   Minigin/HelperFiles/Transform.h
+  Minigin/HelperFiles/AnimatedTexture.h
+  Minigin/HelperFiles/AnimatedTexture.cpp
+  Minigin/HelperFiles/Collision.h
+  Minigin/HelperFiles/Collision.cpp
 
 
   Minigin/Components/Component.h
@@ -66,7 +68,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
 
   Minigin/States.h
   Minigin/States.cpp
- "Minigin/HelperFiles/AnimatedTexture.h" "Minigin/HelperFiles/AnimatedTexture.cpp")
+ )
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)

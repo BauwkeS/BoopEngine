@@ -19,6 +19,7 @@ namespace boop
 		void Render() const;
 
 		std::string GetName() const;
+		std::vector<std::unique_ptr<GameObject>>& GetObjects();
 
 		Scene();
 		explicit Scene(const std::string& name);

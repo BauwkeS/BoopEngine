@@ -3,19 +3,18 @@
 #include "Component.h"
 #include "HelperFiles/AnimatedTexture.h"
 
+
 namespace boop
 {
+	class Collision;
+
 	class SpriteComponent final : public Component
 	{
 	public:
-		SpriteComponent(boop::GameObject* const ownerPtr, AnimatedTexture* const texture);
+		SpriteComponent(boop::GameObject* const ownerPtr, AnimatedTexture* const texture, Collision* collision=nullptr);
 		SpriteComponent(boop::GameObject* const ownerPtr, const std::string texture, const int cols, const int rows, 
-			const float frameSec, const int startPicIndex, const int AmountPics, const float scale);
-		~SpriteComponent() override
-		{
-			delete m_pTexture;
-			m_pTexture = nullptr;
-		}
+			const float frameSec, const int startPicIndex, const int AmountPics, const float scale, Collision* collision = nullptr);
+		~SpriteComponent() override;
 
 		SpriteComponent(const SpriteComponent& other) = delete;
 		SpriteComponent(SpriteComponent&& other) = delete;
@@ -23,17 +22,18 @@ namespace boop
 		SpriteComponent& operator=(SpriteComponent&& other) = delete;
 
 		void FixedUpdate(float deltaTime) override { deltaTime = 1; }
-		void LateUpdate(float deltaTime) override { deltaTime = 1; }
+		void LateUpdate(float deltaTime) override;
 		void Update(float deltaTime) override;
 		void Render() const override;
 
 		void SetTexture(AnimatedTexture* const texture);
 		AnimatedTexture* GetTexture(){return m_pTexture;}
+		Collision* GetCollision(){ return m_pCollision; }
 		//void SetFramesSec(float sec);
 	private:
 		//std::unique_ptr<boop::Texture2D> m_TexturePtr;
 		AnimatedTexture* m_pTexture;
-
+		Collision* m_pCollision;
 	};
 }
 

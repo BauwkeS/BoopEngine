@@ -71,3 +71,8 @@ std::string Scene::GetName() const
 	return m_name;
 }
 
+std::vector<std::unique_ptr<GameObject>>& Scene::GetObjects()
+{
+	return m_objects;
+}
+

@@ -65,7 +65,7 @@ void boop::SceneManager::ChangeScene(const std::string& toSceneName)
 	}
 }
 
-boop::Scene& boop::SceneManager::GetActiveScene()
+boop::Scene* boop::SceneManager::GetActiveScene()
 {
-	return *m_Scenes[m_ActiveSceneId];
+	return m_Scenes[m_ActiveSceneId].get();
 }
