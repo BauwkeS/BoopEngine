@@ -193,6 +193,9 @@ namespace level
 		int colsRead{};
 		int RowsRead{};
 
+		constexpr int gridSize{ 32 };
+
+
 		if (gameFile.is_open())
 		{
 			std::string rowLine{};
@@ -204,12 +207,16 @@ namespace level
 
 					if (!toAddComp.second) static_assert(true, "cannot add component to level");
 
-					auto go = std::make_unique<boop::GameObject>();
 
 				//	auto func(toAddComp);
-
 					//go->AddComponent<func>(nullptr, toAddComp);
+
+					auto go = std::make_unique<boop::GameObject>();
+
 					go->AddMadeComp(GetCompClass(toAddComp));
+					go->SetLocalPosition(static_cast<float>(gridSize * colsRead),
+						static_cast<float>(gridSize * RowsRead));
+
 					//--
 					//https://en.cppreference.com/w/cpp/language/decltype
 					//--
@@ -223,6 +230,7 @@ namespace level
 			}
 		}
 		else static_assert(true, "game file could not be opened");
+
 
 
 		gameFile.close();
