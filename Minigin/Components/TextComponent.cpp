@@ -21,6 +21,16 @@ boop::TextComponent::~TextComponent()
 {
 }
 
+boop::TextComponent::TextComponent(const TextComponent& other)
+	:
+	Component(other.GetOwner()),
+	m_needsUpdate{ true },
+	m_text{ other.m_text },
+	m_textTexture{ nullptr }
+{
+	m_font = boop::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+}
+
 void boop::TextComponent::Update(float deltaTime)
 {
 	deltaTime = 1;

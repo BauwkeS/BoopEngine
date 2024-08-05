@@ -32,6 +32,13 @@ namespace boop
 		m_pCollision = nullptr;
 	}
 
+	SpriteComponent::SpriteComponent(const SpriteComponent& other)
+		: Component(other.GetOwner())
+	{
+		m_pTexture = other.m_pTexture;
+		m_pCollision = other.m_pCollision;
+	}
+
 	//void SpriteComponent::FixedUpdate(float deltaTime)
 	//{
 	//	deltaTime;

@@ -1,5 +1,7 @@
 #include <string>
 #include <map>
+
+#include "SDL_opengl.h"
 #include "Components/Component.h"
 #include "Components/SpriteComponent.h"
 #include "Components/TextureComponent.h"
@@ -20,10 +22,18 @@ namespace level
 
 	class LevelLoader final : public boop::Singleton<LevelLoader>
 	{
+	public:
+		enum CompType
+		{
+			Sprite,
+			Texture,
+			Text
+		};
+
 	private:
 		//file info
 		std::string m_FileName;
-		std::string m_ComponentFileName;
+		//std::string m_ComponentFileName;
 
 		//to put in info
 		
@@ -31,9 +41,13 @@ namespace level
 		//to then put the template thing into the map
 		
 
-		//using LoadComponent = std::pair<Component*, Args...>
+		using LoadComponent = std::pair<CompType, boop::Component*>;
 
-		std::map<int, boop::Component*> m_AssignedComponents{};
+		
+
+		//std::map<int, boop::Component*> m_AssignedComponents{};
+
+		std::map<int, LoadComponent> m_AssignedComponents{};
 
 		//Not the perfect way, but ways to parse the txt into code
 	/*	template<typename ComponentType>
@@ -45,8 +59,10 @@ namespace level
 		template<typename ComponentType, typename... Args>
 		ComponentType ConvertTo(const std::string& txt, const Args&... args);
 
-		template<typename ... Args>
+	/*	template<typename ... Args>
 		std::unique_ptr<boop::Component> GetCompClass(int value, const Args&... args);
+		*/
+		std::unique_ptr<boop::Component> GetCompClass(LoadComponent value);
 
 		/*template<>
 		boop::TextureComponent ConvertTo<boop::SpriteComponent>(const std::string& txt, boop::AnimatedTexture* const texture, boop::Collision* collision = nullptr);*/
@@ -61,7 +77,7 @@ namespace level
 
 
 	public:
-		LevelLoader(std::string fileName, std::string compName);
+		LevelLoader(std::string fileName);
 
 		~LevelLoader() = default;
 		LevelLoader(const LevelLoader& other) = delete;
@@ -73,10 +89,13 @@ namespace level
 		void CreateLevelInScene(std::string sceneName);
 
 
-		template<class C, typename ... Args>
-		void AssignComponent(int index, const Args&... args);
+		template<typename ... Args>
+		void AssignComponent(int index, CompType compT, const Args&... args);
+		//template<class C, typename ... Args>
+		//void AssignComponent(int index, const Args&... args);
 		//struct AddingComp{};
 
+		
 	};
 
 	

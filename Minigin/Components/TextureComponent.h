@@ -12,7 +12,7 @@ namespace boop
 		TextureComponent();
 		~TextureComponent() = default;
 
-		TextureComponent(const TextureComponent& other) = delete;
+		TextureComponent(const TextureComponent& other);
 		TextureComponent(TextureComponent&& other) = delete;
 		TextureComponent& operator=(const TextureComponent& other) = delete;
 		TextureComponent& operator=(TextureComponent&& other) = delete;
@@ -24,6 +24,7 @@ namespace boop
 	private:
 		//std::unique_ptr<boop::Texture2D> m_TexturePtr;
 		boop::Texture2D* m_TexturePtr{};
+		std::string m_TextureString{};
 	};
 }
 

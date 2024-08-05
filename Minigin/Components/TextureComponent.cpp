@@ -5,7 +5,8 @@
 
 
 boop::TextureComponent::TextureComponent(boop::GameObject* const ownerPtr, std::string texture) :
-	Component(ownerPtr)
+	Component(ownerPtr),
+	m_TextureString{texture}
 {
 	m_TexturePtr = boop::ResourceManager::GetInstance().LoadTexture(texture);
 }
@@ -14,6 +15,12 @@ boop::TextureComponent::TextureComponent() :
 Component(nullptr)
 {
 	m_TexturePtr = nullptr;
+}
+
+boop::TextureComponent::TextureComponent(const TextureComponent& other):
+	Component(other.GetOwner())
+{
+	m_TexturePtr = boop::ResourceManager::GetInstance().LoadTexture(other.m_TextureString);
 }
 
 void boop::TextureComponent::Render() const

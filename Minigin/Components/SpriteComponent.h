@@ -17,7 +17,7 @@ namespace boop
 			const float frameSec, const int startPicIndex, const int AmountPics, const float scale, Collision* collision = nullptr);
 		~SpriteComponent() override;
 
-		SpriteComponent(const SpriteComponent& other) = delete;
+		SpriteComponent(const SpriteComponent& other);
 		SpriteComponent(SpriteComponent&& other) = delete;
 		SpriteComponent& operator=(const SpriteComponent& other) = delete;
 		SpriteComponent& operator=(SpriteComponent&& other) = delete;

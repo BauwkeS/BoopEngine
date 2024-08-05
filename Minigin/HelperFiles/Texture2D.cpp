@@ -18,6 +18,7 @@ glm::ivec2 boop::Texture2D::GetSize() const
 	return { dst.w,dst.h };
 }
 
+
 SDL_Texture* boop::Texture2D::GetSDLTexture() const
 {
 	return m_texture;

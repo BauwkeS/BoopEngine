@@ -12,9 +12,9 @@
 namespace level
 {
 
-	LevelLoader::LevelLoader(std::string fileName, std::string compName)
-		: m_FileName{fileName},
-		m_ComponentFileName{compName}
+	LevelLoader::LevelLoader(std::string fileName)
+		: m_FileName{fileName}
+	//	m_ComponentFileName{compName}
 	{
 	}
 
@@ -57,36 +57,39 @@ namespace level
 		}
 	}*/
 
-	template <typename ... Args>
-	std::unique_ptr<boop::Component> LevelLoader::GetCompClass(int value, const Args&... args)
+	//template <typename ... Args>
+	//std::unique_ptr<boop::Component> LevelLoader::GetCompClass(int value)
+	std::unique_ptr<boop::Component> LevelLoader::GetCompClass(LoadComponent value)
 	{
-		switch (value)
+		switch (value.first)
 		{
-			case 1:
-				{
-					auto comp1 = std::make_unique<boop::SpriteComponent>(args...);
-					return (std::move(comp1));
-				}
-			case 2:
-				{
-					auto comp2 = std::make_unique<boop::TextureComponent>(args...);
-					return (std::move(comp2));
-				}
-			case 3:
-				{
-					auto comp3 = std::make_unique<boop::TextComponent>(args...);
-					return (std::move(comp3));
-				}
+			case CompType::Sprite:
+			{
+				boop::SpriteComponent* comp = dynamic_cast<boop::SpriteComponent*>(value.second);
+				std::unique_ptr<boop::SpriteComponent> uniqueSprite = std::make_unique<boop::SpriteComponent>(*comp);
+				return std::move(uniqueSprite);
+			}
+			case CompType::Text:
+			{
+				boop::TextComponent* comp = dynamic_cast<boop::TextComponent*>(value.second);
+				std::unique_ptr<boop::TextComponent> uniquetext = std::make_unique<boop::TextComponent>(*comp);
+				return std::move(uniquetext);
+			}
+			case CompType::Texture:
+			{
+				boop::TextureComponent* comp = dynamic_cast<boop::TextureComponent*>(value.second);
+				std::unique_ptr<boop::TextureComponent> uniquetexture = std::make_unique<boop::TextureComponent>(*comp);
+				return std::move(uniquetexture);
+			}
 			default:
-				{
+				static_assert(true, "could not get component");
 				return nullptr;
-					
-				}
 		}
+
 	}
 
-	template <class C, typename ... Args>
-	void LevelLoader::AssignComponent(int index, const Args&... args)
+	template<typename ... Args>
+	void LevelLoader::AssignComponent(int index, CompType compT, const Args&... args)
 	{
 		//check if the index is not used already, if it is then assert
 
@@ -95,23 +98,82 @@ namespace level
 			static_assert(item.first == index && "index already in use");
 		}
 
-
-		C* pComponent = C(args...);
-
-		/*if (owner == nullptr)
+		switch (compT)
 		{
-			pComponent = std::make_unique<T>(this, args...);
+		case CompType::Sprite :
+			{
+			boop::SpriteComponent * comp = boop::SpriteComponent(args...);
+			m_AssignedComponents.insert(std::pair(index, std::pair(compT, comp)));
+			break;
+			}
+		case CompType::Text:
+			{
+			boop::TextComponent* comp = boop::TextComponent(args...);
+			m_AssignedComponents.insert(std::pair(index, std::pair(compT, comp)));
+				break;
+			}
+		case CompType::Texture:
+			{
+			boop::TextureComponent* comp = boop::TextureComponent(args...);
+			m_AssignedComponents.insert(std::pair(index, std::pair(compT, comp)));
+				break;
+			}
 		}
-		else pComponent = std::make_unique<T>(owner, args...);*/
-
-
-		//pComponent->Initialize();
-
-		//C* rawPtr = pComponent.get();
-		//m_pComponents.emplace_back();
-
-		m_AssignedComponents.insert(std::pair(index, pComponent));
 	}
+
+	//template <class C, typename ... Args>
+	//void LevelLoader::AssignComponent(int index, const Args&... args)
+	//{
+	//	//check if the index is not used already, if it is then assert
+
+	//	for (const auto& item : m_AssignedComponents)
+	//	{
+	//		static_assert(item.first == index && "index already in use");
+	//	}
+
+	//	switch (C(args...))
+	//	{
+	//	case 1:
+	//	{
+	//		auto type = m_AssignedComponents.at(value)->GetType();
+	//		auto comp1 = std::make_unique<boop::SpriteComponent>(args...);
+	//		auto comp1 = std::make_unique<boop::SpriteComponent>(args...);
+	//		return (std::move(comp1));
+	//	}
+	//	case 2:
+	//	{
+	//		auto comp2 = std::make_unique<boop::TextureComponent>(args...);
+	//		return (std::move(comp2));
+	//	}
+	//	case 3:
+	//	{
+	//		auto comp3 = std::make_unique<boop::TextComponent>(args...);
+	//		return (std::move(comp3));
+	//	}
+	//	default:
+	//	{
+	//		return nullptr;
+
+	//	}
+	//	}
+
+
+	//	C* pComponent = C(args...);
+
+	//	/*if (owner == nullptr)
+	//	{
+	//		pComponent = std::make_unique<T>(this, args...);
+	//	}
+	//	else pComponent = std::make_unique<T>(owner, args...);*/
+
+
+	//	//pComponent->Initialize();
+
+	//	//C* rawPtr = pComponent.get();
+	//	//m_pComponents.emplace_back();
+
+	//	m_AssignedComponents.insert(std::pair(index, pComponent));
+	//}
 
 	void LevelLoader::CreateLevelInScene(std::string sceneName)
 	{
@@ -138,15 +200,16 @@ namespace level
 			{
 				for(const auto& colChar : rowLine)
 				{
-					auto toAddComp = m_AssignedComponents.at( static_cast<int>(colChar));
-					if (!toAddComp) static_assert(true, "cannot add component to level");
+					LoadComponent toAddComp = m_AssignedComponents.at( static_cast<int>(colChar));
+
+					if (!toAddComp.second) static_assert(true, "cannot add component to level");
 
 					auto go = std::make_unique<boop::GameObject>();
 
 				//	auto func(toAddComp);
 
 					//go->AddComponent<func>(nullptr, toAddComp);
-					go->AddMadeComp(GetCompClass<>(static_cast<int>(colChar)));
+					go->AddMadeComp(GetCompClass(toAddComp));
 					//--
 					//https://en.cppreference.com/w/cpp/language/decltype
 					//--
