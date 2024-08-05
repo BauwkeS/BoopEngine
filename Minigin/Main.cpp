@@ -36,11 +36,11 @@ void load()
 	auto go = std::make_unique<boop::GameObject>();
 
 	 go->AddComponent<boop::TextureComponent>(nullptr,"background.tga");
-	scene.Add(go);
+	scene.Add(std::move(go));
 	go = std::make_unique<boop::GameObject>();
 	go->AddComponent<boop::SpriteComponent>(nullptr, static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f);
 	go->SetLocalPosition(300.f, 300.f);
-	scene.Add(go);
+	scene.Add(std::move(go));
 
 	/*
 	go = std::make_unique<boop::GameObject>();

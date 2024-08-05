@@ -9,8 +9,8 @@ namespace boop
 	{
 		//friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
-		void Add(std::unique_ptr<GameObject>& object);
-		void Remove(std::unique_ptr<GameObject>& object);
+		void Add(std::unique_ptr<GameObject> object);
+		void Remove(std::unique_ptr<GameObject> object);
 		void RemoveAll();
 
 		void FixedUpdate(float deltaTime);
