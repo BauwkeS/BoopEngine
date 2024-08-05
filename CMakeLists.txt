@@ -68,7 +68,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
 
   Minigin/States.h
   Minigin/States.cpp
- )
+  "Minigin/LevelLoader.h" "Minigin/LevelLoader.cpp")
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)

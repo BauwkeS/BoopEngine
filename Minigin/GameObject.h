@@ -8,13 +8,6 @@
 
 namespace boop
 {
-	template<typename ComponentType>
-	concept ComponentConcept = requires(ComponentType)
-	{
-
-		{ std::is_base_of<boop::Component, ComponentType>::value };
-	};
-
 	class GameObject final
 	{
 	private:
@@ -60,7 +53,7 @@ namespace boop
 		//stolen template from Mendel Debrabandere -> to be improved by myself pls
 
 		template <class T, typename... Args>
-		T* AddComponent(GameObject* owner = nullptr, const Args&... args)
+		T* AddComponent(GameObject* owner, const Args&... args)
 		{
 			static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
 
@@ -87,6 +80,35 @@ namespace boop
 
 			return rawPtr;
 		}
+
+		////template <class T>
+		//void AddAlreadyMadeComponent(GameObject* owner, Component* comp)
+		//{
+		////	static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
+
+
+		///*	if (HasComponent<T>())
+		//	{
+		//		std::cout << "Trying to add an already existing component\n";
+		//		return nullptr;
+		//	}*/
+
+		//	std::unique_ptr<decltype(comp)> pComponent = std::make_unique<decltype(comp)>(comp);
+
+		//	if (owner == nullptr) 
+		//	{
+		//		pComponent->SetOwner(this);
+		//	}
+		//	else pComponent->SetOwner(owner);
+
+
+		//	//pComponent->Initialize();
+
+		//	//T* rawPtr = pComponent.get();
+		//	m_pComponents.emplace_back(std::move(pComponent));
+
+		//	//return rawPtr;
+		//}
 
 		template <class T>
 		bool RemoveComponent();
