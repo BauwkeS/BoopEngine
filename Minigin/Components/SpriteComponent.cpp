@@ -4,6 +4,13 @@
 
 namespace boop
 {
+	SpriteComponent::SpriteComponent()
+		: Component(nullptr)
+	{
+		m_pTexture = nullptr;
+		m_pCollision = nullptr;
+	}
+
 	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, AnimatedTexture* const texture, Collision* collision)
 		: Component(ownerPtr)
 	{

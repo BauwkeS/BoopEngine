@@ -63,3 +63,13 @@ void boop::TextComponent::SetPosition(const float x, const float y)
 {
 	m_transform.SetPosition(x, y, 0.0f);
 }
+
+boop::TextComponent::TextComponent()
+	:
+	Component(nullptr),
+	m_needsUpdate{ true },
+	m_text{ "" },
+	m_textTexture{ nullptr }
+{
+	m_font = nullptr;
+}

@@ -36,20 +36,28 @@ namespace level
 		std::map<int, boop::Component*> m_AssignedComponents{};
 
 		//Not the perfect way, but ways to parse the txt into code
-		template<typename ComponentType>
+	/*	template<typename ComponentType>
 		ComponentType ConvertTo(const std::string& comp)
 		{
 			static_assert(false, "no conversion for this type yet");
-		}
+		}*/
 
 		template<typename ComponentType, typename... Args>
 		ComponentType ConvertTo(const std::string& txt, const Args&... args);
 
+		template<typename ... Args>
+		std::unique_ptr<boop::Component> GetCompClass(int value, const Args&... args);
 
 		/*template<>
 		boop::TextureComponent ConvertTo<boop::SpriteComponent>(const std::string& txt, boop::AnimatedTexture* const texture, boop::Collision* collision = nullptr);*/
 
-
+		//template<class T>
+		//auto func(T width, T height)
+		//{
+		//	//... 
+		//	return typeid(width).name();
+		//	//... 
+		//}
 
 
 	public:

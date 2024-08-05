@@ -28,7 +28,7 @@ namespace boop
 		
 		void SetText(const std::string& text);
 		void SetPosition(float x, float y);
-		TextComponent() = default;
+		TextComponent();
 		TextComponent(boop::GameObject* const ownerPtr, const std::string& text = "NO TEXT GIVEN",
 			const std::string& font = "Lingua.otf", unsigned int fontSize = 36);
 		virtual ~TextComponent();

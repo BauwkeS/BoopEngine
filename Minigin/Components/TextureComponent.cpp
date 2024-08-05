@@ -10,6 +10,11 @@ boop::TextureComponent::TextureComponent(boop::GameObject* const ownerPtr, std::
 	m_TexturePtr = boop::ResourceManager::GetInstance().LoadTexture(texture);
 }
 
+boop::TextureComponent::TextureComponent() :
+Component(nullptr)
+{
+	m_TexturePtr = nullptr;
+}
 
 void boop::TextureComponent::Render() const
 {

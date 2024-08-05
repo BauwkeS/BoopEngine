@@ -11,6 +11,7 @@ namespace boop
 	class SpriteComponent final : public Component
 	{
 	public:
+		SpriteComponent();
 		SpriteComponent(boop::GameObject* const ownerPtr, AnimatedTexture* const texture, Collision* collision=nullptr);
 		SpriteComponent(boop::GameObject* const ownerPtr, const std::string texture, const int cols, const int rows, 
 			const float frameSec, const int startPicIndex, const int AmountPics, const float scale, Collision* collision = nullptr);

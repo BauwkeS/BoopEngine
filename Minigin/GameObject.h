@@ -81,6 +81,11 @@ namespace boop
 			return rawPtr;
 		}
 
+		void AddMadeComp(std::unique_ptr<Component> comp)
+		{
+			m_pComponents.emplace_back(std::move(comp));
+		}
+
 		////template <class T>
 		//void AddAlreadyMadeComponent(GameObject* owner, Component* comp)
 		//{

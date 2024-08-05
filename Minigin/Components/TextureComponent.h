@@ -9,6 +9,7 @@ namespace boop
 	{
 	public:
 		TextureComponent(boop::GameObject* const ownerPtr, std::string texture);
+		TextureComponent();
 		~TextureComponent() = default;
 
 		TextureComponent(const TextureComponent& other) = delete;

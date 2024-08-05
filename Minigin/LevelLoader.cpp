@@ -6,7 +6,7 @@
 
 #include "SceneManager.h"
 #include "GameObject.h"
-
+#include "Components/TextComponent.h"
 
 
 namespace level
@@ -43,14 +43,45 @@ namespace level
 	//	m_AssignedComponents.insert(std::pair(index, comp));
 	//}
 
-	template <typename ComponentType, typename ... Args>
+	/*template <typename ComponentType, typename ... Args>
 	ComponentType LevelLoader::ConvertTo(const std::string& txt, const Args&... args)
 	{
 		switch (txt)
 		{
 		case "Sprite":
-			return boop::SpriteComponent
-			break;
+			return boop::SpriteComponent(args);
+		case "Texture":
+			return boop::TextureComponent(args);
+		case "Text":
+			return boop::TextComponent(args);
+		}
+	}*/
+
+	template <typename ... Args>
+	std::unique_ptr<boop::Component> LevelLoader::GetCompClass(int value, const Args&... args)
+	{
+		switch (value)
+		{
+			case 1:
+				{
+					auto comp1 = std::make_unique<boop::SpriteComponent>(args...);
+					return (std::move(comp1));
+				}
+			case 2:
+				{
+					auto comp2 = std::make_unique<boop::TextureComponent>(args...);
+					return (std::move(comp2));
+				}
+			case 3:
+				{
+					auto comp3 = std::make_unique<boop::TextComponent>(args...);
+					return (std::move(comp3));
+				}
+			default:
+				{
+				return nullptr;
+					
+				}
 		}
 	}
 
@@ -107,13 +138,15 @@ namespace level
 			{
 				for(const auto& colChar : rowLine)
 				{
-					auto toAddComp = m_AssignedComponents.at(colChar);
+					auto toAddComp = m_AssignedComponents.at( static_cast<int>(colChar));
 					if (!toAddComp) static_assert(true, "cannot add component to level");
 
 					auto go = std::make_unique<boop::GameObject>();
 
-					go->AddAlreadyMadeComponent<>(nullptr, toAddComp);
+				//	auto func(toAddComp);
 
+					//go->AddComponent<func>(nullptr, toAddComp);
+					go->AddMadeComp(GetCompClass<>(static_cast<int>(colChar)));
 					//--
 					//https://en.cppreference.com/w/cpp/language/decltype
 					//--
