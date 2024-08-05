@@ -6,17 +6,21 @@
 
 #include "SceneManager.h"
 #include "GameObject.h"
+#include "Scene.h"
 #include "Components/TextComponent.h"
+#include "Components/SpriteComponent.h"
+#include "Components/TextureComponent.h"
+
 
 
 namespace level
 {
 
-	LevelLoader::LevelLoader(std::string fileName)
-		: m_FileName{fileName}
-	//	m_ComponentFileName{compName}
-	{
-	}
+	//LevelLoader::LevelLoader()
+	////	: m_FileName{fileName}
+	////	m_ComponentFileName{compName}
+	//{
+	//}
 
 	//void LevelLoader::AssignComponent(int index, boop::Component* comp)
 	//{
@@ -59,67 +63,40 @@ namespace level
 
 	//template <typename ... Args>
 	//std::unique_ptr<boop::Component> LevelLoader::GetCompClass(int value)
-	std::unique_ptr<boop::Component> LevelLoader::GetCompClass(LoadComponent value)
-	{
-		switch (value.first)
-		{
-			case CompType::Sprite:
-			{
-				boop::SpriteComponent* comp = dynamic_cast<boop::SpriteComponent*>(value.second);
-				std::unique_ptr<boop::SpriteComponent> uniqueSprite = std::make_unique<boop::SpriteComponent>(*comp);
-				return std::move(uniqueSprite);
-			}
-			case CompType::Text:
-			{
-				boop::TextComponent* comp = dynamic_cast<boop::TextComponent*>(value.second);
-				std::unique_ptr<boop::TextComponent> uniquetext = std::make_unique<boop::TextComponent>(*comp);
-				return std::move(uniquetext);
-			}
-			case CompType::Texture:
-			{
-				boop::TextureComponent* comp = dynamic_cast<boop::TextureComponent*>(value.second);
-				std::unique_ptr<boop::TextureComponent> uniquetexture = std::make_unique<boop::TextureComponent>(*comp);
-				return std::move(uniquetexture);
-			}
-			default:
-				static_assert(true, "could not get component");
-				return nullptr;
-		}
+	
 
-	}
+	//template<typename ... Args>
+	//void LevelLoader::AssignComponent(int index, CompType compT, const Args&... args)
+	//{
+	//	//check if the index is not used already, if it is then assert
 
-	template<typename ... Args>
-	void LevelLoader::AssignComponent(int index, CompType compT, const Args&... args)
-	{
-		//check if the index is not used already, if it is then assert
+	//	for (const auto& item : m_AssignedComponents)
+	//	{
+	//		static_assert(item.first == index && "index already in use");
+	//	}
 
-		for (const auto& item : m_AssignedComponents)
-		{
-			static_assert(item.first == index && "index already in use");
-		}
-
-		switch (compT)
-		{
-		case CompType::Sprite :
-			{
-			boop::SpriteComponent * comp = boop::SpriteComponent(args...);
-			m_AssignedComponents.insert(std::pair(index, std::pair(compT, comp)));
-			break;
-			}
-		case CompType::Text:
-			{
-			boop::TextComponent* comp = boop::TextComponent(args...);
-			m_AssignedComponents.insert(std::pair(index, std::pair(compT, comp)));
-				break;
-			}
-		case CompType::Texture:
-			{
-			boop::TextureComponent* comp = boop::TextureComponent(args...);
-			m_AssignedComponents.insert(std::pair(index, std::pair(compT, comp)));
-				break;
-			}
-		}
-	}
+	//	switch (compT)
+	//	{
+	//	case CompType::Sprite :
+	//		{
+	//		boop::SpriteComponent * comp = boop::SpriteComponent(args...);
+	//		m_AssignedComponents.insert(std::pair(index, std::pair(compT, comp)));
+	//		break;
+	//		}
+	//	case CompType::Text:
+	//		{
+	//		boop::TextComponent* comp = boop::TextComponent(args...);
+	//		m_AssignedComponents.insert(std::pair(index, std::pair(compT, comp)));
+	//			break;
+	//		}
+	//	case CompType::Texture:
+	//		{
+	//		boop::TextureComponent* comp = boop::TextureComponent(args...);
+	//		m_AssignedComponents.insert(std::pair(index, std::pair(compT, comp)));
+	//			break;
+	//		}
+	//	}
+	//}
 
 	//template <class C, typename ... Args>
 	//void LevelLoader::AssignComponent(int index, const Args&... args)
@@ -175,7 +152,58 @@ namespace level
 	//	m_AssignedComponents.insert(std::pair(index, pComponent));
 	//}
 
-	void LevelLoader::CreateLevelInScene(std::string sceneName)
+void level::LevelLoader::AssignSpriteComponent(int index, boop::GameObject* owner, const std::string& textureFileName,
+	int cols, int rows, float frameSec, int startPicIndex,
+	int amountPics, float scale, boop::Collision* collision)
+{
+	auto comp = std::make_unique<boop::SpriteComponent>(owner, textureFileName, cols, rows, frameSec,
+		startPicIndex, amountPics, scale, collision);
+	m_AssignedComponents.emplace(index, std::make_pair(CompType::Sprite, comp.release()));
+}
+
+void level::LevelLoader::AssignTextComponent(int index, boop::GameObject* owner, const std::string& text,
+	const std::string& font, unsigned int fontSize)
+{
+	auto comp = std::make_unique<boop::TextComponent>(owner, text, font, fontSize);
+	m_AssignedComponents.emplace(index, std::make_pair(CompType::Text, comp.release()));
+}
+
+void level::LevelLoader::AssignTextureComponent(int index, boop::GameObject* owner, const std::string& texture)
+{
+	auto comp = std::make_unique<boop::TextureComponent>(owner, texture);
+	m_AssignedComponents.emplace(index, std::make_pair(CompType::Texture, comp.release()));
+}
+
+std::unique_ptr<boop::Component> LevelLoader::GetCompClass(LoadComponent value)
+{
+	switch (value.first)
+	{
+	case CompType::Sprite:
+	{
+		boop::SpriteComponent* comp = dynamic_cast<boop::SpriteComponent*>(value.second);
+		std::unique_ptr<boop::SpriteComponent> uniqueSprite = std::make_unique<boop::SpriteComponent>(*comp);
+		return std::move(uniqueSprite);
+	}
+	case CompType::Text:
+	{
+		boop::TextComponent* comp = dynamic_cast<boop::TextComponent*>(value.second);
+		std::unique_ptr<boop::TextComponent> uniquetext = std::make_unique<boop::TextComponent>(*comp);
+		return std::move(uniquetext);
+	}
+	case CompType::Texture:
+	{
+		boop::TextureComponent* comp = dynamic_cast<boop::TextureComponent*>(value.second);
+		std::unique_ptr<boop::TextureComponent> uniquetexture = std::make_unique<boop::TextureComponent>(*comp);
+		return std::move(uniquetexture);
+	}
+	default:
+		static_assert(true, "could not get component");
+		return nullptr;
+	}
+
+}
+
+	void LevelLoader::CreateLevelInScene(std::string fileName, std::string sceneName)
 	{
 		//plan:
 		//load the level
@@ -185,10 +213,9 @@ namespace level
 
 
 		auto& scene = boop::SceneManager::GetInstance().AddScene(sceneName);
-		scene;
-
+		
 		std::ifstream gameFile;
-		gameFile.open(m_FileName);
+		gameFile.open(fileName);
 
 		int colsRead{};
 		int RowsRead{};
@@ -201,6 +228,7 @@ namespace level
 			std::string rowLine{};
 			while (std::getline(gameFile,rowLine))
 			{
+				auto go = std::make_unique<boop::GameObject>();
 				for(const auto& colChar : rowLine)
 				{
 					LoadComponent toAddComp = m_AssignedComponents.at( static_cast<int>(colChar));
@@ -211,12 +239,12 @@ namespace level
 				//	auto func(toAddComp);
 					//go->AddComponent<func>(nullptr, toAddComp);
 
-					auto go = std::make_unique<boop::GameObject>();
+					go = std::make_unique<boop::GameObject>();
 
 					go->AddMadeComp(GetCompClass(toAddComp));
 					go->SetLocalPosition(static_cast<float>(gridSize * colsRead),
 						static_cast<float>(gridSize * RowsRead));
-
+					scene.Add(go);
 					//--
 					//https://en.cppreference.com/w/cpp/language/decltype
 					//--

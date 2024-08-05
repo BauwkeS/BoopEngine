@@ -20,6 +20,7 @@
 #include <Components/TextureComponent.h>
 #include <Components/TextComponent.h>
 #include <Components/SpriteComponent.h>
+#include <LevelLoader.h>
 namespace fs = std::filesystem;
 
 void load()
@@ -27,12 +28,21 @@ void load()
 	auto& scene = boop::SceneManager::GetInstance().AddScene("Demo");
 	boop::SceneManager::GetInstance().ChangeScene("Demo");
 
+//	boop::GameObject* gameObjectPtr = nullptr;
+	
+	/*level::LevelLoader::GetInstance().AssignComponent<>(0,
+		level::CompType::Texture, gameObjectPtr, "background.tga");*/
+
 	auto go = std::make_unique<boop::GameObject>();
 
 	 go->AddComponent<boop::TextureComponent>(nullptr,"background.tga");
 	scene.Add(go);
-	/*
+	go = std::make_unique<boop::GameObject>();
+	go->AddComponent<boop::SpriteComponent>(nullptr, static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f);
+	go->SetLocalPosition(300.f, 300.f);
+	scene.Add(go);
 
+	/*
 	go = std::make_unique<boop::GameObject>();
 	go->AddComponent<boop::TextureComponent>("logo.tga");
 	go->SetLocalPosition(216, 180);
@@ -44,13 +54,9 @@ void load()
 
 	//go = std::make_unique<boop::GameObject>();
 
-	go = std::make_unique<boop::GameObject>();
+	
 	//boop::AnimatedTexture texture{static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4  };
 	//go->AddComponent<boop::SpriteComponent>(nullptr, &texture);
-	go->AddComponent<boop::SpriteComponent>(nullptr, static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f);
-	go->SetLocalPosition(300.f, 300.f);
-	scene.Add(go);
-	
 
 	//FPS COMPONENT
 	/*go = std::make_unique<boop::GameObject>();
