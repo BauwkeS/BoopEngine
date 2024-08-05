@@ -239,77 +239,109 @@ std::unique_ptr<boop::Component> LevelLoader::GetCompClass(LoadComponent value)
 		std::ifstream gameFile;
 		gameFile.open(fileName);
 
-		int colsRead{};
-		int rowsRead{};
 
-		constexpr int gridSize{ 32 };
+		int colsRead = 0;
+		int rowsRead = 0;
+		constexpr int gridSize = 32;
 
-
-		if (!gameFile.is_open()) 
-			throw std::runtime_error("Game file could not be opened: " + fileName);
-		
-			std::string rowLine{};
-			while (std::getline(gameFile,rowLine))
+		std::string rowLine;
+		while (std::getline(gameFile, rowLine))
+		{
+			auto go = std::make_unique<boop::GameObject>();
+			for (const auto& colChar : rowLine)
 			{
-				auto go = std::make_unique<boop::GameObject>();
-				colsRead = 0;
-
-
-				for(const auto& colChar : rowLine)
+				if (m_AssignedComponents.find(static_cast<int>(colChar)) == m_AssignedComponents.end())
 				{
-				//	LoadComponent toAddComp = m_AssignedComponents.at( static_cast<int>(colChar));
-
-				//	if (!toAddComp.second) static_assert(true, "cannot add component to level");
-
-
-				////	auto func(toAddComp);
-				//	//go->AddComponent<func>(nullptr, toAddComp);
-
-				//	go = std::make_unique<boop::GameObject>();
-
-				//	go->AddMadeComp(GetCompClass(toAddComp));
-				//	go->SetLocalPosition(static_cast<float>(gridSize * colsRead),
-				//		static_cast<float>(gridSize * rowsRead));
-				//	scene.Add(go);
-				//	//--
-				//	//https://en.cppreference.com/w/cpp/language/decltype
-				//	//--
-
-				//	//go->AddComponent<decltype(toAddComp)>();
-
-					try
-					{
-						auto it = m_AssignedComponents.find(static_cast<int>(colChar));
-						if (it != m_AssignedComponents.end())
-						{
-							LoadComponent toAddComp = it->second;
-							auto component = GetCompClass(toAddComp);
-							if (component)
-							{
-								go->AddMadeComp(std::move(component));
-							}
-						}
-						else
-						{
-							std::cerr << "Warning: Component with index " << static_cast<int>(colChar) << " not found" << std::endl;
-						}
-					}
-					catch (const std::exception& e)
-					{
-						std::cerr << "Exception: " << e.what() << std::endl;
-					}
-
-
-					++colsRead;
+					throw std::runtime_error("Component not found for index: " + std::to_string(static_cast<int>(colChar)));
 				}
 
-				go->SetLocalPosition(static_cast<float>(gridSize * colsRead),
-					static_cast<float>(gridSize * rowsRead));
+				LoadComponent toAddComp = m_AssignedComponents.at(static_cast<int>(colChar));
+				if (!toAddComp.second)
+				{
+					throw std::runtime_error("Cannot add component to level");
+				}
 
+				go->AddMadeComp(GetCompClass(toAddComp));
+				go->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
 				scene.Add(std::move(go));
-				++rowsRead;
+
+				++colsRead;
 			}
-		
-			gameFile.close();
+
+			++rowsRead;
+		}
+
+		//int colsRead{};
+		//int rowsRead{};
+
+		//constexpr int gridSize{ 32 };
+
+
+		//if (!gameFile.is_open()) 
+		//	throw std::runtime_error("Game file could not be opened: " + fileName);
+		//
+		//	std::string rowLine{};
+		//	while (std::getline(gameFile,rowLine))
+		//	{
+		//		auto go = std::make_unique<boop::GameObject>();
+		//		colsRead = 0;
+
+
+		//		for(const auto& colChar : rowLine)
+		//		{
+		//		//	LoadComponent toAddComp = m_AssignedComponents.at( static_cast<int>(colChar));
+
+		//		//	if (!toAddComp.second) static_assert(true, "cannot add component to level");
+
+
+		//		////	auto func(toAddComp);
+		//		//	//go->AddComponent<func>(nullptr, toAddComp);
+
+		//		//	go = std::make_unique<boop::GameObject>();
+
+		//		//	go->AddMadeComp(GetCompClass(toAddComp));
+		//		//	go->SetLocalPosition(static_cast<float>(gridSize * colsRead),
+		//		//		static_cast<float>(gridSize * rowsRead));
+		//		//	scene.Add(go);
+		//		//	//--
+		//		//	//https://en.cppreference.com/w/cpp/language/decltype
+		//		//	//--
+
+		//		//	//go->AddComponent<decltype(toAddComp)>();
+
+		//			try
+		//			{
+		//				auto it = m_AssignedComponents.find(static_cast<int>(colChar));
+		//				if (it != m_AssignedComponents.end())
+		//				{
+		//					LoadComponent toAddComp = it->second;
+		//					auto component = GetCompClass(toAddComp);
+		//					if (component)
+		//					{
+		//						go->AddMadeComp(std::move(component));
+		//					}
+		//				}
+		//				else
+		//				{
+		//					std::cerr << "Warning: Component with index " << static_cast<int>(colChar) << " not found" << std::endl;
+		//				}
+		//			}
+		//			catch (const std::exception& e)
+		//			{
+		//				std::cerr << "Exception: " << e.what() << std::endl;
+		//			}
+
+
+		//			++colsRead;
+		//		}
+
+		//		go->SetLocalPosition(static_cast<float>(gridSize * colsRead),
+		//			static_cast<float>(gridSize * rowsRead));
+
+		//		scene.Add(std::move(go));
+		//		++rowsRead;
+		//	}
+		//
+		//	gameFile.close();
 	}
 }
