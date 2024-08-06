@@ -12,6 +12,11 @@ namespace boop
 	{
 	}
 
+	Collision::Collision(const Collision& other)
+		: m_CollisionRect(other.m_CollisionRect)
+	{
+	}
+
 	void Collision::SetCollisionRect(SDL_Rect rect)
 	{
 		m_CollisionRect = rect;

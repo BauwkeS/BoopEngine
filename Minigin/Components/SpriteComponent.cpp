@@ -35,8 +35,14 @@ namespace boop
 	SpriteComponent::SpriteComponent(const SpriteComponent& other)
 		: Component(other.GetOwner())
 	{
-		m_pTexture = other.m_pTexture;
-		m_pCollision = other.m_pCollision;
+		if (other.m_pTexture)
+		{
+			m_pTexture = new AnimatedTexture(*other.m_pTexture);
+		}
+		if (other.m_pCollision)
+		{
+			m_pCollision = new Collision(*other.m_pCollision);
+		}
 	}
 
 	//void SpriteComponent::FixedUpdate(float deltaTime)

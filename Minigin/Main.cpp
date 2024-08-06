@@ -25,22 +25,27 @@ namespace fs = std::filesystem;
 
 void load()
 {
-	auto& scene = boop::SceneManager::GetInstance().AddScene("Demo");
+	//auto& scene = boop::SceneManager::GetInstance().AddScene("Demo");
+
+	//boop::GameObject* gameObjectPtr = nullptr;
+	
+	level::LevelLoader::GetInstance().AssignSpriteComponent(0,
+		nullptr, "purpleBlock.png",1,1,0,0,0,4);
+	level::LevelLoader::GetInstance().AssignSpriteComponent(2,
+		nullptr, "purpleBlock.png",1,1,0,0,0,4);
+	level::LevelLoader::GetInstance().AssignSpriteComponent(1,
+		nullptr, "stoneBlock.png",1,1,0,0,0,4);
+	level::LevelLoader::GetInstance().CreateLevelInScene("level1.txt", "Demo");
 	boop::SceneManager::GetInstance().ChangeScene("Demo");
 
-//	boop::GameObject* gameObjectPtr = nullptr;
-	
-	/*level::LevelLoader::GetInstance().AssignComponent<>(0,
-		level::CompType::Texture, gameObjectPtr, "background.tga");*/
+	//auto go = std::make_unique<boop::GameObject>();
 
-	auto go = std::make_unique<boop::GameObject>();
-
-	 go->AddComponent<boop::TextureComponent>(nullptr,"background.tga");
-	scene.Add(std::move(go));
+	// go->AddComponent<boop::TextureComponent>(nullptr,"BubbleBobbleLogo.png");
+	/*scene.Add(std::move(go));
 	go = std::make_unique<boop::GameObject>();
 	go->AddComponent<boop::SpriteComponent>(nullptr, static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f);
-	go->SetLocalPosition(300.f, 300.f);
-	scene.Add(std::move(go));
+	go->SetLocalPosition(300.f, 300.f);*/
+	//scene.Add(std::move(go));
 
 	/*
 	go = std::make_unique<boop::GameObject>();

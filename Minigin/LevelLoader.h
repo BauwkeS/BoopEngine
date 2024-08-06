@@ -89,6 +89,7 @@ namespace level
 		//	return typeid(width).name();
 		//	//... 
 		//}
+	public:
 
 		void AssignSpriteComponent(int index, boop::GameObject* owner, const std::string& textureFileName,
 			int cols, int rows, float frameSec, int startPicIndex,
@@ -100,7 +101,6 @@ namespace level
 		void AssignTextureComponent(int index, boop::GameObject* owner, const std::string& texture);
 
 
-	public:
 		LevelLoader() = default;
 		~LevelLoader() = default;
 		LevelLoader(const LevelLoader& other) = delete;

@@ -82,9 +82,27 @@ namespace boop
 			return rawPtr;
 		}
 
-		void AddMadeComp(std::unique_ptr<Component> comp)
+		Component* AddMadeComp(std::unique_ptr<Component> comp)
 		{
+			/*if (comp->GetOwner())
+			{
+				auto raw = comp.get();
+				m_pComponents.emplace_back(std::move(comp));
+				return(raw);
+			}
+			else {
+				comp->SetOwner(this);
+				auto raw = comp.get();
+				m_pComponents.emplace_back(std::move(comp));
+				return(raw);
+			}*/
+			if (!comp->GetOwner()) {
+				comp->SetOwner(this);
+			}
+			Component* rawPtr = comp.get();
 			m_pComponents.emplace_back(std::move(comp));
+			return rawPtr;
+			
 		}
 
 		////template <class T>

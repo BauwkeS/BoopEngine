@@ -12,7 +12,7 @@ namespace boop
 		Collision(SDL_Rect rect);
 
 		~Collision()=default;
-		Collision(const Collision& other) = delete;
+		Collision(const Collision& other);
 		Collision(Collision&& other) = delete;
 		Collision& operator=(const Collision& other) = delete;
 		Collision& operator=(Collision&& other) = delete;

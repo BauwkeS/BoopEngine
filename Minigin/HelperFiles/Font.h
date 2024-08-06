@@ -14,11 +14,13 @@ namespace boop
 		explicit Font(const std::string& fullPath, unsigned int size);
 		~Font();
 
-		Font(const Font &) = delete;
+		Font(const Font & other);
 		Font(Font &&) = delete;
 		Font & operator= (const Font &) = delete;
 		Font & operator= (const Font &&) = delete;
 	private:
 		_TTF_Font* m_font;
+		std::string m_Path;
+		unsigned int m_Size;
 	};
 }

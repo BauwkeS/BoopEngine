@@ -50,8 +50,13 @@ boop::SceneManager::~SceneManager()
 boop::Scene& boop::SceneManager::AddScene(const std::string& name)
 {
 	//const auto& scene = std::make_unique<Scene>(name);
-	const auto& scene = m_Scenes.emplace_back(std::make_unique<Scene>(name));
-	return *scene;
+	/*auto& scene = m_Scenes.emplace_back(std::make_unique<Scene>(name));
+	return *scene;*/
+
+	auto scene = std::make_unique<Scene>(name);
+	auto& ref = *scene;
+	m_Scenes.emplace_back(std::move(scene));
+	return ref;
 }
 
 void boop::SceneManager::ChangeScene(const std::string& toSceneName)

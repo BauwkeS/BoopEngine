@@ -16,7 +16,7 @@ namespace boop
 
 		glm::ivec2 GetSize() const;
 
-		Texture2D(const Texture2D &) = delete;
+		Texture2D(const Texture2D & other);
 		Texture2D(Texture2D &&) = delete;
 		Texture2D & operator= (const Texture2D &) = delete;
 		Texture2D & operator= (const Texture2D &&) = delete;

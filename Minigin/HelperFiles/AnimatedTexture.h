@@ -21,7 +21,7 @@ namespace boop
 	public:
 		explicit AnimatedTexture(std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale);
 
-		AnimatedTexture(const AnimatedTexture& other) = delete;
+		AnimatedTexture(const AnimatedTexture& other);
 		AnimatedTexture(AnimatedTexture&& other) = delete;
 		AnimatedTexture& operator=(const AnimatedTexture& other) = delete;
 		AnimatedTexture& operator=(AnimatedTexture&& other) = delete;

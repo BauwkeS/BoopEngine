@@ -17,10 +17,16 @@ Component(nullptr)
 	m_TexturePtr = nullptr;
 }
 
-boop::TextureComponent::TextureComponent(const TextureComponent& other):
-	Component(other.GetOwner())
+boop::TextureComponent::TextureComponent(const TextureComponent& other)
+	: Component(other.GetOwner()),
+	m_TextureString(other.m_TextureString)
 {
-	m_TexturePtr = boop::ResourceManager::GetInstance().LoadTexture(other.m_TextureString);
+	if (other.m_TexturePtr) {
+		m_TexturePtr = new Texture2D(*other.m_TexturePtr);
+	}
+	else {
+		m_TexturePtr = nullptr;
+	}
 }
 
 void boop::TextureComponent::Render() const

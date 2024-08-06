@@ -1,6 +1,7 @@
 #include "LevelLoader.h"
 
 #include <cassert>
+#include <filesystem>
 #include <iostream>
 #include <fstream>
 
@@ -188,6 +189,7 @@ std::unique_ptr<boop::Component> LevelLoader::GetCompClass(LoadComponent value)
 		throw std::invalid_argument("Unknown component type");
 	}
 
+
 	/*
 	switch (value.first)
 	{
@@ -236,9 +238,18 @@ std::unique_ptr<boop::Component> LevelLoader::GetCompClass(LoadComponent value)
 
 		auto& scene = boop::SceneManager::GetInstance().AddScene(sceneName);
 		
-		std::ifstream gameFile;
+		/*std::ifstream gameFile(fileName);
+		auto test = std::filesystem::current_path();
 		gameFile.open(fileName);
+		if (!gameFile.is_open()) throw std::runtime_error("Failed to open game file: " + fileName);*/
 
+		//std::ifstream gameFile(fileName);
+		std::ifstream gameFile("Data\\" + fileName);
+
+		if (!gameFile.is_open())
+		{
+			throw std::runtime_error("Failed to open game file: " + fileName);
+		}
 
 		int colsRead = 0;
 		int rowsRead = 0;
@@ -250,12 +261,30 @@ std::unique_ptr<boop::Component> LevelLoader::GetCompClass(LoadComponent value)
 			auto go = std::make_unique<boop::GameObject>();
 			for (const auto& colChar : rowLine)
 			{
-				if (m_AssignedComponents.find(static_cast<int>(colChar)) == m_AssignedComponents.end())
+				int index = colChar - '0';
+				go = std::make_unique<boop::GameObject>();
+
+				/*if (m_AssignedComponents.find(index) == m_AssignedComponents.end())
 				{
 					throw std::runtime_error("Component not found for index: " + std::to_string(static_cast<int>(colChar)));
+				}*/
+				// Check if the index is within the valid range
+				if (index < 0 || index > 9)
+				{
+					throw std::runtime_error(
+						"Invalid digit: " + std::to_string(index) + " (character: " + colChar + ")"
+					);
 				}
 
-				LoadComponent toAddComp = m_AssignedComponents.at(static_cast<int>(colChar));
+				// Check if the component exists
+				if (m_AssignedComponents.find(index) == m_AssignedComponents.end())
+				{
+					throw std::runtime_error(
+						"Component not found for index: " + std::to_string(index) + " (character: " + colChar + ")"
+					);
+				}
+
+				LoadComponent toAddComp = m_AssignedComponents.at(index);
 				if (!toAddComp.second)
 				{
 					throw std::runtime_error("Cannot add component to level");
@@ -269,6 +298,7 @@ std::unique_ptr<boop::Component> LevelLoader::GetCompClass(LoadComponent value)
 			}
 
 			++rowsRead;
+			colsRead = 0;
 		}
 
 		//int colsRead{};
