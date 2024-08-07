@@ -24,7 +24,7 @@ boop::Texture2D* boop::ResourceManager::LoadTexture(const std::string& file)
 {
 	//if it exist -> return what you have
 	if (m_Textures.contains(file)) return m_Textures.at(file).get();
-
+	if (file == "") return nullptr;
 	//if it does not exist -> save it and return
 	const auto fullPath = m_dataPath/file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.string().c_str());

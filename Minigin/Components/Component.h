@@ -8,9 +8,10 @@ namespace boop
 	{
 	private:
 		GameObject* m_pOwner{};
-
+		
 	protected:
-		Component(GameObject* pOwner) : m_pOwner{ pOwner } {}
+		Component(GameObject* pOwner) :
+			m_pOwner{ pOwner } {}
 
 	public:
 		virtual ~Component() = default;
@@ -25,7 +26,6 @@ namespace boop
 		virtual void Render() const = 0;
 
 		void SetOwner(GameObject* pOwner) { m_pOwner = pOwner; }
-		
-		GameObject* GetOwner() const { return m_pOwner; }
+			GameObject* GetOwner() const { return m_pOwner; }
 	};
 }

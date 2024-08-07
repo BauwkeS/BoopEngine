@@ -169,9 +169,10 @@ void level::LevelLoader::AssignTextComponent(int index, boop::GameObject* owner,
 	m_AssignedComponents.emplace(index, std::make_pair(CompType::Text, comp.release()));
 }
 
-void level::LevelLoader::AssignTextureComponent(int index, boop::GameObject* owner, const std::string& texture)
+void level::LevelLoader::AssignTextureComponent(int index, boop::GameObject* owner, const std::string& texture,
+	float scale, bool automaticCollision, boop::Collision* collision)
 {
-	auto comp = std::make_unique<boop::TextureComponent>(owner, texture);
+	auto comp = std::make_unique<boop::TextureComponent>(owner, texture, scale, automaticCollision, collision);
 	m_AssignedComponents.emplace(index, std::make_pair(CompType::Texture, comp.release()));
 }
 

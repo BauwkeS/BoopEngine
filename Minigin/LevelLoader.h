@@ -93,12 +93,13 @@ namespace level
 
 		void AssignSpriteComponent(int index, boop::GameObject* owner, const std::string& textureFileName,
 			int cols, int rows, float frameSec, int startPicIndex,
-			int amountPics, float scale, boop::Collision* collision = nullptr);
+			int amountPics, float scale=1, boop::Collision* collision = nullptr);
 
 		void AssignTextComponent(int index, boop::GameObject* owner, const std::string& text,
 			const std::string& font, unsigned int fontSize);
 
-		void AssignTextureComponent(int index, boop::GameObject* owner, const std::string& texture);
+		void AssignTextureComponent(int index, boop::GameObject* owner, const std::string& texture,
+			float scale = 1, bool automaticCollision = false, boop::Collision* collision = nullptr);
 
 
 		LevelLoader() = default;

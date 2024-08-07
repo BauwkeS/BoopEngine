@@ -19,7 +19,7 @@ namespace boop
 
 
 	public:
-		explicit AnimatedTexture(std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale);
+		explicit AnimatedTexture(std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale=1);
 
 		AnimatedTexture(const AnimatedTexture& other);
 		AnimatedTexture(AnimatedTexture&& other) = delete;
@@ -33,6 +33,7 @@ namespace boop
 		void Update(float deltaTime, glm::vec2 pos);
 
 		void SetFramesSec(float sec) { m_FrameSec = sec; }
+		SDL_Rect GetDstRect() const { return m_DstRect; }
 
 	protected:
 		Texture2D* m_pTexture{};

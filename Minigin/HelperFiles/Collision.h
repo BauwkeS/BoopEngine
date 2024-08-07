@@ -21,5 +21,6 @@ namespace boop
 		SDL_Rect GetCollisionRect() const;
 
 		Component* CheckCollision() const;
+
 	};
 }

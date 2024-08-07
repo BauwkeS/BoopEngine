@@ -71,6 +71,8 @@ void boop::AnimatedTexture::Update(float deltaTime, glm::vec2 pos)
 		//modify rect
 		//m_DstRect.w = (m_CurrentPic % m_Cols) * m_ScrRect.w;
 		//m_DstRect.h = (m_CurrentPic / m_Cols) * m_ScrRect.h;
+		m_ScrRect.x = (m_CurrentPic % m_Cols) * m_ScrRect.w;
+		m_ScrRect.y = (m_CurrentPic / m_Cols) * m_ScrRect.h;
 	}
 		m_DstRect.x =static_cast<int>(pos.x);
 		m_DstRect.y =static_cast<int>(pos.y);

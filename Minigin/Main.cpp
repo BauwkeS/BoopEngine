@@ -29,16 +29,19 @@ void load()
 
 	//boop::GameObject* gameObjectPtr = nullptr;
 	
-	level::LevelLoader::GetInstance().AssignSpriteComponent(0,
-		nullptr, "purpleBlock.png",1,1,0,0,0,4);
-	level::LevelLoader::GetInstance().AssignSpriteComponent(2,
-		nullptr, "purpleBlock.png",1,1,0,0,0,4);
-	level::LevelLoader::GetInstance().AssignSpriteComponent(1,
-		nullptr, "stoneBlock.png",1,1,0,0,0,4);
+	level::LevelLoader::GetInstance().AssignTextureComponent(0,
+		nullptr, "", 4);
+	level::LevelLoader::GetInstance().AssignTextureComponent(1,
+		nullptr, "purpleBlock.png", 4);
+	level::LevelLoader::GetInstance().AssignTextureComponent(2,
+		nullptr, "stoneBlock.png",4);
+	level::LevelLoader::GetInstance().AssignSpriteComponent(3, nullptr, static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7,4.f);
 	level::LevelLoader::GetInstance().CreateLevelInScene("level1.txt", "Demo");
 	boop::SceneManager::GetInstance().ChangeScene("Demo");
 
 	//auto go = std::make_unique<boop::GameObject>();
+
+
 
 	// go->AddComponent<boop::TextureComponent>(nullptr,"BubbleBobbleLogo.png");
 	/*scene.Add(std::move(go));

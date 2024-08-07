@@ -15,21 +15,24 @@ namespace boop
 		: Component(ownerPtr)
 	{
 		m_pTexture = texture;
-		m_pCollision = collision;
+		if (collision)m_pCollision = collision;
+		else m_pCollision = new Collision(m_pTexture->GetDstRect());
+		
 	}
 	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale, Collision* collision)
 		: Component(ownerPtr)
 	{
-		m_pTexture = new AnimatedTexture(texture, cols, rows, frameSec, startPicIndex,  AmountPics, scale);
-		m_pCollision = collision;
+		m_pTexture = new AnimatedTexture(texture, cols, rows, frameSec, startPicIndex, AmountPics, scale);
+		if (collision)m_pCollision = collision;
+		else m_pCollision = new Collision(m_pTexture->GetDstRect());
+		
 	}
 
 	SpriteComponent::~SpriteComponent()
 	{
 		delete m_pTexture;
 		m_pTexture = nullptr;
-		delete m_pCollision;
-		m_pCollision = nullptr;
+		
 	}
 
 	SpriteComponent::SpriteComponent(const SpriteComponent& other)
@@ -39,7 +42,7 @@ namespace boop
 		{
 			m_pTexture = new AnimatedTexture(*other.m_pTexture);
 		}
-		if (other.m_pCollision)
+		if(other.m_pCollision)
 		{
 			m_pCollision = new Collision(*other.m_pCollision);
 		}
