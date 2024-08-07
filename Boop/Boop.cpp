@@ -12,9 +12,9 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include "Minigin.h"
-#include "InputManager.h"
-#include "SceneManager.h"
+#include "Boop.h"
+#include "Input/InputManager.h"
+#include "Scene/SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 

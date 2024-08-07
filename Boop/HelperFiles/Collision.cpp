@@ -1,7 +1,7 @@
 #include "Collision.h"
 
-#include "Scene.h"
-#include "SceneManager.h"
+#include "Scene/Scene.h"
+#include "Scene/SceneManager.h"
 #include "Components/SpriteComponent.h"
 #include "Components/Component.h"
 

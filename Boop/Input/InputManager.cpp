@@ -2,7 +2,7 @@
 #include "InputManager.h"
 #include <functional>
 
-#include "Scene.h"
+#include "Scene/Scene.h"
 
 namespace boop
 {

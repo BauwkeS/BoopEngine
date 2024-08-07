@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include <Observer.h>
+#include <Event/Observer.h>
 
 namespace boop
 {

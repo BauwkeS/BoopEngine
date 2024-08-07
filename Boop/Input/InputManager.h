@@ -7,7 +7,7 @@
 #include "HelperFiles/Singleton.h"
 #include "Controller.h"
 #include "Command.h"
-#include "SceneManager.h"
+#include "Scene/SceneManager.h"
 
 namespace boop
 {

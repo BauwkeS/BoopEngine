@@ -7,10 +7,10 @@
 #endif
 #endif
 
-#include "Minigin.h"
-#include "SceneManager.h"
+#include "Boop.h"
+#include "Scene/SceneManager.h"
 #include "ResourceManager.h"
-#include "Scene.h"
+#include "Scene/Scene.h"
 
 #include <glm/ext/scalar_constants.hpp>
 #include "glm/vec3.hpp"
@@ -20,7 +20,7 @@
 #include <Components/TextureComponent.h>
 #include <Components/TextComponent.h>
 #include <Components/SpriteComponent.h>
-#include <LevelLoader.h>
+#include <Scene/LevelLoader.h>
 namespace fs = std::filesystem;
 
 void load()

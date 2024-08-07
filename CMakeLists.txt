@@ -1,74 +1,77 @@
 cmake_minimum_required(VERSION 3.26)
-project(Minigin)
+project(BoopEngine)
 
 if(EMSCRIPTEN)
   message("Using Emscripten!")
 endif()
 
 if(EMSCRIPTEN)
-  set(TARGET_NAME minigin_web)
+  set(TARGET_NAME boop_web)
   set(TARGET_PARAM )
 else()
-  set(TARGET_NAME minigin)
+  set(TARGET_NAME boop)
   set(TARGET_PARAM WIN32 )
 endif()
 
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
-  Minigin/GameObject.cpp
-  Minigin/GameObject.h
-  Minigin/InputManager.cpp
-  Minigin/InputManager.h
-  Minigin/Main.cpp
-  Minigin/Minigin.cpp
-  Minigin/Minigin.h
-  Minigin/Renderer.cpp
-  Minigin/Renderer.h
-  Minigin/ResourceManager.cpp
-  Minigin/ResourceManager.h
-  Minigin/Scene.cpp
-  Minigin/Scene.h
-  Minigin/SceneManager.cpp
-  Minigin/SceneManager.h
+  Boop/GameObject.cpp
+  Boop/GameObject.h
+  Boop/Main.cpp
+  Boop/Boop.cpp
+  Boop/Boop.h
+  Boop/Renderer.cpp
+  Boop/Renderer.h
+  Boop/ResourceManager.cpp
+  Boop/ResourceManager.h
 
 
-  Minigin/HelperFiles/Font.cpp
-  Minigin/HelperFiles/Font.h
-  Minigin/HelperFiles/Texture2D.cpp
-  Minigin/HelperFiles/Texture2D.h
-  Minigin/HelperFiles/Transform.cpp
-  Minigin/HelperFiles/Transform.h
-  Minigin/HelperFiles/AnimatedTexture.h
-  Minigin/HelperFiles/AnimatedTexture.cpp
-  Minigin/HelperFiles/Collision.h
-  Minigin/HelperFiles/Collision.cpp
+  Boop/Scene/Scene.cpp
+  Boop/Scene/Scene.h
+  Boop/Scene/SceneManager.cpp
+  Boop/Scene/SceneManager.h
+  Boop/Scene/LevelLoader.h
+  Boop/Scene/LevelLoader.cpp
+
+  Boop/HelperFiles/Font.cpp
+  Boop/HelperFiles/Font.h
+  Boop/HelperFiles/Texture2D.cpp
+  Boop/HelperFiles/Texture2D.h
+  Boop/HelperFiles/Transform.cpp
+  Boop/HelperFiles/Transform.h
+  Boop/HelperFiles/AnimatedTexture.h
+  Boop/HelperFiles/AnimatedTexture.cpp
+  Boop/HelperFiles/Collision.h
+  Boop/HelperFiles/Collision.cpp
 
 
-  Minigin/Components/Component.h
-  Minigin/Components/Component.cpp
-  Minigin/Components/TextureComponent.h
-  Minigin/Components/TextureComponent.cpp
-  Minigin/Components/TextComponent.h
-  Minigin/Components/TextComponent.cpp
-  Minigin/Components/SpriteComponent.h
-  Minigin/Components/SpriteComponent.cpp
+  Boop/Components/Component.h
+  Boop/Components/Component.cpp
+  Boop/Components/TextureComponent.h
+  Boop/Components/TextureComponent.cpp
+  Boop/Components/TextComponent.h
+  Boop/Components/TextComponent.cpp
+  Boop/Components/SpriteComponent.h
+  Boop/Components/SpriteComponent.cpp
   
   
 
-  Minigin/Command.h
-  Minigin/Command.cpp
-  Minigin/Controller.h
-  Minigin/Controller.cpp
+  Boop/Input/InputManager.cpp
+  Boop/Input/InputManager.h
+  Boop/Input/Command.h
+  Boop/Input/Command.cpp
+  Boop/Input/Controller.h
+  Boop/Input/Controller.cpp
 
-  Minigin/Event.h
-  Minigin/Observer.h
-  Minigin/Observer.cpp
-  Minigin/Subject.h
-  Minigin/Subject.cpp
+  Boop/Event/Event.h
+  Boop/Event/Observer.h
+  Boop/Event/Observer.cpp
+  Boop/Event/Subject.h
+  Boop/Event/Subject.cpp
 
-  Minigin/States.h
-  Minigin/States.cpp
-  "Minigin/LevelLoader.h" "Minigin/LevelLoader.cpp")
+  Boop/States.h
+  Boop/States.cpp
+ )
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
@@ -222,7 +225,7 @@ elseif(NOT EMSCRIPTEN)
 endif()
 
 target_include_directories(${TARGET_NAME} PRIVATE
-  ${CMAKE_SOURCE_DIR}/Minigin/
+  ${CMAKE_SOURCE_DIR}/Boop/
   ${glm_SOURCE_DIR}
 )
 
