@@ -8,7 +8,7 @@ namespace boop
 {
 	class Collision;
 
-	class SpriteComponent final : public Component
+	class SpriteComponent : public Component
 	{
 	public:
 		SpriteComponent();
@@ -27,9 +27,12 @@ namespace boop
 		void Update(float deltaTime) override;
 		void Render() const override;
 
+		void MoveSprite(glm::ivec2 pos);
+
 		void SetTexture(AnimatedTexture* const texture);
 		AnimatedTexture* GetTexture(){return m_pTexture;}
 		Collision* GetCollision() const { return m_pCollision; }
+		
 
 		//void SetFramesSec(float sec);
 	private:

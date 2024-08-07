@@ -9,7 +9,7 @@
 namespace boop
 {
 	class Texture2D;
-	class TextComponent final : public Component
+	class TextComponent : public Component
 	{
 	private:
 		bool m_needsUpdate;

@@ -7,7 +7,7 @@ namespace boop
 {
 	class Collision;
 
-	class TextureComponent final : public Component
+	class TextureComponent : public Component
 	{
 	public:
 		TextureComponent(boop::GameObject* const ownerPtr, std::string texture, float scale=1, bool automaticCollision = false, Collision* collision = nullptr);

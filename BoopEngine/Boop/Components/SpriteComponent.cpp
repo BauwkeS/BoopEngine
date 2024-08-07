@@ -69,6 +69,12 @@ namespace boop
 		m_pTexture->Render();
 	}
 
+	void SpriteComponent::MoveSprite(glm::ivec2 pos)
+	{
+		auto rec = m_pTexture->GetDstRect();
+		m_pTexture->SetDstRect(SDL_Rect{ rec.x + pos.x, rec.y + pos.y, rec.w, rec.h });
+	}
+
 	void SpriteComponent::SetTexture(AnimatedTexture* const texture)
 	{
 		m_pTexture = texture;
