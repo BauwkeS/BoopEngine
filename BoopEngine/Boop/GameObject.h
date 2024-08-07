@@ -8,7 +8,7 @@
 
 namespace boop
 {
-	class GameObject final
+	class GameObject 
 	{
 	private:
 		//Transform m_Transform{};
@@ -31,7 +31,7 @@ namespace boop
 
 		GameObject() : m_pParent(nullptr), m_LocalPosition(glm::vec3{}), m_WorldPosition(glm::vec3{}), m_PositionIsDirty(false)
 		{};
-		~GameObject() = default;
+		virtual ~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;

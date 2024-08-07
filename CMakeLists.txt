@@ -2,14 +2,15 @@
 project(BubbleBooble)
 
 add_subdirectory(BoopEngine)
+#Cmake fixed with the help of: https://git.allpurposem.at/KuYami/NotTron/src/branch/main/CMakeLists.txt
 
 # Add source to this project's executable.
 add_executable(${PROJECT_NAME}
 
 "BubbleBooble.cpp"
 "BubbleBooble.h"
-"Main.cpp"
-)
+
+ "Player.h" "Player.cpp")
 
 # Ensure correct target name
 if(EMSCRIPTEN)

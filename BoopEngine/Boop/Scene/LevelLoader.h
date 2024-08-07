@@ -94,6 +94,7 @@ namespace level
 		void AssignSpriteComponent(int index, boop::GameObject* owner, const std::string& textureFileName,
 			int cols, int rows, float frameSec, int startPicIndex,
 			int amountPics, float scale=1, boop::Collision* collision = nullptr);
+		void AssignSpriteComponent(int index, boop::SpriteComponent* comp);
 
 		void AssignTextComponent(int index, boop::GameObject* owner, const std::string& text,
 			const std::string& font, unsigned int fontSize);
