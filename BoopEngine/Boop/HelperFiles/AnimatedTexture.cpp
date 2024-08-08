@@ -78,6 +78,22 @@ void boop::AnimatedTexture::Update(float deltaTime, glm::vec2 pos)
 		m_DstRect.y =static_cast<int>(pos.y);
 }
 
+void boop::AnimatedTexture::ChangeTextureVars(const int cols, const int rows, const int AmountPics, const int startPicIndex)
+{
+	m_Cols = cols;
+	m_Rows = rows;
+	m_AmountPic = AmountPics;
+	m_StartPic = startPicIndex;
+
+	m_ScrRect.w = static_cast<int>(m_pTexture->GetSize().x) / m_Cols;
+	m_ScrRect.h = static_cast<int>(m_pTexture->GetSize().y) / m_Rows;
+	m_ScrRect.x = (m_CurrentPic % m_Cols) * m_ScrRect.w;
+	m_ScrRect.y = (m_CurrentPic / m_Cols) * m_ScrRect.h;
+
+	m_DstRect.w = static_cast<int>(m_Scale * m_ScrRect.w);
+	m_DstRect.h = static_cast<int>(m_Scale * m_ScrRect.h);
+}
+
 void boop::AnimatedTexture::Render()
 {
 	//auto pos{ GetOwner()->GetWorldPosition() };

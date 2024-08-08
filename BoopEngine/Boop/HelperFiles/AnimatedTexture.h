@@ -35,6 +35,8 @@ namespace boop
 		void SetFramesSec(float sec) { m_FrameSec = sec; }
 		SDL_Rect GetDstRect() const { return m_DstRect; }
 		void SetDstRect(SDL_Rect rect) { m_DstRect = rect; }
+		void ChangeTextureVars(const int cols, const int rows, const int AmountPics, const int startPicIndex = 0);
+
 
 	protected:
 		Texture2D* m_pTexture{};
