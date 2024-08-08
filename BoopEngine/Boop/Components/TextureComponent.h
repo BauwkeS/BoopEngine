@@ -19,18 +19,20 @@ namespace boop
 		TextureComponent& operator=(const TextureComponent& other) = delete;
 		TextureComponent& operator=(TextureComponent&& other) = delete;
 
-		Collision* GetCollision() const { return m_pCollision; }
+		Collision* GetCollision() const { return m_pCollision.get(); }
 
 		void FixedUpdate(float deltaTime) override { deltaTime = 1; };
 		void Update(float deltaTime) override { deltaTime = 1; };
-		void LateUpdate(float deltaTime) override { deltaTime = 1; };
+		void LateUpdate(float deltaTime) override;
 		void Render() const override;
 	private:
 		//std::unique_ptr<boop::Texture2D> m_TexturePtr;
 		boop::Texture2D* m_TexturePtr{};
 		std::string m_TextureString{};
-		Collision* m_pCollision;
+		std::unique_ptr<Collision> m_pCollision;
 		float m_Scale{};
+
+		void UpdateCollision();
 	};
 }
 

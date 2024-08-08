@@ -15,16 +15,16 @@ namespace boop
 		: Component(ownerPtr)
 	{
 		m_pTexture = texture;
-		if (collision)m_pCollision = collision;
-		else m_pCollision = new Collision(m_pTexture->GetDstRect());
+		if (collision) m_pCollision = std::make_unique<Collision>(collision->GetCollisionRect());
+		else m_pCollision = std::make_unique<Collision>(m_pTexture->GetDstRect());
 		
 	}
 	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale, Collision* collision)
 		: Component(ownerPtr)
 	{
 		m_pTexture = new AnimatedTexture(texture, cols, rows, frameSec, startPicIndex, AmountPics, scale);
-		if (collision)m_pCollision = collision;
-		else m_pCollision = new Collision(m_pTexture->GetDstRect());
+		if (collision)m_pCollision = std::make_unique<Collision>(collision->GetCollisionRect());
+		else m_pCollision = std::make_unique<Collision>(m_pTexture->GetDstRect());
 		
 	}
 
@@ -42,10 +42,8 @@ namespace boop
 		{
 			m_pTexture = new AnimatedTexture(*other.m_pTexture);
 		}
-		if(other.m_pCollision)
-		{
-			m_pCollision = new Collision(*other.m_pCollision);
-		}
+		if (other.GetCollision()) m_pCollision = std::make_unique<Collision>(other.GetCollision()->GetCollisionRect());
+
 	}
 
 	//void SpriteComponent::FixedUpdate(float deltaTime)
