@@ -182,6 +182,12 @@ void level::LevelLoader::AssignTextureComponent(int index, boop::GameObject* own
 	m_AssignedComponents.emplace(index, std::make_pair(CompType::Texture, comp.release()));
 }
 
+void LevelLoader::AssignTextureComponent(int index, boop::TextureComponent* comp)
+{
+	auto component = std::make_unique<boop::TextureComponent>(*comp);
+	m_AssignedComponents.emplace(index, std::make_pair(CompType::Texture, component.release()));
+}
+
 std::unique_ptr<boop::Component> LevelLoader::GetCompClass(LoadComponent value)
 {
 	switch (value.first)

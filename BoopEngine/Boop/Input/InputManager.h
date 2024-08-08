@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <SDL.h>
 
 #include "../HelperFiles/Singleton.h"
 #include "Controller.h"
