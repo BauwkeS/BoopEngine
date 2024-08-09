@@ -162,14 +162,8 @@ void level::LevelLoader::AssignSpriteComponent(int index, boop::GameObject* owne
 	m_AssignedComponents.emplace(index, std::make_pair(CompType::Sprite, comp.release()));
 }
 
-void LevelLoader::AssignSpriteComponent(int index, boop::SpriteComponent* comp)
-{
-	auto component = std::make_unique<boop::SpriteComponent>(*comp);
-	m_AssignedComponents.emplace(index, std::make_pair(CompType::Sprite, component.release()));
-}
-
 void level::LevelLoader::AssignTextComponent(int index, boop::GameObject* owner, const std::string& text,
-                                             const std::string& font, unsigned int fontSize)
+	const std::string& font, unsigned int fontSize)
 {
 	auto comp = std::make_unique<boop::TextComponent>(owner, text, font, fontSize);
 	m_AssignedComponents.emplace(index, std::make_pair(CompType::Text, comp.release()));

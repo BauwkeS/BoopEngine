@@ -7,7 +7,7 @@ namespace boop
 	{
 	public:
 		virtual ~BaseState()=default;
-		virtual void HandleInput(Component& gameObject)=0;
+		virtual void HandleInput(GameObject& gameObject)=0;
 
 		virtual void Update(float deltaTime) = 0;
 		virtual void Render(float deltaTime) = 0;
@@ -45,7 +45,7 @@ namespace boop
 			}
 		}
 
-		StateMachine(Component* owner, BaseState* state)
+		StateMachine(GameObject* owner, BaseState* state)
 			: m_pOwner{ owner },
 			m_pState{ state } {}
 
@@ -58,6 +58,6 @@ namespace boop
 
 	private:
 		BaseState* m_pState{};
-		Component* m_pOwner{};
+		GameObject* m_pOwner{};
 	};
 }
