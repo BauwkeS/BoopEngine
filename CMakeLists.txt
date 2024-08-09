@@ -5,10 +5,8 @@ add_subdirectory(BoopEngine)
 
 # Add source to this project's executable.
 add_executable(${PROJECT_NAME}
-
 "BubbleBooble.cpp"
 "BubbleBooble.h"
-"Main.cpp"
 )
 
 # Ensure correct target name
