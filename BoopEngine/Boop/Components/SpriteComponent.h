@@ -31,13 +31,13 @@ namespace boop
 
 		void SetTexture(AnimatedTexture* const texture);
 		AnimatedTexture* GetTexture(){return m_pTexture;}
-		Collision* GetCollision() const { return m_pCollision.get(); }
+		Collision* GetCollision() const { return m_pCollision; }
 	
 		//void SetFramesSec(float sec);
 	private:
 		//std::unique_ptr<boop::Texture2D> m_TexturePtr;
 		AnimatedTexture* m_pTexture;
-		std::unique_ptr<Collision> m_pCollision;
+		Collision* m_pCollision;
 		
 	};
 }
