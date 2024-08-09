@@ -20,7 +20,7 @@ void load()
 {
 	boop::SceneManager::GetInstance().AddScene("Demo");
 
-	std::unique_ptr<boop::GameObject> gameObjectPtr = std::make_unique<boop::GameObject>();
+	//boop::GameObject* gameObjectPtr = nullptr;
 
 	/*level::LevelLoader::GetInstance().AssignTextureComponent(0,
 		nullptr, "", 4);
@@ -31,13 +31,14 @@ void load()
 	//level::LevelLoader::GetInstance().AssignSpriteComponent(3, nullptr,
 	//static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f);
 
-	std::unique_ptr<booble::Player> player = std::make_unique<booble::Player>(nullptr, static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f);
+	std::unique_ptr<booble::Player> player = std::make_unique<booble::Player>(nullptr,
+		static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f);
 	std::unique_ptr<booble::Platform> emptyBack = std::make_unique<booble::Platform>(nullptr, "", 4.f);
 	std::unique_ptr<booble::Wall> purpleWall = std::make_unique<booble::Wall>(nullptr, "purpleBlock.png", 4.f);
 	std::unique_ptr<booble::Wall> stoneBlock = std::make_unique<booble::Wall>(nullptr, "stoneBlock.png", 4.f);
 
 
-	level::LevelLoader::GetInstance().AssignSpriteComponent(3, std::move(gameObjectPtr), player->GetSprite());
+	level::LevelLoader::GetInstance().AssignSpriteComponent(3, player->GetSprite());
 	level::LevelLoader::GetInstance().AssignTextureComponent(0, emptyBack->GetSprite());
 	level::LevelLoader::GetInstance().AssignTextureComponent(1,purpleWall->GetSprite());
 	level::LevelLoader::GetInstance().AssignTextureComponent(2,stoneBlock->GetSprite());
