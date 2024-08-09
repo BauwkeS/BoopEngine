@@ -10,7 +10,7 @@ add_executable(${PROJECT_NAME}
 "BubbleBooble.cpp"
 "BubbleBooble.h"
 
- "Scr/Player.h" "Scr/Player.cpp" "Scr/Commands.h" "Scr/Commands.cpp" "Scr/LevelComponents.h" "Scr/LevelComponents.cpp")
+ "Player.h" "Player.cpp")
 
 # Ensure correct target name
 if(EMSCRIPTEN)

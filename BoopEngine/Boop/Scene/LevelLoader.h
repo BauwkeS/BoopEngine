@@ -101,7 +101,6 @@ namespace level
 
 		void AssignTextureComponent(int index, boop::GameObject* owner, const std::string& texture,
 			float scale = 1, bool automaticCollision = false, boop::Collision* collision = nullptr);
-		void AssignTextureComponent(int index, boop::TextureComponent* comp);
 
 
 		LevelLoader() = default;

@@ -35,10 +35,10 @@ add_library(${TARGET_NAME} STATIC
   Boop/Renderer.h
   Boop/ResourceManager.cpp
   Boop/ResourceManager.h
-  Boop/Scene/SceneManager.cpp
-  Boop/Scene/SceneManager.h
   Boop/Scene/Scene.cpp
   Boop/Scene/Scene.h
+  Boop/Scene/SceneManager.cpp
+  Boop/Scene/SceneManager.h
   Boop/Scene/LevelLoader.h
   Boop/Scene/LevelLoader.cpp
   Boop/Components/TextureComponent.h

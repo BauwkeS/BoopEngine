@@ -9,10 +9,9 @@
 #include "BoopEngine/Boop/Boop.h"
 #include <msxml.h>
 
+#include "Player.h"
 #include "BoopEngine/Boop/Scene/LevelLoader.h"
 #include "BoopEngine/Boop/Scene/SceneManager.h"
-#include "Scr/Player.h"
-#include "Scr/LevelComponents.h"
 
 namespace fs = std::filesystem;
 
@@ -22,26 +21,20 @@ void load()
 
 	//boop::GameObject* gameObjectPtr = nullptr;
 
-	/*level::LevelLoader::GetInstance().AssignTextureComponent(0,
+	level::LevelLoader::GetInstance().AssignTextureComponent(0,
 		nullptr, "", 4);
 	level::LevelLoader::GetInstance().AssignTextureComponent(1,
 		nullptr, "purpleBlock.png", 4);
 	level::LevelLoader::GetInstance().AssignTextureComponent(2,
-		nullptr, "stoneBlock.png", 4);*/
+		nullptr, "stoneBlock.png", 4);
 	//level::LevelLoader::GetInstance().AssignSpriteComponent(3, nullptr,
 	//static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f);
 
-	std::unique_ptr<booble::Player> player = std::make_unique<booble::Player>(nullptr,
+	std::unique_ptr<Player> player = std::make_unique<Player>(nullptr,
 		static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f);
-	std::unique_ptr<booble::Platform> emptyBack = std::make_unique<booble::Platform>(nullptr, "", 4.f);
-	std::unique_ptr<booble::Wall> purpleWall = std::make_unique<booble::Wall>(nullptr, "purpleBlock.png", 4.f);
-	std::unique_ptr<booble::Wall> stoneBlock = std::make_unique<booble::Wall>(nullptr, "stoneBlock.png", 4.f);
-
 
 	level::LevelLoader::GetInstance().AssignSpriteComponent(3, player->GetSprite());
-	level::LevelLoader::GetInstance().AssignTextureComponent(0, emptyBack->GetSprite());
-	level::LevelLoader::GetInstance().AssignTextureComponent(1,purpleWall->GetSprite());
-	level::LevelLoader::GetInstance().AssignTextureComponent(2,stoneBlock->GetSprite());
+
 
 	level::LevelLoader::GetInstance().CreateLevelInScene("level1.txt", "Demo");
 	boop::SceneManager::GetInstance().ChangeScene("Demo");
