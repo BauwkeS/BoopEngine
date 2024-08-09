@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "Component.h"
 #include "../HelperFiles/Texture2D.h"
 
@@ -14,7 +15,7 @@ namespace boop
 		TextureComponent();
 		~TextureComponent() = default;
 
-		TextureComponent(const TextureComponent& other);
+		TextureComponent(const TextureComponent& other) = delete;
 		TextureComponent(TextureComponent&& other) = delete;
 		TextureComponent& operator=(const TextureComponent& other) = delete;
 		TextureComponent& operator=(TextureComponent&& other) = delete;
@@ -25,6 +26,15 @@ namespace boop
 		void Update(float deltaTime) override { deltaTime = 1; };
 		void LateUpdate(float deltaTime) override { deltaTime = 1; };
 		void Render() const override;
+
+		virtual std::unique_ptr<Component> Clone() const override
+		{
+			std::unique_ptr<TextureComponent> spriteComponent
+				= std::make_unique<TextureComponent>(this->GetOwner(),
+					m_TextureString, m_Scale,
+					m_pCollision);
+			return std::move(spriteComponent);
+		}
 	private:
 		//std::unique_ptr<boop::Texture2D> m_TexturePtr;
 		boop::Texture2D* m_TexturePtr{};

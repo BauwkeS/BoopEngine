@@ -27,20 +27,20 @@ Component(nullptr)
 {
 	m_TexturePtr = nullptr;
 }
-
-boop::TextureComponent::TextureComponent(const TextureComponent& other)
-	: Component(other.GetOwner()),
-	m_TextureString(other.m_TextureString)
-{
-	if (other.m_TexturePtr) {
-		m_TexturePtr = new Texture2D(*other.m_TexturePtr);
-	}
-	else {
-		m_TexturePtr = nullptr;
-	}
-
-	m_Scale = other.m_Scale;
-}
+//
+//boop::TextureComponent::TextureComponent(const TextureComponent& other)
+//	: Component(other.GetOwner()),
+//	m_TextureString(other.m_TextureString)
+//{
+//	if (other.m_TexturePtr) {
+//		m_TexturePtr = new Texture2D(*other.m_TexturePtr);
+//	}
+//	else {
+//		m_TexturePtr = nullptr;
+//	}
+//
+//	m_Scale = other.m_Scale;
+//}
 
 void boop::TextureComponent::Render() const
 {

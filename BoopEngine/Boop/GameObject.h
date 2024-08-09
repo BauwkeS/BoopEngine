@@ -81,6 +81,15 @@ namespace boop
 
 			return rawPtr;
 		}
+		template <typename T>
+		T* AddComponent(std::unique_ptr<T> component) {
+			static_assert(std::is_base_of<Component, T>::value, "T must be derived from Component");
+
+			T* rawPtr = component.get();
+			component->SetOwner(this);
+			m_pComponents.emplace_back(std::move(component));
+			return rawPtr;
+		}
 
 		Component* AddMadeComp(std::unique_ptr<Component> comp)
 		{
@@ -143,6 +152,32 @@ namespace boop
 		template <class T>
 		bool HasComponent() const;
 
+
+		//----
+	//Clone function
+		std::unique_ptr<GameObject> Clone() const
+		{
+			auto clonedObject = std::make_unique<GameObject>();
+
+			// Copy all relevant data
+			clonedObject->m_LocalPosition = this->m_LocalPosition;
+			clonedObject->m_WorldPosition = this->m_WorldPosition;
+			clonedObject->m_PositionIsDirty = this->m_PositionIsDirty;
+
+			// Clone components
+			for (const auto& component : m_pComponents) {
+				if (component) {
+					clonedObject->AddComponent(component->Clone());
+				}
+			}
+			// Note: handle parent and children appropriately
+			// clonedObject->m_pParent = this->m_pParent; // (if required)
+			// clonedObject->m_pChildren = this->m_pChildren; // (if required)
+
+			//return std::move(clonedObject);
+			return clonedObject;
+		}
+
 	};
 
 	template <class T>
@@ -187,4 +222,6 @@ namespace boop
 		}
 		return false;
 	}
+
+	
 }

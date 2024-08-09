@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "Component.h"
 #include "../HelperFiles/AnimatedTexture.h"
 
@@ -17,7 +18,7 @@ namespace boop
 			const float frameSec, const int startPicIndex, const int AmountPics, const float scale, Collision* collision = nullptr);
 		~SpriteComponent() override;
 
-		SpriteComponent(const SpriteComponent& other);
+		SpriteComponent(const SpriteComponent& other) = delete;
 		SpriteComponent(SpriteComponent&& other) = delete;
 		SpriteComponent& operator=(const SpriteComponent& other) = delete;
 		SpriteComponent& operator=(SpriteComponent&& other) = delete;
@@ -33,6 +34,16 @@ namespace boop
 		AnimatedTexture* GetTexture(){return m_pTexture;}
 		Collision* GetCollision() const { return m_pCollision; }
 	
+		virtual std::unique_ptr<Component> Clone() const override
+		{
+			// Create a new comp with the same info
+			std::unique_ptr<SpriteComponent> spriteComponent
+				= std::make_unique<SpriteComponent>(this->GetOwner(),
+				m_pTexture,
+				m_pCollision);
+			return std::move(spriteComponent);
+		}
+
 		//void SetFramesSec(float sec);
 	private:
 		//std::unique_ptr<boop::Texture2D> m_TexturePtr;
