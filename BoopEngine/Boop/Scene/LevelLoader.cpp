@@ -11,6 +11,7 @@
 #include "../Components/TextComponent.h"
 #include "../Components/SpriteComponent.h"
 #include "../Components/TextureComponent.h"
+#include "../Input/InputManager.h"
 
 
 
@@ -162,9 +163,10 @@ void level::LevelLoader::AssignSpriteComponent(int index, boop::GameObject* owne
 	m_AssignedComponents.emplace(index, std::make_pair(CompType::Sprite, comp.release()));
 }
 
-void LevelLoader::AssignSpriteComponent(int index, boop::SpriteComponent* comp)
+void LevelLoader::AssignSpriteComponent(int index, boop::GameObject* owner, boop::SpriteComponent* comp)
 {
 	auto component = std::make_unique<boop::SpriteComponent>(*comp);
+	component->SetOwner(owner);
 	m_AssignedComponents.emplace(index, std::make_pair(CompType::Sprite, component.release()));
 }
 
@@ -272,11 +274,11 @@ std::unique_ptr<boop::Component> LevelLoader::GetCompClass(LoadComponent value)
 		while (std::getline(gameFile, rowLine))
 		{
 			auto go = std::make_unique<boop::GameObject>();
+			
 			for (const auto& colChar : rowLine)
 			{
 				int index = colChar - '0';
 				go = std::make_unique<boop::GameObject>();
-
 				/*if (m_AssignedComponents.find(index) == m_AssignedComponents.end())
 				{
 					throw std::runtime_error("Component not found for index: " + std::to_string(static_cast<int>(colChar)));
@@ -302,10 +304,24 @@ std::unique_ptr<boop::Component> LevelLoader::GetCompClass(LoadComponent value)
 				{
 					throw std::runtime_error("Cannot add component to level");
 				}
+				auto component = GetCompClass(toAddComp);
+				boop::GameObject* owner = component->GetOwner();
+				if (owner) {
+					std::unique_ptr<boop::GameObject> newObj = std::make_unique<boop::GameObject>()
+					owner->AddMadeComp(GetCompClass(toAddComp));
+					owner->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
+				
+					scene.Add(std::move(go));
+				}
+				else {
+					go->AddMadeComp();
+					go->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
 
-				go->AddMadeComp(GetCompClass(toAddComp));
-				go->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
-				scene.Add(std::move(go));
+					scene.Add(std::move(go));
+				}
+			
+
+				
 
 				++colsRead;
 			}
