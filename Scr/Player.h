@@ -1,14 +1,9 @@
 #pragma once
-#include "../BoopEngine/Boop/GameObject.h"
-#include "../BoopEngine/Boop/Components/SpriteComponent.h"
-#include "../BoopEngine/Boop/States.h"
-#include "../BoopEngine/Boop/GameObject.h"
+#include <memory>
 
-//player needs the states
-//the input ?
-//lives
-//score?
-//movement
+namespace boop {
+	class GameObject;
+}
 
 namespace booble
 {

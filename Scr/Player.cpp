@@ -1,8 +1,7 @@
 #include "Player.h"
 
-#include "../BoopEngine/Boop/Input/InputManager.h"
-#include "../BoopEngine/Boop/Scene/SceneManager.h"
-#include "../BoopEngine/Boop/Scene/Scene.h"
+#include "../BoopEngine/Boop/GameObject.h"
+#include "../BoopEngine/Boop/Components/SpriteComponent.h"
 
 namespace booble
 {
