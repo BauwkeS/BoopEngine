@@ -118,13 +118,13 @@ namespace level
 	//			colsRead = 0;
 	//		}
 	//	}
-	void LevelLoader::AssignGameObject(int index, boop::GameObject* object)
+	void LevelLoader::AssignGameObject(int index, std::unique_ptr<boop::GameObject> object)
 	{
 		// Use the Clone method to create a deep copy of the GameObject
-		auto comp = object->Clone();  // Clone() should return std::unique_ptr<boop::Component>
+		//auto comp = object->Clone();  // Clone() should return std::unique_ptr<boop::Component>
 
 		// Store the unique_ptr in the m_GameComponents map
-		m_GameComponents.emplace(index, std::move(comp));
+		m_GameComponents.emplace(index, std::move(object));
 	}
 
 	void LevelLoader::CreateLevel(std::string fileName, std::string sceneName)

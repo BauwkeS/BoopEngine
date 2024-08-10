@@ -76,7 +76,7 @@ namespace level
 
 
 
-		void AssignGameObject(int index, boop::GameObject* object);
+		void AssignGameObject(int index, std::unique_ptr<boop::GameObject> object);
 		void CreateLevel(std::string fileName, std::string sceneName);
 
 

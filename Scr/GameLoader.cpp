@@ -15,17 +15,17 @@ namespace booble
 		//EMPTY SPACE
 		auto gameObjPtr = std::make_unique<boop::GameObject>();
 		gameObjPtr->AddComponent(std::move(std::make_unique< boop::TextureComponent>(nullptr, "", 4.f)));
-		level::LevelLoader::GetInstance().AssignGameObject(0, gameObjPtr.get());
+		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(gameObjPtr));
 
 		//PURPLE WALL
 		gameObjPtr = std::make_unique<boop::GameObject>();
 		gameObjPtr->AddComponent(std::move(std::make_unique< boop::TextureComponent>(nullptr, "purpleBlock.png", 4.f)));
-		level::LevelLoader::GetInstance().AssignGameObject(1, gameObjPtr.get());
+		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(gameObjPtr));
 
 		//PLAYER
 		//gameObjPtr = std::make_unique<boop::GameObject>();
 		//gameObjPtr->AddComponent(std::move(std::make_unique< boop::SpriteComponent>(nullptr, static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f)));
-		level::LevelLoader::GetInstance().AssignGameObject(3, Player::CreatePlayer().get());
+		level::LevelLoader::GetInstance().AssignGameObject(3, std::move( Player::CreatePlayer()));
 
 
 		//LOAD
