@@ -2,6 +2,7 @@
 #include "../GameObject.h"
 
 #include <algorithm>
+#include "../Components/SpriteComponent.h"
 
 using namespace boop;
 
@@ -71,6 +72,7 @@ void Scene::Render() const
 {
 	for (const auto& object : m_objects)
 	{
+		
 		object->Render();
 	}
 }

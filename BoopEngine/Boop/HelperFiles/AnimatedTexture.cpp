@@ -11,7 +11,8 @@ boop::AnimatedTexture::AnimatedTexture(std::string texture, int cols, int rows, 
 	m_AmountPic{AmountPics},
 	m_AccuSec{0.f},
 	m_Scale{scale},
-	m_FrameSec{frameSec}
+	m_FrameSec{frameSec},
+	m_TextureName{texture}
 {
 	if (m_AmountPic == 0) m_AmountPic = m_Cols * m_Rows;
 
@@ -26,25 +27,26 @@ boop::AnimatedTexture::AnimatedTexture(std::string texture, int cols, int rows, 
 	m_DstRect.h = static_cast<int>(m_Scale * m_ScrRect.h);
 }
 
-boop::AnimatedTexture::AnimatedTexture(const AnimatedTexture& other)
-	: m_Cols(other.m_Cols),
-	m_Rows(other.m_Rows),
-	m_CurrentPic(other.m_CurrentPic),
-	m_StartPic(other.m_StartPic),
-	m_AmountPic(other.m_AmountPic),
-	m_AccuSec(other.m_AccuSec),
-	m_Scale(other.m_Scale),
-	m_FrameSec(other.m_FrameSec),
-	m_ScrRect(other.m_ScrRect),
-	m_DstRect(other.m_DstRect)
-{
-	if (other.m_pTexture) {
-		m_pTexture = new Texture2D(*other.m_pTexture);
-	}
-	else {
-		m_pTexture = nullptr;
-	}
-}
+//boop::AnimatedTexture::AnimatedTexture(const AnimatedTexture& other)
+//	: m_Cols(other.m_Cols),
+//	m_Rows(other.m_Rows),
+//	m_CurrentPic(other.m_CurrentPic),
+//	m_StartPic(other.m_StartPic),
+//	m_AmountPic(other.m_AmountPic),
+//	m_AccuSec(other.m_AccuSec),
+//	m_Scale(other.m_Scale),
+//	m_FrameSec(other.m_FrameSec),
+//	m_ScrRect(other.m_ScrRect),
+//	m_DstRect(other.m_DstRect),
+//	m_TextureName(other.m_TextureName)
+//{
+//	if (other.m_pTexture) {
+//		m_pTexture = new Texture2D(*other.m_pTexture);
+//	}
+//	else {
+//		m_pTexture = nullptr;
+//	}
+//}
 
 boop::AnimatedTexture::~AnimatedTexture()
 {

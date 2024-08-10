@@ -11,10 +11,10 @@ namespace boop
 		m_pCollision = nullptr;
 	}
 
-	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, AnimatedTexture* const texture, Collision* collision)
+	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::unique_ptr<AnimatedTexture> texture, Collision* collision)
 		: Component(ownerPtr)
 	{
-		m_pTexture = texture;
+		m_pTexture = texture->Clone();
 		if (collision)m_pCollision = collision;
 		else m_pCollision = new Collision(m_pTexture->GetDstRect());
 		
@@ -22,7 +22,7 @@ namespace boop
 	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale, Collision* collision)
 		: Component(ownerPtr)
 	{
-		m_pTexture = new AnimatedTexture(texture, cols, rows, frameSec, startPicIndex, AmountPics, scale);
+		m_pTexture = std::make_unique<AnimatedTexture>(texture, cols, rows, frameSec, startPicIndex, AmountPics, scale);
 		if (collision)m_pCollision = collision;
 		else m_pCollision = new Collision(m_pTexture->GetDstRect());
 		
@@ -30,8 +30,8 @@ namespace boop
 
 	SpriteComponent::~SpriteComponent()
 	{
-		delete m_pTexture;
-		m_pTexture = nullptr;
+		/*delete m_pTexture;
+		m_pTexture = nullptr;*/
 		
 	}
 
@@ -75,8 +75,8 @@ namespace boop
 		m_pTexture->SetDstRect(SDL_Rect{ rec.x + pos.x, rec.y + pos.y, rec.w, rec.h });
 	}
 
-	void SpriteComponent::SetTexture(AnimatedTexture* const texture)
+	/*oid SpriteComponent::SetTexture(AnimatedTexture* const texture)
 	{
-		m_pTexture = texture;
-	}
+		m_pTexture = std::make_unique<AnimatedTexture>(texture);
+	}*/
 }

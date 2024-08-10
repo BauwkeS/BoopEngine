@@ -177,7 +177,11 @@ namespace level
 				goAdd->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
 
 				scene.Add(std::move(goAdd));*/
-
+				if (index == 3)
+				{
+					int i = 0;
+					i;
+				}
 				auto clonedObject = m_GameComponents.at(index)->Clone();
 				clonedObject->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
 

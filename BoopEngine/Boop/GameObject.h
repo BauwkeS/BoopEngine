@@ -170,9 +170,15 @@ namespace boop
 					clonedObject->AddComponent(component->Clone());
 				}
 			}
-			// Note: handle parent and children appropriately
-			// clonedObject->m_pParent = this->m_pParent; // (if required)
-			// clonedObject->m_pChildren = this->m_pChildren; // (if required)
+			// Handle parent-child relationships
+			if (m_pParent) {
+				clonedObject->SetParent(m_pParent, true);  // Assuming you want to keep the world position
+			}
+			for (auto* child : m_pChildren) {
+				auto clonedChild = child->Clone();
+				clonedChild->SetParent(clonedObject.get(), true); // Re-establish parent-child relationships
+				clonedObject->AddChild(clonedChild.get());
+			}
 
 			//return std::move(clonedObject);
 			return clonedObject;

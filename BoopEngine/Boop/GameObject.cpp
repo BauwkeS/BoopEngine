@@ -70,26 +70,53 @@ void boop::GameObject::SetLocalPosition(const glm::vec3& pos)
 	SetPositionDirty();
 }
 
+//void boop::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
+//{
+//	if (IsChild(parent) || parent == this || m_pParent == parent) return;
+//
+//	if (parent == nullptr) SetLocalPosition(GetWorldPosition());
+//	else {
+//		if (keepWorldPosition) SetLocalPosition(GetWorldPosition() - parent->GetWorldPosition());
+//		SetPositionDirty();
+//	}
+//
+//	if (m_pParent) m_pParent->RemoveChild(this);
+//	m_pParent = parent;
+//	if (m_pParent) m_pParent->AddChild(this);
+//}
 void boop::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 {
-	if (IsChild(parent) || parent == this || m_pParent == parent) return;
+	if (parent == nullptr || IsChild(parent) || parent == this || m_pParent == parent)
+		return; // Prevent setting as parent if it causes a cycle or self-parenting
 
-	if (parent == nullptr) SetLocalPosition(GetWorldPosition());
-	else {
-		if (keepWorldPosition) SetLocalPosition(GetWorldPosition() - parent->GetWorldPosition());
-		SetPositionDirty();
-	}
+	if (keepWorldPosition)
+		SetLocalPosition(GetWorldPosition() - (parent ? parent->GetWorldPosition() : glm::vec3{}));
+	SetPositionDirty();
 
-	if (m_pParent) m_pParent->RemoveChild(this);
+	if (m_pParent)
+		m_pParent->RemoveChild(this); // Remove from the current parent
+
 	m_pParent = parent;
-	if (m_pParent) m_pParent->AddChild(this);
+
+	if (m_pParent)
+		m_pParent->AddChild(this);
 }
 
+
+//void boop::GameObject::RemoveChild(GameObject* child)
+//{
+//	//m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), child), m_pChildren.end());
+//	std::erase(m_pChildren, child);
+//}
 void boop::GameObject::RemoveChild(GameObject* child)
 {
-	//m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), child), m_pChildren.end());
-	std::erase(m_pChildren, child);
+	auto it = std::remove(m_pChildren.begin(), m_pChildren.end(), child);
+	if (it != m_pChildren.end())
+	{
+		m_pChildren.erase(it, m_pChildren.end());
+	}
 }
+
 
 void boop::GameObject::AddChild(GameObject* child)
 {
