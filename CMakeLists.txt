@@ -5,9 +5,9 @@ add_subdirectory(BoopEngine)
 
 # Add source to this project's executable.
 add_executable(${PROJECT_NAME}
-"BubbleBooble.cpp"
-"BubbleBooble.h"
-)
+"Scr/BubbleBooble.cpp"
+"Scr/BubbleBooble.h"
+ "Scr/GameLoader.h" "Scr/GameLoader.cpp")
 
 # Ensure correct target name
 if(EMSCRIPTEN)
