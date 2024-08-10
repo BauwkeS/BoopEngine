@@ -1,4 +1,5 @@
 #include <SDL_rect.h>
+#include <memory>
 
 namespace boop
 {
@@ -22,5 +23,10 @@ namespace boop
 
 		Component* CheckCollision() const;
 
+		std::unique_ptr<Collision> Clone() {
+			std::unique_ptr<Collision> collClone =
+				std::make_unique<Collision>(this->m_CollisionRect);
+			return std::move(collClone);
+		}
 	};
 }

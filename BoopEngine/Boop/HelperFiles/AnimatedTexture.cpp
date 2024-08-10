@@ -16,7 +16,8 @@ boop::AnimatedTexture::AnimatedTexture(std::string texture, int cols, int rows, 
 {
 	if (m_AmountPic == 0) m_AmountPic = m_Cols * m_Rows;
 
-	m_pTexture = boop::ResourceManager::GetInstance().LoadTexture(texture);
+	auto textureTemp = boop::ResourceManager::GetInstance().LoadTexture(texture);
+	m_pTexture = textureTemp->Clone();
 
 	m_ScrRect.w = static_cast<int>(m_pTexture->GetSize().x) / m_Cols;
 	m_ScrRect.h = static_cast<int>(m_pTexture->GetSize().y) / m_Rows;
@@ -50,13 +51,13 @@ boop::AnimatedTexture::AnimatedTexture(std::string texture, int cols, int rows, 
 
 boop::AnimatedTexture::~AnimatedTexture()
 {
-	delete m_pTexture;
-	m_pTexture = nullptr;
+	//delete m_pTexture;
+	//m_pTexture = nullptr;
 }
 
 boop::Texture2D* boop::AnimatedTexture::GetTexture()
 {
-	return m_pTexture;
+	return m_pTexture.get();
 }
 
 void boop::AnimatedTexture::Update(float deltaTime, glm::vec2 pos)

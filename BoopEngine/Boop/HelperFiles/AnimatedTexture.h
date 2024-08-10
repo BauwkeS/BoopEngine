@@ -48,7 +48,7 @@ namespace boop
 		}
 
 	protected:
-		Texture2D* m_pTexture{};
+		std::unique_ptr<Texture2D> m_pTexture{};
 		float m_FrameSec;
 		SDL_Rect m_ScrRect{};
 		SDL_Rect m_DstRect{};
