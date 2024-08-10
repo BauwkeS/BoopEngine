@@ -2,10 +2,8 @@
 
 #include "../BoopEngine/Boop/Scene/LevelLoader.h"
 #include "../BoopEngine/Boop/Scene/SceneManager.h"
-#include "../BoopEngine/Boop/GameObject.h"
-#include "../BoopEngine/Boop/Components/TextureComponent.h"
-#include "../BoopEngine/Boop/Components/SpriteComponent.h"
 
+#include "LevelComponents.h"
 #include "player.h"
 
 namespace booble
@@ -13,14 +11,15 @@ namespace booble
 	void GameLoader::MakeGame()
 	{
 		//EMPTY SPACE
-		auto gameObjPtr = std::make_unique<boop::GameObject>();
+		/*auto gameObjPtr = std::make_unique<boop::GameObject>();
 		gameObjPtr->AddComponent(std::move(std::make_unique< boop::TextureComponent>(nullptr, "", 4.f)));
-		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(gameObjPtr));
+		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(gameObjPtr));*/
+		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(LevelComponents::CreateAir()));
 
 		//PURPLE WALL
-		gameObjPtr = std::make_unique<boop::GameObject>();
-		gameObjPtr->AddComponent(std::move(std::make_unique< boop::TextureComponent>(nullptr, "purpleBlock.png", 4.f)));
-		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(gameObjPtr));
+		/*gameObjPtr = std::make_unique<boop::GameObject>();
+		gameObjPtr->AddComponent(std::move(std::make_unique< boop::TextureComponent>(nullptr, "purpleBlock.png", 4.f)));*/
+		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(LevelComponents::CreateWall(0)));
 
 		//PLAYER
 		//gameObjPtr = std::make_unique<boop::GameObject>();

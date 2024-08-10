@@ -10,7 +10,7 @@ namespace booble
 	{
 		auto playerObject = std::make_unique<boop::GameObject>();
 		playerObject->AddComponent(std::move(std::make_unique< boop::SpriteComponent>(nullptr, static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f)));
-		return playerObject;
+		return std::move(playerObject);
 	}
 
 }
