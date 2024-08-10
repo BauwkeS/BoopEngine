@@ -8,6 +8,7 @@
 #include "Controller.h"
 #include "Command.h"
 #include "../Scene/SceneManager.h"
+#include <SDL.h>
 
 namespace boop
 {
