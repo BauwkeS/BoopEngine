@@ -87,3 +87,15 @@ std::vector<std::unique_ptr<GameObject>>& Scene::GetObjects()
 	return m_objects;
 }
 
+GameObject* Scene::FindGameObjectByPointer(GameObject* pointer) const
+{
+	auto it = std::find_if(m_objects.begin(), m_objects.end(),
+		[pointer](const std::unique_ptr<GameObject>& obj) { return obj.get() == pointer; });
+
+	if (it != m_objects.end())
+	{
+		return it->get();
+	}
+	return nullptr; // Return nullptr if not found
+}
+

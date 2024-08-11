@@ -25,40 +25,36 @@ namespace booble
 		~WalkCommand() = default;
 
 		void Execute(float d) override {
-			//change state of the object
-				//set the amount with the speed and in the existing function
-
-				//Player
-			//auto playerComp = m_pGameObject->GetComponent<Player>();
-			//if (playerComp) {
-			//	//playerComp->MoveSprite({ 100,0 });
-			//}
-			//m_pGameObject->SetLocalPosition(100, 0);
-
-			//WalkState* walk{};
-			//playerComp->GetStateMachine()->GoToState(walk);
-
-
+			//std::cout << "you pressing!\n";
 			//get player
 			//set state if not the same
 			//for move -> update the amount times deltatime?
 			d;
-			m_pGameObject->SetLocalPosition(100, 100);
+			//m_pGameObject->SetLocalPosition(100, 100);
 			auto playerComp = m_pGameObject->GetComponent<Player>();
 			auto currentTest =playerComp->GetStateMachine()->GetActiveState();
-		
-			//auto testIdle = new IdleState();
-			//auto newState = ;
-			//if (std::is_same_v<decltype(newState), decltype(currentTest)>)
-			//if (typeid(currentTest) == typeid(testIdle))
-			if (WalkState* b = dynamic_cast<WalkState*>(currentTest))
+
+			WalkState* walk = dynamic_cast<WalkState*>(currentTest);
+
+
+			if (walk)
 			{
+			/*	std::cout << "x pos before: " << m_pGameObject->GetWorldPosition().x << std::endl;
+				auto newPos = m_pGameObject->GetWorldPosition();
+				newPos.x += m_Speed * d;
+				m_pGameObject->SetLocalPosition(newPos);
+				std::cout << "x pos AFTER: " << m_pGameObject->GetWorldPosition().x << std::endl;*/
+			walk->MoveObject(*playerComp);
 				return;
 			}
 			playerComp->GetStateMachine()->GoToState(new WalkState());
+			walk->MoveObject(*playerComp);
+			//std::cout <<"x pos before: " <<  m_pGameObject->GetWorldPosition().x << std::endl;
+			//auto newPos = m_pGameObject->GetWorldPosition();
+			//newPos.x += m_Speed * d;
+			//m_pGameObject->SetLocalPosition(newPos);
+			//std::cout <<"x pos AFTER: " <<  m_pGameObject->GetWorldPosition().x << std::endl;
 
-
-			std::cout << "you pressing!\n";
 		};
 
 		WalkCommand(const WalkCommand& other) = delete;

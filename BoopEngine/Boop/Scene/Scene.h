@@ -20,6 +20,8 @@ namespace boop
 		std::string GetName() const;
 		std::vector<std::unique_ptr<GameObject>>& GetObjects();
 
+		GameObject* FindGameObjectByPointer(GameObject* pointer) const;
+
 		Scene();
 		explicit Scene(const std::string& name);
 		~Scene();

@@ -1,6 +1,7 @@
 #include "GameLoader.h"
 #include <memory>
 
+#include "GameCommands.h"
 #include "../BoopEngine/Boop/Scene/LevelLoader.h"
 #include "../BoopEngine/Boop/Scene/SceneManager.h"
 #include "../BoopEngine/Boop/Scene/Scene.h"
@@ -16,7 +17,12 @@ namespace booble
 		//CREATE GAME OBJECTS
 		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(LevelComponents::CreateAir()));
 		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(LevelComponents::CreateWall(0)));
-		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(LevelComponents::CreatePlayer()));
+
+		//PLAYER
+		auto playerObject = LevelComponents::CreatePlayer();
+		auto* playerPtr = playerObject.get(); // Save the raw pointer to find later
+
+		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(playerObject));
 
 
 		//LOAD
@@ -25,6 +31,31 @@ namespace booble
 
 		//AND INPUTS
 		//boop::SceneManager::GetInstance().GetActiveScene()->GetObjects().
+
+		 // Retrieve the scene and find the player object by its pointer
+		auto* activeScene = boop::SceneManager::GetInstance().GetActiveScene();
+
+		if (activeScene)
+		{
+			std::cout << "Active scene retrieved successfully." << std::endl;
+			auto* foundPlayer = activeScene->FindGameObjectByPointer(playerPtr);
+
+			if (foundPlayer)
+			{
+				std::cout << "Player found in scene!" << std::endl;
+				// Perform operations on the found player...
+			}
+			else
+			{
+				std::cout << "Player not found in scene!" << std::endl;
+			}
+		}
+		else
+		{
+			std::cout << "Failed to retrieve active scene." << std::endl;
+		}
+		//boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(playerObject.get(), 5.f));
+
 	}
 
 }

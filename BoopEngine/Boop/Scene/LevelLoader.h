@@ -6,10 +6,14 @@
 #include <stdexcept>
 
 
+#include "SDL_scancode.h"
 #include "../HelperFiles/Singleton.h"
+#include "../Input/InputManager.h"
 
 namespace boop
 {
+	enum struct keyState;
+	class Command;
 	class GameObject;
 	class Collision;
 	class Component;
@@ -51,12 +55,11 @@ namespace level
 
 		std::map<int, std::unique_ptr<boop::GameObject>> m_GameComponents{};
 
-	public:
+		//using KeyboardKey = std::pair<SDL_Scancode, boop::keyState>;
+		//using KeyboardCommandsMap = std::map<KeyboardKey, std::unique_ptr<boop::Command>>;
+		//std::map<int, KeyboardCommandsMap*> m_GameCommands{};
 
-		boop::GameObject* GetAssignedObjectPtr(int index)
-		{
-			return	m_GameComponents.at(index).get();
-		}
+	public:
 
 		//void AssignSpriteComponent(int index, boop::GameObject* owner, const std::string& textureFileName,
 		//	int cols, int rows, float frameSec, int startPicIndex,
@@ -82,6 +85,7 @@ namespace level
 
 
 		void AssignGameObject(int index, std::unique_ptr<boop::GameObject> object);
+		//void AssignCommands(int index, KeyboardCommandsMap* item);
 		void CreateLevel(std::string fileName, std::string sceneName);
 
 

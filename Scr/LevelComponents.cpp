@@ -46,7 +46,7 @@ namespace booble
 		playerObject->AddComponent(std::move(std::make_unique<Player>(nullptr)));
 
 
-		boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(playerObject.get(), 5.f));
+	//	boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(playerObject.get(), 5.f));
 
 
 

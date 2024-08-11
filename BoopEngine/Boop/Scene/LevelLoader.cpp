@@ -127,6 +127,12 @@ namespace level
 		m_GameComponents.emplace(index, std::move(object));
 	}
 
+	//void LevelLoader::AssignCommands(int index, KeyboardCommandsMap* item)
+	//{
+	//	m_GameCommands.emplace(index, item);
+	//}
+
+
 	void LevelLoader::CreateLevel(std::string fileName, std::string sceneName)
 	{
 		//plan:
@@ -206,5 +212,6 @@ namespace level
 			++rowsRead;
 			colsRead = 0;
 		}
+
 	}
 }

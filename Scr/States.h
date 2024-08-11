@@ -30,6 +30,9 @@ namespace booble
 		void OnEnter() override;
 		void OnExit() override;
 
+
+		void MoveObject(boop::Component& gameObj);
+
 		private:
 
 	//	float m_Speed{};
