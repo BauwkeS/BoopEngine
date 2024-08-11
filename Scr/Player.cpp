@@ -1,16 +1,40 @@
 #include "Player.h"
 
-#include "../BoopEngine/Boop/GameObject.h"
-#include "../BoopEngine/Boop/Components/SpriteComponent.h"
+
 
 namespace booble
 {
-	std::unique_ptr<boop::GameObject> booble::Player::CreatePlayer()
+	Player::Player(boop::GameObject* owner)
+		: Component(owner)
 	{
-		auto playerObject = std::make_unique<boop::GameObject>();
-		playerObject->AddComponent(std::move(std::make_unique< boop::SpriteComponent>(nullptr, static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f)));
-		return std::move(playerObject);
+		m_StateMachine = std::make_unique<PlayerStateMachine>(owner, new IdleState());
 	}
 
+	void Player::FixedUpdate(float deltaTime)
+	{
+		deltaTime;
+	}
+
+	void Player::Update(float deltaTime)
+	{
+		//m_StateMachine->Update(deltaTime);
+		deltaTime;
+	}
+
+	void Player::LateUpdate(float deltaTime)
+	{
+		deltaTime;
+	}
+
+	void Player::Render() const
+	{
+	}
+
+	std::unique_ptr<boop::Component> Player::Clone() const
+	{
+		std::unique_ptr<Player> spriteComponent
+			= std::make_unique<Player>(this->GetOwner());
+		return std::move(spriteComponent);
+	}
 }
 	

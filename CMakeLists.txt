@@ -7,7 +7,16 @@ add_subdirectory(BoopEngine)
 add_executable(${PROJECT_NAME}
 "Scr/BubbleBooble.cpp"
 "Scr/BubbleBooble.h"
- "Scr/GameLoader.h" "Scr/GameLoader.cpp" "Scr/Player.cpp" "Scr/Player.h" "Scr/LevelComponents.h" "Scr/LevelComponents.cpp")
+ "Scr/GameLoader.h"
+ "Scr/GameLoader.cpp"
+ "Scr/Player.cpp"
+ "Scr/Player.h"
+ "Scr/LevelComponents.h"
+ "Scr/LevelComponents.cpp"
+ "Scr/States.h"
+ "Scr/States.cpp"
+ "Scr/GameCommands.h"
+ "Scr/GameCommands.cpp")
 
 # Ensure correct target name
 if(EMSCRIPTEN)

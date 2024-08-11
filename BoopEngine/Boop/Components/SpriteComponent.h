@@ -50,7 +50,7 @@ namespace boop
 		std::unique_ptr<AnimatedTexture> m_pTexture;
 		//AnimatedTexture* m_pTexture;
 		Collision* m_pCollision;
-		
+		glm::ivec2 m_MovingPos{};
 	};
 }
 

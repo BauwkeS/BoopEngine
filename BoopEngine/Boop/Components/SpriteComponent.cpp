@@ -61,7 +61,6 @@ namespace boop
 	void SpriteComponent::Update(float deltaTime)
 	{
 		auto pos{ GetOwner()->GetWorldPosition() };
-
 		m_pTexture->Update(deltaTime, pos);
 	}
 	void SpriteComponent::Render() const
@@ -71,8 +70,7 @@ namespace boop
 
 	void SpriteComponent::MoveSprite(glm::ivec2 pos)
 	{
-		auto rec = m_pTexture->GetDstRect();
-		m_pTexture->SetDstRect(SDL_Rect{ rec.x + pos.x, rec.y + pos.y, rec.w, rec.h });
+		m_MovingPos = pos;
 	}
 
 	/*oid SpriteComponent::SetTexture(AnimatedTexture* const texture)

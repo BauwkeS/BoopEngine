@@ -14,6 +14,8 @@ namespace booble
 		//0 for pruple ; 1 for rock
 		static std::unique_ptr<boop::GameObject> CreateWall(int whichBlock);
 		static std::unique_ptr<boop::GameObject> CreatePlatform(int whichBlock);
+
+		static std::unique_ptr<boop::GameObject> CreatePlayer();
 	};
 
 }

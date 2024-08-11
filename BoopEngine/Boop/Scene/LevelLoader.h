@@ -53,6 +53,11 @@ namespace level
 
 	public:
 
+		boop::GameObject* GetAssignedObjectPtr(int index)
+		{
+			return	m_GameComponents.at(index).get();
+		}
+
 		//void AssignSpriteComponent(int index, boop::GameObject* owner, const std::string& textureFileName,
 		//	int cols, int rows, float frameSec, int startPicIndex,
 		//	int amountPics, float scale = 1, boop::Collision* collision = nullptr);
