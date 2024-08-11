@@ -19,7 +19,14 @@ namespace boop
 		glm::vec3 m_LocalPosition{};
 		glm::vec3 m_WorldPosition{};
 		bool m_PositionIsDirty;
+
+		std::string m_Tag; //tag
 	public:
+		//TAG INFO
+		void SetTag(const std::string& tag);
+		const std::string& GetTag() const;
+
+
 		virtual void FixedUpdate(float deltaTime);
 		virtual void Update(float deltaTime);
 		virtual void LateUpdate(float deltaTime);
@@ -163,6 +170,8 @@ namespace boop
 			clonedObject->m_LocalPosition = this->m_LocalPosition;
 			clonedObject->m_WorldPosition = this->m_WorldPosition;
 			clonedObject->m_PositionIsDirty = this->m_PositionIsDirty;
+
+			if (!this->m_Tag.empty()) clonedObject->m_Tag = this->m_Tag;
 
 			// Clone components
 			for (const auto& component : m_pComponents) {

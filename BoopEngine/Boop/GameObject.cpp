@@ -4,6 +4,16 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
+void boop::GameObject::SetTag(const std::string& tag)
+{
+	m_Tag = tag;
+}
+
+const std::string& boop::GameObject::GetTag() const
+{
+	return m_Tag;
+}
+
 void boop::GameObject::FixedUpdate(float deltaTime)
 {
 	for (const std::unique_ptr<boop::Component>& component : m_pComponents)

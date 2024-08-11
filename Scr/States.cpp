@@ -24,19 +24,19 @@ namespace booble
 		std::cout << "EXIT STATE\n";
 	}
 
-	void WalkState::MoveObject(boop::Component& gameObj)
+	void WalkState::MoveObject(boop::Component& gameObj, float m_Speed)
 	{
 		boop::GameObject* gameObject = gameObj.GetOwner();
 
 		if (gameObject) {
 			// Calculate new position based on movement logic
 			glm::vec3 newPosition = gameObject->GetWorldPosition(); // your logic to calculate the new position
-			newPosition.x += 100;
+			newPosition.x += m_Speed * 50.f;
 				// Update the position of the gameObject
 				gameObject->SetLocalPosition(newPosition);
 
 			// Optional: Log the new position for debugging
-			std::cout << "New Position: " << glm::to_string(newPosition) << std::endl;
+			//std::cout << "New Position: " << glm::to_string(newPosition) << std::endl;
 		}
 	}
 

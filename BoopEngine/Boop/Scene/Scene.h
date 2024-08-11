@@ -1,4 +1,6 @@
 #pragma once
+#include <unordered_map>
+
 #include "SceneManager.h"
 #include "../GameObject.h"
 
@@ -20,7 +22,8 @@ namespace boop
 		std::string GetName() const;
 		std::vector<std::unique_ptr<GameObject>>& GetObjects();
 
-		GameObject* FindGameObjectByPointer(GameObject* pointer) const;
+		GameObject* FindGameObjectByTag(const std::string& tag) const;
+
 
 		Scene();
 		explicit Scene(const std::string& name);
@@ -35,6 +38,7 @@ namespace boop
 
 		std::string m_name;
 		std::vector<std::unique_ptr<GameObject>> m_objects{};
+		std::unordered_map<std::string, GameObject*> m_taggedObjects;
 
 		static unsigned int m_idCounter;
 	};

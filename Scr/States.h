@@ -31,7 +31,7 @@ namespace booble
 		void OnExit() override;
 
 
-		void MoveObject(boop::Component& gameObj);
+		void MoveObject(boop::Component& gameObj, float m_Speed);
 
 		private:
 

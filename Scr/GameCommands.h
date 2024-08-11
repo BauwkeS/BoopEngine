@@ -44,11 +44,11 @@ namespace booble
 				newPos.x += m_Speed * d;
 				m_pGameObject->SetLocalPosition(newPos);
 				std::cout << "x pos AFTER: " << m_pGameObject->GetWorldPosition().x << std::endl;*/
-			walk->MoveObject(*playerComp);
+			walk->MoveObject(*playerComp, m_Speed*d);
 				return;
 			}
 			playerComp->GetStateMachine()->GoToState(new WalkState());
-			walk->MoveObject(*playerComp);
+			walk->MoveObject(*playerComp, m_Speed * d);
 			//std::cout <<"x pos before: " <<  m_pGameObject->GetWorldPosition().x << std::endl;
 			//auto newPos = m_pGameObject->GetWorldPosition();
 			//newPos.x += m_Speed * d;

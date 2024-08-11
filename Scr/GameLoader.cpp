@@ -20,8 +20,8 @@ namespace booble
 
 		//PLAYER
 		auto playerObject = LevelComponents::CreatePlayer();
-		auto* playerPtr = playerObject.get(); // Save the raw pointer to find later
-
+//		auto* playerPtr = playerObject.get(); // Save the raw pointer to find later
+		playerObject->SetTag("Player");
 		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(playerObject));
 
 
@@ -38,12 +38,15 @@ namespace booble
 		if (activeScene)
 		{
 			std::cout << "Active scene retrieved successfully." << std::endl;
-			auto* foundPlayer = activeScene->FindGameObjectByPointer(playerPtr);
+			auto* foundPlayer = activeScene->FindGameObjectByTag("Player");
+
 
 			if (foundPlayer)
 			{
 				std::cout << "Player found in scene!" << std::endl;
 				// Perform operations on the found player...
+			boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(foundPlayer, -5.f));
+			boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_D, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(foundPlayer, 5.f));
 			}
 			else
 			{
@@ -54,7 +57,6 @@ namespace booble
 		{
 			std::cout << "Failed to retrieve active scene." << std::endl;
 		}
-		//boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(playerObject.get(), 5.f));
 
 	}
 
