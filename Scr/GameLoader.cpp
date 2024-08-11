@@ -24,8 +24,11 @@ namespace booble
 		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(playerObject));
 
 
+		std::vector<std::string> tags;
+		tags.emplace_back("Player");
+
 		//LOAD
-		level::LevelLoader::GetInstance().CreateLevel("level1.txt", "Demo");
+		level::LevelLoader::GetInstance().CreateLevel("level1.txt", "Demo",tags);
 		boop::SceneManager::GetInstance().ChangeScene("Demo");
 
 		//INPUTS FOR ADDED PLAYER IN SCENE

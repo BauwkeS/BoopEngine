@@ -3,6 +3,7 @@
 #include <memory>
 #include "Component.h"
 #include "../HelperFiles/Texture2D.h"
+#include "SDL_rect.h"
 
 namespace boop
 {
@@ -27,6 +28,8 @@ namespace boop
 		void Update(float deltaTime) override { deltaTime = 1; };
 		void LateUpdate(float deltaTime) override { deltaTime = 1; };
 		void Render() const override;
+
+		SDL_Rect GetTextureRect();
 
 		virtual std::unique_ptr<Component> Clone() const override
 		{

@@ -73,6 +73,11 @@ namespace boop
 		m_MovingPos = pos;
 	}
 
+	SDL_Rect SpriteComponent::GetTextureRect()
+	{
+		return m_pTexture->GetDstRect();
+	}
+
 	/*oid SpriteComponent::SetTexture(AnimatedTexture* const texture)
 	{
 		m_pTexture = std::make_unique<AnimatedTexture>(texture);

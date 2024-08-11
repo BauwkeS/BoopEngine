@@ -33,6 +33,7 @@ namespace boop
 		//void SetTexture(AnimatedTexture* const texture);
 		AnimatedTexture* GetTexture(){return m_pTexture.get();}
 		//Collision* GetCollision() const { return m_pCollision; }
+		SDL_Rect GetTextureRect();
 	
 		virtual std::unique_ptr<Component> Clone() const override
 		{

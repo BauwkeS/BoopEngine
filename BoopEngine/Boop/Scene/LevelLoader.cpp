@@ -133,7 +133,7 @@ namespace level
 	//}
 
 
-	void LevelLoader::CreateLevel(std::string fileName, std::string sceneName)
+	void LevelLoader::CreateLevel(std::string fileName, std::string sceneName, std::vector<std::string> tags)
 	{
 		//plan:
 		//load the level
@@ -153,6 +153,9 @@ namespace level
 		int colsRead = 0;
 		int rowsRead = 0;
 		constexpr int gridSize = 32;
+
+		//components with a tag to load last:
+		std::vector <std::unique_ptr<boop::GameObject>> renderLastComps{};
 
 		std::string rowLine;
 		while (std::getline(gameFile, rowLine))
@@ -183,15 +186,18 @@ namespace level
 				goAdd->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
 
 				scene.Add(std::move(goAdd));*/
-				if (index == 3)
-				{
-					int i = 0;
-					i;
-				}
 				auto clonedObject = m_GameComponents.at(index)->Clone();
 				clonedObject->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
 
-				scene.Add(std::move(clonedObject));
+				for (auto tag : tags)
+				{
+					if (clonedObject->GetTag() == tag) {
+						renderLastComps.emplace_back(std::move(clonedObject));
+						break;
+					}
+					
+				}
+				if(clonedObject) scene.Add(std::move(clonedObject));
 
 				//go->Clone(std::make_unique<boop::GameObject>(m_GameComponents.at(index)))
 
@@ -213,5 +219,10 @@ namespace level
 			colsRead = 0;
 		}
 
+		//now add the ones with tags
+		for (auto& renderLastComp : renderLastComps)
+		{
+			scene.Add(std::move(renderLastComp));
+		}
 	}
 }

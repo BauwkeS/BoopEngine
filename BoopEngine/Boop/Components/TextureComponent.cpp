@@ -50,3 +50,15 @@ void boop::TextureComponent::Render() const
 		boop::Renderer::GetInstance().RenderTexture(*m_TexturePtr, pos.x, pos.y, m_Scale);
 	}
 }
+
+SDL_Rect boop::TextureComponent::GetTextureRect()
+{
+	SDL_Rect rectReturn{};
+	if (m_TexturePtr)
+	{
+		auto pos{ GetOwner()->GetWorldPosition() };
+		auto size = m_TexturePtr->GetSize();
+		rectReturn = SDL_Rect{ static_cast<int>(pos.x),static_cast<int>(pos.y),size.x,size.y };
+	}
+	return rectReturn;
+}

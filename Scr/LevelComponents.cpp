@@ -4,6 +4,7 @@
 #include "../BoopEngine/Boop/Components/TextureComponent.h"
 #include "../BoopEngine/Boop/GameObject.h"
 #include "../BoopEngine/Boop/Components/SpriteComponent.h"
+#include "../BoopEngine/Boop/Components/CollisionComponent.h"
 #include "../BoopEngine/Boop/Input/InputManager.h"
 #include "Player.h"
 
@@ -36,6 +37,11 @@ namespace booble
 		else {
 			gameObjPtr->AddComponent(std::move(std::make_unique< boop::TextureComponent>(nullptr, "stoneBlock.png", 4.f)));
 		}
+
+		gameObjPtr->AddComponent(std::move(std::make_unique<boop::CollisionComponent>(nullptr,
+			gameObjPtr->GetComponent<boop::TextureComponent>()->GetTextureRect())));
+
+
 		return std::move(gameObjPtr);
 	}
 
@@ -44,6 +50,8 @@ namespace booble
 		auto playerObject = std::make_unique<boop::GameObject>();
 		playerObject->AddComponent(std::move(std::make_unique< boop::SpriteComponent>(nullptr, static_cast<std::string>("Avatar.png"), 7, 6, 0.2f, 0, 7, 4.f)));
 		playerObject->AddComponent(std::move(std::make_unique<Player>(nullptr)));
+		playerObject->AddComponent(std::move(std::make_unique<boop::CollisionComponent>(nullptr,
+			playerObject->GetComponent<boop::SpriteComponent>()->GetTextureRect())));
 
 		return std::move(playerObject);
 	}

@@ -86,7 +86,7 @@ namespace level
 
 		void AssignGameObject(int index, std::unique_ptr<boop::GameObject> object);
 		//void AssignCommands(int index, KeyboardCommandsMap* item);
-		void CreateLevel(std::string fileName, std::string sceneName);
+		void CreateLevel(std::string fileName, std::string sceneName, std::vector<std::string> tags);
 
 
 	};
