@@ -25,35 +25,19 @@ namespace booble
 		~WalkCommand() = default;
 
 		void Execute(float d) override {
-			//std::cout << "you pressing!\n";
-			//get player
-			//set state if not the same
-			//for move -> update the amount times deltatime?
-			d;
-			//m_pGameObject->SetLocalPosition(100, 100);
+			//player
 			auto playerComp = m_pGameObject->GetComponent<Player>();
-			auto currentTest =playerComp->GetStateMachine()->GetActiveState();
 
-			WalkState* walk = dynamic_cast<WalkState*>(currentTest);
+			//check if the current state is walking already
+			auto currentState = playerComp->GetStateMachine()->GetActiveState();
+			WalkState* walk = dynamic_cast<WalkState*>(currentState);
 
+			//check if the direction is correct
+			bool checkGoingLeft = m_Speed < 0;
 
-			if (walk)
-			{
-			/*	std::cout << "x pos before: " << m_pGameObject->GetWorldPosition().x << std::endl;
-				auto newPos = m_pGameObject->GetWorldPosition();
-				newPos.x += m_Speed * d;
-				m_pGameObject->SetLocalPosition(newPos);
-				std::cout << "x pos AFTER: " << m_pGameObject->GetWorldPosition().x << std::endl;*/
-			walk->MoveObject(*playerComp, m_Speed*d);
-				return;
-			}
-			playerComp->GetStateMachine()->GoToState(new WalkState());
-			walk->MoveObject(*playerComp, m_Speed * d);
-			//std::cout <<"x pos before: " <<  m_pGameObject->GetWorldPosition().x << std::endl;
-			//auto newPos = m_pGameObject->GetWorldPosition();
-			//newPos.x += m_Speed * d;
-			//m_pGameObject->SetLocalPosition(newPos);
-			//std::cout <<"x pos AFTER: " <<  m_pGameObject->GetWorldPosition().x << std::endl;
+			if (walk && checkGoingLeft == walk->IsGoingToTheLeft()) walk->Update(d); //if all is good, update it
+			else playerComp->GetStateMachine()->GoToState(new WalkState(*playerComp, m_Speed));
+			//if not then set it correctly
 
 		};
 

@@ -44,7 +44,6 @@ namespace boop
 			return std::move(spriteComponent);
 		}
 
-		//void SetFramesSec(float sec);
 	private:
 		//std::unique_ptr<boop::Texture2D> m_TexturePtr;
 		std::unique_ptr<AnimatedTexture> m_pTexture;

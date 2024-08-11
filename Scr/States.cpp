@@ -1,47 +1,52 @@
 #include "States.h"
 #include <iostream>
 
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/string_cast.hpp>
+#include "../BoopEngine/Boop/Components/SpriteComponent.h"
+
+namespace boop
+{
+	class SpriteComponent;
+}
 
 namespace booble
 {
+	WalkState::WalkState(boop::Component& gameObj, float speed)
+		: BaseState(),
+		m_GameObj{gameObj},
+		m_Speed{speed}
+	{
+		if (m_Speed < 0) m_ToTheLeft = true;
+		else m_ToTheLeft = false;
+	}
 
 	void WalkState::Update(float deltaTime)
 	{
-		//m_MovementPower = m_Speed * deltaTime;
-		deltaTime;
+		//get the world positions and then add 
+		boop::GameObject* gameObject = m_GameObj.GetOwner();
+
+		if (gameObject) {
+			glm::vec3 newPosition = gameObject->GetWorldPosition();
+			newPosition.x += m_Speed* deltaTime;
+			
+			gameObject->SetLocalPosition(newPosition);
+		}
 	}
 
 
 	void WalkState::OnEnter()
 	{
-		std::cout << "ENTER STATE WALK\n";
+		//set correct texure
+		//std::cout << "ENTER STATE WALK\n";
+		m_GameObj.GetOwner()->GetComponent<boop::SpriteComponent>()->GetTexture()->ChangeTextureVars(7, 6, 7, !(m_Speed < 0));
 	}
 
 	void WalkState::OnExit()
 	{
-		std::cout << "EXIT STATE\n";
+		//std::cout << "EXIT STATE\n";
 	}
 
-	void WalkState::MoveObject(boop::Component& gameObj, float m_Speed)
-	{
-		boop::GameObject* gameObject = gameObj.GetOwner();
-
-		if (gameObject) {
-			// Calculate new position based on movement logic
-			glm::vec3 newPosition = gameObject->GetWorldPosition(); // your logic to calculate the new position
-			newPosition.x += m_Speed * 50.f;
-				// Update the position of the gameObject
-				gameObject->SetLocalPosition(newPosition);
-
-			// Optional: Log the new position for debugging
-			//std::cout << "New Position: " << glm::to_string(newPosition) << std::endl;
-		}
-	}
-
-	void PlayerStateMachine::Update(float deltaTime)
+	/*void PlayerStateMachine::Update(float deltaTime)
 	{
 		m_pState->Update(deltaTime);
-	}
+	}*/
 }

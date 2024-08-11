@@ -21,7 +21,7 @@ namespace booble
 	class WalkState : public boop::BaseState
 	{
 	public:
-		WalkState() = default;
+		WalkState(boop::Component& gameObj, float Speed);
 		~WalkState() = default;
 
 		void Update(float deltaTime) override;
@@ -30,12 +30,12 @@ namespace booble
 		void OnEnter() override;
 		void OnExit() override;
 
+		bool IsGoingToTheLeft() { return m_ToTheLeft; }
 
-		void MoveObject(boop::Component& gameObj, float m_Speed);
-
-		private:
-
-	//	float m_Speed{};
+	private:
+		boop::Component& m_GameObj;
+		float m_Speed{};
+		bool m_ToTheLeft{};
 	};
 
 	class AttackState : public boop::BaseState
@@ -73,7 +73,7 @@ namespace booble
 		PlayerStateMachine(boop::GameObject* owner, boop::BaseState* state)
 			: StateMachine(owner, state) {}
 
-		void Update(float deltaTime) override;
+		//void Update(float deltaTime) override;
 		boop::BaseState* GetActiveState() { return m_pState; }
 	private:
 

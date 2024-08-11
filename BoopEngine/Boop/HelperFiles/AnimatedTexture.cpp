@@ -3,7 +3,7 @@
 #include "../Renderer.h"
 #include "../ResourceManager.h"
 
-boop::AnimatedTexture::AnimatedTexture(std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale)
+boop::AnimatedTexture::AnimatedTexture(std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale, bool flip)
 	: m_Cols{cols},
 	m_Rows{rows},
 	m_CurrentPic{startPicIndex},
@@ -11,8 +11,9 @@ boop::AnimatedTexture::AnimatedTexture(std::string texture, int cols, int rows, 
 	m_AmountPic{AmountPics},
 	m_AccuSec{0.f},
 	m_Scale{scale},
-	m_FrameSec{frameSec},
-	m_TextureName{texture}
+	m_TextureName{texture},
+	m_FliptTexture{flip},
+	m_FrameSec{frameSec}
 {
 	if (m_AmountPic == 0) m_AmountPic = m_Cols * m_Rows;
 
@@ -81,7 +82,7 @@ void boop::AnimatedTexture::Update(float deltaTime, glm::vec2 pos)
 		m_DstRect.y =static_cast<int>(pos.y);
 }
 
-void boop::AnimatedTexture::ChangeTextureVars(const int cols, const int rows, const int AmountPics, const int startPicIndex)
+void boop::AnimatedTexture::ChangeTextureVars(const int cols, const int rows, const int AmountPics, bool flip, const int startPicIndex)
 {
 	m_Cols = cols;
 	m_Rows = rows;
@@ -95,6 +96,8 @@ void boop::AnimatedTexture::ChangeTextureVars(const int cols, const int rows, co
 
 	m_DstRect.w = static_cast<int>(m_Scale * m_ScrRect.w);
 	m_DstRect.h = static_cast<int>(m_Scale * m_ScrRect.h);
+
+	m_FliptTexture = flip;
 }
 
 void boop::AnimatedTexture::Render()
@@ -102,5 +105,5 @@ void boop::AnimatedTexture::Render()
 	//auto pos{ GetOwner()->GetWorldPosition() };
 	//boop::Renderer::GetInstance().RenderTexture(*m_TexturePtr, pos.x, pos.y);
 
-	boop::Renderer::GetInstance().RenderTexture(*m_pTexture, m_DstRect, m_ScrRect);
+	boop::Renderer::GetInstance().RenderTexture(*m_pTexture, m_DstRect, m_ScrRect,m_FliptTexture);
 }

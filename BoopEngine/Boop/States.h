@@ -56,7 +56,7 @@ namespace boop
 		StateMachine& operator=(const StateMachine& other) = delete;
 		StateMachine& operator=(StateMachine&& other) = delete;
 
-		virtual void Update(float deltaTime) = 0;
+		//virtual void Update(float deltaTime) = 0;
 
 	protected:
 		BaseState* m_pState{};

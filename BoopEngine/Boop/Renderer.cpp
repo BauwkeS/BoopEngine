@@ -59,7 +59,7 @@ void boop::Renderer::RenderTexture(const Texture2D& texture, const float x, cons
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void boop::Renderer::RenderTexture(const Texture2D& texture, SDL_Rect& dstRect, const SDL_Rect& scrRect) const
+void boop::Renderer::RenderTexture(const Texture2D& texture, SDL_Rect& dstRect, const SDL_Rect& scrRect, bool flipTexture) const
 {
 	/*dstRect;
 	SDL_Rect dst{};
@@ -67,10 +67,11 @@ void boop::Renderer::RenderTexture(const Texture2D& texture, SDL_Rect& dstRect, 
 	dst.y = static_cast<int>(y);*/
 	//SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dstRect.w, &dstRect.h);
 
-	//SDL_RendererFlip flip = SDL_FLIP_NONE;
-	//const SDL_Point rotationCenter{ dstRect.w / 2, dstRect.h / 2 };
-	//SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &scrRect, &dstRect, 0, &rotationCenter, flip);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &scrRect, &dstRect);
+	//SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &scrRect, &dstRect);
+
+	const SDL_Point center{ dstRect.w / 2, dstRect.h / 2 };
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &scrRect, &dstRect, 0, &center, static_cast<SDL_RendererFlip>(flipTexture));
+
 }
 
 void boop::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
