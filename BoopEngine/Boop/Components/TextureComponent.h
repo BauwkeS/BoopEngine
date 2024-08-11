@@ -11,7 +11,8 @@ namespace boop
 	class TextureComponent : public Component
 	{
 	public:
-		TextureComponent(boop::GameObject* const ownerPtr, std::string texture, float scale=1, bool automaticCollision = false, Collision* collision = nullptr);
+		//TextureComponent(boop::GameObject* const ownerPtr, std::string texture, float scale=1, bool automaticCollision = false, Collision* collision = nullptr);
+		TextureComponent(boop::GameObject* const ownerPtr, std::string texture, float scale=1);
 		TextureComponent();
 		~TextureComponent() = default;
 
@@ -20,7 +21,7 @@ namespace boop
 		TextureComponent& operator=(const TextureComponent& other) = delete;
 		TextureComponent& operator=(TextureComponent&& other) = delete;
 
-		Collision* GetCollision() const { return m_pCollision; }
+		//Collision* GetCollision() const { return m_pCollision; }
 
 		void FixedUpdate(float deltaTime) override { deltaTime = 1; };
 		void Update(float deltaTime) override { deltaTime = 1; };
@@ -31,15 +32,15 @@ namespace boop
 		{
 			std::unique_ptr<TextureComponent> spriteComponent
 				= std::make_unique<TextureComponent>(this->GetOwner(),
-					m_TextureString, m_Scale,
-					m_pCollision);
+					m_TextureString, m_Scale
+					);
 			return std::move(spriteComponent);
 		}
 	private:
 		//std::unique_ptr<boop::Texture2D> m_TexturePtr;
 		boop::Texture2D* m_TexturePtr{};
 		std::string m_TextureString{};
-		Collision* m_pCollision;
+		//Collision* m_pCollision;
 		float m_Scale{};
 	};
 }

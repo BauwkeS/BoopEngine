@@ -8,23 +8,23 @@ namespace boop
 		: Component(nullptr)
 	{
 		m_pTexture = nullptr;
-		m_pCollision = nullptr;
+		//m_pCollision = nullptr;
 	}
 
-	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::unique_ptr<AnimatedTexture> texture, Collision* collision)
+	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::unique_ptr<AnimatedTexture> texture)
 		: Component(ownerPtr)
 	{
 		m_pTexture = texture->Clone();
-		if (collision)m_pCollision = collision;
-		else m_pCollision = new Collision(m_pTexture->GetDstRect());
+	/*	if (collision)m_pCollision = collision;
+		else m_pCollision = new Collision(m_pTexture->GetDstRect());*/
 		
 	}
-	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale, Collision* collision)
+	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale)
 		: Component(ownerPtr)
 	{
 		m_pTexture = std::make_unique<AnimatedTexture>(texture, cols, rows, frameSec, startPicIndex, AmountPics, scale);
-		if (collision)m_pCollision = collision;
-		else m_pCollision = new Collision(m_pTexture->GetDstRect());
+	/*	if (collision)m_pCollision = collision;
+		else m_pCollision = new Collision(m_pTexture->GetDstRect());*/
 		
 	}
 

@@ -6,20 +6,20 @@
 
 
 boop::TextureComponent::TextureComponent(boop::GameObject* const ownerPtr, std::string texture,
-	float scale, bool automaticCollision, Collision* collision) :
+	float scale) :
 	Component(ownerPtr),
 	m_TextureString{texture},
 	m_Scale{scale}
 {
 	m_TexturePtr = boop::ResourceManager::GetInstance().LoadTexture(texture);
-	m_pCollision = collision;
-	if (automaticCollision) {
-		auto pos = GetOwner()->GetWorldPosition();
-		auto size = m_TexturePtr->GetSize();
-		SDL_Rect collisionRect = { static_cast<int>(pos.x),static_cast<int>(pos.y), size.x, size.y };
+	//m_pCollision = collision;
+	//if (automaticCollision) {
+	//	auto pos = GetOwner()->GetWorldPosition();
+	//	auto size = m_TexturePtr->GetSize();
+	//	SDL_Rect collisionRect = { static_cast<int>(pos.x),static_cast<int>(pos.y), size.x, size.y };
 
-		m_pCollision = new Collision(collisionRect);
-	}
+	//	//m_pCollision = new Collision(collisionRect);
+	//}
 }
 
 boop::TextureComponent::TextureComponent() :

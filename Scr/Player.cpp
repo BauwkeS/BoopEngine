@@ -19,6 +19,7 @@ namespace booble
 	{
 		//m_StateMachine->Update(deltaTime);
 		deltaTime;
+		
 	}
 
 	void Player::LateUpdate(float deltaTime)
