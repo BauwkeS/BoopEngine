@@ -1,33 +1,23 @@
-//#include "Collision.h"
+//#include "Physics.h"
+//#include "../BoopEngine/Boop/Components/Component.h"
 //
-//#include "../Scene/Scene.h"
-//#include "../Scene/SceneManager.h"
-//#include "../Components/SpriteComponent.h"
-//#include "../Components/Component.h"
-//
-//namespace boop
+//namespace booble
 //{
-//	Collision::Collision(SDL_Rect rect)
-//		: m_CollisionRect{rect}
+//	Physics::Physics(SDL_Rect rect)
+//		: m_CollisionRect{ rect }
 //	{
 //	}
-//
-//	Collision::Collision(const Collision& other)
-//		: m_CollisionRect(other.m_CollisionRect)
-//	{
-//	}
-//
-//	void Collision::SetCollisionRect(SDL_Rect rect)
+//	
+//	void Physics::SetCollisionRect(SDL_Rect rect)
 //	{
 //		m_CollisionRect = rect;
 //	}
 //
-//	SDL_Rect Collision::GetCollisionRect() const
+//	SDL_Rect Physics::GetCollisionRect() const
 //	{
 //		return m_CollisionRect;
 //	}
-//
-//	Component* Collision::CheckCollision() const
+//	boop::Component* Physics::CheckCollision() const
 //	{
 //		//TO BE IMPROVED:
 //		//- maybe send back the component so I know what collided
@@ -42,10 +32,10 @@
 //		SDL_bool intersect{};
 //
 //		//1
-//		for(auto& object : boop::SceneManager::GetInstance().GetActiveScene()->GetObjects())
+//		for (auto& object : boop::SceneManager::GetInstance().GetActiveScene()->GetObjects())
 //		{
 //			//2
-//			auto collComponent = object->GetComponent<SpriteComponent>();
+//			auto collComponent = object->GetComponent<>();
 //
 //			//3
 //			auto coll = collComponent->get();
@@ -61,7 +51,7 @@
 //			if (intersect) return collComponent;
 //
 //		}
-//			
+//
 //		//not intersecting
 //		return nullptr;
 //	}

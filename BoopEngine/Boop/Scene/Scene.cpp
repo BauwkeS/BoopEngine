@@ -25,7 +25,8 @@ void Scene::Add(std::unique_ptr<GameObject> object)
 
 	// Update the tag map
 	if (!gameObjectPtr->GetTag().empty()) {
-		m_taggedObjects[gameObjectPtr->GetTag()] = gameObjectPtr;
+	//	m_taggedObjects[gameObjectPtr->GetTag()] = gameObjectPtr;
+		m_taggedObjects.insert(std::make_pair(gameObjectPtr->GetTag(), gameObjectPtr));
 	}
 }
 
@@ -100,6 +101,28 @@ GameObject* Scene::FindGameObjectByTag(const std::string& tag) const
 		return it->second;
 	}
 	return nullptr;
+}
+
+std::vector<GameObject*> Scene::FindAllGameObjectByTag(const std::string& tag) const
+{
+	std::vector<GameObject*> toReturnVec{};
+	//auto found = m_taggedObjects.equal_range(tag);
+
+	////auto range = map.equal_range(1);
+	//for (auto it = found.first; it != found.second; ++it)
+	//{
+	//	toReturnVec.emplace_back(it->second);
+	//}
+
+	for(auto obj : m_taggedObjects)
+	{
+		if (obj.first == tag)
+		{
+			toReturnVec.emplace_back(obj.second);
+		}
+	}
+
+	return toReturnVec;
 }
 
 

@@ -25,6 +25,10 @@ namespace booble
 		else {
 			gameObjPtr->AddComponent(std::move(std::make_unique< boop::TextureComponent>(nullptr, "stoneBlock.png", 4.f)));
 		}
+		gameObjPtr->AddComponent(std::move(std::make_unique<boop::CollisionComponent>(nullptr,
+			gameObjPtr->GetComponent<boop::TextureComponent>()->GetTextureRect())));
+		gameObjPtr->SetTag("Wall");
+
 		return std::move(gameObjPtr);
 	}
 
@@ -40,7 +44,7 @@ namespace booble
 
 		gameObjPtr->AddComponent(std::move(std::make_unique<boop::CollisionComponent>(nullptr,
 			gameObjPtr->GetComponent<boop::TextureComponent>()->GetTextureRect())));
-
+		gameObjPtr->SetTag("Platform");
 
 		return std::move(gameObjPtr);
 	}
@@ -52,6 +56,7 @@ namespace booble
 		playerObject->AddComponent(std::move(std::make_unique<Player>(nullptr)));
 		playerObject->AddComponent(std::move(std::make_unique<boop::CollisionComponent>(nullptr,
 			playerObject->GetComponent<boop::SpriteComponent>()->GetTextureRect())));
+		playerObject->SetTag("Player");
 
 		return std::move(playerObject);
 	}

@@ -16,7 +16,7 @@ namespace boop
 	{
 	}
 
-	Component* CollisionComponent::CheckCollision() const
+	boop::GameObject* CollisionComponent::CheckCollision(const std::string& tag) const
 	{
 		//TO BE IMPROVED:
 		//- maybe send back the component so I know what collided
@@ -31,7 +31,8 @@ namespace boop
 		SDL_bool intersect{};
 
 		//1
-		for (auto& object : boop::SceneManager::GetInstance().GetActiveScene()->GetObjects())
+		//for (auto& object : checkCollidingGO)
+		for (auto& object : boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag(tag))
 		{
 			//2
 			auto collComponent = object->GetComponent<CollisionComponent>();
@@ -42,13 +43,22 @@ namespace boop
 			{
 				//4
 				auto otherRect = collComponent->GetCollisionRect();
+				auto otherPos = collComponent->GetOwner()->GetWorldPosition();
+				otherRect.x = static_cast<int>(otherPos.x);
+				otherRect.y = static_cast<int>(otherPos.y);
 
-				intersect = SDL_IntersectRect(&m_CollisionRect, &otherRect, nullptr);
+				auto ownPos = GetOwner()->GetWorldPosition();
+				SDL_Rect ownRect = { static_cast<int>(ownPos.x),
+					static_cast<int>(ownPos.y),
+					m_CollisionRect.w, m_CollisionRect.h };
+
+				intersect = SDL_HasIntersection(&ownRect, &otherRect);
 			}
 
 			//intersecting
-			if (intersect) return collComponent;
-
+			if (intersect == SDL_TRUE) {
+				return collComponent->GetOwner();
+			}
 		}
 
 		//not intersecting

@@ -23,6 +23,7 @@ namespace boop
 		std::vector<std::unique_ptr<GameObject>>& GetObjects();
 
 		GameObject* FindGameObjectByTag(const std::string& tag) const;
+		std::vector<GameObject*> FindAllGameObjectByTag(const std::string& tag) const;
 
 
 		Scene();
@@ -38,7 +39,7 @@ namespace boop
 
 		std::string m_name;
 		std::vector<std::unique_ptr<GameObject>> m_objects{};
-		std::unordered_map<std::string, GameObject*> m_taggedObjects;
+		std::unordered_multimap<std::string, GameObject*> m_taggedObjects;
 
 		static unsigned int m_idCounter;
 	};

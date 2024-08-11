@@ -1,6 +1,7 @@
 #include "States.h"
 #include <iostream>
 
+#include "Player.h"
 #include "../BoopEngine/Boop/Components/SpriteComponent.h"
 
 namespace boop
@@ -21,15 +22,25 @@ namespace booble
 
 	void WalkState::Update(float deltaTime)
 	{
-		//get the world positions and then add 
-		boop::GameObject* gameObject = m_GameObj.GetOwner();
+		//Update player:
+		Player* player = dynamic_cast<Player*>(&m_GameObj);
 
-		if (gameObject) {
-			glm::vec3 newPosition = gameObject->GetWorldPosition();
-			newPosition.x += m_Speed* deltaTime;
-			
-			gameObject->SetLocalPosition(newPosition);
+		if (player)
+		{
+			//get the world positions and then add 
+			boop::GameObject* gameObject = m_GameObj.GetOwner();
+
+			if (gameObject) {
+				glm::vec3 newPosition = gameObject->GetWorldPosition();
+				newPosition.x += m_Speed * deltaTime;
+
+				gameObject->SetLocalPosition(newPosition);
+
+				player->AccountCollision();
+			}
 		}
+
+
 	}
 
 

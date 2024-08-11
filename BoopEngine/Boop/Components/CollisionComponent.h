@@ -26,7 +26,7 @@ namespace boop
 		void SetCollisionRect(SDL_Rect rect) { m_CollisionRect = rect; }
 		SDL_Rect GetCollisionRect() const { return m_CollisionRect; };
 
-		Component* CheckCollision() const;
+		boop::GameObject* CheckCollision(const std::string& tag) const;
 
 		virtual std::unique_ptr<Component> Clone() const override
 		{

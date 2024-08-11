@@ -17,18 +17,14 @@ namespace booble
 		//CREATE GAME OBJECTS
 		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(LevelComponents::CreateAir()));
 		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(LevelComponents::CreateWall(0)));
+		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(LevelComponents::CreatePlayer()));
 
-		//PLAYER
-		auto playerObject = LevelComponents::CreatePlayer();
-		playerObject->SetTag("Player"); //set tag for input
-		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(playerObject));
-
-
-		std::vector<std::string> tags;
-		tags.emplace_back("Player");
+		//Set important tags
+		std::vector<std::string> importantTags;
+		importantTags.emplace_back("Player");
 
 		//LOAD
-		level::LevelLoader::GetInstance().CreateLevel("level1.txt", "Demo",tags);
+		level::LevelLoader::GetInstance().CreateLevel("level1.txt", "Demo", importantTags);
 		boop::SceneManager::GetInstance().ChangeScene("Demo");
 
 		//INPUTS FOR ADDED PLAYER IN SCENE
