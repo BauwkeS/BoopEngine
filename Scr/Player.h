@@ -30,9 +30,12 @@ namespace booble
 
 		void AccountCollision();
 
-		void StartJump(float strength);
-		void StopJump();
+		/*void StartJump(float strength);
+		void StopJump();*/
 
+
+		//bool IsOnGround() const { return m_IsGrounded; }
+		void HandleJumps(float);
 	private:
 		std::unique_ptr<PlayerStateMachine> m_StateMachine;
 		//std::unique_ptr<boop::CollisionComponent> m_CollisionComp;
@@ -40,12 +43,14 @@ namespace booble
 
 
 		//jumping
-		void HandleJump(float deltaTime);
+	/*	void HandleJump(float deltaTime);
 		bool m_JumpRequested{ false };
 		float m_JumpStrength{ 10.0f };
 		float m_JumpTime{ 0.0f };
-		float m_MaxJumpTime{ 0.2f }; 
-
+		float m_MaxJumpTime{ 0.2f };*/
+		//bool m_IsGrounded{ true };
+		void CollideWall();
+		void CollidePlatform();
 	};
 
 }

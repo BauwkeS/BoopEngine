@@ -104,7 +104,7 @@ namespace booble
 		void Execute(float) override {
 			auto playerComp = m_pGameObject->GetComponent<Player>();
 			if (playerComp) {
-				playerComp->StartJump(m_JumpStrength);
+				//playerComp->StartJump(m_JumpStrength);
 
 
 				// check if the current state is walking already
@@ -112,7 +112,7 @@ namespace booble
 				JumpState* jump = dynamic_cast<JumpState*>(currentState);
 
 				
-				if (!jump) playerComp->GetStateMachine()->GoToState(new JumpState(*playerComp));
+				if (!jump) playerComp->GetStateMachine()->GoToState(new JumpState(*playerComp, m_JumpStrength));
 				//if not then set it correctly
 
 				//add jumping

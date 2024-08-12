@@ -56,9 +56,8 @@ namespace booble
 		playerObject->AddComponent(std::move(std::make_unique< boop::SpriteComponent>(nullptr, static_cast<std::string>("greenDino.png"), 6, 5, 0.2f, 0, 2, 4.f)));
 		playerObject->AddComponent(std::move(std::make_unique<Player>(nullptr)));
 		playerObject->AddComponent(std::move(std::make_unique<boop::CollisionComponent>(nullptr,
-			playerObject->GetComponent<boop::SpriteComponent>()->GetTextureRect())));
+			playerObject->GetComponent<boop::SpriteComponent>()->GetTextureRect(),true)));
 		//playerObject->AddComponent(std::move(std::make_unique<boop::PhysicsComponent>(nullptr)));
-
 		playerObject->SetTag("Player");
 
 		return std::move(playerObject);

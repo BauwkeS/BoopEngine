@@ -44,7 +44,7 @@ namespace booble
 	class JumpState : public boop::BaseState
 	{
 	public:
-		JumpState(boop::Component& gameObj);
+		JumpState(boop::Component& gameObj, float jumpStrength);
 		~JumpState() = default;
 
 		void Update(float) override{};
@@ -54,6 +54,8 @@ namespace booble
 		void OnExit() override;
 	private:
 		boop::Component& m_GameObj;
+		float m_JumpStrength{};
+		bool m_JumpInitiated{ false };
 	};
 
 	class AttackState : public boop::BaseState

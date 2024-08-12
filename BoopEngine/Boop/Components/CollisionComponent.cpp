@@ -4,24 +4,27 @@
 #include "../Scene/SceneManager.h"
 #include "../Scene/Scene.h"
 
+namespace booble
+{
+	class Player;
+}
+
 namespace boop
 {
-	CollisionComponent::CollisionComponent(boop::GameObject* const ownerPtr)
+	CollisionComponent::CollisionComponent(boop::GameObject* const ownerPtr, SDL_Rect rect, bool gravityOn)
 		: Component(ownerPtr),
-		m_CollisionRect{0,0,0,0}
-	{
-	}
-
-	CollisionComponent::CollisionComponent(boop::GameObject* const ownerPtr, SDL_Rect rect)
-		: Component(ownerPtr),
-		m_CollisionRect{ rect}
+		m_CollisionRect{ rect},
+		m_GravityEnabled{gravityOn}
 	{
 	}
 
 	void CollisionComponent::FixedUpdate(float deltaTime)
 	{
-		CheckGroundCollision();
-		HandleVerticalMovement(deltaTime);
+		
+		if (m_GravityEnabled) {
+			//CheckGroundCollision();
+			HandleVerticalMovement(deltaTime);
+		}
 	}
 
 	boop::GameObject* CollisionComponent::CheckCollision(const std::string& tag) const
@@ -75,64 +78,84 @@ namespace boop
 
     void CollisionComponent::ApplyJump(float jumpStrength)
     {
-        if (m_IsGrounded)
-        {
             m_VerticalVelocity = jumpStrength;
             m_IsGrounded = false;
-        }
+			m_IsJumping=true;
     }
 
     void CollisionComponent::HandleVerticalMovement(float deltaTime)
     {
-        if (!m_IsGrounded)
+        if (!m_IsGrounded && !m_IsJumping)
         {
-            m_VerticalVelocity -= 200.0f * deltaTime; // Apply a constant fall speed
+            m_VerticalVelocity = -300.0f; // Apply a constant fall speed
         }
 
-        auto* owner = GetOwner();
+		//handle a jump
+		//HandleJump(deltaTime);
+
+        auto owner = GetOwner();
         auto position = owner->GetWorldPosition();
-        position.y -= m_VerticalVelocity * deltaTime;
+        position.y -= m_VerticalVelocity * (deltaTime*2);
 
         owner->SetLocalPosition(position);
     }
 
-    void CollisionComponent::CheckGroundCollision()
+    bool CollisionComponent::HandleJump(float deltaTime)
     {
-        auto* owner = GetOwner();
-        auto ownerPos = owner->GetWorldPosition();
+		if(m_IsJumping)
+		{
+			if (m_AirCounter >= 0.2) {
+				//set time in air
+				//when time is up, return to the usual stuff IF you're still in the jump state
+				m_IsJumping = false;
 
-        // Update player collision rect with the current position
-        SDL_Rect playerRect = m_CollisionRect;
-        playerRect.x = static_cast<int>(ownerPos.x);
-        playerRect.y = static_cast<int>(ownerPos.y);
-
-        float highestGroundY = std::numeric_limits<float>::lowest();
-        m_IsGrounded = false;
-
-        for (const auto& object : boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("Platform"))
-        {
-            auto* otherCollisionComp = object->GetComponent<boop::CollisionComponent>();
-            if (!otherCollisionComp) continue;
-
-            SDL_Rect otherRect = otherCollisionComp->GetCollisionRect();
-            auto otherPos = object->GetWorldPosition();
-            otherRect.x = static_cast<int>(otherPos.x);
-            otherRect.y = static_cast<int>(otherPos.y);
-
-            bool isFallingOnto = m_VerticalVelocity <= 0 && playerRect.y + playerRect.h <= otherRect.y;
-            bool isIntersecting = SDL_HasIntersection(&playerRect, &otherRect);
-
-            if (isIntersecting && isFallingOnto && otherRect.y > highestGroundY)
-            {
-                highestGroundY = static_cast<float>(otherRect.y);
-                m_IsGrounded = true;
-            }
-        }
-
-        if (m_IsGrounded)
-        {
-            owner->SetLocalPosition({ ownerPos.x, highestGroundY - playerRect.h, ownerPos.z });
-            m_VerticalVelocity = 0;
-        }
+				return true;
+			}
+			m_AirCounter += deltaTime;
+		}
+		return false;
     }
+
+    //  void CollisionComponent::CheckGroundCollision()
+  //  {
+  //      auto* owner = GetOwner();
+  //      auto ownerPos = owner->GetWorldPosition();
+
+  //      // Update player collision rect with the current position
+  //      SDL_Rect playerRect = m_CollisionRect;
+  //      playerRect.x = static_cast<int>(ownerPos.x);
+  //      playerRect.y = static_cast<int>(ownerPos.y);
+		//SDL_Rect paddedRect = playerRect;
+		//++paddedRect.h;
+		//++paddedRect.w;
+
+  //      float highestGroundY = std::numeric_limits<float>::lowest();
+  //      m_IsGrounded = false;
+
+  //      for (const auto& object : boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("Platform"))
+  //      {
+  //          auto* otherCollisionComp = object->GetComponent<boop::CollisionComponent>();
+  //          if (!otherCollisionComp) continue;
+
+  //          SDL_Rect otherRect = otherCollisionComp->GetCollisionRect();
+  //          auto otherPos = object->GetWorldPosition();
+  //          otherRect.x = static_cast<int>(otherPos.x);
+  //          otherRect.y = static_cast<int>(otherPos.y);
+
+  //          bool isFallingOnto = m_VerticalVelocity <= 0 && playerRect.y + playerRect.h <= otherRect.y;
+  //          bool isIntersecting = SDL_HasIntersection(&playerRect, &otherRect);
+
+  //          if (isIntersecting && isFallingOnto && otherRect.y > highestGroundY)
+  //          {
+  //              highestGroundY = static_cast<float>(otherRect.y);
+  //              m_IsGrounded = true;
+  //          }
+  //      }
+
+  //      if (m_IsGrounded)
+  //      {
+  //          owner->SetLocalPosition({ ownerPos.x, highestGroundY - playerRect.h, ownerPos.z });
+  //          m_VerticalVelocity = 0;
+  //      }
+  //  }
 }

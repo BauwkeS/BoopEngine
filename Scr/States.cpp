@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "Player.h"
+#include "../BoopEngine/Boop/Components/CollisionComponent.h"
 #include "../BoopEngine/Boop/Components/SpriteComponent.h"
 
 namespace boop
@@ -71,8 +72,8 @@ namespace booble
 		//std::cout << "EXIT STATE\n";
 	}
 
-	JumpState::JumpState(boop::Component& gameObj)
-		:BaseState(), m_GameObj{gameObj}
+	JumpState::JumpState(boop::Component& gameObj, float jumpStrength)
+		:BaseState(), m_GameObj{gameObj}, m_JumpStrength(jumpStrength)
 	{
 	}
 
@@ -82,10 +83,22 @@ namespace booble
 		bool flip = m_GameObj.GetOwner()->GetComponent<boop::SpriteComponent>()->GetTexture()->IsTextureFlipped();
 		m_GameObj.GetOwner()->GetComponent<boop::SpriteComponent>()->GetTexture()->ChangeTextureVars(6, 5, 4,flip,6);
 
+		auto* collComp = m_GameObj.GetOwner()->GetComponent<boop::CollisionComponent>();
+		if (collComp)
+		{
+			//add your jump here
+			if (collComp->IsOnGround()) collComp->ApplyJump(m_JumpStrength);
+
+			//add condition when you return to ground to go back to idle state
+			//m_GameObj.GetOwner()->GetComponent<PlayerStateMachine>()->GoToState(new IdleState(m_GameObj));
+
+		}
+
 	}
 
 	void JumpState::OnExit()
 	{
+		m_JumpInitiated = false;
 	}
 
 	/*void PlayerStateMachine::Update(float deltaTime)
