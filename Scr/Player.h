@@ -7,7 +7,6 @@ namespace boop {
 	class GameObject;
 	class CollisionComponent;
 	class Component;
-	class PhysicsComponent;
 }
 
 namespace booble
@@ -45,7 +44,7 @@ namespace booble
 		bool m_JumpRequested{ false };
 		float m_JumpStrength{ 10.0f };
 		float m_JumpTime{ 0.0f };
-		float m_MaxJumpTime{ 0.2f }; // Max time to hold jump before falling
+		float m_MaxJumpTime{ 0.2f }; 
 
 	};
 

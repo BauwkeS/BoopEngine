@@ -57,7 +57,7 @@ namespace booble
 		playerObject->AddComponent(std::move(std::make_unique<Player>(nullptr)));
 		playerObject->AddComponent(std::move(std::make_unique<boop::CollisionComponent>(nullptr,
 			playerObject->GetComponent<boop::SpriteComponent>()->GetTextureRect())));
-		playerObject->AddComponent(std::move(std::make_unique<boop::PhysicsComponent>(nullptr)));
+		//playerObject->AddComponent(std::move(std::make_unique<boop::PhysicsComponent>(nullptr)));
 
 		playerObject->SetTag("Player");
 

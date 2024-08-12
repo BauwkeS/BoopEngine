@@ -1,4 +1,7 @@
 #include "Player.h"
+
+#include <mutex>
+
 #include "../BoopEngine/Boop/Components/CollisionComponent.h"
 #include "../BoopEngine/Boop/Components/SpriteComponent.h"
 #include "../BoopEngine/Boop/Components/PhysicsComponent.h"
@@ -20,8 +23,8 @@ namespace booble
 		HandleJump(deltaTime);
 		AccountCollision();
 
-		auto* physics = GetOwner()->GetComponent<boop::PhysicsComponent>();
-		if (physics) physics->FixedUpdate(deltaTime);
+		auto* collision = GetOwner()->GetComponent<boop::CollisionComponent>();
+		if (collision) collision->FixedUpdate(deltaTime);
 	}
 
 	void Player::Update(float deltaTime)
@@ -91,10 +94,11 @@ namespace booble
 	{
 		m_JumpStrength = strength;
 
-		if (!m_JumpRequested)
+		if (auto* collision = GetOwner()->GetComponent<boop::CollisionComponent>())
 		{
-			m_JumpRequested = true;
+			collision->ApplyJump(strength);
 		}
+		m_JumpRequested = true;
 	}
 
 	void Player::StopJump()
@@ -106,22 +110,15 @@ namespace booble
 	{
 		if (m_JumpRequested)
 		{
-			auto* physicsComp = GetOwner()->GetComponent<boop::PhysicsComponent>();
+			auto* collision = GetOwner()->GetComponent<boop::CollisionComponent>();
 
 			m_JumpTime += deltaTime;
-			if (m_JumpTime >= m_MaxJumpTime)
+			if (m_JumpTime >= m_MaxJumpTime || collision->IsOnGround())
 			{
-				physicsComp->ApplyJump(0);
-				if(physicsComp->IsOnGround())
-				{
-					m_JumpTime = 0.0f;
-					m_JumpRequested = false;
-					m_StateMachine->GoToState(new IdleState(*this));
-				}
-			}
-			else if (physicsComp)
-			{
-				physicsComp->ApplyJump(m_JumpStrength);
+				collision->ApplyJump(0);
+				m_JumpTime = 0.0f;
+				m_JumpRequested = false;
+				m_StateMachine->GoToState(new IdleState(*this));
 			}
 
 		}
