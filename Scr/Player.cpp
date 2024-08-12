@@ -10,7 +10,7 @@ namespace booble
 	Player::Player(boop::GameObject* owner)
 		: Component(owner)
 	{
-		m_StateMachine = std::make_unique<PlayerStateMachine>(owner, new IdleState());
+		m_StateMachine = std::make_unique<PlayerStateMachine>(owner, new IdleState(*this));
 		
 		//m_CollisionComp = std::make_unique<boop::CollisionComponent>()
 	}
@@ -108,18 +108,22 @@ namespace booble
 		{
 			auto* physicsComp = GetOwner()->GetComponent<boop::PhysicsComponent>();
 
-			if (physicsComp)
-			{
-				physicsComp->ApplyJump(m_JumpStrength);
-			}
-
 			m_JumpTime += deltaTime;
 			if (m_JumpTime >= m_MaxJumpTime)
 			{
 				physicsComp->ApplyJump(0);
-				m_JumpRequested = false;
-				m_JumpTime = 0.0f;
+				if(physicsComp->IsOnGround())
+				{
+					m_JumpTime = 0.0f;
+					m_JumpRequested = false;
+					m_StateMachine->GoToState(new IdleState(*this));
+				}
 			}
+			else if (physicsComp)
+			{
+				physicsComp->ApplyJump(m_JumpStrength);
+			}
+
 		}
 	}
 

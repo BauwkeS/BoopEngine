@@ -16,7 +16,10 @@ namespace boop
         void Render() const override {}
 
         void ApplyJump(float jumpStrength);
- 
+        bool IsOnGround()
+        {
+	        return m_IsGrounded;
+        }
 
         std::unique_ptr<Component> Clone() const override;
 

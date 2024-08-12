@@ -82,12 +82,13 @@ void boop::AnimatedTexture::Update(float deltaTime, glm::vec2 pos)
 		m_DstRect.y =static_cast<int>(pos.y);
 }
 
-void boop::AnimatedTexture::ChangeTextureVars(const int cols, const int rows, const int AmountPics, bool flip, const int startPicIndex)
+void boop::AnimatedTexture::ChangeTextureVars(const int cols, const int rows, const int AmountPics, bool flip, const int startPicIndex, float frameSec)
 {
 	m_Cols = cols;
 	m_Rows = rows;
 	m_AmountPic = AmountPics;
 	m_StartPic = startPicIndex;
+	m_FrameSec = frameSec;
 
 	m_ScrRect.w = static_cast<int>(m_pTexture->GetSize().x) / m_Cols;
 	m_ScrRect.h = static_cast<int>(m_pTexture->GetSize().y) / m_Rows;

@@ -37,8 +37,9 @@ namespace boop
 		void SetFramesSec(float sec) { m_FrameSec = sec; }
 		SDL_Rect GetDstRect() const { return m_DstRect; }
 		void SetDstRect(SDL_Rect rect) { m_DstRect = rect; }
-		void ChangeTextureVars(const int cols, const int rows, const int AmountPics, bool flip=false, const int startPicIndex = 0);
+		void ChangeTextureVars(const int cols, const int rows, const int AmountPics, bool flip=false, const int startPicIndex = 0, float frameSec=0.2f);
 		void SetFlipTexture(bool flip) { m_FliptTexture = flip; }
+		bool IsTextureFlipped() { return m_FliptTexture; }
 
 		std::unique_ptr<AnimatedTexture> Clone() const {
 			std::unique_ptr<AnimatedTexture> clonedTexture =

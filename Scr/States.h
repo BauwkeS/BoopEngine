@@ -9,14 +9,16 @@ namespace booble
 	class IdleState : public boop::BaseState
 	{
 	public:
-		IdleState() = default;
+		IdleState(boop::Component& gameObj);
 		~IdleState() = default;
 
 		void Update(float deltaTime) override { deltaTime; };
 		//	void Render(float deltaTime) override;
 
-		void OnEnter() override{};
+		void OnEnter() override;
 		void OnExit() override{};
+	private:
+		boop::Component& m_GameObj;
 	};
 	class WalkState : public boop::BaseState
 	{
@@ -37,6 +39,21 @@ namespace booble
 		float m_Speed{};
 		bool m_ToTheLeft{};
 		bool m_Jump{};
+	};
+
+	class JumpState : public boop::BaseState
+	{
+	public:
+		JumpState(boop::Component& gameObj);
+		~JumpState() = default;
+
+		void Update(float) override{};
+		//	void Render(float deltaTime) override;
+
+		void OnEnter() override;
+		void OnExit() override;
+	private:
+		boop::Component& m_GameObj;
 	};
 
 	class AttackState : public boop::BaseState

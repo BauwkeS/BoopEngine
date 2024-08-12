@@ -59,6 +59,38 @@ namespace booble
 
 	};
 
+	class StopWalkingCommand final : public boop::Command {
+	private:
+		boop::GameObject* m_pGameObject;
+	public:
+		StopWalkingCommand(boop::GameObject* component)
+			: m_pGameObject{ component } {}
+		//make sure you can walk without jumping
+		~StopWalkingCommand() = default;
+
+		void Execute(float) override {
+
+			//FOR THE PLAYER
+			auto playerComp = m_pGameObject->GetComponent<Player>();
+			if (playerComp)
+			{
+				//check if the current state is walking already
+				auto currentState = playerComp->GetStateMachine()->GetActiveState();
+				IdleState* idle = dynamic_cast<IdleState*>(currentState);
+
+				if (!idle) playerComp->GetStateMachine()->GoToState(new IdleState(*playerComp));
+			}
+
+
+		};
+
+		StopWalkingCommand(const StopWalkingCommand& other) = delete;
+		StopWalkingCommand(StopWalkingCommand&& other) = delete;
+		StopWalkingCommand& operator=(const StopWalkingCommand& other) = delete;
+		StopWalkingCommand& operator=(StopWalkingCommand&& other) = delete;
+
+	};
+
 	class JumpCommand final : public boop::Command {
 	private:
 		boop::GameObject* m_pGameObject;
@@ -73,6 +105,19 @@ namespace booble
 			auto playerComp = m_pGameObject->GetComponent<Player>();
 			if (playerComp) {
 				playerComp->StartJump(m_JumpStrength);
+
+
+				// check if the current state is walking already
+				auto currentState = playerComp->GetStateMachine()->GetActiveState();
+				JumpState* jump = dynamic_cast<JumpState*>(currentState);
+
+				
+				if (!jump) playerComp->GetStateMachine()->GoToState(new JumpState(*playerComp));
+				//if not then set it correctly
+
+				//add jumping
+				//if (m_Jump) playerComp->Jump(m_JumpForce);
+
 			}
 		}
 

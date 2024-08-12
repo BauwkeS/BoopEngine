@@ -11,6 +11,20 @@ namespace boop
 
 namespace booble
 {
+	void IdleState::OnEnter()
+	{
+		std::cout << "ENTER STATE IDLE\n";
+		bool flip = m_GameObj.GetOwner()->GetComponent<boop::SpriteComponent>()->GetTexture()->IsTextureFlipped();
+		m_GameObj.GetOwner()->GetComponent<boop::SpriteComponent>()->GetTexture()->ChangeTextureVars(6, 5, 2, flip,0,0.4f);
+	}
+
+	IdleState::IdleState(boop::Component& gameObj)
+		:BaseState(), m_GameObj{ gameObj }
+
+	{
+
+	}
+
 	WalkState::WalkState(boop::Component& gameObj, float speed, bool jump)
 		: BaseState(),
 		m_GameObj{gameObj},
@@ -35,10 +49,6 @@ namespace booble
 				glm::vec3 newPosition = gameObject->GetWorldPosition();
 				newPosition.x += m_Speed * deltaTime;
 
-				//add jump
-
-
-
 				gameObject->SetLocalPosition(newPosition);
 
 				player->AccountCollision();
@@ -52,13 +62,30 @@ namespace booble
 	void WalkState::OnEnter()
 	{
 		//set correct texure
-		//std::cout << "ENTER STATE WALK\n";
-		m_GameObj.GetOwner()->GetComponent<boop::SpriteComponent>()->GetTexture()->ChangeTextureVars(7, 6, 7, !(m_Speed < 0));
+		std::cout << "ENTER STATE WALK\n";
+		m_GameObj.GetOwner()->GetComponent<boop::SpriteComponent>()->GetTexture()->ChangeTextureVars(6, 5, 4, !(m_Speed < 0));
 	}
 
 	void WalkState::OnExit()
 	{
 		//std::cout << "EXIT STATE\n";
+	}
+
+	JumpState::JumpState(boop::Component& gameObj)
+		:BaseState(), m_GameObj{gameObj}
+	{
+	}
+
+	void JumpState::OnEnter()
+	{
+		std::cout << "ENTER STATE JUMP\n";
+		bool flip = m_GameObj.GetOwner()->GetComponent<boop::SpriteComponent>()->GetTexture()->IsTextureFlipped();
+		m_GameObj.GetOwner()->GetComponent<boop::SpriteComponent>()->GetTexture()->ChangeTextureVars(6, 5, 4,flip,6);
+
+	}
+
+	void JumpState::OnExit()
+	{
 	}
 
 	/*void PlayerStateMachine::Update(float deltaTime)
