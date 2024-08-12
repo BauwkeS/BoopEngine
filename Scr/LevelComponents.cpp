@@ -7,6 +7,7 @@
 #include "../BoopEngine/Boop/Components/CollisionComponent.h"
 #include "../BoopEngine/Boop/Input/InputManager.h"
 #include "Player.h"
+#include "../BoopEngine/Boop/Components/PhysicsComponent.h"
 
 namespace booble
 {
@@ -56,6 +57,8 @@ namespace booble
 		playerObject->AddComponent(std::move(std::make_unique<Player>(nullptr)));
 		playerObject->AddComponent(std::move(std::make_unique<boop::CollisionComponent>(nullptr,
 			playerObject->GetComponent<boop::SpriteComponent>()->GetTextureRect())));
+		playerObject->AddComponent(std::move(std::make_unique<boop::PhysicsComponent>(nullptr)));
+
 		playerObject->SetTag("Player");
 
 		return std::move(playerObject);

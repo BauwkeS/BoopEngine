@@ -36,6 +36,7 @@ namespace booble
 			{
 				boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(foundPlayer, -250.f));
 				boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_D, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(foundPlayer, 250.f));
+				boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_W, boop::keyState::isDown, std::make_unique<booble::JumpCommand>(foundPlayer,500.f));
 			}
 		}
 	}

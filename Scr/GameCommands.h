@@ -20,24 +20,35 @@ namespace booble
 	private:
 		boop::GameObject* m_pGameObject;
 		float m_Speed;
+		bool m_Jump;
+		float m_JumpForce;
 	public:
-		WalkCommand(boop::GameObject* component, float speed) : m_pGameObject{ component }, m_Speed{ speed } {};
+		WalkCommand(boop::GameObject* component, float speed, bool jump = false, float jumpForce = 0.0f)
+			: m_pGameObject{ component }, m_Speed{ speed }, m_Jump{ jump }, m_JumpForce{ jumpForce } {}
+		//make sure you can walk without jumping
 		~WalkCommand() = default;
 
 		void Execute(float d) override {
-			//player
+
+			//FOR THE PLAYER
 			auto playerComp = m_pGameObject->GetComponent<Player>();
+			if (playerComp)
+			{
+				//check if the current state is walking already
+				auto currentState = playerComp->GetStateMachine()->GetActiveState();
+				WalkState* walk = dynamic_cast<WalkState*>(currentState);
 
-			//check if the current state is walking already
-			auto currentState = playerComp->GetStateMachine()->GetActiveState();
-			WalkState* walk = dynamic_cast<WalkState*>(currentState);
+				//check if the direction is correct
+				bool checkGoingLeft = m_Speed < 0;
 
-			//check if the direction is correct
-			bool checkGoingLeft = m_Speed < 0;
+				if (walk && checkGoingLeft == walk->IsGoingToTheLeft()) walk->Update(d); //if all is good, update it
+				else playerComp->GetStateMachine()->GoToState(new WalkState(*playerComp, m_Speed));
+				//if not then set it correctly
 
-			if (walk && checkGoingLeft == walk->IsGoingToTheLeft()) walk->Update(d); //if all is good, update it
-			else playerComp->GetStateMachine()->GoToState(new WalkState(*playerComp, m_Speed));
-			//if not then set it correctly
+				//add jumping
+				//if (m_Jump) playerComp->Jump(m_JumpForce);
+			}
+
 
 		};
 
@@ -45,5 +56,29 @@ namespace booble
 		WalkCommand(WalkCommand&& other) = delete;
 		WalkCommand& operator=(const WalkCommand& other) = delete;
 		WalkCommand& operator=(WalkCommand&& other) = delete;
+
 	};
-}
+
+	class JumpCommand final : public boop::Command {
+	private:
+		boop::GameObject* m_pGameObject;
+		float m_JumpStrength;
+	public:
+		JumpCommand(boop::GameObject* component, float jumpStrength)
+			: m_pGameObject{ component }, m_JumpStrength{ jumpStrength } {}
+
+		~JumpCommand() = default;
+
+		void Execute(float) override {
+			auto playerComp = m_pGameObject->GetComponent<Player>();
+			if (playerComp) {
+				playerComp->StartJump(m_JumpStrength);
+			}
+		}
+
+		JumpCommand(const JumpCommand& other) = delete;
+		JumpCommand(JumpCommand&& other) = delete;
+		JumpCommand& operator=(const JumpCommand& other) = delete;
+		JumpCommand& operator=(JumpCommand&& other) = delete;
+	};
+};

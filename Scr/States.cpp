@@ -11,10 +11,11 @@ namespace boop
 
 namespace booble
 {
-	WalkState::WalkState(boop::Component& gameObj, float speed)
+	WalkState::WalkState(boop::Component& gameObj, float speed, bool jump)
 		: BaseState(),
 		m_GameObj{gameObj},
-		m_Speed{speed}
+		m_Speed{speed},
+		m_Jump{jump}
 	{
 		if (m_Speed < 0) m_ToTheLeft = true;
 		else m_ToTheLeft = false;
@@ -33,6 +34,10 @@ namespace booble
 			if (gameObject) {
 				glm::vec3 newPosition = gameObject->GetWorldPosition();
 				newPosition.x += m_Speed * deltaTime;
+
+				//add jump
+
+
 
 				gameObject->SetLocalPosition(newPosition);
 

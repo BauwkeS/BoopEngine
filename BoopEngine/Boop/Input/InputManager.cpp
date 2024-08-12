@@ -60,6 +60,9 @@ namespace boop
 		std::string sceneName = m_SceneManager.GetActiveScene()->GetName();
 
 
+		m_CurrentPressed = currentPressed;
+		m_PreviousKeyState = previousState;
+
 		//--
 		//EXECUTE KEYBOARD
 		//go over the keyboard commands

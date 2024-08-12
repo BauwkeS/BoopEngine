@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "../BoopEngine/Boop/Components/CollisionComponent.h"
 #include "../BoopEngine/Boop/Components/SpriteComponent.h"
+#include "../BoopEngine/Boop/Components/PhysicsComponent.h"
+#include "../BoopEngine/Boop/Components/Component.h"
 
 
 namespace booble
@@ -15,8 +17,11 @@ namespace booble
 
 	void Player::FixedUpdate(float deltaTime)
 	{
-		deltaTime;
+		HandleJump(deltaTime);
 		AccountCollision();
+
+		auto* physics = GetOwner()->GetComponent<boop::PhysicsComponent>();
+		if (physics) physics->FixedUpdate(deltaTime);
 	}
 
 	void Player::Update(float deltaTime)
@@ -52,12 +57,7 @@ namespace booble
 		auto collWithWall = collComp->CheckCollision("Wall");
 		if (collWithWall)
 		{
-			std::cout << "JAAAAA\n";
-
-			//m_StateMachine->GoToState(new IdleState());
-
 			//this could and SHOULD be improved tbh
-
 
 			auto wallCollComp = collWithWall->GetComponent<boop::CollisionComponent>();
 
@@ -77,18 +77,51 @@ namespace booble
 				playerPos.x = wallPos.x + wallRect.w;
 			}
 
-
 			// Set the player's position to the adjusted value
 			GetOwner()->SetLocalPosition(playerPos);
 		}
-		else {
-		
-			std::cout << "NAAAAAA\n";
-		}
+
 		//collide with : PLATFORM
 
 
 		//collide with : ENEMY
 	}
+
+	void Player::StartJump(float strength)
+	{
+		m_JumpStrength = strength;
+
+		if (!m_JumpRequested)
+		{
+			m_JumpRequested = true;
+		}
+	}
+
+	void Player::StopJump()
+	{
+		m_JumpRequested = false;
+	}
+
+	void Player::HandleJump(float deltaTime)
+	{
+		if (m_JumpRequested)
+		{
+			auto* physicsComp = GetOwner()->GetComponent<boop::PhysicsComponent>();
+
+			if (physicsComp)
+			{
+				physicsComp->ApplyJump(m_JumpStrength);
+			}
+
+			m_JumpTime += deltaTime;
+			if (m_JumpTime >= m_MaxJumpTime)
+			{
+				physicsComp->ApplyJump(0);
+				m_JumpRequested = false;
+				m_JumpTime = 0.0f;
+			}
+		}
+	}
+
 }
 	
