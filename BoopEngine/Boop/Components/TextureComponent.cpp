@@ -28,7 +28,7 @@ void boop::TextureComponent::Render() const
 	}
 }
 
-SDL_Rect boop::TextureComponent::GetTextureRect()
+SDL_Rect boop::TextureComponent::GetTextureRect() const
 {
 	SDL_Rect rectReturn{};
 	if (m_TexturePtr)
@@ -36,7 +36,7 @@ SDL_Rect boop::TextureComponent::GetTextureRect()
 		auto pos{ GetOwner()->GetWorldPosition() };
 		auto size = m_TexturePtr->GetSize();
 		rectReturn = SDL_Rect{ static_cast<int>(pos.x),static_cast<int>(pos.y),
-			static_cast<int>(size.x* m_Scale),static_cast<int>(size.y * m_Scale) };
+			static_cast<int>(size.x * m_Scale),static_cast<int>(size.y * m_Scale) };
 	}
 	return rectReturn;
 }

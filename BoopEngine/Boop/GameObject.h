@@ -2,7 +2,6 @@
 #include <memory>
 #include <iostream>
 #include <vector>
-#include <concepts>
 #include "HelperFiles/Transform.h"
 #include "Components/Component.h"
 
@@ -27,17 +26,17 @@ namespace boop
 		const std::string& GetTag() const;
 
 
-		virtual void FixedUpdate(float deltaTime);
-		virtual void Update(float deltaTime);
-		virtual void LateUpdate(float deltaTime);
+		void FixedUpdate(float deltaTime);
+		void Update(float deltaTime);
+		void LateUpdate(float deltaTime);
 
-		virtual void Render() const;
+		void Render() const;
 
 		void RemoveComponent(int componentIdx);
 		void SetLocalPosition(float x, float y);
 
 		GameObject() : m_pParent(nullptr), m_LocalPosition(glm::vec3{}), m_WorldPosition(glm::vec3{}), m_PositionIsDirty(false)
-		{};
+		{}
 		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;

@@ -1,6 +1,5 @@
 #include <SDL.h>
 #include "InputManager.h"
-#include <functional>
 
 #include "../Scene/Scene.h"
 

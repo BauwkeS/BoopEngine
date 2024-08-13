@@ -54,8 +54,8 @@ void boop::Renderer::RenderTexture(const Texture2D& texture, const float x, cons
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-	dst.w = static_cast<int>(dst.w * scale);
-	dst.h = static_cast<int>(dst.h * scale);
+	dst.w = static_cast<int>(scale * dst.w);
+	dst.h = static_cast<int>(scale * dst.h);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
@@ -68,7 +68,7 @@ void boop::Renderer::RenderTexture(const Texture2D& texture, SDL_Rect& dstRect, 
 
 void boop::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
 {
-	SDL_Rect dst{};
+	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	dst.w = static_cast<int>(width);

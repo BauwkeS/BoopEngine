@@ -1,17 +1,13 @@
 #include "LevelLoader.h"
 
-#include <cassert>
 #include <filesystem>
 #include <iostream>
 #include <fstream>
+#include <utility> 
 
 #include "SceneManager.h"
 #include "../GameObject.h"
 #include "Scene.h"
-#include "../Components/TextComponent.h"
-#include "../Components/SpriteComponent.h"
-#include "../Components/TextureComponent.h"
-
 
 
 namespace level

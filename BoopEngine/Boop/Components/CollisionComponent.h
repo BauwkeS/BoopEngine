@@ -10,7 +10,7 @@ namespace boop
 	{
 	public:
 		CollisionComponent(boop::GameObject* const ownerPtr, SDL_Rect rect=SDL_Rect{0,0,0,0}, bool gravityOn=false);
-		~CollisionComponent() override{};
+		~CollisionComponent() override = default;
 
 		CollisionComponent(const CollisionComponent& other) = delete;
 		CollisionComponent(CollisionComponent&& other) = delete;
@@ -18,12 +18,12 @@ namespace boop
 		CollisionComponent& operator=(CollisionComponent&& other) = delete;
 
 		void FixedUpdate(float deltaTime) override;
-		void LateUpdate(float deltaTime) override { deltaTime = 1; }
-		void Update(float deltaTime) override { deltaTime; };
-		void Render() const override {};
+		void LateUpdate(float) override { }
+		void Update(float) override { }
+		void Render() const override {}
 
 		void SetCollisionRect(SDL_Rect rect) { m_CollisionRect = rect; }
-		SDL_Rect GetCollisionRect() const { return m_CollisionRect; };
+		SDL_Rect GetCollisionRect() const { return m_CollisionRect; }
 
 		//checks
 		boop::GameObject* CheckCollision(const std::string& tag) const;
@@ -35,7 +35,7 @@ namespace boop
 		void SetOnGround(bool ground) { m_IsGrounded=ground; }
 		void HandleVerticalMovement(float deltaTime);
 		void SetGravityEnabled(bool enabled) { m_GravityEnabled = enabled; }
-		float GetVerticalVelocity() { return m_VerticalVelocity; }
+		float GetVerticalVelocity() const { return m_VerticalVelocity; }
 		void SetVerticalVelocity(float vec) { m_VerticalVelocity = vec; }
 
 		virtual std::unique_ptr<Component> Clone() const override

@@ -23,8 +23,8 @@ namespace boop
 		SpriteComponent& operator=(const SpriteComponent& other) = delete;
 		SpriteComponent& operator=(SpriteComponent&& other) = delete;
 
-		void FixedUpdate(float deltaTime) override { deltaTime = 1; }
-		void LateUpdate(float deltaTime) override { deltaTime = 1; }
+		void FixedUpdate(float) override { }
+		void LateUpdate(float) override { }
 		void Update(float deltaTime) override;
 		void Render() const override;
 
@@ -37,7 +37,7 @@ namespace boop
 			// Create a new comp with the same info
 			std::unique_ptr<SpriteComponent> spriteComponent
 				= std::make_unique<SpriteComponent>(this->GetOwner(),
-					std::move(this->m_pTexture->Clone()));
+					this->m_pTexture->Clone());
 			return std::move(spriteComponent);
 		}
 

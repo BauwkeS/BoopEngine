@@ -14,19 +14,19 @@ namespace boop
 	public:
 		TextureComponent(boop::GameObject* const ownerPtr, std::string texture, float scale=1);
 		TextureComponent();
-		~TextureComponent() = default;
+		~TextureComponent() override = default;
 
 		TextureComponent(const TextureComponent& other) = delete;
 		TextureComponent(TextureComponent&& other) = delete;
 		TextureComponent& operator=(const TextureComponent& other) = delete;
 		TextureComponent& operator=(TextureComponent&& other) = delete;
 
-		void FixedUpdate(float deltaTime) override { deltaTime = 1; };
-		void Update(float deltaTime) override { deltaTime = 1; };
-		void LateUpdate(float deltaTime) override { deltaTime = 1; };
+		void FixedUpdate(float) override { }
+		void Update(float) override { }
+		void LateUpdate(float) override { }
 		void Render() const override;
 
-		SDL_Rect GetTextureRect();
+		SDL_Rect GetTextureRect() const;
 
 		virtual std::unique_ptr<Component> Clone() const override
 		{

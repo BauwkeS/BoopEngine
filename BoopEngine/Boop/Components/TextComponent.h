@@ -20,8 +20,8 @@ namespace boop
 
 	public:
 		void Update(float deltaTime) override;
-		void FixedUpdate(float deltaTime) override { deltaTime = 1; };
-		void LateUpdate(float deltaTime) override { deltaTime = 1; };
+		void FixedUpdate(float) override { }
+		void LateUpdate(float) override { }
 		void Render() const override;
 
 		void SetText(const std::string& text);
@@ -29,7 +29,7 @@ namespace boop
 		TextComponent();
 		TextComponent(boop::GameObject* const ownerPtr, const std::string& text = "NO TEXT GIVEN",
 			const std::string& font = "Lingua.otf", unsigned int fontSize = 36);
-		virtual ~TextComponent();
+		~TextComponent() override;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;
 		TextComponent& operator=(const TextComponent& other) = delete;

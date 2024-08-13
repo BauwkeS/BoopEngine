@@ -1,3 +1,4 @@
+#pragma once
 namespace boop
 {
 	//use pimpl pattern to improve compile time and avoid ambiguity for a basic controller & no recompile needed

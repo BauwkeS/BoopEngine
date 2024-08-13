@@ -20,9 +20,8 @@ boop::TextComponent::TextComponent(boop::GameObject* const ownerPtr, const std::
 boop::TextComponent::~TextComponent()
 {
 }
-void boop::TextComponent::Update(float deltaTime)
+void boop::TextComponent::Update(float)
 {
-	deltaTime = 1;
 	if (m_needsUpdate)
 	{
 		const SDL_Color color = { 255,255,255,255 }; // only white text is supported now

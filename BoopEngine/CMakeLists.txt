@@ -27,7 +27,7 @@ add_library(${TARGET_NAME} STATIC
   
   Boop/GameObject.cpp
   Boop/Components/Component.h
-  Boop/Components/Component.cpp
+  
   Boop/GameObject.h
   Boop/Boop.cpp
   Boop/Boop.h
@@ -50,12 +50,12 @@ add_library(${TARGET_NAME} STATIC
   Boop/Input/InputManager.cpp
   Boop/Input/InputManager.h
   Boop/Input/Command.h
-  Boop/Input/Command.cpp
+  
   Boop/Input/Controller.h
   Boop/Input/Controller.cpp
   
   Boop/Event/Observer.h
-  Boop/Event/Observer.cpp
+  
   Boop/Event/Subject.h
   Boop/Event/Subject.cpp
   Boop/States.h
