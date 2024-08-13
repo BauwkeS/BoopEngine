@@ -18,9 +18,6 @@ void boop::Subject::RemoveObserver(Observer* observer)
 {
 	auto it = std::find(m_Observers.begin(), m_Observers.end(),observer);
 	m_Observers.erase(it);
-
-	//reference:
-	//https://www.geeksforgeeks.org/how-to-remove-an-element-from-vector-in-cpp/
 }
 
 void boop::Subject::Notify(GameObject& gameObject, Event event)

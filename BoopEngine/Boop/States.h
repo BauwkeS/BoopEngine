@@ -7,10 +7,8 @@ namespace boop
 	{
 	public:
 		virtual ~BaseState()=default;
-		//virtual void HandleInput(GameObject& gameObject)=0;
 
 		virtual void Update(float deltaTime) = 0;
-		//virtual void Render(float deltaTime) = 0;
 
 		virtual void OnEnter()=0;
 		virtual void OnExit()=0;
@@ -26,10 +24,6 @@ namespace boop
 	class StateMachine
 	{
 	public:
-		/*virtual void HandleInput()
-		{
-			m_pState->HandleInput(*m_pOwner);
-		}*/
 
 		virtual void GoToState(BaseState* newState)
 		{
@@ -55,8 +49,6 @@ namespace boop
 		StateMachine(StateMachine&& other) = delete;
 		StateMachine& operator=(const StateMachine& other) = delete;
 		StateMachine& operator=(StateMachine&& other) = delete;
-
-		//virtual void Update(float deltaTime) = 0;
 
 	protected:
 		BaseState* m_pState{};

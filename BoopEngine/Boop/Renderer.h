@@ -34,8 +34,6 @@ namespace boop
 		SDL_Renderer* m_renderer{};
 		SDL_Window* m_window{};
 		SDL_Color m_clearColor{};
-
-		//std::list<boop::Component*> m_pComponentRenderList{};
 	};
 }
 

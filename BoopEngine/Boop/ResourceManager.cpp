@@ -44,16 +44,6 @@ boop::Font* boop::ResourceManager::LoadFont(const std::string& file, unsigned in
 
 	//if it does not exist -> save it and return
 	const auto fullPath = m_dataPath/file;
-	//m_Fonts[file] = std::move(std::make_unique<Font>(fullPath.string(), size));
-	//m_Fonts.emplace( file,std::make_unique<Font>(fullPath.string(), size));
 	m_Fonts.insert({ file,std::make_unique<Font>(fullPath.string(), size) });
 	return m_Fonts.at(file).get();
 }
-
-//boop::ResourceManager::~ResourceManager()
-//{
-//}
-
-//boop::ResourceManager::ResourceManager()
-//{
-//}

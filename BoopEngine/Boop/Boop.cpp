@@ -101,21 +101,8 @@ boop::Minigin::~Minigin()
 
 void boop::Minigin::Run(const std::function<void()>& load)
 {
-//	load();
-//#ifndef __EMSCRIPTEN__
-//	while (!m_quit)
-//		RunOneFrame();
-//#else
-//	emscripten_set_main_loop_arg(&LoopCallback, this, 0, true);
-//#endif
-
 	load();
 
-	//m_quit = !InputManager::GetInstance().ProcessInput();
-	//SceneManager::GetInstance().Update();
-	//Renderer::GetInstance().Render();
-
-	//bool doContinue = true;
 	auto lastTime = std::chrono::high_resolution_clock::now();
 	float lag = 0.0f;
 	float fixedTimeStep{ 0.03333f }; //from Unity
@@ -128,10 +115,9 @@ void boop::Minigin::Run(const std::function<void()>& load)
 		lag += deltaTime;
 
 		m_quit = !InputManager::GetInstance().ProcessInput(deltaTime);
-		//doContinue = input.ProcessInput();
+	
 		while (lag >= fixedTimeStep)
 		{
-			//sceneManager.FixedUpdate();
 			SceneManager::GetInstance().FixedUpdate(deltaTime);
 			lag -= fixedTimeStep;
 		}
@@ -148,7 +134,5 @@ void boop::Minigin::Run(const std::function<void()>& load)
 
 void boop::Minigin::RunOneFrame()
 {
-	/*m_quit = !InputManager::GetInstance().ProcessInput();
-	SceneManager::GetInstance().Update();
-	Renderer::GetInstance().Render();*/
+	
 }

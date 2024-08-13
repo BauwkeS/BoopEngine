@@ -15,10 +15,8 @@ namespace boop
 		bool m_needsUpdate;
 		std::string m_text;
 		Transform m_transform{};
-		//std::unique_ptr<Font> m_font;
 		Font* m_font;
 		std::unique_ptr<Texture2D> m_textTexture;
-		//boop::Texture2D* m_textTexture{};
 
 	public:
 		void Update(float deltaTime) override;

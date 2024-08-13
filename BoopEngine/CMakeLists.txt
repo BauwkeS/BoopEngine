@@ -23,8 +23,8 @@ add_library(${TARGET_NAME} STATIC
   Boop/HelperFiles/Transform.h
   Boop/HelperFiles/AnimatedTexture.h
   Boop/HelperFiles/AnimatedTexture.cpp
-  Boop/HelperFiles/Collision.h
-  Boop/HelperFiles/Collision.cpp
+  
+  
   Boop/GameObject.cpp
   Boop/Components/Component.h
   Boop/Components/Component.cpp
@@ -53,14 +53,14 @@ add_library(${TARGET_NAME} STATIC
   Boop/Input/Command.cpp
   Boop/Input/Controller.h
   Boop/Input/Controller.cpp
-  Boop/Event/Event.h
+  
   Boop/Event/Observer.h
   Boop/Event/Observer.cpp
   Boop/Event/Subject.h
   Boop/Event/Subject.cpp
   Boop/States.h
-  Boop/States.cpp
- "Boop/Components/CollisionComponent.h" "Boop/Components/CollisionComponent.cpp" "Boop/Components/PhysicsComponent.h" "Boop/Components/PhysicsComponent.cpp")
+  
+ "Boop/Components/CollisionComponent.h" "Boop/Components/CollisionComponent.cpp"  )
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)

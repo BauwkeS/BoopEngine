@@ -29,33 +29,6 @@ boop::AnimatedTexture::AnimatedTexture(std::string texture, int cols, int rows, 
 	m_DstRect.h = static_cast<int>(m_Scale * m_ScrRect.h);
 }
 
-//boop::AnimatedTexture::AnimatedTexture(const AnimatedTexture& other)
-//	: m_Cols(other.m_Cols),
-//	m_Rows(other.m_Rows),
-//	m_CurrentPic(other.m_CurrentPic),
-//	m_StartPic(other.m_StartPic),
-//	m_AmountPic(other.m_AmountPic),
-//	m_AccuSec(other.m_AccuSec),
-//	m_Scale(other.m_Scale),
-//	m_FrameSec(other.m_FrameSec),
-//	m_ScrRect(other.m_ScrRect),
-//	m_DstRect(other.m_DstRect),
-//	m_TextureName(other.m_TextureName)
-//{
-//	if (other.m_pTexture) {
-//		m_pTexture = new Texture2D(*other.m_pTexture);
-//	}
-//	else {
-//		m_pTexture = nullptr;
-//	}
-//}
-
-boop::AnimatedTexture::~AnimatedTexture()
-{
-	//delete m_pTexture;
-	//m_pTexture = nullptr;
-}
-
 boop::Texture2D* boop::AnimatedTexture::GetTexture()
 {
 	return m_pTexture.get();
@@ -73,8 +46,6 @@ void boop::AnimatedTexture::Update(float deltaTime, glm::vec2 pos)
 		if (m_CurrentPic >= m_AmountPic) m_CurrentPic = m_StartPic;
 
 		//modify rect
-		//m_DstRect.w = (m_CurrentPic % m_Cols) * m_ScrRect.w;
-		//m_DstRect.h = (m_CurrentPic / m_Cols) * m_ScrRect.h;
 		m_ScrRect.x = (m_CurrentPic % m_Cols) * m_ScrRect.w;
 		m_ScrRect.y = (m_CurrentPic / m_Cols) * m_ScrRect.h;
 	}
@@ -103,8 +74,5 @@ void boop::AnimatedTexture::ChangeTextureVars(const int cols, const int rows, co
 
 void boop::AnimatedTexture::Render()
 {
-	//auto pos{ GetOwner()->GetWorldPosition() };
-	//boop::Renderer::GetInstance().RenderTexture(*m_TexturePtr, pos.x, pos.y);
-
 	boop::Renderer::GetInstance().RenderTexture(*m_pTexture, m_DstRect, m_ScrRect,m_FliptTexture);
 }

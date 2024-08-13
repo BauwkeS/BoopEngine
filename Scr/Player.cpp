@@ -4,7 +4,6 @@
 
 #include "../BoopEngine/Boop/Components/CollisionComponent.h"
 #include "../BoopEngine/Boop/Components/SpriteComponent.h"
-#include "../BoopEngine/Boop/Components/PhysicsComponent.h"
 #include "../BoopEngine/Boop/Components/Component.h"
 #include "../BoopEngine/Boop/Scene/SceneManager.h"
 #include "../BoopEngine/Boop/Scene/Scene.h"

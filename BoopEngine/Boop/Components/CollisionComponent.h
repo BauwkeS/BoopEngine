@@ -50,7 +50,6 @@ namespace boop
 		bool HandleJump(float deltaTime);
 
 	private:
-		//std::unique_ptr<Collision> m_pCollision;
 		SDL_Rect m_CollisionRect{};
 
 		// physics
@@ -58,9 +57,8 @@ namespace boop
 		//not everyone needs physics, but I stil which to keep it compacted in here 
 		bool m_IsGrounded{ true };
 		float m_VerticalVelocity{ 0.0f };
-		//void CheckGroundCollision();
 
-		//jumping things
+		//jumping things -> SHOULD NOT BE IN THIS COMP
 		bool m_IsJumping{ };
 		float m_AirCounter{};
 		

@@ -27,7 +27,7 @@ namespace boop
 		AnimatedTexture(AnimatedTexture&& other) = delete;
 		AnimatedTexture& operator=(const AnimatedTexture& other) = delete;
 		AnimatedTexture& operator=(AnimatedTexture&& other) = delete;
-		~AnimatedTexture();
+		~AnimatedTexture() = default;
 
 		Texture2D* GetTexture();
 		

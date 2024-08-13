@@ -8,7 +8,6 @@ namespace boop
 {
 	class Scene final
 	{
-		//friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
 		void Add(std::unique_ptr<GameObject> object);
 		void Remove(std::unique_ptr<GameObject> object);

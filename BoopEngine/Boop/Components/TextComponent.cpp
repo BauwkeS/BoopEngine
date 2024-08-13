@@ -20,30 +20,6 @@ boop::TextComponent::TextComponent(boop::GameObject* const ownerPtr, const std::
 boop::TextComponent::~TextComponent()
 {
 }
-//
-//boop::TextComponent::TextComponent(const TextComponent& other)
-//	:
-//	Component(other.GetOwner()),
-//	m_needsUpdate(other.m_needsUpdate),
-//	m_text(other.m_text),
-//	m_transform(other.m_transform)
-//{
-//	// Assuming that Font and Texture2D can be copied.
-//	if (other.m_font) {
-//		m_font = new Font(*other.m_font);
-//	}
-//	else {
-//		m_font = nullptr;
-//	}
-//
-//	if (other.m_textTexture) {
-//		m_textTexture = std::make_unique<Texture2D>(*other.m_textTexture);
-//	}
-//	else {
-//		m_textTexture = nullptr;
-//	}
-//}
-
 void boop::TextComponent::Update(float deltaTime)
 {
 	deltaTime = 1;

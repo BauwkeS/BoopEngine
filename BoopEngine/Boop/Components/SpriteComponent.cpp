@@ -1,5 +1,4 @@
 #include "SpriteComponent.h"
-#include "../HelperFiles/Collision.h"
 #include "../GameObject.h"
 
 namespace boop
@@ -8,56 +7,20 @@ namespace boop
 		: Component(nullptr)
 	{
 		m_pTexture = nullptr;
-		//m_pCollision = nullptr;
 	}
 
 	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::unique_ptr<AnimatedTexture> texture)
 		: Component(ownerPtr)
 	{
 		m_pTexture = texture->Clone();
-	/*	if (collision)m_pCollision = collision;
-		else m_pCollision = new Collision(m_pTexture->GetDstRect());*/
-		
+	
 	}
 	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale)
 		: Component(ownerPtr)
 	{
 		m_pTexture = std::make_unique<AnimatedTexture>(texture, cols, rows, frameSec, startPicIndex, AmountPics, scale);
-	/*	if (collision)m_pCollision = collision;
-		else m_pCollision = new Collision(m_pTexture->GetDstRect());*/
-		
+
 	}
-
-	SpriteComponent::~SpriteComponent()
-	{
-		/*delete m_pTexture;
-		m_pTexture = nullptr;*/
-		
-	}
-
-	//SpriteComponent::SpriteComponent(const SpriteComponent& other)
-	//	: Component(other.GetOwner())
-	//{
-	//	if (other.m_pTexture)
-	//	{
-	//		m_pTexture = new AnimatedTexture(*other.m_pTexture);
-	//	}
-	//	if(other.m_pCollision)
-	//	{
-	//		m_pCollision = new Collision(*other.m_pCollision);
-	//	}
-	//}
-
-	//void SpriteComponent::FixedUpdate(float deltaTime)
-	//{
-	//	deltaTime;
-	//	/*if (m_pCollision)
-	//	{
-	//		auto result = m_pCollision->CheckCollision();
-	//		result;
-	//	}*/
-	//}
-
 	void SpriteComponent::Update(float deltaTime)
 	{
 		auto pos{ GetOwner()->GetWorldPosition() };
@@ -77,9 +40,4 @@ namespace boop
 	{
 		return m_pTexture->GetDstRect();
 	}
-
-	/*oid SpriteComponent::SetTexture(AnimatedTexture* const texture)
-	{
-		m_pTexture = std::make_unique<AnimatedTexture>(texture);
-	}*/
 }

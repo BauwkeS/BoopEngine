@@ -58,19 +58,13 @@ namespace boop
 		void UpdateWorldPosition();
 
 		//--
-		//stolen template from Mendel Debrabandere -> to be improved by myself pls
+		//original template from Mendel Debrabandere
+		// -> has been modified/added on for my own project
 
 		template <class T, typename... Args>
 		T* AddComponent(GameObject* owner, const Args&... args)
 		{
 			static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
-
-
-		/*	if (HasComponent<T>())
-			{
-				std::cout << "Trying to add an already existing component\n";
-				return nullptr;
-			}*/
 
 			std::unique_ptr<T> pComponent{};
 
@@ -81,7 +75,6 @@ namespace boop
 			else pComponent = std::make_unique<T>(owner, args...);
 
 
-			//pComponent->Initialize();
 
 			T* rawPtr = pComponent.get();
 			m_pComponents.emplace_back(std::move(pComponent));
@@ -100,18 +93,6 @@ namespace boop
 
 		Component* AddMadeComp(std::unique_ptr<Component> comp)
 		{
-			/*if (comp->GetOwner())
-			{
-				auto raw = comp.get();
-				m_pComponents.emplace_back(std::move(comp));
-				return(raw);
-			}
-			else {
-				comp->SetOwner(this);
-				auto raw = comp.get();
-				m_pComponents.emplace_back(std::move(comp));
-				return(raw);
-			}*/
 			if (!comp->GetOwner()) {
 				comp->SetOwner(this);
 			}
@@ -120,35 +101,6 @@ namespace boop
 			return rawPtr;
 			
 		}
-
-		////template <class T>
-		//void AddAlreadyMadeComponent(GameObject* owner, Component* comp)
-		//{
-		////	static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
-
-
-		///*	if (HasComponent<T>())
-		//	{
-		//		std::cout << "Trying to add an already existing component\n";
-		//		return nullptr;
-		//	}*/
-
-		//	std::unique_ptr<decltype(comp)> pComponent = std::make_unique<decltype(comp)>(comp);
-
-		//	if (owner == nullptr) 
-		//	{
-		//		pComponent->SetOwner(this);
-		//	}
-		//	else pComponent->SetOwner(owner);
-
-
-		//	//pComponent->Initialize();
-
-		//	//T* rawPtr = pComponent.get();
-		//	m_pComponents.emplace_back(std::move(pComponent));
-
-		//	//return rawPtr;
-		//}
 
 		template <class T>
 		bool RemoveComponent();

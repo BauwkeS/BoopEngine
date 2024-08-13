@@ -61,14 +61,6 @@ void boop::Renderer::RenderTexture(const Texture2D& texture, const float x, cons
 
 void boop::Renderer::RenderTexture(const Texture2D& texture, SDL_Rect& dstRect, const SDL_Rect& scrRect, bool flipTexture) const
 {
-	/*dstRect;
-	SDL_Rect dst{};
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);*/
-	//SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dstRect.w, &dstRect.h);
-
-	//SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &scrRect, &dstRect);
-
 	const SDL_Point center{ dstRect.w / 2, dstRect.h / 2 };
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &scrRect, &dstRect, 0, &center, static_cast<SDL_RendererFlip>(flipTexture));
 

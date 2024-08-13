@@ -25,7 +25,6 @@ namespace boop
 		~SceneManager();
 		std::vector<std::unique_ptr<Scene>> m_Scenes;
 
-		//std::unique_ptr<Scene> m_pActiveScene;
 		int m_ActiveSceneId{};
 	};
 }

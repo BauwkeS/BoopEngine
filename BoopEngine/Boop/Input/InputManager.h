@@ -53,12 +53,6 @@ namespace boop
 		bool IsKeyPressed(SDL_Scancode keyPressed);
 
 		int AddController();
-		// Commands need to be added:
-		// - in the correct scene where it works
-		// - which controller/keyboard
-		// - on what button
-		// - in what keystate
-		// - the command itself
 
 		void AddCommand(std::string sceneName, int controllerIdx, Controller::ControllerButton button, keyState state, std::unique_ptr<Command> pCommand);
 		void AddCommand(std::string sceneName, SDL_Scancode key, keyState state, std::unique_ptr<Command> pCommand);

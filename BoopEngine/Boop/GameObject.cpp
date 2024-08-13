@@ -68,8 +68,6 @@ void boop::GameObject::RemoveComponent(int componentIdx)
 
 void boop::GameObject::SetLocalPosition(float x, float y)
 {
-	//m_Transform.SetLocalPosition(x, y, 0.0f);
-	//m_LocalPosition = glm::vec3(x, y, 0.0f);
 	SetLocalPosition(glm::vec3(x, y, 0.0f));
 
 }
@@ -80,20 +78,6 @@ void boop::GameObject::SetLocalPosition(const glm::vec3& pos)
 	SetPositionDirty();
 }
 
-//void boop::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
-//{
-//	if (IsChild(parent) || parent == this || m_pParent == parent) return;
-//
-//	if (parent == nullptr) SetLocalPosition(GetWorldPosition());
-//	else {
-//		if (keepWorldPosition) SetLocalPosition(GetWorldPosition() - parent->GetWorldPosition());
-//		SetPositionDirty();
-//	}
-//
-//	if (m_pParent) m_pParent->RemoveChild(this);
-//	m_pParent = parent;
-//	if (m_pParent) m_pParent->AddChild(this);
-//}
 void boop::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 {
 	if (parent == nullptr || IsChild(parent) || parent == this || m_pParent == parent)
@@ -113,11 +97,6 @@ void boop::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 }
 
 
-//void boop::GameObject::RemoveChild(GameObject* child)
-//{
-//	//m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), child), m_pChildren.end());
-//	std::erase(m_pChildren, child);
-//}
 void boop::GameObject::RemoveChild(GameObject* child)
 {
 	auto it = std::remove(m_pChildren.begin(), m_pChildren.end(), child);
@@ -160,7 +139,6 @@ void boop::GameObject::SetPositionDirty()
 
 const glm::vec3& boop::GameObject::GetWorldPosition()
 {
-	// TODO: insert return statement here
 	if (m_PositionIsDirty) UpdateWorldPosition();
 	return m_WorldPosition;
 }

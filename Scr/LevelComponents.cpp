@@ -7,7 +7,6 @@
 #include "../BoopEngine/Boop/Components/CollisionComponent.h"
 #include "../BoopEngine/Boop/Input/InputManager.h"
 #include "Player.h"
-#include "../BoopEngine/Boop/Components/PhysicsComponent.h"
 
 namespace booble
 {
