@@ -28,6 +28,9 @@ endif()
 # Link against the correct target
 target_link_libraries(${PROJECT_NAME} PRIVATE BoopEngine)
 
+find_package(VLD CONFIG)
+target_include_directories(${PROJECT_NAME} PRIVATE ${VLD_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${VLD_LIBRARIES})
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
