@@ -14,7 +14,8 @@ namespace booble
 	Player::Player(boop::GameObject* owner)
 		: Component(owner)
 	{
-		m_StateMachine = std::make_unique<PlayerStateMachine>(owner, new IdleState(*this));
+		m_IdleState = std::make_unique<IdleState>(*this);
+		m_StateMachine = std::make_unique<PlayerStateMachine>(owner, m_IdleState.get());
 		
 		//m_CollisionComp = std::make_unique<boop::CollisionComponent>()
 	}
@@ -74,7 +75,7 @@ namespace booble
 				JumpState* jump = dynamic_cast<JumpState*>(currentState);
 
 
-				if (jump) m_StateMachine->GoToState(new IdleState(*this));
+				if (jump) m_StateMachine->GoToState(m_IdleState.get());
 				//if not then set it correctly
 
 				//add jumping

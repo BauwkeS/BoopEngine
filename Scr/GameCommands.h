@@ -4,6 +4,7 @@
 
 #include "Player.h"
 #include <iostream>
+#include <memory>
 
 //COMMANDS HERE
 namespace boop
@@ -26,7 +27,7 @@ namespace booble
 		WalkCommand(boop::GameObject* component, float speed, bool jump = false, float jumpForce = 0.0f)
 			: m_pGameObject{ component }, m_Speed{ speed }, m_Jump{ jump }, m_JumpForce{ jumpForce } {}
 		//make sure you can walk without jumping
-		~WalkCommand() = default;
+		~WalkCommand() { m_pGameObject = nullptr; delete m_pGameObject; };
 
 		void Execute(float d) override {
 
@@ -66,7 +67,7 @@ namespace booble
 		StopWalkingCommand(boop::GameObject* component)
 			: m_pGameObject{ component } {}
 		//make sure you can walk without jumping
-		~StopWalkingCommand() = default;
+		~StopWalkingCommand() { m_pGameObject = nullptr; delete m_pGameObject; };
 
 		void Execute(float) override {
 
@@ -99,7 +100,7 @@ namespace booble
 		JumpCommand(boop::GameObject* component, float jumpStrength)
 			: m_pGameObject{ component }, m_JumpStrength{ jumpStrength } {}
 
-		~JumpCommand() = default;
+		~JumpCommand() { m_pGameObject = nullptr; delete m_pGameObject; };
 
 		void Execute(float) override {
 			auto playerComp = m_pGameObject->GetComponent<Player>();

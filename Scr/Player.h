@@ -38,6 +38,8 @@ namespace booble
 		void HandleJumps(float);
 	private:
 		std::unique_ptr<PlayerStateMachine> m_StateMachine;
+		std::unique_ptr<IdleState> m_IdleState;
+		std::unique_ptr<WalkState> m_WalkState;
 		//std::unique_ptr<boop::CollisionComponent> m_CollisionComp;
 		//bool m_IsStuck{};
 
