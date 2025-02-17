@@ -47,3 +47,8 @@ boop::Font* boop::ResourceManager::LoadFont(const std::string& file, unsigned in
 	m_Fonts.insert({ file,std::make_unique<Font>(fullPath.string(), size) });
 	return m_Fonts.at(file).get();
 }
+
+boop::ResourceManager::~ResourceManager()
+{
+	TTF_Quit();
+}

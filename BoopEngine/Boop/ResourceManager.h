@@ -20,7 +20,7 @@ namespace boop
 	private:
 		friend class Singleton<ResourceManager>;
 
-		~ResourceManager() = default;
+		~ResourceManager();
 		ResourceManager() = default;
 		std::filesystem::path m_dataPath;
 
