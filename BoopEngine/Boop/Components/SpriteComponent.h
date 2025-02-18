@@ -31,15 +31,6 @@ namespace boop
 		void MoveSprite(glm::ivec2 pos);
 		AnimatedTexture* GetTexture(){return m_pTexture.get();}
 		SDL_Rect GetTextureRect();
-	
-		virtual std::unique_ptr<Component> Clone() const override
-		{
-			// Create a new comp with the same info
-			std::unique_ptr<SpriteComponent> spriteComponent
-				= std::make_unique<SpriteComponent>(this->GetOwner(),
-					this->m_pTexture->Clone());
-			return std::move(spriteComponent);
-		}
 
 	private:
 		std::unique_ptr<AnimatedTexture> m_pTexture;

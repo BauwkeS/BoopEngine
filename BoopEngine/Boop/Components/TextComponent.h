@@ -33,14 +33,5 @@ namespace boop
 		TextComponent(TextComponent&& other) = delete;
 		TextComponent& operator=(const TextComponent& other) = delete;
 		TextComponent& operator=(TextComponent&& other) = delete;
-
-		virtual std::unique_ptr<Component> Clone() const override
-		{
-			std::unique_ptr<TextComponent> spriteComponent
-				= std::make_unique<TextComponent>(this->GetOwner(),
-					m_text);
-			return std::move(spriteComponent);
-		}
-
 	};
 }

@@ -12,7 +12,8 @@ namespace boop
 	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::unique_ptr<AnimatedTexture> texture)
 		: Component(ownerPtr)
 	{
-		m_pTexture = texture->Clone();
+		//TO-DO FIX THIS
+		//m_pTexture = texture->Clone();
 	
 	}
 	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale)

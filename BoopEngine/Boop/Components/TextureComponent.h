@@ -27,15 +27,6 @@ namespace boop
 		void Render() const override;
 
 		SDL_Rect GetTextureRect() const;
-
-		virtual std::unique_ptr<Component> Clone() const override
-		{
-			std::unique_ptr<TextureComponent> spriteComponent
-				= std::make_unique<TextureComponent>(this->GetOwner(),
-					m_TextureString, m_Scale
-					);
-			return std::move(spriteComponent);
-		}
 	private:
 		boop::Texture2D* m_TexturePtr{};
 		std::string m_TextureString{};

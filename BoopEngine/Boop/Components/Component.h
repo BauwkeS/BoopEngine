@@ -27,7 +27,5 @@ namespace boop
 
 		void SetOwner(GameObject* pOwner) { m_pOwner = pOwner; }
 			GameObject* GetOwner() const { return m_pOwner; }
-
-			virtual std::unique_ptr<Component> Clone() const = 0;
 	};
 }

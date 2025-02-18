@@ -22,10 +22,6 @@ namespace boop
 		Texture2D & operator= (const Texture2D &) = delete;
 		Texture2D & operator= (const Texture2D &&) = delete;
 
-		std::unique_ptr<Texture2D> Clone() {
-			std::unique_ptr<Texture2D> texClone = std::make_unique<Texture2D>(*this);
-			return std::move(texClone);
-		}
 	private:
 		SDL_Texture* m_texture;
 	};

@@ -21,9 +21,6 @@ namespace booble
 		void LateUpdate(float deltaTime) override;
 		void Render() const override;
 
-
-		std::unique_ptr<boop::Component> Clone() const override;
-
 		//bool GetIsStuck() { return m_IsStuck; }
 
 		void AccountCollision();
@@ -44,9 +41,6 @@ namespace booble
 		float m_JumpStrength{ 10.0f };
 		float m_JumpTime{ 0.0f };
 		float m_MaxJumpTime{ 0.2f };*/
-		//bool m_IsGrounded{ true };
-		void CollideWall();
-		void CollidePlatform();
 	};
 
 }

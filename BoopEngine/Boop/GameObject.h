@@ -111,39 +111,6 @@ namespace boop
 		bool HasComponent() const;
 
 
-		//----
-	//Clone function
-		std::unique_ptr<GameObject> Clone() const
-		{
-			auto clonedObject = std::make_unique<GameObject>();
-
-			// Copy all relevant data
-			clonedObject->m_LocalPosition = this->m_LocalPosition;
-			clonedObject->m_WorldPosition = this->m_WorldPosition;
-			clonedObject->m_PositionIsDirty = this->m_PositionIsDirty;
-
-			if (!this->m_Tag.empty()) clonedObject->m_Tag = this->m_Tag;
-
-			// Clone components
-			for (const auto& component : m_pComponents) {
-				if (component) {
-					clonedObject->AddComponent(component->Clone());
-				}
-			}
-			// Handle parent-child relationships
-			if (m_pParent) {
-				clonedObject->SetParent(m_pParent, true);  // Assuming you want to keep the world position
-			}
-			for (auto* child : m_pChildren) {
-				auto clonedChild = child->Clone();
-				clonedChild->SetParent(clonedObject.get(), true); // Re-establish parent-child relationships
-				clonedObject->AddChild(clonedChild.get());
-			}
-
-			//return std::move(clonedObject);
-			return clonedObject;
-		}
-
 	};
 
 	template <class T>

@@ -41,14 +41,6 @@ namespace boop
 		void SetFlipTexture(bool flip) { m_FliptTexture = flip; }
 		bool IsTextureFlipped() { return m_FliptTexture; }
 
-		std::unique_ptr<AnimatedTexture> Clone() const {
-			std::unique_ptr<AnimatedTexture> clonedTexture =
-				std::make_unique<AnimatedTexture>(this->m_TextureName,
-					this->m_Cols, this->m_Rows, this->m_FrameSec, this->m_StartPic,
-					this->m_AmountPic, this->m_Scale, this->m_FliptTexture);
-			return std::move(clonedTexture);
-		}
-
 	protected:
 		std::unique_ptr<Texture2D> m_pTexture{};
 		float m_FrameSec;
