@@ -13,10 +13,10 @@ add_executable(${PROJECT_NAME}
  "Scr/Player.h"
  "Scr/LevelComponents.h"
  "Scr/LevelComponents.cpp"
- "Scr/States.h"
- "Scr/States.cpp"
+ 
+ 
  "Scr/GameCommands.h"
- "Scr/GameCommands.cpp"  )
+   )
 
 # Ensure correct target name
 if(EMSCRIPTEN)

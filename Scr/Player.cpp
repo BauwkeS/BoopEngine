@@ -14,17 +14,14 @@ namespace booble
 	Player::Player(boop::GameObject* owner)
 		: Component(owner)
 	{
-		m_IdleState = std::make_unique<IdleState>(*this);
-		m_StateMachine = std::make_unique<PlayerStateMachine>(owner, m_IdleState.get());
 		
 		//m_CollisionComp = std::make_unique<boop::CollisionComponent>()
 	}
 
-	void Player::FixedUpdate(float d)
+	void Player::FixedUpdate(float)
 	{
 		//HandleJump(deltaTime);
 		AccountCollision();
-		HandleJumps(d);
 		/*auto* collision = GetOwner()->GetComponent<boop::CollisionComponent>();
 		if (collision) collision->FixedUpdate(deltaTime);*/
 	}
@@ -62,28 +59,6 @@ namespace booble
 		//collide with : ENEMY
 	}
 
-	void Player::HandleJumps(float d)
-	{
-		auto collComp = GetOwner()->GetComponent<boop::CollisionComponent>();
-
-		if (collComp->IsJumping())
-		{
-			if(collComp->HandleJump(d))
-			{
-				// check if the current state is walking already
-				auto currentState = m_StateMachine->GetActiveState();
-				JumpState* jump = dynamic_cast<JumpState*>(currentState);
-
-
-				if (jump) m_StateMachine->GoToState(m_IdleState.get());
-				//if not then set it correctly
-
-				//add jumping
-				//if (m_Jump) playerComp->Jump(m_JumpForce);
-			}
-		}
-
-	}
 
 	void Player::CollideWall()
 	{

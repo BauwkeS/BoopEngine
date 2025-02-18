@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
-#include "States.h"
-
+#include "../BoopEngine/Boop/GameObject.h"
 
 namespace boop {
 	class GameObject;
@@ -23,9 +22,8 @@ namespace booble
 		void Render() const override;
 
 
-		std::unique_ptr<Component> Clone() const override;
+		std::unique_ptr<boop::Component> Clone() const override;
 
-		PlayerStateMachine* GetStateMachine() { return m_StateMachine.get(); }
 		//bool GetIsStuck() { return m_IsStuck; }
 
 		void AccountCollision();
@@ -35,11 +33,7 @@ namespace booble
 
 
 		//bool IsOnGround() const { return m_IsGrounded; }
-		void HandleJumps(float);
 	private:
-		std::unique_ptr<PlayerStateMachine> m_StateMachine;
-		std::unique_ptr<IdleState> m_IdleState;
-		std::unique_ptr<WalkState> m_WalkState;
 		//std::unique_ptr<boop::CollisionComponent> m_CollisionComp;
 		//bool m_IsStuck{};
 

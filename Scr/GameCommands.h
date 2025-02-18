@@ -27,26 +27,15 @@ namespace booble
 		WalkCommand(boop::GameObject* component, float speed, bool jump = false, float jumpForce = 0.0f)
 			: m_pGameObject{ component }, m_Speed{ speed }, m_Jump{ jump }, m_JumpForce{ jumpForce } {}
 		//make sure you can walk without jumping
-		~WalkCommand() { m_pGameObject = nullptr; delete m_pGameObject; };
+		~WalkCommand() { m_pGameObject = nullptr; delete m_pGameObject; }
 
-		void Execute(float d) override {
+		void Execute(float) override {
 
 			//FOR THE PLAYER
 			auto playerComp = m_pGameObject->GetComponent<Player>();
 			if (playerComp)
 			{
-				//check if the current state is walking already
-				auto currentState = playerComp->GetStateMachine()->GetActiveState();
-				WalkState* walk = dynamic_cast<WalkState*>(currentState);
-
-				//check if the direction is correct
-				bool checkGoingLeft = m_Speed < 0;
-
-				if (walk && checkGoingLeft == walk->IsGoingToTheLeft()) walk->Update(d); //if all is good, update it
-				else playerComp->GetStateMachine()->GoToState(new WalkState(*playerComp, m_Speed));
-				//if not then set it correctly
-
-				//add jumping
+				
 				//if (m_Jump) playerComp->Jump(m_JumpForce);
 			}
 
@@ -75,11 +64,7 @@ namespace booble
 			auto playerComp = m_pGameObject->GetComponent<Player>();
 			if (playerComp)
 			{
-				//check if the current state is walking already
-				auto currentState = playerComp->GetStateMachine()->GetActiveState();
-				IdleState* idle = dynamic_cast<IdleState*>(currentState);
 
-				if (!idle) playerComp->GetStateMachine()->GoToState(new IdleState(*playerComp));
 			}
 
 
@@ -107,14 +92,6 @@ namespace booble
 			if (playerComp) {
 				//playerComp->StartJump(m_JumpStrength);
 
-
-				// check if the current state is walking already
-				auto currentState = playerComp->GetStateMachine()->GetActiveState();
-				JumpState* jump = dynamic_cast<JumpState*>(currentState);
-
-				
-				if (!jump) playerComp->GetStateMachine()->GoToState(new JumpState(*playerComp, m_JumpStrength));
-				//if not then set it correctly
 
 				//add jumping
 				//if (m_Jump) playerComp->Jump(m_JumpForce);
