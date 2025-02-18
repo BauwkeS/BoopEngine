@@ -17,9 +17,7 @@ boop::AnimatedTexture::AnimatedTexture(std::string texture, int cols, int rows, 
 {
 	if (m_AmountPic == 0) m_AmountPic = m_Cols * m_Rows;
 
-	//TO-DO FIX THIS
-	//auto textureTemp = boop::ResourceManager::GetInstance().LoadTexture(texture);
-	//m_pTexture = textureTemp->Clone();
+	m_pTexture = std::make_unique<Texture2D>(*boop::ResourceManager::GetInstance().LoadTexture(texture));
 
 	m_ScrRect.w = static_cast<int>(m_pTexture->GetSize().x) / m_Cols;
 	m_ScrRect.h = static_cast<int>(m_pTexture->GetSize().y) / m_Rows;
