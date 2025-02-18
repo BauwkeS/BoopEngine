@@ -12,11 +12,11 @@
 
 namespace level
 {
-	void LevelLoader::AssignGameObject(int index, std::unique_ptr<boop::GameObject> object)
-	{
-		// Store the unique_ptr in the m_GameComponents map
-		m_GameComponents.emplace(index, std::move(object));
-	}
+    void LevelLoader::AssignGameObject(int index, std::unique_ptr<boop::GameObject> object)
+    {
+        // Store the unique_ptr in the m_GameComponents map
+        m_GameComponents.emplace(index, std::move(object));
+    }
 
 	void LevelLoader::CreateLevel(std::string fileName, std::string sceneName, std::vector<std::string> tags)
 	{
@@ -64,15 +64,9 @@ namespace level
 				}
 
 				//TO-DO
-				if(index == 3)
+				if (m_GameComponents.at(index))
 				{
-					int tset = 2;
-					tset;
-				}
-				
-				if (m_GameComponents.at(index).get())
-				{
-					auto clonedObject = std::move(m_GameComponents.at(index));
+					auto clonedObject = m_GameComponents.at(index).get();
 					clonedObject->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
 
 					for (auto tag : tags)
