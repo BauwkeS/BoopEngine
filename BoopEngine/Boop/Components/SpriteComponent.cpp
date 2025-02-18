@@ -14,6 +14,7 @@ namespace boop
 	{
 		//TO-DO FIX THIS
 		//m_pTexture = texture->Clone();
+		m_pTexture = std::move(texture);
 	
 	}
 	SpriteComponent::SpriteComponent(boop::GameObject* const ownerPtr, std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale)
