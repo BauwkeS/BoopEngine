@@ -35,7 +35,7 @@ namespace level
 
 		int colsRead = 0;
 		int rowsRead = 0;
-		//constexpr int gridSize = 32;
+		constexpr int gridSize = 32;
 
 		//components with a tag to load last:
 		std::vector <std::unique_ptr<boop::GameObject>> renderLastComps{};
@@ -64,21 +64,29 @@ namespace level
 				}
 
 				//TO-DO
-				/*
-				auto clonedObject = m_GameComponents.at(index)->Clone();
-				clonedObject->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
-
-				for (auto tag : tags)
+				if(index == 3)
 				{
-					if (clonedObject->GetTag() == tag) {
-						renderLastComps.emplace_back(std::move(clonedObject));
-						break;
-					}
-					
+					int tset = 2;
+					tset;
 				}
-	
-				if(clonedObject) scene.Add(std::move(clonedObject)); 
-				*/
+				
+				if (m_GameComponents.at(index).get())
+				{
+					auto clonedObject = std::move(m_GameComponents.at(index));
+					clonedObject->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
+
+					for (auto tag : tags)
+					{
+						if (clonedObject->GetTag() == tag) {
+							renderLastComps.emplace_back(std::move(clonedObject));
+							break;
+						}
+
+					}
+
+					if(clonedObject) scene.Add(std::move(clonedObject));
+				}
+				
 				//--
 				++colsRead;
 			}
