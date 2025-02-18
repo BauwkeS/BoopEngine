@@ -2,8 +2,8 @@
 #include <memory>
 #include <iostream>
 #include <vector>
-#include "HelperFiles/Transform.h"
 #include "Components/Component.h"
+#include "glm/vec3.hpp"
 
 namespace boop
 {

@@ -19,8 +19,8 @@ add_library(${TARGET_NAME} STATIC
   Boop/HelperFiles/Font.h
   Boop/HelperFiles/Texture2D.cpp
   Boop/HelperFiles/Texture2D.h
-  Boop/HelperFiles/Transform.cpp
-  Boop/HelperFiles/Transform.h
+  
+  
   Boop/HelperFiles/AnimatedTexture.h
   Boop/HelperFiles/AnimatedTexture.cpp
   

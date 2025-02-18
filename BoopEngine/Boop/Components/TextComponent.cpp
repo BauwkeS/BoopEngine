@@ -45,7 +45,7 @@ void boop::TextComponent::Render() const
 {
 	if (m_textTexture != nullptr)
 	{
-		const auto& pos = m_transform.GetPosition();
+		const auto& pos = m_position;
 		Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
 	}
 }
@@ -59,7 +59,7 @@ void boop::TextComponent::SetText(const std::string& text)
 
 void boop::TextComponent::SetPosition(const float x, const float y)
 {
-	m_transform.SetPosition(x, y, 0.0f);
+	m_position = glm::vec3(x, y, 0.0f);
 }
 
 boop::TextComponent::TextComponent()
