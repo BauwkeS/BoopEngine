@@ -80,6 +80,9 @@ namespace level
 
 					if(clonedObject) scene.Add(std::move(clonedObject));
 				}
+				//make use of json parser of information assigment
+				//dont use the prototype pattern, when asked its because I have so much and dont want to create overhead
+				//or maybe use it idk look at it. bc I dont want all those clone functions again or maybe clean up your components bc they are not correct and then input clone functions
 				
 				//--
 				++colsRead;
