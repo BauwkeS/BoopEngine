@@ -18,7 +18,6 @@ namespace booble
 
 		void FixedUpdate(float deltaTime) override;
 		void Update(float deltaTime) override;
-		void LateUpdate(float deltaTime) override;
 		void Render() const override;
 
 		//bool GetIsStuck() { return m_IsStuck; }

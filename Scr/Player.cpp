@@ -33,12 +33,6 @@ namespace booble
 		
 	}
 
-	void Player::LateUpdate(float deltaTime)
-	{
-		deltaTime;
-		AccountCollision();
-	}
-
 	void Player::Render() const
 	{
 	}

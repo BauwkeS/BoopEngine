@@ -20,7 +20,6 @@ namespace boop
 	public:
 		void Update(float deltaTime) override;
 		void FixedUpdate(float) override { }
-		void LateUpdate(float) override { }
 		void Render() const override;
 
 		void SetText(const std::string& text);

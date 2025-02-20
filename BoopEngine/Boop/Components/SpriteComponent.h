@@ -24,7 +24,6 @@ namespace boop
 		SpriteComponent& operator=(SpriteComponent&& other) = delete;
 
 		void FixedUpdate(float) override { }
-		void LateUpdate(float) override { }
 		void Update(float deltaTime) override;
 		void Render() const override;
 

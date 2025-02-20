@@ -7,8 +7,6 @@
 
 namespace boop
 {
-	class Collision;
-
 	class TextureComponent : public Component
 	{
 	public:
@@ -22,7 +20,6 @@ namespace boop
 
 		void FixedUpdate(float) override { }
 		void Update(float) override { }
-		void LateUpdate(float) override { }
 		void Render() const override;
 
 		SDL_Rect GetTextureRect() const;

@@ -19,15 +19,6 @@ void boop::SceneManager::Update(float deltaTime)
 	m_Scenes[m_ActiveSceneId]->Update(deltaTime);
 }
 
-void boop::SceneManager::LateUpdate(float deltaTime)
-{
-	/*for (auto& scene : m_Scenes)
-	{
-		scene->LateUpdate(deltaTime);
-	}*/
-	m_Scenes[m_ActiveSceneId]->LateUpdate(deltaTime);
-}
-
 void boop::SceneManager::Render()
 {
 	/*for (const auto& scene : m_Scenes)

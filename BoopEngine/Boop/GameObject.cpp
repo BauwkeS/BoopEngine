@@ -36,17 +36,6 @@ void boop::GameObject::Update(float deltaTime)
 	}
 }
 
-void boop::GameObject::LateUpdate(float deltaTime)
-{
-	for (const std::unique_ptr<boop::Component>& component : m_pComponents)
-	{
-		if (!component)
-			continue;
-
-		component->LateUpdate(deltaTime);
-	}
-}
-
 void boop::GameObject::Render() const
 {
 	for (const std::unique_ptr<boop::Component>& component : m_pComponents)

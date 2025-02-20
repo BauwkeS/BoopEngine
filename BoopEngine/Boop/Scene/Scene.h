@@ -15,7 +15,6 @@ namespace boop
 
 		void FixedUpdate(float deltaTime);
 		void Update(float deltaTime);
-		void LateUpdate(float deltaTime);
 		void Render() const;
 
 		std::string GetName() const;

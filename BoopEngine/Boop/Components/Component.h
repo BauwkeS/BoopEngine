@@ -22,7 +22,6 @@ namespace boop
 
 		virtual void FixedUpdate(float deltaTime) =0;
 		virtual void Update(float deltaTime) = 0;
-		virtual void LateUpdate(float deltaTime) = 0;
 		virtual void Render() const = 0;
 
 		void SetOwner(GameObject* pOwner) { m_pOwner = pOwner; }
