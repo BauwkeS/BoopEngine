@@ -55,10 +55,6 @@ namespace boop
 		const glm::vec3& GetWorldPosition();
 		void UpdateWorldPosition();
 
-		//--
-		//original template from Mendel Debrabandere
-		// -> has been modified/added on for my own project
-
 		template <class T, typename... Args>
 		T* AddComponent(GameObject* owner, const Args&... args)
 		{
@@ -79,36 +75,12 @@ namespace boop
 
 			return rawPtr;
 		}
-		template <typename T>
-		T* AddComponent(std::unique_ptr<T> component) {
-			static_assert(std::is_base_of<Component, T>::value, "T must be derived from Component");
-
-			T* rawPtr = component.get();
-			component->SetOwner(this);
-			m_pComponents.emplace_back(std::move(component));
-			return rawPtr;
-		}
-
-		Component* AddMadeComp(std::unique_ptr<Component> comp)
-		{
-			if (!comp->GetOwner()) {
-				comp->SetOwner(this);
-			}
-			Component* rawPtr = comp.get();
-			m_pComponents.emplace_back(std::move(comp));
-			return rawPtr;
-			
-		}
 
 		template <class T>
 		bool RemoveComponent();
 
 		template <class T>
 		T* GetComponent() const;
-
-		template <class T>
-		bool HasComponent() const;
-
 
 	};
 
@@ -140,19 +112,6 @@ namespace boop
 		}
 
 		return nullptr;
-	}
-
-	template <class T>
-	inline bool boop::GameObject::HasComponent() const
-	{
-		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
-
-		for (const auto& component : m_pComponents)
-		{
-			if (dynamic_cast<T*>(component.get()))
-				return true;
-		}
-		return false;
 	}
 
 	

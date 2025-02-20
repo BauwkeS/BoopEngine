@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 
 namespace boop
 {
@@ -24,7 +23,6 @@ namespace boop
 		virtual void Update(float deltaTime) = 0;
 		virtual void Render() const = 0;
 
-		void SetOwner(GameObject* pOwner) { m_pOwner = pOwner; }
-			GameObject* GetOwner() const { return m_pOwner; }
+		GameObject* GetOwner() const { return m_pOwner; }
 	};
 }

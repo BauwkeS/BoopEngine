@@ -12,17 +12,17 @@ namespace booble
 	std::unique_ptr<boop::GameObject> LevelComponents::CreateAir()
 	{
 		auto gameObjPtr = std::make_unique<boop::GameObject>();
-		gameObjPtr->AddComponent(std::move(std::make_unique< boop::TextureComponent>(nullptr, "", 4.f)));
+		gameObjPtr->AddComponent< boop::TextureComponent>(nullptr, "", 4.f);
 		return std::move(gameObjPtr);
 	}
 	std::unique_ptr<boop::GameObject> booble::LevelComponents::CreateWall(int whichBlock)
 	{
 		auto gameObjPtr = std::make_unique<boop::GameObject>();
 		if (whichBlock == 0) {
-			gameObjPtr->AddComponent(std::move(std::make_unique< boop::TextureComponent>(nullptr, "purpleBlock.png", 4.f)));
+			gameObjPtr->AddComponent< boop::TextureComponent>(nullptr, "purpleBlock.png", 4.f);
 		}
 		else {
-			gameObjPtr->AddComponent(std::move(std::make_unique< boop::TextureComponent>(nullptr, "stoneBlock.png", 4.f)));
+			gameObjPtr->AddComponent< boop::TextureComponent>(nullptr, "stoneBlock.png", 4.f);
 		}
 		gameObjPtr->SetTag("Wall");
 
@@ -33,10 +33,10 @@ namespace booble
 	{
 		auto gameObjPtr = std::make_unique<boop::GameObject>();
 		if (whichBlock == 0) {
-			gameObjPtr->AddComponent(std::move(std::make_unique< boop::TextureComponent>(nullptr, "purpleBlock.png", 4.f)));
+			gameObjPtr->AddComponent<boop::TextureComponent>(nullptr, "purpleBlock.png", 4.f);
 		}
 		else {
-			gameObjPtr->AddComponent(std::move(std::make_unique< boop::TextureComponent>(nullptr, "stoneBlock.png", 4.f)));
+			gameObjPtr->AddComponent< boop::TextureComponent>(nullptr, "stoneBlock.png", 4.f);
 		}
 
 		gameObjPtr->SetTag("Platform");
@@ -47,8 +47,8 @@ namespace booble
 	std::unique_ptr<boop::GameObject> booble::LevelComponents::CreatePlayer()
 	{
 		auto playerObject = std::make_unique<boop::GameObject>();
-		playerObject->AddComponent(std::move(std::make_unique< boop::SpriteComponent>(nullptr, static_cast<std::string>("greenDino.png"), 6, 5, 0.2f, 0, 2, 4.f)));
-		playerObject->AddComponent(std::move(std::make_unique<Player>(nullptr)));
+		playerObject->AddComponent< boop::SpriteComponent>(nullptr, static_cast<std::string>("greenDino.png"), 6, 5, 0.2f, 0, 2, 4.f);
+		playerObject->AddComponent<Player>(nullptr);
 		//playerObject->AddComponent(std::move(std::make_unique<boop::PhysicsComponent>(nullptr)));
 		playerObject->SetTag("Player");
 
