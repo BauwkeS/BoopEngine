@@ -10,13 +10,8 @@ boop::TextureComponent::TextureComponent(boop::GameObject* const ownerPtr, std::
 	m_TextureString{texture},
 	m_Scale{scale}
 {
-	m_TexturePtr = boop::ResourceManager::GetInstance().LoadTexture(texture);
-}
-
-boop::TextureComponent::TextureComponent() :
-Component(nullptr)
-{
-	m_TexturePtr = nullptr;
+	if (!m_TextureString.empty()) m_TexturePtr = std::make_unique<Texture2D>(*boop::ResourceManager::GetInstance().LoadTexture(texture));
+	else m_TexturePtr = nullptr;
 }
 
 void boop::TextureComponent::Render() const

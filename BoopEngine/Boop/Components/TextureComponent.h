@@ -13,7 +13,6 @@ namespace boop
 	{
 	public:
 		TextureComponent(boop::GameObject* const ownerPtr, std::string texture, float scale=1);
-		TextureComponent();
 		~TextureComponent() override = default;
 
 		TextureComponent(const TextureComponent& other) = delete;
@@ -28,7 +27,7 @@ namespace boop
 
 		SDL_Rect GetTextureRect() const;
 	private:
-		boop::Texture2D* m_TexturePtr{};
+		std::unique_ptr<Texture2D> m_TexturePtr{};
 		std::string m_TextureString{};
 		float m_Scale{};
 	};
