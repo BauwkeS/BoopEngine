@@ -86,13 +86,14 @@ void boop::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 }
 
 
-void boop::GameObject::RemoveChild(GameObject* child)
-{
-	auto it = std::remove(m_pChildren.begin(), m_pChildren.end(), child);
-	if (it != m_pChildren.end())
-	{
-		m_pChildren.erase(it, m_pChildren.end());
-	}
+void boop::GameObject::RemoveChild(GameObject* child)  
+{  
+	auto it = std::remove_if(m_pChildren.begin(), m_pChildren.end(),  
+		[&](const std::unique_ptr<GameObject>& pChild) { return pChild.get() == child; });  
+	if (it != m_pChildren.end())  
+	{  
+		m_pChildren.erase(it, m_pChildren.end());  
+	}  
 }
 
 
@@ -103,14 +104,14 @@ void boop::GameObject::AddChild(GameObject* child)
 
 boop::GameObject * boop::GameObject::GetChildAt(int index) const
 {
-	return m_pChildren[index];
+	return m_pChildren[index].get();
 }
 
 bool boop::GameObject::IsChild(GameObject* parent) const
 {
-	for (auto child : m_pChildren) {
-		if (parent == child) return true;
-		if (m_pChildren.size() > 0) {
+	for (const auto& child : m_pChildren) {
+		if (parent == child.get()) return true;
+		if (!m_pChildren.empty()) {
 			if (child->IsChild(parent)) return true;
 		}
 	}
@@ -120,7 +121,7 @@ bool boop::GameObject::IsChild(GameObject* parent) const
 
 void boop::GameObject::SetPositionDirty()
 {
-	for (auto child : m_pChildren) {
+	for (auto& child : m_pChildren) {
 		child->SetPositionDirty(); //so all the children have it too
 	}
 	m_PositionIsDirty = true;

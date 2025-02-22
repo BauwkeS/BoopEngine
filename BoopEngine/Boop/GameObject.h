@@ -13,11 +13,13 @@ namespace boop
 		//Transform m_Transform{};
 		std::vector<std::unique_ptr<boop::Component>> m_pComponents{};
 		GameObject* m_pParent{};
-		std::vector<GameObject*> m_pChildren{};
+		std::vector<std::unique_ptr<GameObject>> m_pChildren{};
 
 		glm::vec3 m_LocalPosition{};
 		glm::vec3 m_WorldPosition{};
 		bool m_PositionIsDirty;
+
+		bool m_ToDelete{ false };
 
 		std::string m_Tag; //tag
 	public:
@@ -76,7 +78,7 @@ namespace boop
 			return rawPtr;
 		}
 
-		template <class T>
+		template <class T> 
 		bool RemoveComponent();
 
 		template <class T>
