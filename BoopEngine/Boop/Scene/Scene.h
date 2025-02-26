@@ -40,6 +40,8 @@ namespace boop
 		std::unordered_multimap<std::string, GameObject*> m_taggedObjects;
 
 		static unsigned int m_idCounter;
+
+		void CleanupScene();
 	};
 
 }

@@ -23,16 +23,31 @@ void boop::GameObject::FixedUpdate(float deltaTime)
 
 		component->FixedUpdate(deltaTime);
 	}
+
+	for (const std::unique_ptr<boop::GameObject>& gameObj : m_pChildren)
+	{
+		if (!gameObj)
+			continue;
+
+		gameObj->FixedUpdate(deltaTime);
+	}
 }
 
 void boop::GameObject::Update(float deltaTime)
 {
 	for (const std::unique_ptr<boop::Component>& component : m_pComponents)
 	{
-		if (!component)
-			continue;
+		if (!component) continue;
+		if (component->ToDelete()) continue;
 
 		component->Update(deltaTime);
+	}
+	for (const std::unique_ptr<boop::GameObject>& gameObj : m_pChildren)
+	{
+		if (!gameObj) continue;
+		if (gameObj->ToDelete()) continue;
+
+		gameObj->Update(deltaTime);
 	}
 }
 
@@ -44,6 +59,13 @@ void boop::GameObject::Render() const
 			continue;
 
 		component->Render();
+	}
+	for (const std::unique_ptr<boop::GameObject>& gameObj : m_pChildren)
+	{
+		if (!gameObj)
+			continue;
+
+		gameObj->Render();
 	}
 }
 
@@ -67,6 +89,27 @@ void boop::GameObject::SetLocalPosition(const glm::vec3& pos)
 	SetPositionDirty();
 }
 
+void boop::GameObject::SetToDelete()
+{
+	m_ToDelete = true;
+
+	//children and components are also deleted
+	for (const std::unique_ptr<boop::Component>& component : m_pComponents)
+	{
+		if (!component)
+			continue;
+
+		component->SetToDelete();
+	}
+	for (const std::unique_ptr<boop::GameObject>& gameComp : m_pChildren)
+	{
+		if (!gameComp)
+			continue;
+
+		gameComp->SetToDelete();
+	}
+}
+
 void boop::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 {
 	if (parent == nullptr || IsChild(parent) || parent == this || m_pParent == parent)
@@ -86,14 +129,30 @@ void boop::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 }
 
 
+void boop::GameObject::CleanupDeletion()
+{
+	//children and components are deleted
+	for (int i = 0; i < m_pComponents.size(); ++i)
+	{
+		RemoveComponent(i);
+	}
+	for (const std::unique_ptr<boop::GameObject>& gameComp : m_pChildren)
+	{
+		if (!gameComp)
+			continue;
+
+		RemoveChild(gameComp.get());
+	}
+}
+
 void boop::GameObject::RemoveChild(GameObject* child)  
 {  
-	auto it = std::remove_if(m_pChildren.begin(), m_pChildren.end(),  
-		[&](const std::unique_ptr<GameObject>& pChild) { return pChild.get() == child; });  
+	auto it = std::ranges::remove_if(m_pChildren,  
+	                                 [&](const std::unique_ptr<GameObject>& pChild) { return pChild.get() == child; }).begin();  
 	if (it != m_pChildren.end())  
 	{  
 		m_pChildren.erase(it, m_pChildren.end());  
-	}  
+	}
 }
 
 

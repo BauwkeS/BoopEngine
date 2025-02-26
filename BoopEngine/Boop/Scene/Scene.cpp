@@ -15,7 +15,29 @@ boop::Scene::Scene():
 
 Scene::Scene(const std::string& name) : m_name(name) {}
 
-Scene::~Scene() {};
+Scene::~Scene() {}
+
+void Scene::CleanupScene()
+{
+	// Remove all objects that are marked for deletion
+	std::erase_if(m_objects, [](const std::unique_ptr<GameObject>& object) {
+		return object->ToDelete();
+		});
+
+	//check deletes
+	for (auto& object : m_objects)
+	{
+		if (object->ToDelete()) object->CleanupDeletion();
+	}
+
+	// Update the tag map
+	m_taggedObjects.clear();
+	for (const auto& object : m_objects) {
+		if (!object->GetTag().empty()) {
+			m_taggedObjects.insert(std::make_pair(object->GetTag(), object.get()));
+		}
+	}
+};
 
 void Scene::Add(std::unique_ptr<GameObject> object)
 {
@@ -59,8 +81,11 @@ void Scene::Update(float deltaTime)
 {
 	for(auto& object : m_objects)
 	{
+		if (object->ToDelete()) continue;
 		object->Update(deltaTime);
 	}
+
+	CleanupScene();
 }
 
 void Scene::Render() const

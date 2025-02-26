@@ -22,6 +22,10 @@ namespace boop
 		bool m_ToDelete{ false };
 
 		std::string m_Tag; //tag
+
+		void RemoveChild(GameObject* child);
+		void AddChild(GameObject* child);
+		bool IsChild(GameObject* parent) const;
 	public:
 		//TAG INFO
 		void SetTag(const std::string& tag);
@@ -38,20 +42,24 @@ namespace boop
 
 		GameObject() : m_pParent(nullptr), m_LocalPosition(glm::vec3{}), m_WorldPosition(glm::vec3{}), m_PositionIsDirty(false)
 		{}
+		//to-do add function to add gameobject with a parent
 		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		//--
+
+		void SetToDelete();
+		bool ToDelete() const { return m_ToDelete; }
+		void CleanupDeletion();
+
 		//---
 
 		void SetParent(GameObject* parent, bool keepWorldPosition= true);
-		void RemoveChild(GameObject* child);
-		void AddChild(GameObject* child);
 		GameObject* GetParent() const { return m_pParent; }
 		GameObject* GetChildAt(int index) const;
-		bool IsChild(GameObject* parent) const;
 		void SetPositionDirty();
 		void SetLocalPosition(const glm::vec3& pos);
 		const glm::vec3& GetWorldPosition();

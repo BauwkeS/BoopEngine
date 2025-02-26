@@ -35,7 +35,7 @@ namespace booble
 
 			if (foundPlayer)
 			{
-
+				//foundPlayer->SetToDelete();
 			}
 		}
 	}
