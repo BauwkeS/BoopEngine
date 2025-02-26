@@ -23,6 +23,7 @@ namespace boop
 
 		std::string m_Tag; //tag
 
+		//only used for private functions of SetParent
 		void RemoveChild(GameObject* child);
 		void AddChild(GameObject* child);
 		bool IsChild(GameObject* parent) const;
