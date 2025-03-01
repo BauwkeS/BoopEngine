@@ -2,6 +2,7 @@
 #include "InputManager.h"
 
 #include "../Scene/Scene.h"
+#include "backends/imgui_impl_sdl2.h"
 
 namespace boop
 {
@@ -13,6 +14,9 @@ namespace boop
 			if (e.type == SDL_QUIT) {
 				return false;
 			}
+
+			//process event for IMGUI
+			ImGui_ImplSDL2_ProcessEvent(&e);
 		}
 
 		//--
