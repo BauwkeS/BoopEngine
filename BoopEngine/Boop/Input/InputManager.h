@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <map>
 #include <memory>
 #include <string>
@@ -49,7 +50,7 @@ namespace boop
 		SceneManager& m_SceneManager{ SceneManager::GetInstance() };
 
 	public:
-		bool ProcessInput(float deltaTime);
+		bool ProcessInput(float deltaTime, const std::function<void(SDL_Event e)>& input);
 		bool IsKeyPressed(SDL_Scancode keyPressed);
 
 		int AddController();

@@ -2,11 +2,10 @@
 #include "InputManager.h"
 
 #include "../Scene/Scene.h"
-#include "backends/imgui_impl_sdl2.h"
 
 namespace boop
 {
-	bool InputManager::ProcessInput(float deltaTime)
+	bool InputManager::ProcessInput(float deltaTime, const std::function<void(SDL_Event e)>& input)
 	{
 		SDL_Event e;
 		while (SDL_PollEvent(&e))
@@ -16,7 +15,8 @@ namespace boop
 			}
 
 			//process event for IMGUI
-			ImGui_ImplSDL2_ProcessEvent(&e);
+			//ImGui_ImplSDL2_ProcessEvent(&e);
+			input(e);
 		}
 
 		//--

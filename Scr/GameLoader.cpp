@@ -9,6 +9,7 @@
 
 #include "LevelComponents.h"
 #include "player.h"
+#include "../TimeEx.h"
 
 namespace booble
 {
@@ -38,6 +39,13 @@ namespace booble
 				//foundPlayer->SetToDelete();
 			}
 		}
+
+		//time ex:
+		auto& timeScene = boop::SceneManager::GetInstance().AddScene("time");
+		auto timeObj = std::make_unique<boop::GameObject>();
+		timeObj->AddComponent<TimeExComp>(nullptr);
+		timeScene.Add(std::move(timeObj));
+		boop::SceneManager::GetInstance().ChangeScene("time");
 	}
 
 }

@@ -17,10 +17,42 @@ add_executable(${PROJECT_NAME}
  
  "Scr/GameCommands.h"
     "TimeEx.cpp" "TimeEx.h"
-
-
-
 )
+
+
+include(FetchContent)
+#stolen from: https://github.com/GeleArthur/prog4_engine/blob/671137b4b1fdc27c8a02c10bac4bdd05c00d31a5/CMakeLists.txt
+
+FetchContent_Declare(
+        imgui
+        URL https://github.com/ocornut/imgui/archive/refs/tags/v1.91.8.zip
+)
+FetchContent_MakeAvailable(imgui)
+target_include_directories(${PROJECT_NAME} PRIVATE ${imgui_SOURCE_DIR})
+target_sources(${PROJECT_NAME} PRIVATE
+        ${imgui_SOURCE_DIR}/imgui.cpp
+        ${imgui_SOURCE_DIR}/imgui_draw.cpp
+        ${imgui_SOURCE_DIR}/imgui_widgets.cpp
+        ${imgui_SOURCE_DIR}/imgui_demo.cpp
+        ${imgui_SOURCE_DIR}/imgui_tables.cpp
+        ${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer2.cpp
+        ${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer2.h
+        ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl2.h
+        ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl2.cpp
+)
+
+FetchContent_Declare(
+        implot
+        URL https://github.com/epezent/implot/archive/refs/tags/v0.16.zip
+)
+FetchContent_MakeAvailable(implot)
+target_include_directories(${PROJECT_NAME} PRIVATE ${implot_SOURCE_DIR})
+target_sources(${PROJECT_NAME} PRIVATE
+        ${implot_SOURCE_DIR}/implot.cpp
+        ${implot_SOURCE_DIR}/implot_items.cpp
+        ${implot_SOURCE_DIR}/implot_demo.cpp
+)
+
 
 
 # Ensure correct target name
