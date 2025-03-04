@@ -4,6 +4,11 @@
 #include "Scene/SceneManager.h"
 #include "HelperFiles/Texture2D.h"
 
+#include <imgui.h>
+#include <backends/imgui_impl_sdl2.h>
+#include <backends/imgui_impl_sdlrenderer2.h>
+#include <implot.h>
+
 int GetOpenGLDriverIndex()
 {
 	auto openglIndex = -1;
@@ -26,6 +31,19 @@ void boop::Renderer::Init(SDL_Window* window)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
+
+
+	//Imgui
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       
+
+	ImGui_ImplSDL2_InitForSDLRenderer(window, m_renderer);
+	ImGui_ImplSDLRenderer2_Init(m_renderer);
+
+	//ImPlot::CreateContext();
 }
 
 void boop::Renderer::Render() const
@@ -36,12 +54,25 @@ void boop::Renderer::Render() const
 
 	SceneManager::GetInstance().Render();
 
+	//Imgui
+	ImGui_ImplSDLRenderer2_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+	ImGui::ShowDemoWindow();
+	ImGui::Render();
+	ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), m_renderer);
+
 	
 	SDL_RenderPresent(m_renderer);
 }
 
 void boop::Renderer::Destroy()
 {
+	//Imgui
+	ImGui_ImplSDLRenderer2_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+
 	if (m_renderer != nullptr)
 	{
 		SDL_DestroyRenderer(m_renderer);

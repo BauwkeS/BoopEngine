@@ -2,7 +2,6 @@
 
 #include <functional>
 #include <filesystem>
-#include <SDL2/SDL.h>
 
 namespace boop
 {
@@ -12,7 +11,7 @@ namespace boop
 	public:
 		explicit Minigin(const std::filesystem::path& dataPath);
 		~Minigin();
-		void Run(const std::function<void()>& load, const std::function<void(SDL_Event e)>& input);
+		void Run(const std::function<void()>& load);
 		void RunOneFrame();
 
 		Minigin(const Minigin& other) = delete;

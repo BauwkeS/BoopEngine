@@ -99,7 +99,7 @@ boop::Minigin::~Minigin()
 	SDL_Quit();
 }
 
-void boop::Minigin::Run(const std::function<void()>& load, const std::function<void(SDL_Event e)>& input)
+void boop::Minigin::Run(const std::function<void()>& load)
 {
 	load();
 
@@ -114,8 +114,8 @@ void boop::Minigin::Run(const std::function<void()>& load, const std::function<v
 		lastTime = currentTime;
 		lag += deltaTime;
 
-		m_quit = !InputManager::GetInstance().ProcessInput(deltaTime, input);
-
+		m_quit = !InputManager::GetInstance().ProcessInput(deltaTime);
+	
 		while (lag >= fixedTimeStep)
 		{
 			SceneManager::GetInstance().FixedUpdate(deltaTime);

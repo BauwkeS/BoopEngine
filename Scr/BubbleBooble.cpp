@@ -11,25 +11,12 @@
 #include <utility>
 
 #include "GameLoader.h"
-#include "backends/imgui_impl_sdl2.h"
-#include "SDL.h"
 
 namespace fs = std::filesystem;
 
 void load()
 {
 	booble::GameLoader::GetInstance().MakeGame();
-}
-
-void input(SDL_Event e)
-{
-	//imgui input
-	
-	//while (SDL_PollEvent(&e))
-	//{
-		//process event for IMGUI
-		ImGui_ImplSDL2_ProcessEvent(&e);
-	//}
 }
 
 int main(int, char* []) {
@@ -41,7 +28,7 @@ int main(int, char* []) {
 		data_location = "../Data/";
 #endif
 	boop::Minigin engine(data_location);
-	engine.Run(load,input);
+	engine.Run(load);
 	return 0;
 	//boop::Minigin engine;
 	//engine.Run();
