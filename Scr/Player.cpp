@@ -25,10 +25,9 @@ namespace booble
 		if (collision) collision->FixedUpdate(deltaTime);*/
 	}
 
-	void Player::Update(float deltaTime)
+	void Player::Update(float)
 	{
 		//m_StateMachine->Update(deltaTime);
-		deltaTime;
 		
 		
 	}

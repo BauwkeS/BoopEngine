@@ -34,6 +34,18 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${VLD_LIBRARIES})
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
+# Make sure the asset folder gets copyed or linked correctly
+if(WIN32)
+    set(SYMLINK_COMMAND copy_directory)
+else()
+    set(SYMLINK_COMMAND create_symlink)
+endif()
+
+add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
+                COMMAND ${CMAKE_COMMAND} -E ${SYMLINK_COMMAND}
+                "${CMAKE_SOURCE_DIR}/Data"
+                "${CMAKE_BINARY_DIR}/Data")
+
 # enable c++20 features
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 

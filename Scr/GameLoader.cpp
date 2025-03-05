@@ -18,7 +18,7 @@ namespace booble
 		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(LevelComponents::CreateAir()));
 		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(LevelComponents::CreateWall(0)));
 		level::LevelLoader::GetInstance().AssignGameObject(2, std::move(LevelComponents::CreatePlatform(0)));
-		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(LevelComponents::CreatePlayer()));
+		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(LevelComponents::CreatePlayer("GreenTank.png")));
 
 		//Set important tags
 		std::vector<std::string> importantTags;
