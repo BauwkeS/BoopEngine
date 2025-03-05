@@ -192,6 +192,11 @@ const glm::vec3& boop::GameObject::GetWorldPosition()
 	return m_WorldPosition;
 }
 
+const glm::vec3& boop::GameObject::GetLocalPosition()
+{
+	return m_LocalPosition;
+}
+
 void boop::GameObject::UpdateWorldPosition()
 {
 	if (m_PositionIsDirty) {

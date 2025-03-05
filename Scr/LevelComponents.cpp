@@ -44,14 +44,14 @@ namespace booble
 		return std::move(gameObjPtr);
 	}
 
-	std::unique_ptr<boop::GameObject> booble::LevelComponents::CreatePlayer(const std::string spritePath)
+	std::unique_ptr<boop::GameObject> booble::LevelComponents::CreatePlayer(const std::string spritePath, const std::string tagName)
 	{
 		auto playerObject = std::make_unique<boop::GameObject>();
 		//playerObject->AddComponent< boop::SpriteComponent>(nullptr, static_cast<std::string>(spritePath), 6, 5, 0.2f, 0, 2, 4.f);
 		playerObject->AddComponent< boop::TextureComponent>(nullptr, static_cast<std::string>(spritePath));
 		playerObject->AddComponent<Player>(nullptr);
 		//playerObject->AddComponent(std::move(std::make_unique<boop::PhysicsComponent>(nullptr)));
-		playerObject->SetTag("Player");
+		playerObject->SetTag(tagName);
 
 		return std::move(playerObject);
 	}

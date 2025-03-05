@@ -18,7 +18,8 @@ namespace booble
 		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(LevelComponents::CreateAir()));
 		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(LevelComponents::CreateWall(0)));
 		level::LevelLoader::GetInstance().AssignGameObject(2, std::move(LevelComponents::CreatePlatform(0)));
-		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(LevelComponents::CreatePlayer("GreenTank.png")));
+		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(LevelComponents::CreatePlayer("GreenTank.png", "p1")));
+		level::LevelLoader::GetInstance().AssignGameObject(4, std::move(LevelComponents::CreatePlayer("BlueTank.png", "p2")));
 
 		//Set important tags
 		std::vector<std::string> importantTags;
@@ -31,12 +32,24 @@ namespace booble
 		//INPUTS FOR ADDED PLAYER IN SCENE
 		if (boop::SceneManager::GetInstance().GetActiveScene())
 		{
-			auto* foundPlayer = boop::SceneManager::GetInstance().GetActiveScene()->FindGameObjectByTag("Player");
+			auto* player1 = boop::SceneManager::GetInstance().GetActiveScene()->FindGameObjectByTag("p1");
 
-			if (foundPlayer)
-			{
-				//foundPlayer->SetToDelete();
-			}
+			//walk
+			const float playerspeed1{ 2 };
+			boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player1, glm::vec2{ -playerspeed1,0}));
+			boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_D, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player1, glm::vec2{ playerspeed1,0 }));
+			boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_W, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player1, glm::vec2{ 0,-playerspeed1 }));
+			boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_S, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player1, glm::vec2{ 0,playerspeed1 }));
+		
+		
+			auto* player2 = boop::SceneManager::GetInstance().GetActiveScene()->FindGameObjectByTag("p2");
+			
+			const float playerspeed2{ 4 };
+			boop::InputManager::GetInstance().AddController();
+			boop::InputManager::GetInstance().AddCommand("Demo", static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadLeft, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player2, glm::vec2{ -playerspeed2,0 }));
+			boop::InputManager::GetInstance().AddCommand("Demo", static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadRight, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player2, glm::vec2{ playerspeed2,0 }));
+			boop::InputManager::GetInstance().AddCommand("Demo", static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadUp, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player2, glm::vec2{ 0,-playerspeed2 }));
+			boop::InputManager::GetInstance().AddCommand("Demo", static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadDown, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player2, glm::vec2{ 0,playerspeed2 }));
 		}
 	}
 

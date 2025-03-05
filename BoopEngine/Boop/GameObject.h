@@ -27,6 +27,11 @@ namespace boop
 		void RemoveChild(GameObject* child);
 		void AddChild(GameObject* child);
 		bool IsChild(GameObject* parent) const;
+
+
+		void UpdateWorldPosition();
+		void SetPositionDirty();
+
 	public:
 		//TAG INFO
 		void SetTag(const std::string& tag);
@@ -61,10 +66,11 @@ namespace boop
 		void SetParent(GameObject* parent, bool keepWorldPosition= true);
 		GameObject* GetParent() const { return m_pParent; }
 		GameObject* GetChildAt(int index) const;
-		void SetPositionDirty();
+		
 		void SetLocalPosition(const glm::vec3& pos);
 		const glm::vec3& GetWorldPosition();
-		void UpdateWorldPosition();
+		const glm::vec3& GetLocalPosition();
+		
 
 		template <class T, typename... Args>
 		T* AddComponent(GameObject* owner, const Args&... args)

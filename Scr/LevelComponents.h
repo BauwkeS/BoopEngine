@@ -16,7 +16,7 @@ namespace booble
 		static std::unique_ptr<boop::GameObject> CreateWall(int whichBlock);
 		static std::unique_ptr<boop::GameObject> CreatePlatform(int whichBlock);
 
-		static std::unique_ptr<boop::GameObject> CreatePlayer(const std::string spritePath);
+		static std::unique_ptr<boop::GameObject> CreatePlayer(const std::string spritePath, const std::string tagName);
 	};
 
 }

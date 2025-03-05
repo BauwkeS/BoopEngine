@@ -43,6 +43,11 @@ namespace booble
 		//collide with : ENEMY
 	}
 
+	void Player::Walk(glm::vec2 speed)
+	{
+		GetOwner()->SetLocalPosition(GetOwner()->GetLocalPosition().x + speed.x, GetOwner()->GetLocalPosition().y + speed.y);
+	}
+
 
 	//JUUUUUUUUUUUUUMP
 

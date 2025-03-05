@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "../BoopEngine/Boop/GameObject.h"
+#include <glm/vec2.hpp>
 
 namespace boop {
 	class GameObject;
@@ -24,6 +25,9 @@ namespace booble
 
 		void AccountCollision();
 
+		//Walk
+		void Walk(glm::vec2 speed);
+
 		/*void StartJump(float strength);
 		void StopJump();*/
 
@@ -33,6 +37,7 @@ namespace booble
 		//std::unique_ptr<boop::CollisionComponent> m_CollisionComp;
 		//bool m_IsStuck{};
 
+		//float m_Speed{ 0.0f };
 
 		//jumping
 	/*	void HandleJump(float deltaTime);
