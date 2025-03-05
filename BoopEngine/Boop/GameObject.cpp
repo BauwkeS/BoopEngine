@@ -112,8 +112,13 @@ void boop::GameObject::SetToDelete()
 
 void boop::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 {
-	if (parent == nullptr || IsChild(parent) || parent == this || m_pParent == parent)
+	if (IsChild(parent) || parent == this || m_pParent == parent)
 		return; // Prevent setting as parent if it causes a cycle or self-parenting
+
+	if (parent == nullptr)
+	{
+		SetLocalPosition(GetWorldPosition());
+	}
 
 	if (keepWorldPosition)
 		SetLocalPosition(GetWorldPosition() - (parent ? parent->GetWorldPosition() : glm::vec3{}));
