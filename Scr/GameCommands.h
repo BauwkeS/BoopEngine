@@ -31,17 +31,9 @@ namespace booble
 
 		void Execute() override {
 
-			//FOR THE PLAYER
-			auto playerComp = m_pGameObject->GetComponent<Player>();
-			if (playerComp)
-			{
-				auto* owner = playerComp->GetOwner();
-				playerComp->GetOwner()->SetLocalPosition(owner->GetLocalPosition().x + (m_Speed.x*boop::DeltaTime::GetInstance().GetDeltaTime()),
-					owner->GetLocalPosition().y + (m_Speed.y * boop::DeltaTime::GetInstance().GetDeltaTime()));
+			m_pGameObject->SetLocalPosition(m_pGameObject->GetLocalPosition().x + (m_Speed.x * boop::DeltaTime::GetInstance().GetDeltaTime()),
+				m_pGameObject->GetLocalPosition().y + (m_Speed.y * boop::DeltaTime::GetInstance().GetDeltaTime()));
 
-			}
-
-			
 		};
 
 		WalkCommand(const WalkCommand& other) = delete;

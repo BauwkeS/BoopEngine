@@ -11,8 +11,8 @@ add_executable(${PROJECT_NAME}
  "Scr/GameLoader.cpp"
  "Scr/Player.cpp"
  "Scr/Player.h"
- "Scr/LevelComponents.h"
- "Scr/LevelComponents.cpp"
+ 
+ 
  
  
  "Scr/GameCommands.h"
