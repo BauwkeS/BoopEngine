@@ -5,7 +5,7 @@
 
 namespace boop
 {
-	bool InputManager::ProcessInput(float deltaTime)
+	bool InputManager::ProcessInput()
 	{
 		SDL_Event e;
 		while (SDL_PollEvent(&e))
@@ -85,7 +85,7 @@ namespace boop
 			// Execute the command if any of the conditions (isKeyDown, isKeyHeld, or isKeyUp) are true
 			if (isKeyDown || isKeyHeld || isKeyUp)
 			{
-				command->Execute(deltaTime); // Execute the command with the elapsed time as an argument
+				command->Execute(); // Execute the command with the elapsed time as an argument
 			}
 		}
 
@@ -122,7 +122,7 @@ namespace boop
 					if (shouldExecute)
 					{
 						// Execute the command with the elapsed time as an argument
-						command.second->Execute(deltaTime);
+						command.second->Execute();
 					}
 				}
 			}

@@ -49,7 +49,7 @@ namespace boop
 		SceneManager& m_SceneManager{ SceneManager::GetInstance() };
 
 	public:
-		bool ProcessInput(float deltaTime);
+		bool ProcessInput();
 		bool IsKeyPressed(SDL_Scancode keyPressed);
 
 		int AddController();

@@ -116,14 +116,14 @@ void boop::Minigin::Run(const std::function<void()>& load)
 		lastTime = currentTime;
 		lag += deltaTime;
 
-		m_quit = !InputManager::GetInstance().ProcessInput(deltaTime);
+		m_quit = !InputManager::GetInstance().ProcessInput();
 	
 		while (lag >= fixedTimeStep)
 		{
-			SceneManager::GetInstance().FixedUpdate(deltaTime);
+			SceneManager::GetInstance().FixedUpdate();
 			lag -= fixedTimeStep;
 		}
-		SceneManager::GetInstance().Update(deltaTime);
+		SceneManager::GetInstance().Update();
 		Renderer::GetInstance().Render();
 
 		const auto sleepTime{ currentTime + std::chrono::milliseconds(msPerFrame) - std::chrono::high_resolution_clock::now() };

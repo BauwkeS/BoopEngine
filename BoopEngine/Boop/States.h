@@ -8,7 +8,7 @@ namespace boop
 	public:
 		virtual ~BaseState()=default;
 
-		virtual void Update(float deltaTime) = 0;
+		virtual void Update() = 0;
 
 		virtual void OnEnter()=0;
 		virtual void OnExit()=0;

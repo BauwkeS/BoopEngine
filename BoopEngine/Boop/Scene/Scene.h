@@ -13,8 +13,8 @@ namespace boop
 		void Remove(std::unique_ptr<GameObject> object);
 		void RemoveAll();
 
-		void FixedUpdate(float deltaTime);
-		void Update(float deltaTime);
+		void FixedUpdate();
+		void Update();
 		void Render() const;
 
 		std::string GetName() const;

@@ -23,10 +23,10 @@ namespace boop
 		m_pTexture = std::make_unique<AnimatedTexture>(texture, cols, rows, frameSec, startPicIndex, AmountPics, scale);
 
 	}
-	void SpriteComponent::Update(float deltaTime)
+	void SpriteComponent::Update()
 	{
 		auto pos{ GetOwner()->GetWorldPosition() };
-		m_pTexture->Update(deltaTime, pos);
+		m_pTexture->Update(pos);
 	}
 	void SpriteComponent::Render() const
 	{

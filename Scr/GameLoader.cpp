@@ -1,3 +1,4 @@
+#pragma once
 #include "GameLoader.h"
 #include <memory>
 
@@ -35,7 +36,7 @@ namespace booble
 			auto* player1 = boop::SceneManager::GetInstance().GetActiveScene()->FindGameObjectByTag("p1");
 
 			//walk
-			const float playerspeed1{ 2 };
+			const float playerspeed1{ 200 };
 			boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player1, glm::vec2{ -playerspeed1,0}));
 			boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_D, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player1, glm::vec2{ playerspeed1,0 }));
 			boop::InputManager::GetInstance().AddCommand("Demo", SDL_SCANCODE_W, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player1, glm::vec2{ 0,-playerspeed1 }));
@@ -44,7 +45,7 @@ namespace booble
 		
 			auto* player2 = boop::SceneManager::GetInstance().GetActiveScene()->FindGameObjectByTag("p2");
 			
-			const float playerspeed2{ 4 };
+			const float playerspeed2{ 400 };
 			boop::InputManager::GetInstance().AddController();
 			boop::InputManager::GetInstance().AddCommand("Demo", static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadLeft, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player2, glm::vec2{ -playerspeed2,0 }));
 			boop::InputManager::GetInstance().AddCommand("Demo", static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadRight, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player2, glm::vec2{ playerspeed2,0 }));

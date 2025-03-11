@@ -23,8 +23,8 @@ namespace boop
 		SpriteComponent& operator=(const SpriteComponent& other) = delete;
 		SpriteComponent& operator=(SpriteComponent&& other) = delete;
 
-		void FixedUpdate(float) override { }
-		void Update(float deltaTime) override;
+		void FixedUpdate() override { }
+		void Update() override;
 		void Render() const override;
 
 		void MoveSprite(glm::ivec2 pos);

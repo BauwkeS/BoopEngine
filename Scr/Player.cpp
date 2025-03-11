@@ -17,7 +17,7 @@ namespace booble
 		//m_CollisionComp = std::make_unique<boop::CollisionComponent>()
 	}
 
-	void Player::FixedUpdate(float)
+	void Player::FixedUpdate()
 	{
 		//HandleJump(deltaTime);
 		AccountCollision();
@@ -25,7 +25,7 @@ namespace booble
 		if (collision) collision->FixedUpdate(deltaTime);*/
 	}
 
-	void Player::Update(float)
+	void Player::Update()
 	{
 		//m_StateMachine->Update(deltaTime);
 		
@@ -41,11 +41,6 @@ namespace booble
 
 
 		//collide with : ENEMY
-	}
-
-	void Player::Walk(glm::vec2 speed)
-	{
-		GetOwner()->SetLocalPosition(GetOwner()->GetLocalPosition().x + speed.x, GetOwner()->GetLocalPosition().y + speed.y);
 	}
 
 

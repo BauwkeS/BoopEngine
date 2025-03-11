@@ -14,8 +14,8 @@ namespace boop
 		void ChangeScene(const std::string& toSceneName);
 		Scene* GetActiveScene();
 
-		void FixedUpdate(float deltaTime);
-		void Update(float deltaTime);
+		void FixedUpdate();
+		void Update();
 		void Render();
 
 	private:

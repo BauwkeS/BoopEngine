@@ -17,8 +17,8 @@ namespace booble
 		Player(boop::GameObject* owner);
 
 
-		void FixedUpdate(float deltaTime) override;
-		void Update(float deltaTime) override;
+		void FixedUpdate() override;
+		void Update() override;
 		void Render() const override;
 
 		//bool GetIsStuck() { return m_IsStuck; }
@@ -26,7 +26,7 @@ namespace booble
 		void AccountCollision();
 
 		//Walk
-		void Walk(glm::vec2 speed);
+		//void Walk(glm::vec2 speed);
 
 		/*void StartJump(float strength);
 		void StopJump();*/

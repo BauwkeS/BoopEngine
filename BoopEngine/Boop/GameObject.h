@@ -32,14 +32,16 @@ namespace boop
 		void UpdateWorldPosition();
 		void SetPositionDirty();
 
+		void SetLocalPosition(const glm::vec3& pos);
+
 	public:
 		//TAG INFO
 		void SetTag(const std::string& tag);
 		const std::string& GetTag() const;
 
 
-		void FixedUpdate(float deltaTime);
-		void Update(float deltaTime);
+		void FixedUpdate();
+		void Update();
 
 		void Render() const;
 
@@ -67,7 +69,6 @@ namespace boop
 		GameObject* GetParent() const { return m_pParent; }
 		GameObject* GetChildAt(int index) const;
 		
-		void SetLocalPosition(const glm::vec3& pos);
 		const glm::vec3& GetWorldPosition();
 		const glm::vec3& GetLocalPosition();
 		

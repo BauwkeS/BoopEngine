@@ -20,7 +20,7 @@ boop::TextComponent::TextComponent(boop::GameObject* const ownerPtr, const std::
 boop::TextComponent::~TextComponent()
 {
 }
-void boop::TextComponent::Update(float)
+void boop::TextComponent::Update()
 {
 	if (m_needsUpdate)
 	{

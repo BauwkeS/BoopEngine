@@ -18,8 +18,8 @@ namespace boop
 		std::unique_ptr<Texture2D> m_textTexture;
 
 	public:
-		void Update(float deltaTime) override;
-		void FixedUpdate(float) override { }
+		void Update() override;
+		void FixedUpdate() override { }
 		void Render() const override;
 
 		void SetText(const std::string& text);

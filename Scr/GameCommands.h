@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../BoopEngine/Boop/Input/Command.h"
+#include "../BoopEngine/Boop/DeltaTime.h"
 
 #include "Player.h"
 #include <iostream>
@@ -28,16 +29,19 @@ namespace booble
 		//make sure you can walk without jumping
 		~WalkCommand() { m_pGameObject = nullptr; delete m_pGameObject; }
 
-		void Execute(float) override {
+		void Execute() override {
 
 			//FOR THE PLAYER
 			auto playerComp = m_pGameObject->GetComponent<Player>();
 			if (playerComp)
 			{
-				playerComp->Walk(m_Speed);
+				auto* owner = playerComp->GetOwner();
+				playerComp->GetOwner()->SetLocalPosition(owner->GetLocalPosition().x + (m_Speed.x*boop::DeltaTime::GetInstance().GetDeltaTime()),
+					owner->GetLocalPosition().y + (m_Speed.y * boop::DeltaTime::GetInstance().GetDeltaTime()));
+
 			}
 
-
+			
 		};
 
 		WalkCommand(const WalkCommand& other) = delete;

@@ -32,7 +32,7 @@ namespace boop
 		Texture2D* GetTexture();
 		
 		void Render();
-		void Update(float deltaTime, glm::vec2 pos);
+		void Update(glm::vec2 pos);
 
 		void SetFramesSec(float sec) { m_FrameSec = sec; }
 		SDL_Rect GetDstRect() const { return m_DstRect; }

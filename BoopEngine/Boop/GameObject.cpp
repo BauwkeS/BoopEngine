@@ -14,14 +14,14 @@ const std::string& boop::GameObject::GetTag() const
 	return m_Tag;
 }
 
-void boop::GameObject::FixedUpdate(float deltaTime)
+void boop::GameObject::FixedUpdate()
 {
 	for (const std::unique_ptr<boop::Component>& component : m_pComponents)
 	{
 		if (!component)
 			continue;
 
-		component->FixedUpdate(deltaTime);
+		component->FixedUpdate();
 	}
 
 	for (const std::unique_ptr<boop::GameObject>& gameObj : m_pChildren)
@@ -29,25 +29,25 @@ void boop::GameObject::FixedUpdate(float deltaTime)
 		if (!gameObj)
 			continue;
 
-		gameObj->FixedUpdate(deltaTime);
+		gameObj->FixedUpdate();
 	}
 }
 
-void boop::GameObject::Update(float deltaTime)
+void boop::GameObject::Update()
 {
 	for (const std::unique_ptr<boop::Component>& component : m_pComponents)
 	{
 		if (!component) continue;
 		if (component->ToDelete()) continue;
 
-		component->Update(deltaTime);
+		component->Update();
 	}
 	for (const std::unique_ptr<boop::GameObject>& gameObj : m_pChildren)
 	{
 		if (!gameObj) continue;
 		if (gameObj->ToDelete()) continue;
 
-		gameObj->Update(deltaTime);
+		gameObj->Update();
 	}
 }
 

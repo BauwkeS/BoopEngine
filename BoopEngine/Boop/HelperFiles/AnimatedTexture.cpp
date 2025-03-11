@@ -2,6 +2,7 @@
 
 #include "../Renderer.h"
 #include "../ResourceManager.h"
+#include "../DeltaTime.h"
 
 boop::AnimatedTexture::AnimatedTexture(std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale, bool flip)
 	: m_Cols{cols},
@@ -33,9 +34,9 @@ boop::Texture2D* boop::AnimatedTexture::GetTexture()
 	return m_pTexture.get();
 }
 
-void boop::AnimatedTexture::Update(float deltaTime, glm::vec2 pos)
+void boop::AnimatedTexture::Update(glm::vec2 pos)
 {
-	m_AccuSec += deltaTime;
+	m_AccuSec += boop::DeltaTime::GetInstance().GetDeltaTime();
 	if (m_AccuSec > m_FrameSec) {
 
 		++m_CurrentPic %= m_Cols * m_Rows;

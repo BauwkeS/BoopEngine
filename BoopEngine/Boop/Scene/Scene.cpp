@@ -68,21 +68,21 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
-void boop::Scene::FixedUpdate(float deltaTime)
+void boop::Scene::FixedUpdate()
 {
 	for (auto& object : m_objects)
 	{
-		object->FixedUpdate(deltaTime);
+		object->FixedUpdate();
 	}
 	
 }
 
-void Scene::Update(float deltaTime)
+void Scene::Update()
 {
 	for(auto& object : m_objects)
 	{
 		if (object->ToDelete()) continue;
-		object->Update(deltaTime);
+		object->Update();
 	}
 
 	CleanupScene();

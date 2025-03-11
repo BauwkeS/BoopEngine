@@ -13,6 +13,6 @@ namespace boop
 		Command& operator=(const Command& other) = delete;
 		Command& operator=(Command&& other) = delete;
 
-		virtual void Execute(float) = 0;
+		virtual void Execute() = 0;
 	};
 }

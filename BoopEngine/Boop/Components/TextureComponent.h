@@ -18,8 +18,8 @@ namespace boop
 		TextureComponent& operator=(const TextureComponent& other) = delete;
 		TextureComponent& operator=(TextureComponent&& other) = delete;
 
-		void FixedUpdate(float) override { }
-		void Update(float) override { }
+		void FixedUpdate() override { }
+		void Update() override { }
 		void Render() const override;
 
 		SDL_Rect GetTextureRect() const;
