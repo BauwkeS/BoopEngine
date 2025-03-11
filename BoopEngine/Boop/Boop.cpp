@@ -17,6 +17,7 @@
 #include "Scene/SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "DeltaTime.h"
 
 SDL_Window* g_window{};
 
@@ -111,6 +112,7 @@ void boop::Minigin::Run(const std::function<void()>& load)
 	{
 		const auto currentTime = std::chrono::high_resolution_clock::now();
 		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+		DeltaTime::GetInstance().SetDeltaTime(deltaTime);
 		lastTime = currentTime;
 		lag += deltaTime;
 
