@@ -62,19 +62,7 @@ namespace booble
 		auto playerObject = std::make_unique<boop::GameObject>();
 		playerObject->SetTag(tagName); //add tag for level
 
-		playerObject->AddComponent< boop::TextureComponent>(nullptr, static_cast<std::string>(spritePath)); //add sprite
-		auto playerComp = playerObject->AddComponent<Player>(nullptr, playerSpeed); // add base player comp
-
-		//health
-		auto healthComp = playerObject->AddComponent<Health>(nullptr, 4);
-		auto healthObs = playerObject->AddComponent<HealthObserver>(nullptr);
-		healthObs->SetPosition(0, 200); //TO DO MOVE THIS??? MAGIC NUMBER???
-		healthComp->AddObserver(healthObs);
-
-		//score
-		auto scoreObs = playerObject->AddComponent<ScoreObserver>(nullptr);
-		scoreObs->SetPosition(0, 220); //TO DO MOVE THIS??? MAGIC NUMBER???
-		playerComp->AddObserver(scoreObs);
+		auto playerComp = playerObject->AddComponent<Player>(nullptr, playerSpeed, spritePath); // add base player comp
 
 		//level brain
 		auto levelComp = playerObject->AddComponent<Level>(nullptr);
@@ -85,36 +73,34 @@ namespace booble
 
 	void GameLoader::MakeLevelOne()
 	{
-		//LOAD
-		level::LevelLoader::GetInstance().CreateLevel("level1.txt", m_LevelOne);
-		boop::SceneManager::GetInstance().ChangeScene(m_LevelOne);
-
 		//SETUP
-		auto scene = boop::SceneManager::GetInstance().GetActiveScene();
+		level::LevelLoader::GetInstance().CreateLevel("level1.txt", m_LevelOne);
+		auto* sceneLvl1 = boop::SceneManager::GetInstance().GetScene(m_LevelOne);
+		assert(sceneLvl1);
 
-		//player controls
+		//player controls info
 		auto howToPlay = std::make_unique<boop::GameObject>();
 		howToPlay->AddComponent<boop::TextComponent>(nullptr, "Use D-Pad to move the blue tank, X to inflict damage, A and B to kill a tank")->SetPosition(0,50);
 		howToPlay->AddComponent<boop::TextComponent>(nullptr, "Use WASD to move the green tank, C to inflict damage, Z and X to kill a tank")->SetPosition(0,70);
-		
-		scene->Add(std::move(howToPlay));
-	}
-
-	void GameLoader::BindInput()
-	{
-		//for level 1
-		auto* sceneLvl1 = boop::SceneManager::GetInstance().GetScene(m_LevelOne);
-		assert(sceneLvl1);
+		sceneLvl1->Add(std::move(howToPlay));
 
 		//input player 1 
 		auto* player1 = sceneLvl1->FindGameObjectByTag("p1")->GetComponent<Player>();
 		assert(player1);
 		player1->AddKeyboardMovement(m_LevelOne);
 
+		//set the UI position
+		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
+		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
+
 		//input player 2
 		auto* player2 = sceneLvl1->FindGameObjectByTag("p2")->GetComponent<Player>();
 		assert(player2);
 		player2->AddControllerMovement(m_LevelOne);
+		
+		//set the UI position
+		player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
+		player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
 	}
 
 	void GameLoader::MakeGame()
@@ -135,9 +121,8 @@ namespace booble
 		//CREATE LEVELS
 		MakeLevelOne();
 
-		//make a selection for what game type and make the command input from there
-		//INPUT
-		BindInput();
+		//LOAD LEVEL
+		boop::SceneManager::GetInstance().ChangeScene(m_LevelOne);
 	}
 
 }

@@ -21,9 +21,6 @@ namespace booble
 		const std::string m_LevelOne = "LevelOne";
 		void MakeLevelOne();
 
-		//Input
-		void BindInput();
-
 	public:
 		void MakeGame();
 	};

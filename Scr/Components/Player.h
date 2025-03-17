@@ -17,7 +17,7 @@ namespace booble
 	class Player : public boop::Component, public boop::Observer, public boop::Subject
 	{
 	public:
-		Player(boop::GameObject* owner, int speed);
+		Player(boop::GameObject* owner, int speed, const std::string spritePath);
 		~Player() = default;
 
 		void FixedUpdate() override;

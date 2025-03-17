@@ -9,13 +9,27 @@
 #include "../../BoopEngine/Boop/Input/InputManager.h"
 #include "../GameCommands.h"
 #include "Events.h"
+#include "../../BoopEngine/Boop/Components/TextureComponent.h"
+#include "HealthObserver.h"
+#include "ScoreObserver.h"
 
 
 namespace booble
 {
-	Player::Player(boop::GameObject* owner, int speed)
+	Player::Player(boop::GameObject* owner, int speed, const std::string spritePath)
 		: Component(owner), Observer(), Subject(), m_Speed{speed}
 	{
+		//add sprite
+		owner->AddComponent< boop::TextureComponent>(nullptr, static_cast<std::string>(spritePath));
+
+		//add health
+		auto healthComp = owner->AddComponent<Health>(nullptr, 4);
+		auto healthObs = owner->AddComponent<HealthObserver>(nullptr);
+		healthComp->AddObserver(healthObs);
+
+		//add score
+		auto scoreObs = owner->AddComponent<ScoreObserver>(nullptr);
+		this->AddObserver(scoreObs);
 	}
 
 	void Player::FixedUpdate()
