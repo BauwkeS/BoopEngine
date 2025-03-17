@@ -103,6 +103,23 @@ namespace booble
 		player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
 	}
 
+	void GameLoader::MakeMainScreen()
+	{
+		//SETUP
+		auto& sceneMain = boop::SceneManager::GetInstance().AddScene("MainScreen");
+		
+		//selection info
+		auto mainMenuText = std::make_unique<boop::GameObject>();
+
+		mainMenuText->AddComponent<boop::TextComponent>(nullptr, "A/SPACE to start")->SetPosition(300,100);
+		mainMenuText->AddComponent<boop::TextComponent>(nullptr, "B/ESC to quit")->SetPosition(300,200);
+		mainMenuText->AddComponent<boop::TextComponent>(nullptr, "Y/TAB to change")->SetPosition(300,300);
+		mainMenuText->AddComponent<boop::TextComponent>(nullptr, "Gamemode: ")->SetPosition(300,330);
+
+		sceneMain.Add(std::move(mainMenuText));
+
+	}
+
 	void GameLoader::MakeGame()
 	{
 		//CREATE GAME OBJECTS
@@ -119,10 +136,11 @@ namespace booble
 		level::LevelLoader::GetInstance().SetImportantTags(importantTags);
 
 		//CREATE LEVELS
+		MakeMainScreen();
 		MakeLevelOne();
 
 		//LOAD LEVEL
-		boop::SceneManager::GetInstance().ChangeScene(m_LevelOne);
+		boop::SceneManager::GetInstance().ChangeScene("MainScreen");
 	}
 
 }
