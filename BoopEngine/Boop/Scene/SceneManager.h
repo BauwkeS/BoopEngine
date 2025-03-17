@@ -13,6 +13,7 @@ namespace boop
 		Scene& AddScene(const std::string& name);
 		void ChangeScene(const std::string& toSceneName);
 		Scene* GetActiveScene();
+		Scene* GetScene(const std::string& name);
 
 		void FixedUpdate();
 		void Update();

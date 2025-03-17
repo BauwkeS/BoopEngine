@@ -76,9 +76,6 @@ namespace booble
 		auto scoreObs = playerObject->AddComponent<ScoreObserver>(nullptr);
 		scoreObs->SetPosition(0, 220);
 		playerComp->AddObserver(scoreObs);
-
-		//damage test input
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_C, boop::keyState::isDown, std::make_unique<TestGetHitCommand>(playerObject.get()));
 		
 		//level brain
 		//auto levelBrain = std::make_unique<boop::GameObject>();
@@ -89,15 +86,7 @@ namespace booble
 		levelComp->AddObserver(playerComp);
 		//levelBrain->SetTag("Level");
 		//levelBrain->SetParent(playerObject.get(), true);
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_Z, boop::keyState::isDown, std::make_unique<TestHitTank>(playerObject.get()));
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_X, boop::keyState::isDown, std::make_unique<TestHitRecognizer>(playerObject.get()));
-
-		//input player 1
-		//walk
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(playerObject.get(), glm::vec2{ -playerSpeed,0 }));
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_D, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(playerObject.get(), glm::vec2{ playerSpeed,0 }));
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_W, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(playerObject.get(), glm::vec2{ 0,-playerSpeed }));
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_S, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(playerObject.get(), glm::vec2{ 0,playerSpeed }));
+		
 
 		return std::move(playerObject);
 	}
@@ -122,25 +111,10 @@ namespace booble
 		playerComp->AddObserver(scoreObs);
 
 		//damage test input
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::ButtonX, boop::keyState::isDown, std::make_unique<TestGetHitCommand>(playerObject.get()));
 
 		//level brain
 		auto levelComp = playerObject->AddComponent<Level>(nullptr);
 		levelComp->AddObserver(playerComp);
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown, std::make_unique<TestHitTank>(playerObject.get()));
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::ButtonB, boop::keyState::isDown, std::make_unique<TestHitRecognizer>(playerObject.get()));
-
-
-
-
-		//input player 2
-		//walk
-		boop::InputManager::GetInstance().AddController();
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadLeft, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(playerObject.get(), glm::vec2{ -playerSpeed,0 }));
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadRight, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(playerObject.get(), glm::vec2{ playerSpeed,0 }));
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadUp, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(playerObject.get(), glm::vec2{ 0,-playerSpeed }));
-		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadDown, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(playerObject.get(), glm::vec2{0,playerSpeed}));
-
 
 		return std::move(playerObject);
 	}
@@ -162,6 +136,64 @@ namespace booble
 		scene->Add(std::move(howToPlay));
 	}
 
+	void GameLoader::BindInput()
+	{
+		//for level 1
+		auto* sceneLvl1 = boop::SceneManager::GetInstance().GetScene(m_LevelOne);
+		assert(sceneLvl1);
+
+		//input player 1 
+		auto* player1 = sceneLvl1->FindGameObjectByTag("p1");
+		assert(player1);
+
+		//MOVE
+		//move vectors -> this might have to be moved to a better place
+		const int player1Speed = player1->GetComponent<Player>()->GetSpeed();
+		const glm::vec2 leftVec1{ -player1Speed,0 };
+		const glm::vec2 rightVec1{ player1Speed,0 };
+		const glm::vec2 upVec1{ 0,-player1Speed };
+		const glm::vec2 downVec1{ 0,player1Speed };
+
+		//walk
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player1, leftVec1));
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_D, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player1, rightVec1));
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_W, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player1, upVec1));
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_S, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player1, downVec1));
+
+		//TEST ACTIONS
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_C, boop::keyState::isDown, std::make_unique<TestGetHitCommand>(player1));
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_Z, boop::keyState::isDown, std::make_unique<TestHitTank>(player1));
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_X, boop::keyState::isDown, std::make_unique<TestHitRecognizer>(player1));
+
+
+		//-------------------------
+
+		//input player 2
+		auto* player2 = sceneLvl1->FindGameObjectByTag("p2");
+		assert(player2);
+
+		//MOVE
+		//move vectors -> this might have to be moved to a better place
+		const int player2Speed = player2->GetComponent<Player>()->GetSpeed();
+		const glm::vec2 leftVec{ -player2Speed,0 };
+		const glm::vec2 rightVec{ player2Speed,0 };
+		const glm::vec2 upVec{ 0,-player2Speed };
+		const glm::vec2 downVec{ 0,player2Speed };
+
+		boop::InputManager::GetInstance().AddController();
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadLeft, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player2, leftVec));
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadRight, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player2, rightVec));
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadUp, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player2, upVec));
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::DPadDown, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(player2, downVec));
+
+
+		//TEST ACTIONS
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::ButtonX, boop::keyState::isDown, std::make_unique<TestGetHitCommand>(player2));
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown, std::make_unique<TestHitTank>(player2));
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::ButtonB, boop::keyState::isDown, std::make_unique<TestHitRecognizer>(player2));
+
+	}
+
 	void GameLoader::MakeGame()
 	{
 		//CREATE GAME OBJECTS
@@ -179,6 +211,10 @@ namespace booble
 
 		//CREATE LEVELS
 		MakeLevelOne();
+
+		//make a selection for what game type and make the command input from there
+		//INPUT
+		BindInput();
 	}
 
 }

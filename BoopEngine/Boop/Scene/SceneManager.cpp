@@ -65,3 +65,15 @@ boop::Scene* boop::SceneManager::GetActiveScene()
 {
 	return m_Scenes[m_ActiveSceneId].get();
 }
+
+boop::Scene* boop::SceneManager::GetScene(const std::string& name)
+{
+	for (auto& scene : m_Scenes)
+	{
+		if (scene->GetName() == name)
+		{
+			return scene.get();
+		}
+	}
+	return nullptr;
+}
