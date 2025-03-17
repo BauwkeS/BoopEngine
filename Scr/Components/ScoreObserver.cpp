@@ -13,8 +13,8 @@ namespace booble {
 		if (dynamic_cast<PlayerKillTank*>(&event)
 			|| dynamic_cast<PlayerKillRecognizer*>(&event))
 		{
-			int health = GetOwner()->GetComponent<Player>()->GetScore();
-			SetText("Score: " + std::to_string(health));
+			int score = GetOwner()->GetComponent<Player>()->GetScore();
+			SetText("Score: " + std::to_string(score));
 		}
 	}
 

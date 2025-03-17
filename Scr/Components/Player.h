@@ -13,7 +13,7 @@ namespace boop {
 
 namespace booble 
 {
-	class Player : public boop::Component, public boop::Observer
+	class Player : public boop::Component, public boop::Observer, public boop::Subject
 	{
 	public:
 		Player(boop::GameObject* owner, float speed);

@@ -14,7 +14,7 @@
 namespace booble
 {
 	Player::Player(boop::GameObject* owner, float speed)
-		: Component(owner), Observer(), m_Speed{speed}
+		: Component(owner), Observer(), Subject(), m_Speed{speed}
 	{
 	}
 
@@ -33,8 +33,16 @@ namespace booble
 
 	void Player::OnNotify(boop::Event& event)
 	{
-		if (dynamic_cast<PlayerKillTank*>(&event)) m_Score += 100;
-		if (dynamic_cast<PlayerKillRecognizer*>(&event)) m_Score += 250;
+		if (dynamic_cast<PlayerKillTank*>(&event)) {
+			m_Score += 100;
+			PlayerKillTank playerKillTank{};
+			NotifyObserver(playerKillTank);
+		}
+		if (dynamic_cast<PlayerKillRecognizer*>(&event)) {
+			m_Score += 250;
+			PlayerKillRecognizer plr{};
+			NotifyObserver(plr);
+		}
 	}
 }
 	

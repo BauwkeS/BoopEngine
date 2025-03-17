@@ -75,6 +75,7 @@ namespace booble
 		//score
 		auto scoreObs = playerObject->AddComponent<ScoreObserver>(nullptr);
 		scoreObs->SetPosition(0, 220);
+		playerComp->AddObserver(scoreObs);
 
 		//damage test input
 		boop::InputManager::GetInstance().AddCommand(m_LevelOne, SDL_SCANCODE_C, boop::keyState::isDown, std::make_unique<TestGetHitCommand>(playerObject.get()));
@@ -84,7 +85,7 @@ namespace booble
 		//auto levelBrain = std::make_unique<boop::GameObject>();
 		auto levelComp = playerObject->AddComponent<Level>(nullptr);
 		//std::make_unique<Level>();
-		levelComp->AddObserver(scoreObs);
+		//levelComp->AddObserver(scoreObs);
 		levelComp->AddObserver(playerComp);
 		//levelBrain->SetTag("Level");
 		//levelBrain->SetParent(playerObject.get(), true);
