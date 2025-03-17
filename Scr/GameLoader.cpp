@@ -57,7 +57,7 @@ namespace booble
 		return std::move(gameObjPtr);
 	}
 
-	std::unique_ptr<boop::GameObject> GameLoader::CreatePlayerOne(const std::string spritePath, const std::string tagName, float playerSpeed)
+	std::unique_ptr<boop::GameObject> GameLoader::CreatePlayerOne(const std::string spritePath, const std::string tagName, int playerSpeed)
 	{
 		auto playerObject = std::make_unique<boop::GameObject>();
 		//playerObject->AddComponent< boop::SpriteComponent>(nullptr, static_cast<std::string>(spritePath), 6, 5, 0.2f, 0, 2, 4.f);
@@ -102,7 +102,7 @@ namespace booble
 		return std::move(playerObject);
 	}
 	
-	std::unique_ptr<boop::GameObject> GameLoader::CreatePlayerTwo(const std::string spritePath, const std::string tagName, float playerSpeed)
+	std::unique_ptr<boop::GameObject> GameLoader::CreatePlayerTwo(const std::string spritePath, const std::string tagName, int playerSpeed)
 	{
 		auto playerObject = std::make_unique<boop::GameObject>();
 		playerObject->AddComponent< boop::TextureComponent>(nullptr, static_cast<std::string>(spritePath));

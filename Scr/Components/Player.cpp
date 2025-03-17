@@ -13,7 +13,7 @@
 
 namespace booble
 {
-	Player::Player(boop::GameObject* owner, float speed)
+	Player::Player(boop::GameObject* owner, int speed)
 		: Component(owner), Observer(), Subject(), m_Speed{speed}
 	{
 	}
