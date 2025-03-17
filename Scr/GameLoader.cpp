@@ -106,8 +106,32 @@ namespace booble
 	{
 		auto playerObject = std::make_unique<boop::GameObject>();
 		playerObject->AddComponent< boop::TextureComponent>(nullptr, static_cast<std::string>(spritePath));
-		playerObject->AddComponent<Player>(nullptr,playerSpeed);
+		auto playerComp= playerObject->AddComponent<Player>(nullptr,playerSpeed);
 		playerObject->SetTag(tagName);
+
+		//this is wrong : to-do fix this
+		//health
+		auto healthComp = playerObject->AddComponent<Health>(nullptr, 4);
+		auto healthObs = playerObject->AddComponent<HealthObserver>(nullptr);
+		healthObs->SetPosition(0, 240);
+		healthComp->AddObserver(healthObs);
+
+		//score
+		auto scoreObs = playerObject->AddComponent<ScoreObserver>(nullptr);
+		scoreObs->SetPosition(0, 260);
+		playerComp->AddObserver(scoreObs);
+
+		//damage test input
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::ButtonX, boop::keyState::isDown, std::make_unique<TestGetHitCommand>(playerObject.get()));
+
+		//level brain
+		auto levelComp = playerObject->AddComponent<Level>(nullptr);
+		levelComp->AddObserver(playerComp);
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown, std::make_unique<TestHitTank>(playerObject.get()));
+		boop::InputManager::GetInstance().AddCommand(m_LevelOne, static_cast<int>(boop::Controller::ControllerId::First), boop::Controller::ControllerButton::ButtonB, boop::keyState::isDown, std::make_unique<TestHitRecognizer>(playerObject.get()));
+
+
+
 
 		//input player 2
 		//walk
