@@ -1,3 +1,4 @@
+#pragma once
 #include "../BoopEngine/Boop/HelperFiles/Singleton.h"
 #include <memory>
 #include <string>
@@ -23,12 +24,14 @@ namespace booble
 		std::unique_ptr<boop::GameObject> CreatePlayer(const std::string spritePath, const std::string tagName, int playerSpeed );
 
 		//Level
-		const std::string m_LevelOne = "LevelOne";
 		void MakeLevelOne();
 		void MakeMainScreen();
 		
-
+		int m_selectedGamemode{};
 	public:
 		void MakeGame();
+
+		void SetSelectedGamemode(int gamemode) { m_selectedGamemode = gamemode; }
+		int GetSelectedGamemode() const { return m_selectedGamemode; }
 	};
 }

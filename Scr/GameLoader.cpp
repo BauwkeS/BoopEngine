@@ -73,9 +73,10 @@ namespace booble
 
 	void GameLoader::MakeLevelOne()
 	{
+		const std::string levelOne{ "LevelOne" };
 		//SETUP
-		level::LevelLoader::GetInstance().CreateLevel("level1.txt", m_LevelOne);
-		auto* sceneLvl1 = boop::SceneManager::GetInstance().GetScene(m_LevelOne);
+		level::LevelLoader::GetInstance().CreateLevel("level1.txt", levelOne);
+		auto* sceneLvl1 = boop::SceneManager::GetInstance().GetScene(levelOne);
 		assert(sceneLvl1);
 
 		//player controls info
@@ -87,7 +88,7 @@ namespace booble
 		//input player 1 
 		auto* player1 = sceneLvl1->FindGameObjectByTag("p1")->GetComponent<Player>();
 		assert(player1);
-		player1->AddKeyboardMovement(m_LevelOne);
+		player1->AddKeyboardMovement(levelOne);
 
 		//set the UI position
 		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
@@ -96,7 +97,7 @@ namespace booble
 		//input player 2
 		auto* player2 = sceneLvl1->FindGameObjectByTag("p2")->GetComponent<Player>();
 		assert(player2);
-		player2->AddControllerMovement(m_LevelOne);
+		player2->AddControllerMovement(levelOne);
 		
 		//set the UI position
 		player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
@@ -106,18 +107,26 @@ namespace booble
 	void GameLoader::MakeMainScreen()
 	{
 		//SETUP
-		auto& sceneMain = boop::SceneManager::GetInstance().AddScene("MainScreen");
+		const std::string levelName{ "MainScreen" };
+		auto& sceneMain = boop::SceneManager::GetInstance().AddScene(levelName);
 		
 		//selection info
 		auto mainMenuText = std::make_unique<boop::GameObject>();
-
 		mainMenuText->AddComponent<boop::TextComponent>(nullptr, "A/SPACE to start")->SetPosition(300,100);
-		mainMenuText->AddComponent<boop::TextComponent>(nullptr, "B/ESC to quit")->SetPosition(300,200);
 		mainMenuText->AddComponent<boop::TextComponent>(nullptr, "Y/TAB to change")->SetPosition(300,300);
-		mainMenuText->AddComponent<boop::TextComponent>(nullptr, "Gamemode: ")->SetPosition(300,330);
+
+		auto selectionText = std::make_unique<boop::GameObject>();
+		selectionText->AddComponent<boop::TextComponent>(nullptr, "Gamemode: SINGLEPLAYER")->SetPosition(300, 330);
+
+
+		//keyboard commands
+		boop::InputManager::GetInstance().AddCommand(levelName, SDL_SCANCODE_SPACE, boop::keyState::isDown,
+			std::make_unique<booble::ChangeScene>(mainMenuText.get(), "LevelOne"));
+		boop::InputManager::GetInstance().AddCommand(levelName, SDL_SCANCODE_TAB, boop::keyState::isDown,
+			std::make_unique<booble::ChangeGamemodeSelection>(selectionText.get(), this));
 
 		sceneMain.Add(std::move(mainMenuText));
-
+		sceneMain.Add(std::move(selectionText));
 	}
 
 	void GameLoader::MakeGame()

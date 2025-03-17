@@ -9,9 +9,11 @@
 #include <glm/ext/vector_float2.hpp>
 #include "Components/Health.h"
 #include "Level.h"
+#include "GameLoader.h"
 
 #include "../BoopEngine/Boop/Scene/Scene.h"
 #include "../BoopEngine/Boop/Scene/SceneManager.h"
+#include "../BoopEngine/Boop/Components/TextComponent.h"
 
 //COMMANDS HERE
 namespace boop
@@ -107,4 +109,71 @@ namespace booble
 		TestHitRecognizer& operator=(TestHitRecognizer&& other) = delete;
 
 	};
+
+
+
+	//--------------------------------------
+	//MAIN MENU
+	//--------------------------------------
+	class ChangeScene final : public boop::Command {
+	private:
+		boop::GameObject* m_pGameObject;
+		std::string m_ToScene;
+	public:
+		ChangeScene(boop::GameObject* component, const std::string toScene)
+			: m_pGameObject{ component }, m_ToScene{toScene} {
+		}
+		~ChangeScene() { m_pGameObject = nullptr; delete m_pGameObject; }
+
+		void Execute() override {
+			boop::SceneManager::GetInstance().ChangeScene(m_ToScene);
+		};
+
+		ChangeScene(const ChangeScene& other) = delete;
+		ChangeScene(ChangeScene&& other) = delete;
+		ChangeScene& operator=(const ChangeScene& other) = delete;
+		ChangeScene& operator=(ChangeScene&& other) = delete;
+
+	};
+
+	class ChangeGamemodeSelection final : public boop::Command {
+	private:
+		boop::GameObject* m_pGameObject;
+		booble::GameLoader* m_pGameLoader;
+	public:
+		ChangeGamemodeSelection(boop::GameObject* component, booble::GameLoader* gameLoader)
+			: m_pGameObject{ component }, m_pGameLoader{ gameLoader } {
+		}
+		~ChangeGamemodeSelection() { m_pGameObject = nullptr; delete m_pGameObject; }
+
+		void Execute() override {
+			int currentMode = m_pGameLoader->GetSelectedGamemode();
+			int nextMode = (currentMode + 1) % 3; // 3 is the number of game modes
+			m_pGameLoader->SetSelectedGamemode(nextMode);
+
+			// Update the text
+			std::string modeText;
+			switch (static_cast<booble::GameMode>(nextMode)) {
+			case booble::GameMode::SINGLEPLAYER:
+				modeText = "SINGLEPLAYER";
+				break;
+			case booble::GameMode::MULTIPLAYER:
+				modeText = "MULTIPLAYER";
+				break;
+			case booble::GameMode::COOP:
+				modeText = "COOP";
+				break;
+			}
+
+			m_pGameObject->GetComponent<boop::TextComponent>()->SetText("Gamemode: " + modeText);
+
+		};
+
+		ChangeGamemodeSelection(const ChangeGamemodeSelection& other) = delete;
+		ChangeGamemodeSelection(ChangeGamemodeSelection&& other) = delete;
+		ChangeGamemodeSelection& operator=(const ChangeGamemodeSelection& other) = delete;
+		ChangeGamemodeSelection& operator=(ChangeGamemodeSelection&& other) = delete;
+
+	};
+
 };
