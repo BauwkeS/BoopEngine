@@ -57,60 +57,24 @@ namespace booble
 		return std::move(gameObjPtr);
 	}
 
-	std::unique_ptr<boop::GameObject> GameLoader::CreatePlayerOne(const std::string spritePath, const std::string tagName, int playerSpeed)
+	std::unique_ptr<boop::GameObject> GameLoader::CreatePlayer(const std::string spritePath, const std::string tagName, int playerSpeed)
 	{
 		auto playerObject = std::make_unique<boop::GameObject>();
-		//playerObject->AddComponent< boop::SpriteComponent>(nullptr, static_cast<std::string>(spritePath), 6, 5, 0.2f, 0, 2, 4.f);
-		playerObject->AddComponent< boop::TextureComponent>(nullptr, static_cast<std::string>(spritePath));
-		auto playerComp = playerObject->AddComponent<Player>(nullptr,playerSpeed);
-		//playerObject->AddComponent(std::move(std::make_unique<boop::PhysicsComponent>(nullptr)));
-		playerObject->SetTag(tagName);
+		playerObject->SetTag(tagName); //add tag for level
+
+		playerObject->AddComponent< boop::TextureComponent>(nullptr, static_cast<std::string>(spritePath)); //add sprite
+		auto playerComp = playerObject->AddComponent<Player>(nullptr, playerSpeed); // add base player comp
 
 		//health
 		auto healthComp = playerObject->AddComponent<Health>(nullptr, 4);
 		auto healthObs = playerObject->AddComponent<HealthObserver>(nullptr);
-		healthObs->SetPosition(0, 200);
+		healthObs->SetPosition(0, 200); //TO DO MOVE THIS??? MAGIC NUMBER???
 		healthComp->AddObserver(healthObs);
 
 		//score
 		auto scoreObs = playerObject->AddComponent<ScoreObserver>(nullptr);
-		scoreObs->SetPosition(0, 220);
+		scoreObs->SetPosition(0, 220); //TO DO MOVE THIS??? MAGIC NUMBER???
 		playerComp->AddObserver(scoreObs);
-		
-		//level brain
-		//auto levelBrain = std::make_unique<boop::GameObject>();
-		//auto levelBrain = std::make_unique<boop::GameObject>();
-		auto levelComp = playerObject->AddComponent<Level>(nullptr);
-		//std::make_unique<Level>();
-		//levelComp->AddObserver(scoreObs);
-		levelComp->AddObserver(playerComp);
-		//levelBrain->SetTag("Level");
-		//levelBrain->SetParent(playerObject.get(), true);
-		
-
-		return std::move(playerObject);
-	}
-	
-	std::unique_ptr<boop::GameObject> GameLoader::CreatePlayerTwo(const std::string spritePath, const std::string tagName, int playerSpeed)
-	{
-		auto playerObject = std::make_unique<boop::GameObject>();
-		playerObject->AddComponent< boop::TextureComponent>(nullptr, static_cast<std::string>(spritePath));
-		auto playerComp= playerObject->AddComponent<Player>(nullptr,playerSpeed);
-		playerObject->SetTag(tagName);
-
-		//this is wrong : to-do fix this
-		//health
-		auto healthComp = playerObject->AddComponent<Health>(nullptr, 4);
-		auto healthObs = playerObject->AddComponent<HealthObserver>(nullptr);
-		healthObs->SetPosition(0, 240);
-		healthComp->AddObserver(healthObs);
-
-		//score
-		auto scoreObs = playerObject->AddComponent<ScoreObserver>(nullptr);
-		scoreObs->SetPosition(0, 260);
-		playerComp->AddObserver(scoreObs);
-
-		//damage test input
 
 		//level brain
 		auto levelComp = playerObject->AddComponent<Level>(nullptr);
@@ -200,8 +164,8 @@ namespace booble
 		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(CreateAir()));
 		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(CreateWall(0)));
 		level::LevelLoader::GetInstance().AssignGameObject(2, std::move(CreatePlatform(0)));
-		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(CreatePlayerOne("GreenTank.png", "p1",200)));
-		level::LevelLoader::GetInstance().AssignGameObject(4, std::move(CreatePlayerTwo("BlueTank.png", "p2",400)));
+		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(CreatePlayer("GreenTank.png", "p1",200)));
+		level::LevelLoader::GetInstance().AssignGameObject(4, std::move(CreatePlayer("BlueTank.png", "p2",400)));
 
 		//Set important tags
 		std::vector<std::string> importantTags;
