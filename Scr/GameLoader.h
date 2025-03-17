@@ -11,13 +11,15 @@ namespace booble
 	class GameLoader final : public boop::Singleton<GameLoader>
 	{
 	private:
-		static std::unique_ptr<boop::GameObject> CreateAir();
-		//0 for pruple ; 1 for rock
-		static std::unique_ptr<boop::GameObject> CreateWall(int whichBlock);
-		static std::unique_ptr<boop::GameObject> CreatePlatform(int whichBlock);
+		std::unique_ptr<boop::GameObject> CreateAir();
+		std::unique_ptr<boop::GameObject> CreateWall(int whichBlock);
+		std::unique_ptr<boop::GameObject> CreatePlatform(int whichBlock);
 
-		static std::unique_ptr<boop::GameObject> CreatePlayer(const std::string spritePath, const std::string tagName);
+		std::unique_ptr<boop::GameObject> CreatePlayerOne(const std::string spritePath, const std::string tagName, float playerSpeed );
+		std::unique_ptr<boop::GameObject> CreatePlayerTwo(const std::string spritePath, const std::string tagName, float playerSpeed );
 
+		const std::string m_LevelOne = "LevelOne";
+		void MakeLevelOne();
 	public:
 		void MakeGame();
 	};

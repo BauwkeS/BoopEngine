@@ -50,5 +50,8 @@ boop::Font* boop::ResourceManager::LoadFont(const std::string& file, unsigned in
 
 boop::ResourceManager::~ResourceManager()
 {
-	TTF_Quit();
+    // Properly iterate and clean up the unique_ptrs in m_Fonts
+	m_Fonts.clear();
+	m_Textures.clear();
+    TTF_Quit();
 }

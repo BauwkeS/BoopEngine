@@ -12,7 +12,8 @@ boop::TextComponent::TextComponent(boop::GameObject* const ownerPtr, const std::
 	Component(ownerPtr),
 	m_needsUpdate{ true },
 	m_text{ text },
-	m_textTexture{ nullptr }
+	m_textTexture{ nullptr },
+	m_FontName{font}
 {
 	m_font = boop::ResourceManager::GetInstance().LoadFont(font, fontSize);
 }
@@ -54,6 +55,12 @@ void boop::TextComponent::Render() const
 void boop::TextComponent::SetText(const std::string& text)
 {
 	m_text = text;
+	m_needsUpdate = true;
+}
+
+void boop::TextComponent::SetFontSize(const unsigned int fontsize)
+{
+	m_font = boop::ResourceManager::GetInstance().LoadFont(m_FontName, fontsize);
 	m_needsUpdate = true;
 }
 

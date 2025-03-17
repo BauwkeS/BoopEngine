@@ -9,14 +9,15 @@ add_executable(${PROJECT_NAME}
 "Scr/BubbleBooble.h"
  "Scr/GameLoader.h"
  "Scr/GameLoader.cpp"
- "Scr/Player.cpp"
- "Scr/Player.h"
+ "Scr/Components/Player.cpp"
+ "Scr/Components/Player.h"
  
  
  
  
  "Scr/GameCommands.h"
-   )
+    "Scr/Components/Health.h" "Scr/Components/Health.cpp" "Scr/Components/Events.h" "Scr/Components/HealthObserver.h"
+"Scr/Components/HealthObserver.cpp" "Scr/Level.h" "Scr/Level.cpp" "Scr/Components/ScoreObserver.h" "Scr/Components/ScoreObserver.cpp")
 
 # Ensure correct target name
 if(EMSCRIPTEN)

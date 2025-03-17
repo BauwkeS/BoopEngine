@@ -3,10 +3,15 @@
 #include "../BoopEngine/Boop/Input/Command.h"
 #include "../BoopEngine/Boop/DeltaTime.h"
 
-#include "Player.h"
+#include "Components/Player.h"
 #include <iostream>
 #include <memory>
 #include <glm/ext/vector_float2.hpp>
+#include "Components/Health.h"
+#include "Level.h"
+
+#include "../BoopEngine/Boop/Scene/Scene.h"
+#include "../BoopEngine/Boop/Scene/SceneManager.h"
 
 //COMMANDS HERE
 namespace boop
@@ -26,7 +31,6 @@ namespace booble
 	public:
 		WalkCommand(boop::GameObject* component, glm::vec2 speed)
 			: m_pGameObject{ component }, m_Speed{ speed } {}
-		//make sure you can walk without jumping
 		~WalkCommand() { m_pGameObject = nullptr; delete m_pGameObject; }
 
 		void Execute() override {
@@ -43,59 +47,64 @@ namespace booble
 
 	};
 
-	//class StopWalkingCommand final : public boop::Command {
-	//private:
-	//	boop::GameObject* m_pGameObject;
-	//public:
-	//	StopWalkingCommand(boop::GameObject* component)
-	//		: m_pGameObject{ component } {}
-	//	//make sure you can walk without jumping
-	//	~StopWalkingCommand() { m_pGameObject = nullptr; delete m_pGameObject; };
+	//TEST
+	class TestGetHitCommand final : public boop::Command {
+	private:
+		boop::GameObject* m_pGameObject;
+	public:
+		TestGetHitCommand(boop::GameObject* component)
+			: m_pGameObject{ component } {
+		}
+		~TestGetHitCommand() { m_pGameObject = nullptr; delete m_pGameObject; }
 
-	//	void Execute(float) override {
+		void Execute() override {
+			m_pGameObject->GetComponent<Health>()->TakeDamage();
+		};
 
-	//		//FOR THE PLAYER
-	//		auto playerComp = m_pGameObject->GetComponent<Player>();
-	//		if (playerComp)
-	//		{
+		TestGetHitCommand(const TestGetHitCommand& other) = delete;
+		TestGetHitCommand(TestGetHitCommand&& other) = delete;
+		TestGetHitCommand& operator=(const TestGetHitCommand& other) = delete;
+		TestGetHitCommand& operator=(TestGetHitCommand&& other) = delete;
 
-	//		}
+	};
+	class TestHitTank final : public boop::Command {
+	private:
+		boop::GameObject* m_pGameObject;
+	public:
+		TestHitTank(boop::GameObject* component)
+			: m_pGameObject{ component } {
+		}
+		~TestHitTank() { m_pGameObject = nullptr; delete m_pGameObject; }
 
+		void Execute() override {
+			m_pGameObject->GetComponent<Level>()->SetHitTank();
+			//boop::SceneManager::GetInstance().GetActiveScene()->FindGameObjectByTag("Level")->GetComponent<Level>()->SetHitTank();
+		};
 
-	//	};
+		TestHitTank(const TestHitTank& other) = delete;
+		TestHitTank(TestHitTank&& other) = delete;
+		TestHitTank& operator=(const TestHitTank& other) = delete;
+		TestHitTank& operator=(TestHitTank&& other) = delete;
 
-	//	StopWalkingCommand(const StopWalkingCommand& other) = delete;
-	//	StopWalkingCommand(StopWalkingCommand&& other) = delete;
-	//	StopWalkingCommand& operator=(const StopWalkingCommand& other) = delete;
-	//	StopWalkingCommand& operator=(StopWalkingCommand&& other) = delete;
+	};
+	class TestHitRecognizer final : public boop::Command {
+	private:
+		boop::GameObject* m_pGameObject;
+	public:
+		TestHitRecognizer(boop::GameObject* component)
+			: m_pGameObject{ component } {
+		}
+		~TestHitRecognizer() { m_pGameObject = nullptr; delete m_pGameObject; }
 
-	//};
+		void Execute() override {
+			m_pGameObject->GetComponent<Level>()->SetHitRecognizer();
+			//boop::SceneManager::GetInstance().GetActiveScene()->FindGameObjectByTag("Level")->GetComponent<Level>()->SetHitRecognizer();
+		};
 
-	//class JumpCommand final : public boop::Command {
-	//private:
-	//	boop::GameObject* m_pGameObject;
-	//	float m_JumpStrength;
-	//public:
-	//	JumpCommand(boop::GameObject* component, float jumpStrength)
-	//		: m_pGameObject{ component }, m_JumpStrength{ jumpStrength } {}
+		TestHitRecognizer(const TestHitRecognizer& other) = delete;
+		TestHitRecognizer(TestHitRecognizer&& other) = delete;
+		TestHitRecognizer& operator=(const TestHitRecognizer& other) = delete;
+		TestHitRecognizer& operator=(TestHitRecognizer&& other) = delete;
 
-	//	~JumpCommand() { m_pGameObject = nullptr; delete m_pGameObject; };
-
-	//	void Execute(float) override {
-	//		auto playerComp = m_pGameObject->GetComponent<Player>();
-	//		if (playerComp) {
-	//			//playerComp->StartJump(m_JumpStrength);
-
-
-	//			//add jumping
-	//			//if (m_Jump) playerComp->Jump(m_JumpForce);
-
-	//		}
-	//	}
-
-	//	JumpCommand(const JumpCommand& other) = delete;
-	//	JumpCommand(JumpCommand&& other) = delete;
-	//	JumpCommand& operator=(const JumpCommand& other) = delete;
-	//	JumpCommand& operator=(JumpCommand&& other) = delete;
-	//};
+	};
 };

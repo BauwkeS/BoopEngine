@@ -27,6 +27,7 @@ namespace level
 	{
 	private:
 		std::map<int, std::unique_ptr<boop::GameObject>> m_GameComponents{};
+		std::vector<std::string> m_ImportantTags{};
 	public:
 		LevelLoader() = default;
 		~LevelLoader() = default;
@@ -36,6 +37,7 @@ namespace level
 		LevelLoader& operator=(LevelLoader&& other) = delete;
 
 		void AssignGameObject(int index, std::unique_ptr<boop::GameObject> object);
-		void CreateLevel(std::string fileName, std::string sceneName, std::vector<std::string> tags);
+		void CreateLevel(std::string fileName, std::string sceneName);
+		void SetImportantTags(std::vector<std::string> tags);
 	};
 }

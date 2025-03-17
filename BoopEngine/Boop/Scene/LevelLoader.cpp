@@ -18,7 +18,12 @@ namespace level
 		m_GameComponents.emplace(index, std::move(object));
 	}
 
-	void LevelLoader::CreateLevel(std::string fileName, std::string sceneName, std::vector<std::string> tags)
+	void LevelLoader::SetImportantTags(std::vector<std::string> tags)
+	{
+		m_ImportantTags = std::move(tags);
+	}
+
+	void LevelLoader::CreateLevel(std::string fileName, std::string sceneName)
 	{
 		//plan:
 		//load the level
@@ -75,7 +80,7 @@ namespace level
 					auto clonedObject = std::move(m_GameComponents.at(index));
 					clonedObject->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
 
-					for (auto tag : tags)
+					for (auto tag : m_ImportantTags)
 					{
 						if (clonedObject->GetTag() == tag) {
 							renderLastComps.emplace_back(std::move(clonedObject));

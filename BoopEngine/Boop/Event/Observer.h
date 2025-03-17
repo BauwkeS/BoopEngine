@@ -4,18 +4,17 @@ namespace boop
 {
 	class GameObject;
 
-	enum struct Event
-	{
-		LevelStart,
-		PlayerDied,
-		EnemyDied
-	};
+    class Event
+    {
+    public:
+        virtual ~Event() = default;
+    };
 
 	class Observer
 	{
 	public:
 		virtual ~Observer(){}
-		virtual void OnNotify(GameObject& gameObject, Event& event);
+		virtual void OnNotify(Event& event)=0;
 	};
 
 }

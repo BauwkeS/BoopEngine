@@ -2,11 +2,11 @@
 
 boop::Subject::~Subject()
 {
-	for (auto observer : m_Observers)
+	/*for (auto observer : m_Observers)
 	{
 		delete observer;
 		observer = nullptr;
-	}
+	}*/
 }
 
 void boop::Subject::AddObserver(Observer* observer)
@@ -20,10 +20,10 @@ void boop::Subject::RemoveObserver(Observer* observer)
 	m_Observers.erase(it);
 }
 
-void boop::Subject::Notify(GameObject& gameObject, Event event)
+void boop::Subject::NotifyObserver(Event& event)
 {
 	for (auto observer : m_Observers)
 	{
-		observer->OnNotify(gameObject, event);
+		observer->OnNotify(event);
 	}
 }
