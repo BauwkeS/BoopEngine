@@ -9,6 +9,7 @@ namespace boop {
 	class GameObject;
 	class CollisionComponent;
 	class Component;
+	class Scene;
 }
 
 namespace booble 
@@ -28,6 +29,11 @@ namespace booble
 
 		int GetScore() const { return m_Score; }
 		void OnNotify(boop::Event event) override;
+
+		//add input
+		void AddKeyboardMovement(const std::string& sceneName);
+		void AddControllerMovement(const std::string& sceneName);
+
 	private:
 		int m_Speed{};
 		int m_Score{};
