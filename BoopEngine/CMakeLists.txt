@@ -78,16 +78,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glm)
 
-FetchContent_Declare(fmt
-  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-  GIT_TAG 10.2.1
-  GIT_PROGRESS TRUE
-  GIT_SHALLOW TRUE
-)
-FetchContent_MakeAvailable(fmt)
-
-target_link_libraries(${TARGET_NAME} PRIVATE fmt::fmt)
-
 # add SDL2
 if (WIN32)
     set(BUILD_SHARED_LIBS OFF)
@@ -132,7 +122,6 @@ if (WIN32)
     target_link_libraries(${TARGET_NAME} PUBLIC XInput)
 elseif(NOT EMSCRIPTEN)
     find_package(glm REQUIRED)
-    find_package(fmt REQUIRED)
 
     find_package(SDL2 REQUIRED)
     find_package(SDL2_ttf REQUIRED)
@@ -144,7 +133,7 @@ if(MSVC)
 endif()
 
 target_link_libraries(${TARGET_NAME} PUBLIC
-    glm::glm fmt::fmt
+    glm::glm
     SDL2::SDL2-static
     SDL2_ttf::SDL2_ttf-static
     SDL2_image::SDL2_image-static
