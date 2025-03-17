@@ -27,7 +27,7 @@ namespace booble
 		float GetSpeed() const { return m_Speed; }
 
 		int GetScore() const { return m_Score; }
-		void OnNotify(boop::Event& event) override;
+		void OnNotify(boop::Event event) override;
 	private:
 		float m_Speed{};
 		//int m_Lives{3};

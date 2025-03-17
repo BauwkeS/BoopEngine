@@ -19,6 +19,6 @@ namespace boop
 		void RemoveObserver(Observer* observer);
 
 	protected:
-		void NotifyObserver(Event& event);
+		void NotifyObserver(Event event);
 	};
 }

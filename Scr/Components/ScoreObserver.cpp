@@ -8,10 +8,10 @@ namespace booble {
 	{
 	}
 
-	void ScoreObserver::OnNotify(boop::Event& event)
+	void ScoreObserver::OnNotify(boop::Event event)
 	{
-		if (dynamic_cast<PlayerKillTank*>(&event)
-			|| dynamic_cast<PlayerKillRecognizer*>(&event))
+		if (event.id == boop::make_sdbm_hash("PlayerKillTank")
+			|| event.id == boop::make_sdbm_hash("PlayerKillRecognizer"))
 		{
 			int score = GetOwner()->GetComponent<Player>()->GetScore();
 			SetText("Score: " + std::to_string(score));

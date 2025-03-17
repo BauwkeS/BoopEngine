@@ -60,7 +60,7 @@ add_library(${TARGET_NAME} STATIC
   Boop/Event/Subject.cpp
   Boop/States.h
   
-     "Boop/DeltaTime.h" "Boop/DeltaTime.cpp")
+     "Boop/DeltaTime.h" "Boop/DeltaTime.cpp" "Boop/Event/Event.h")
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)

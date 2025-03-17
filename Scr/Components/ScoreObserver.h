@@ -8,7 +8,7 @@ namespace booble {
 	public:
 		ScoreObserver(boop::GameObject* owner);
 		~ScoreObserver() = default;
-		void OnNotify(boop::Event& event) override;
+		void OnNotify(boop::Event event) override;
 	private:
 		int m_Score{};
 	};

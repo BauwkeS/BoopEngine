@@ -1,20 +1,15 @@
 #pragma once
+#include "Event.h"
 
 namespace boop
 {
 	class GameObject;
 
-    class Event
-    {
-    public:
-        virtual ~Event() = default;
-    };
-
 	class Observer
 	{
 	public:
 		virtual ~Observer(){}
-		virtual void OnNotify(Event& event)=0;
+		virtual void OnNotify(Event event)=0;
 	};
 
 }

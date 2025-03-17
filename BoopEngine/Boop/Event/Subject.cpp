@@ -20,7 +20,7 @@ void boop::Subject::RemoveObserver(Observer* observer)
 	m_Observers.erase(it);
 }
 
-void boop::Subject::NotifyObserver(Event& event)
+void boop::Subject::NotifyObserver(Event event)
 {
 	for (auto observer : m_Observers)
 	{

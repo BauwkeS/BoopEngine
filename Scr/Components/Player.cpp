@@ -31,17 +31,15 @@ namespace booble
 	{
 	}
 
-	void Player::OnNotify(boop::Event& event)
+	void Player::OnNotify(boop::Event event)
 	{
-		if (dynamic_cast<PlayerKillTank*>(&event)) {
+		if (event.id == boop::make_sdbm_hash("PlayerKillTank")) {
 			m_Score += 100;
-			PlayerKillTank playerKillTank{};
-			NotifyObserver(playerKillTank);
+			NotifyObserver(event);
 		}
-		if (dynamic_cast<PlayerKillRecognizer*>(&event)) {
+		if (event.id == boop::make_sdbm_hash("PlayerKillRecognizer")) {
 			m_Score += 250;
-			PlayerKillRecognizer plr{};
-			NotifyObserver(plr);
+			NotifyObserver(event);
 		}
 	}
 }

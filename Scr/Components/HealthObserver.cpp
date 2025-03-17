@@ -11,7 +11,7 @@ HealthObserver::HealthObserver(boop::GameObject* owner)
 	SetText("Health: " + std::to_string(starthealth));
 }
 
-void HealthObserver::OnNotify(boop::Event & event)
+void HealthObserver::OnNotify(boop::Event event)
 {
 	//if (event == PlayerDied) gameObject
 	//{
@@ -25,12 +25,12 @@ void HealthObserver::OnNotify(boop::Event & event)
 
 	
 
-	if (dynamic_cast<PlayerHit*>(&event))
+	if (event.id == boop::make_sdbm_hash("PlayerHit"))
 	{
 		int health = GetOwner()->GetComponent<Health>()->GetHealth();
 		SetText("Health: " + std::to_string(health));
 	}
-	else if (dynamic_cast<PlayerDied*>(&event))
+	else if (event.id == boop::make_sdbm_hash("PlayerDied"))
 	{
 		int health = GetOwner()->GetComponent<Health>()->GetHealth();
 		SetText("Health: " + std::to_string(health) + " - YOU DIED");

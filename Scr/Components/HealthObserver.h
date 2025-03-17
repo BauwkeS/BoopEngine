@@ -11,7 +11,7 @@ public:
 	HealthObserver(boop::GameObject* owner);
 	~HealthObserver() = default;
 
-	void OnNotify(boop::Event& event) override;
+	void OnNotify(boop::Event event) override;
 private:
 	
 };
