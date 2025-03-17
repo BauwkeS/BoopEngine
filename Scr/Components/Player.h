@@ -30,13 +30,7 @@ namespace booble
 		void OnNotify(boop::Event event) override;
 	private:
 		float m_Speed{};
-		//int m_Lives{3};
 		int m_Score{};
-
-		//void GetHit();
-
-		//subject
-		//std::unique_ptr<boop::Subject> m_Subject{};
 	};
 
 }

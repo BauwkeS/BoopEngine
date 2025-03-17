@@ -13,18 +13,6 @@ HealthObserver::HealthObserver(boop::GameObject* owner)
 
 void HealthObserver::OnNotify(boop::Event event)
 {
-	//if (event == PlayerDied) gameObject
-	//{
-	//	//do something
-	//}
-	//PlayerDied playerDied{};
-	//íf(event == playerDied)
-	//{
-	//	//do something
-	//}
-
-	
-
 	if (event.id == boop::make_sdbm_hash("PlayerHit"))
 	{
 		int health = GetOwner()->GetComponent<Health>()->GetHealth();

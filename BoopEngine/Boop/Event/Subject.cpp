@@ -2,11 +2,6 @@
 
 boop::Subject::~Subject()
 {
-	/*for (auto observer : m_Observers)
-	{
-		delete observer;
-		observer = nullptr;
-	}*/
 }
 
 void boop::Subject::AddObserver(Observer* observer)
