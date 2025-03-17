@@ -124,6 +124,12 @@ namespace booble
 			std::make_unique<booble::ChangeScene>(mainMenuText.get(), "LevelOne"));
 		boop::InputManager::GetInstance().AddCommand(levelName, SDL_SCANCODE_TAB, boop::keyState::isDown,
 			std::make_unique<booble::ChangeGamemodeSelection>(selectionText.get(), this));
+		//controller commands
+		boop::InputManager::GetInstance().AddCommand(levelName, static_cast<int>(boop::Controller::ControllerId::First),
+			boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(mainMenuText.get(), "LevelOne"));
+		boop::InputManager::GetInstance().AddCommand(levelName, static_cast<int>(boop::Controller::ControllerId::First),
+			boop::Controller::ControllerButton::ButtonY, boop::keyState::isDown, std::make_unique<booble::ChangeGamemodeSelection>(selectionText.get(), this));
+
 
 		sceneMain.Add(std::move(mainMenuText));
 		sceneMain.Add(std::move(selectionText));
