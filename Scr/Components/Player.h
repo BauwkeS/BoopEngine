@@ -2,7 +2,6 @@
 #include <memory>
 #include "../../BoopEngine/Boop/GameObject.h"
 #include <glm/vec2.hpp>
-#include "../../BoopEngine/Boop/Event/Subject.h"
 #include "../../BoopEngine/Boop/Event/Observer.h"
 
 namespace boop {
@@ -10,11 +9,12 @@ namespace boop {
 	class CollisionComponent;
 	class Component;
 	class Scene;
+	class Subject;
 }
 
 namespace booble 
 {
-	class Player : public boop::Component, public boop::Observer, public boop::Subject
+	class Player : public boop::Component, public boop::Observer
 	{
 	public:
 		Player(boop::GameObject* owner, int speed, const std::string spritePath);
@@ -37,6 +37,8 @@ namespace booble
 	private:
 		int m_Speed{};
 		int m_Score{};
+
+		std::unique_ptr<boop::Subject> m_Subject{};
 	};
 
 }

@@ -13,5 +13,5 @@ public:
 
 	void OnNotify(boop::Event event) override;
 private:
-	
+	//std::unique_ptr<boop::Observer> m_Observer{};
 };

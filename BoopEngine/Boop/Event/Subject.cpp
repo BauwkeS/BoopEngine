@@ -1,9 +1,5 @@
 #include "Subject.h"
 
-boop::Subject::~Subject()
-{
-}
-
 void boop::Subject::AddObserver(Observer* observer)
 {
 	m_Observers.emplace_back(observer);

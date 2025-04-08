@@ -9,6 +9,7 @@
 #include "../../BoopEngine/Boop/Input/InputManager.h"
 #include "../GameCommands.h"
 #include "Events.h"
+#include "../../BoopEngine/Boop/Event/Subject.h"
 #include "../../BoopEngine/Boop/Components/TextureComponent.h"
 #include "HealthObserver.h"
 #include "ScoreObserver.h"
@@ -17,7 +18,7 @@
 namespace booble
 {
 	Player::Player(boop::GameObject* owner, int speed, const std::string spritePath)
-		: Component(owner), Observer(), Subject(), m_Speed{speed}
+		: Component(owner), Observer(), m_Speed{ speed }, m_Subject{ std::make_unique<boop::Subject>() }
 	{
 		//add sprite
 		owner->AddComponent< boop::TextureComponent>(nullptr, static_cast<std::string>(spritePath));
@@ -29,7 +30,7 @@ namespace booble
 
 		//add score
 		auto scoreObs = owner->AddComponent<ScoreObserver>(nullptr);
-		this->AddObserver(scoreObs);
+		m_Subject->AddObserver(scoreObs);
 	}
 
 	void Player::FixedUpdate()
@@ -49,11 +50,11 @@ namespace booble
 	{
 		if (event.id == boop::make_sdbm_hash("PlayerKillTank")) {
 			m_Score += 100;
-			NotifyObserver(event);
+			m_Subject->NotifyObserver(event);
 		}
 		if (event.id == boop::make_sdbm_hash("PlayerKillRecognizer")) {
 			m_Score += 250;
-			NotifyObserver(event);
+			m_Subject->NotifyObserver(event);
 		}
 	}
 

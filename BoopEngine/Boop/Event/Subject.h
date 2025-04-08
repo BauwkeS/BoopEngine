@@ -13,12 +13,12 @@ namespace boop
 
 	public:
 		Subject()=default;
-		~Subject();
+		virtual ~Subject() {};
 
 		void AddObserver(Observer* observer);
 		void RemoveObserver(Observer* observer);
 
-	protected:
 		void NotifyObserver(Event event);
+	protected:
 	};
 }
