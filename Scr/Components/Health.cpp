@@ -3,16 +3,16 @@
 #include "Events.h"
 
 Health::Health(boop::GameObject* owner, int health)
-	: Component(owner), Subject(), m_Health(health), m_MaxHealth(health)
+	: Component(owner), m_Health(health), m_MaxHealth(health), m_Subject{ std::make_unique<boop::Subject>() }
 {
 }
 
 void Health::TakeDamage(int damage)
 {
 	m_Health -= damage;
-	NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerHit")));
+	m_Subject->NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerHit")));
 	if (m_Health <= 0)
 	{
-		NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerDied")));
+		m_Subject->NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerDied")));
 	}
 }

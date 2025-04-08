@@ -26,7 +26,7 @@ namespace booble
 		//add health
 		auto healthComp = owner->AddComponent<Health>(nullptr, 4);
 		auto healthObs = owner->AddComponent<HealthObserver>(nullptr);
-		healthComp->AddObserver(healthObs);
+		healthComp->GetSubject()->AddObserver(healthObs);
 
 		//add score
 		auto scoreObs = owner->AddComponent<ScoreObserver>(nullptr);
