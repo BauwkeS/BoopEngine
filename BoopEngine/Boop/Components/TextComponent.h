@@ -13,7 +13,7 @@ namespace boop
 	private:
 		bool m_needsUpdate;
 		std::string m_text;
-		glm::vec3 m_position{};
+		glm::vec2 m_position{};
 		Font* m_font;
 		std::unique_ptr<Texture2D> m_textTexture;
 		std::string m_FontName{};

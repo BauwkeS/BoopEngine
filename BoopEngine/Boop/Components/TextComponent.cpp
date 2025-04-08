@@ -66,7 +66,7 @@ void boop::TextComponent::SetFontSize(const unsigned int fontsize)
 
 void boop::TextComponent::SetPosition(const float x, const float y)
 {
-	m_position = glm::vec3(x, y, 0.0f);
+	m_position = glm::vec2(x, y);
 }
 
 boop::TextComponent::TextComponent()

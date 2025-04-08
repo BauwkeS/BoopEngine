@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "Components/Component.h"
-#include "glm/vec3.hpp"
+#include "glm/vec2.hpp"
 
 namespace boop
 {
@@ -15,8 +15,8 @@ namespace boop
 		GameObject* m_pParent{};
 		std::vector<std::unique_ptr<GameObject>> m_pChildren{};
 
-		glm::vec3 m_LocalPosition{};
-		glm::vec3 m_WorldPosition{};
+		glm::vec2 m_LocalPosition{};
+		glm::vec2 m_WorldPosition{};
 		bool m_PositionIsDirty;
 
 		bool m_ToDelete{ false };
@@ -32,7 +32,7 @@ namespace boop
 		void UpdateWorldPosition();
 		void SetPositionDirty();
 
-		void SetLocalPosition(const glm::vec3& pos);
+		void SetLocalPosition(const glm::vec2& pos);
 
 	public:
 		//TAG INFO
@@ -48,7 +48,7 @@ namespace boop
 		void RemoveComponent(int componentIdx);
 		void SetLocalPosition(float x, float y);
 
-		GameObject() : m_pParent(nullptr), m_LocalPosition(glm::vec3{}), m_WorldPosition(glm::vec3{}), m_PositionIsDirty(false)
+		GameObject() : m_pParent(nullptr), m_LocalPosition(glm::vec2{}), m_WorldPosition(glm::vec2{}), m_PositionIsDirty(false)
 		{}
 		//to-do add function to add gameobject with a parent
 		~GameObject() = default;
@@ -69,8 +69,8 @@ namespace boop
 		GameObject* GetParent() const { return m_pParent; }
 		GameObject* GetChildAt(int index) const;
 		
-		const glm::vec3& GetWorldPosition();
-		const glm::vec3& GetLocalPosition();
+		const glm::vec2& GetWorldPosition();
+		const glm::vec2& GetLocalPosition();
 		
 
 		template <class T, typename... Args>
