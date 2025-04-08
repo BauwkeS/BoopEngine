@@ -2,7 +2,7 @@
 #include "Components/Events.h"
 #include "../BoopEngine/Boop/Event/Event.h"
 
-Level::Level(boop::GameObject* owner) : Component(owner), Subject()
+Level::Level(boop::GameObject* owner) : Component(owner), m_Subject{ std::make_unique<boop::Subject>() }
 {
 }
 
@@ -20,12 +20,12 @@ void Level::CollideWithBullet()
 	///set bools for now, activated by buttons
 	if (m_HitTank)
 	{
-		NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerKillTank")));
+		m_Subject->NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerKillTank")));
 		m_HitTank = false;
 	}
 	if (m_HitRecognizer)
 	{
-		NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerKillRecognizer")));
+		m_Subject->NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerKillRecognizer")));
 		m_HitRecognizer = false;
 	}
 }

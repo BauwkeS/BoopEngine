@@ -66,7 +66,7 @@ namespace booble
 
 		//level brain
 		auto levelComp = playerObject->AddComponent<Level>(nullptr);
-		levelComp->AddObserver(playerComp);
+		levelComp->GetSubject()->AddObserver(playerComp);
 
 		return std::move(playerObject);
 	}
