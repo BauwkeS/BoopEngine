@@ -98,6 +98,7 @@ namespace booble
 		auto* player2 = sceneLvl1->FindGameObjectByTag("p2")->GetComponent<Player>();
 		assert(player2);
 		player2->AddControllerMovement(levelOne);
+		player1->AddControllerMovement(levelOne); // if there is a second controller, the first player can also use it
 		
 		//set the UI position
 		player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
@@ -129,7 +130,6 @@ namespace booble
 			boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(mainMenuText.get(), "LevelOne"));
 		boop::InputManager::GetInstance().AddCommand(levelName, static_cast<int>(boop::Controller::ControllerId::First),
 			boop::Controller::ControllerButton::ButtonY, boop::keyState::isDown, std::make_unique<booble::ChangeGamemodeSelection>(selectionText.get(), this));
-
 
 		sceneMain.Add(std::move(mainMenuText));
 		sceneMain.Add(std::move(selectionText));
