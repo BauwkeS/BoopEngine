@@ -19,7 +19,6 @@ public:
 
 	void FixedUpdate() override;
 
-	void CollideWithBullet();
 
 	void SetHitTank() { m_HitTank = true; }
 	void SetHitRecognizer() { m_HitRecognizer = true; }
@@ -32,4 +31,10 @@ private:
 	bool m_HitRecognizer{};
 
 	std::unique_ptr<boop::Subject> m_Subject{};
+
+
+	//collision functions
+	void CollideWithBullet();
+	void CollideWithTank() {};
+	void CollideGameBounds();
 };

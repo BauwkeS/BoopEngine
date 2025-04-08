@@ -29,3 +29,10 @@ void Level::CollideWithBullet()
 		m_HitRecognizer = false;
 	}
 }
+
+void Level::CollideGameBounds()
+{
+	//check that the gameobject is within the game bounds
+	//if not, set the position to the game bounds
+
+}

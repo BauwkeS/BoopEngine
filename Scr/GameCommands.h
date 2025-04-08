@@ -13,7 +13,9 @@
 
 #include "../BoopEngine/Boop/Scene/Scene.h"
 #include "../BoopEngine/Boop/Scene/SceneManager.h"
+#include "../BoopEngine/Boop/Renderer.h"
 #include "../BoopEngine/Boop/Components/TextComponent.h"
+#include "../BoopEngine/Boop/Components/TextureComponent.h"
 
 //COMMANDS HERE
 namespace boop
@@ -30,15 +32,38 @@ namespace booble
 	private:
 		boop::GameObject* m_pGameObject;
 		glm::vec2 m_Speed;
+		int m_WindowHeight{};
+		int m_WindowWidth{};
+		SDL_Rect m_ObjectSize{};
 	public:
 		WalkCommand(boop::GameObject* component, glm::vec2 speed)
-			: m_pGameObject{ component }, m_Speed{ speed } {}
+			: m_pGameObject{ component }, m_Speed{ speed } 
+		{
+			auto window = boop::Renderer::GetInstance().GetSDLWindow();
+			SDL_GetWindowSize(window, &m_WindowWidth, &m_WindowHeight);
+
+			m_ObjectSize = m_pGameObject->GetComponent<boop::TextureComponent>()->GetTextureRect();
+		}
 		~WalkCommand() { m_pGameObject = nullptr; delete m_pGameObject; }
 
 		void Execute() override {
 
+			//move the player
+			//you should not be allowed to go outside the game bounds!
+
 			m_pGameObject->SetLocalPosition(m_pGameObject->GetLocalPosition().x + (m_Speed.x * boop::DeltaTime::GetInstance().GetDeltaTime()),
 				m_pGameObject->GetLocalPosition().y + (m_Speed.y * boop::DeltaTime::GetInstance().GetDeltaTime()));
+
+			//maybe this should happen in the level.cpp instead
+			//check bounds of game and set player back if needed
+			if (m_pGameObject->GetLocalPosition().x < 0)
+				m_pGameObject->SetLocalPosition(0, m_pGameObject->GetLocalPosition().y);
+			if (m_pGameObject->GetLocalPosition().x > m_WindowWidth- m_ObjectSize.w)
+				m_pGameObject->SetLocalPosition(static_cast<float>(m_WindowWidth- m_ObjectSize.w), m_pGameObject->GetLocalPosition().y);
+			if (m_pGameObject->GetLocalPosition().y < 0)
+				m_pGameObject->SetLocalPosition(m_pGameObject->GetLocalPosition().x, 0);
+			if (m_pGameObject->GetLocalPosition().y > m_WindowHeight - m_ObjectSize.h)
+				m_pGameObject->SetLocalPosition(m_pGameObject->GetLocalPosition().x, static_cast<float>(m_WindowHeight - m_ObjectSize.h));
 
 		};
 
