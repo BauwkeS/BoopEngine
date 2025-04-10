@@ -21,15 +21,15 @@ namespace booble
 		: Component(owner), Observer(), m_Speed{ speed }, m_Subject{ std::make_unique<boop::Subject>() }
 	{
 		//add sprite
-		owner->AddComponent< boop::TextureComponent>(nullptr, static_cast<std::string>(spritePath));
+		owner->AddComponent< boop::TextureComponent>(static_cast<std::string>(spritePath));
 
 		//add health
-		auto healthComp = owner->AddComponent<Health>(nullptr, 4);
-		auto healthObs = owner->AddComponent<HealthObserver>(nullptr);
+		auto healthComp = owner->AddComponent<Health>(4);
+		auto healthObs = owner->AddComponent<HealthObserver>();
 		healthComp->GetSubject()->AddObserver(healthObs);
 
 		//add score
-		auto scoreObs = owner->AddComponent<ScoreObserver>(nullptr);
+		auto scoreObs = owner->AddComponent<ScoreObserver>();
 		m_Subject->AddObserver(scoreObs);
 	}
 

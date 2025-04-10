@@ -25,19 +25,19 @@ namespace booble
 	std::unique_ptr<boop::GameObject> GameLoader::CreateAir()
 	{
 		auto gameObjPtr = std::make_unique<boop::GameObject>();
-		gameObjPtr->AddComponent< boop::TextureComponent>(nullptr, "", 4.f);
+		gameObjPtr->AddComponent< boop::TextureComponent>( "", 4.f);
 		return std::move(gameObjPtr);
 	}
 	std::unique_ptr<boop::GameObject> GameLoader::CreateWall(int whichBlock)
 	{
 		auto gameObjPtr = std::make_unique<boop::GameObject>();
 		if (whichBlock == 0) {
-			gameObjPtr->AddComponent< boop::TextureComponent>(nullptr, "purpleBlock.png", 4.f);
+			gameObjPtr->AddComponent< boop::TextureComponent>("purpleBlock.png", 4.f);
 		}
 		else {
-			gameObjPtr->AddComponent< boop::TextureComponent>(nullptr, "stoneBlock.png", 4.f);
+			gameObjPtr->AddComponent< boop::TextureComponent>("stoneBlock.png", 4.f);
 		}
-		gameObjPtr->SetTag("Wall");
+		gameObjPtr->SetTag("collision");
 
 		return std::move(gameObjPtr);
 	}
@@ -46,10 +46,10 @@ namespace booble
 	{
 		auto gameObjPtr = std::make_unique<boop::GameObject>();
 		if (whichBlock == 0) {
-			gameObjPtr->AddComponent<boop::TextureComponent>(nullptr, "purpleBlock.png", 4.f);
+			gameObjPtr->AddComponent<boop::TextureComponent>("purpleBlock.png", 4.f);
 		}
 		else {
-			gameObjPtr->AddComponent< boop::TextureComponent>(nullptr, "stoneBlock.png", 4.f);
+			gameObjPtr->AddComponent< boop::TextureComponent>("stoneBlock.png", 4.f);
 		}
 
 		gameObjPtr->SetTag("Platform");
@@ -62,10 +62,10 @@ namespace booble
 		auto playerObject = std::make_unique<boop::GameObject>();
 		playerObject->SetTag(tagName); //add tag for level
 
-		auto playerComp = playerObject->AddComponent<Player>(nullptr, playerSpeed, spritePath); // add base player comp
+		auto playerComp = playerObject->AddComponent<Player>(playerSpeed, spritePath); // add base player comp
 
 		//level brain
-		auto levelComp = playerObject->AddComponent<Level>(nullptr);
+		auto levelComp = playerObject->AddComponent<Level>();
 		levelComp->GetSubject()->AddObserver(playerComp);
 
 		return std::move(playerObject);
@@ -81,8 +81,8 @@ namespace booble
 
 		//player controls info
 		auto howToPlay = std::make_unique<boop::GameObject>();
-		howToPlay->AddComponent<boop::TextComponent>(nullptr, "Use D-Pad to move the blue tank, X to inflict damage, A and B to kill a tank")->SetPosition(0,50);
-		howToPlay->AddComponent<boop::TextComponent>(nullptr, "Use WASD to move the green tank, C to inflict damage, Z and X to kill a tank")->SetPosition(0,70);
+		howToPlay->AddComponent<boop::TextComponent>("Use D-Pad to move the blue tank, X to inflict damage, A and B to kill a tank")->SetPosition(0,50);
+		howToPlay->AddComponent<boop::TextComponent>("Use WASD to move the green tank, C to inflict damage, Z and X to kill a tank")->SetPosition(0,70);
 		sceneLvl1->Add(std::move(howToPlay));
 
 		//input player 1 
@@ -103,6 +103,11 @@ namespace booble
 		//set the UI position
 		player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
 		player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+
+		//level component
+		//auto levelItems = std::make_unique<boop::GameObject>();
+		//levelItems->AddComponent<Level>(sceneLvl1);
+		//sceneLvl1->Add(std::move(levelItems));
 	}
 
 	void GameLoader::MakeMainScreen()
@@ -113,11 +118,11 @@ namespace booble
 		
 		//selection info
 		auto mainMenuText = std::make_unique<boop::GameObject>();
-		mainMenuText->AddComponent<boop::TextComponent>(nullptr, "A/SPACE to start")->SetPosition(300,100);
-		mainMenuText->AddComponent<boop::TextComponent>(nullptr, "Y/TAB to change")->SetPosition(300,300);
+		mainMenuText->AddComponent<boop::TextComponent>("A/SPACE to start")->SetPosition(300,100);
+		mainMenuText->AddComponent<boop::TextComponent>("Y/TAB to change")->SetPosition(300,300);
 
 		auto selectionText = std::make_unique<boop::GameObject>();
-		selectionText->AddComponent<boop::TextComponent>(nullptr, "Gamemode: SINGLEPLAYER")->SetPosition(300, 330);
+		selectionText->AddComponent<boop::TextComponent>("Gamemode: SINGLEPLAYER")->SetPosition(300, 330);
 
 
 		//keyboard commands

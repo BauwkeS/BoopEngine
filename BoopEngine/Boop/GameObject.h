@@ -74,18 +74,22 @@ namespace boop
 		
 
 		template <class T, typename... Args>
-		T* AddComponent(GameObject* owner, const Args&... args)
+		//T* AddComponent(GameObject* owner, const Args&... args)
+		T* AddComponent(const Args&... args)
 		{
 			static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
 
-			std::unique_ptr<T> pComponent{};
+		/*	std::unique_ptr<T> pComponent{};
 
 			if (owner == nullptr)
 			{
 				pComponent = std::make_unique<T>(this, args...);
 			}
-			else pComponent = std::make_unique<T>(owner, args...);
+			else pComponent = std::make_unique<T>(owner, args...);*/
 
+			//-- updated version:
+			// Always use 'this' as the owner
+			auto pComponent = std::make_unique<T>(this, args...);
 
 
 			T* rawPtr = pComponent.get();
