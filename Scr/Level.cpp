@@ -88,7 +88,7 @@ void Level::CollideWithTank()
 	{
 		//check if player runs in with another tank
 		auto playerPos = player->GetOwner()->GetWorldPosition();
-		glm::vec2 playerSize = player->GetSize();
+		glm::vec2 playerSize = player->GetTankBase()->GetSize();
 
 		SDL_Rect playerRect{ static_cast<int>(playerPos.x), static_cast<int>(playerPos.y),
 			static_cast<int>(playerSize.x), static_cast<int>(playerSize.y) };
@@ -96,7 +96,7 @@ void Level::CollideWithTank()
 		for (auto& enemy : m_Enemies)
 		{
 			auto enemyPos = enemy->GetOwner()->GetWorldPosition();
-			glm::vec2 enemySize = enemy->GetSize();
+			glm::vec2 enemySize = enemy->GetTankBase()->GetSize();
 
 			SDL_Rect enemyRect{ static_cast<int>(enemyPos.x), static_cast<int>(enemyPos.y),
 				static_cast<int>(enemySize.x), static_cast<int>(enemySize.y) };
@@ -107,7 +107,7 @@ void Level::CollideWithTank()
 				//you have collided!
 				//lose a life and reset the map
 				player->GetOwner()->GetComponent<Health>()->TakeDamage();
-				player->ResetPosition();
+				player->GetTankBase()->ResetPosition();
 			}
 		}
 	}

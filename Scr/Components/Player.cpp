@@ -18,16 +18,19 @@
 namespace booble
 {
 	Player::Player(boop::GameObject* owner, int speed, const std::string spritePath)
-		: Component(owner), Observer(), m_Speed{ speed }, m_Subject{ std::make_unique<boop::Subject>() }
+		: Component(owner), Observer(), m_Subject{ std::make_unique<boop::Subject>() }
 	{
-		//add sprite
-		auto sprite = owner->AddComponent< boop::TextureComponent>(static_cast<std::string>(spritePath));
-		m_Size = sprite->GetSize();
+		//add base tank
+		m_pTankBase = owner->AddComponent<BaseTank>(speed, spritePath);
 
-		//add health
-		auto healthComp = owner->AddComponent<Health>(4);
-		auto healthObs = owner->AddComponent<HealthObserver>();
-		healthComp->GetSubject()->AddObserver(healthObs);
+		//add sprite
+		//owner->AddComponent< boop::TextureComponent>(static_cast<std::string>(spritePath));
+		//m_Size = sprite->GetSize();
+
+		////add health
+		//auto healthComp = owner->AddComponent<Health>(4);
+		//auto healthObs = owner->AddComponent<HealthObserver>();
+		//healthComp->GetSubject()->AddObserver(healthObs);
 
 		//add score
 		auto scoreObs = owner->AddComponent<ScoreObserver>();
@@ -59,17 +62,18 @@ namespace booble
 		}
 	}
 
-	void Player::ResetPosition()
+	/*void Player::ResetPosition()
 	{
 		GetOwner()->SetLocalPosition(m_StartPos.x, m_StartPos.y);
-	}
+	}*/
 
 	void Player::AddKeyboardMovement(const std::string& sceneName)
 	{
-		const glm::vec2 leftVec{ -m_Speed,0 };
-		const glm::vec2 rightVec{ m_Speed,0 };
-		const glm::vec2 upVec{ 0,-m_Speed };
-		const glm::vec2 downVec{ 0,m_Speed };
+		auto speed = m_pTankBase->GetSpeed();
+		const glm::vec2 leftVec{ -speed,0};
+		const glm::vec2 rightVec{ speed,0 };
+		const glm::vec2 upVec{ 0,-speed };
+		const glm::vec2 downVec{ 0,speed };
 
 		//walk
 		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), leftVec));
@@ -88,10 +92,11 @@ namespace booble
 		//MOVE
 		//move vectors -> this might have to be moved to a better place
 		//const int player2Speed = player2->GetComponent<Player>()->GetSpeed();
-		const glm::vec2 leftVec{ -m_Speed,0 };
-		const glm::vec2 rightVec{ m_Speed,0 };
-		const glm::vec2 upVec{ 0,-m_Speed };
-		const glm::vec2 downVec{ 0,m_Speed };
+		auto speed = m_pTankBase->GetSpeed();
+		const glm::vec2 leftVec{ -speed,0 };
+		const glm::vec2 rightVec{ speed,0 };
+		const glm::vec2 upVec{ 0,-speed };
+		const glm::vec2 downVec{ 0,speed };
 
 		int controllerId = boop::InputManager::GetInstance().AddController() -1;
 		boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::DPadLeft, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), leftVec));

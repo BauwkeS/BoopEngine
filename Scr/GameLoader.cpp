@@ -85,7 +85,7 @@ namespace booble
 		auto* player1GO = sceneLvl1->FindGameObjectByTag("p1");
 		auto* player1 = player1GO->GetComponent<Player>();
 		assert(player1);
-		player1->SetStartPos(player1GO->GetWorldPosition());
+		player1->GetTankBase()->SetStartPos(player1GO->GetWorldPosition());
 		player1->AddKeyboardMovement(levelOne);
 
 		//set the UI position
