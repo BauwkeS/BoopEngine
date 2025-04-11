@@ -23,6 +23,10 @@ namespace booble
 		//add base tank
 		m_pTankBase = owner->AddComponent<BaseTank>(speed, spritePath);
 
+		//add health UI
+		auto healthObs = owner->AddComponent<HealthObserver>();
+		owner->GetComponent<Health>()->GetSubject()->AddObserver(healthObs);
+
 		//add score
 		auto scoreObs = owner->AddComponent<ScoreObserver>();
 		m_Subject->AddObserver(scoreObs);
