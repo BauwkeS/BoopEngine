@@ -23,15 +23,6 @@ namespace booble
 		//add base tank
 		m_pTankBase = owner->AddComponent<BaseTank>(speed, spritePath);
 
-		//add sprite
-		//owner->AddComponent< boop::TextureComponent>(static_cast<std::string>(spritePath));
-		//m_Size = sprite->GetSize();
-
-		////add health
-		//auto healthComp = owner->AddComponent<Health>(4);
-		//auto healthObs = owner->AddComponent<HealthObserver>();
-		//healthComp->GetSubject()->AddObserver(healthObs);
-
 		//add score
 		auto scoreObs = owner->AddComponent<ScoreObserver>();
 		m_Subject->AddObserver(scoreObs);
@@ -62,11 +53,6 @@ namespace booble
 		}
 	}
 
-	/*void Player::ResetPosition()
-	{
-		GetOwner()->SetLocalPosition(m_StartPos.x, m_StartPos.y);
-	}*/
-
 	void Player::AddKeyboardMovement(const std::string& sceneName)
 	{
 		auto speed = m_pTankBase->GetSpeed();
@@ -80,18 +66,11 @@ namespace booble
 		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_D, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), rightVec));
 		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_W, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), upVec));
 		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_S, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
-
-		////TEST ACTIONS
-		//boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_C, boop::keyState::isDown, std::make_unique<TestGetHitCommand>(GetOwner()));
-		//boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_Z, boop::keyState::isDown, std::make_unique<TestHitTank>(GetOwner()));
-		//boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_X, boop::keyState::isDown, std::make_unique<TestHitRecognizer>(GetOwner()));
-
 	}
 	void Player::AddControllerMovement(const std::string& sceneName)
 	{
 		//MOVE
 		//move vectors -> this might have to be moved to a better place
-		//const int player2Speed = player2->GetComponent<Player>()->GetSpeed();
 		auto speed = m_pTankBase->GetSpeed();
 		const glm::vec2 leftVec{ -speed,0 };
 		const glm::vec2 rightVec{ speed,0 };
@@ -103,12 +82,6 @@ namespace booble
 		boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::DPadRight, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), rightVec));
 		boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::DPadUp, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), upVec));
 		boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::DPadDown, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
-
-		//TEST ACTIONS
-		//boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::ButtonX, boop::keyState::isDown, std::make_unique<TestGetHitCommand>(GetOwner()));
-		//boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown, std::make_unique<TestHitTank>(GetOwner()));
-		//boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::ButtonB, boop::keyState::isDown, std::make_unique<TestHitRecognizer>(GetOwner()));
-
 	}
 }
 	

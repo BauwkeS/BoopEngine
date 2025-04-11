@@ -24,17 +24,8 @@ namespace booble
 		void FixedUpdate() override;
 		void Update() override;
 		void Render() const override;
-
-		/*void ChangeSpeed(int speed) { m_pTankBase->ChangeSpeed(speed) = speed; }
-		int GetSpeed() const { return m_Speed; }*/
-
 		int GetScore() const { return m_Score; }
 		void OnNotify(boop::Event event) override;
-
-		//glm::vec2 GetSize() const { return m_Size; }
-
-		//void ResetPosition();
-		//void SetStartPos(glm::vec2 pos) { m_StartPos = pos; }
 
 		//add input
 		void AddKeyboardMovement(const std::string& sceneName);
@@ -43,10 +34,7 @@ namespace booble
 		BaseTank* GetTankBase() const { return m_pTankBase; }
 
 	private:
-		//int m_Speed{};
 		int m_Score{};
-		//glm::vec2 m_Size{};
-	//	glm::vec2 m_StartPos{};
 
 		std::unique_ptr<boop::Subject> m_Subject{};
 
