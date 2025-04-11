@@ -19,6 +19,7 @@
 #include "Components/ScoreObserver.h"
 
 #include "Level.h"
+#include "Components/Enemy.h"
 
 namespace booble
 {
@@ -65,6 +66,16 @@ namespace booble
 		playerObject->AddComponent<Player>(playerSpeed, spritePath); // add base player comp
 
 		return std::move(playerObject);
+	}
+
+	std::unique_ptr<boop::GameObject> GameLoader::CreateEnemy(const std::string spritePath, const std::string tagName, int playerSpeed)
+	{
+		auto enemyObject = std::make_unique<boop::GameObject>();
+		enemyObject->SetTag(tagName); //add tag for level
+
+		enemyObject->AddComponent<Enemy>(playerSpeed, spritePath); // add base player comp
+
+		return std::move(enemyObject);
 	}
 
 	void GameLoader::MakeLevelOne()
@@ -147,6 +158,7 @@ namespace booble
 		level::LevelLoader::GetInstance().AssignGameObject(2, std::move(CreatePlatform(0)));
 		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(CreatePlayer("GreenTank.png", "p1",200)));
 		level::LevelLoader::GetInstance().AssignGameObject(4, std::move(CreatePlayer("BlueTank.png", "p2",400)));
+		level::LevelLoader::GetInstance().AssignGameObject(5, std::move(CreateEnemy("BlueTank.png", "enemy",400)));
 
 		//Set important tags
 		std::vector<std::string> importantTags;

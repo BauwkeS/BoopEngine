@@ -3,6 +3,7 @@
 #include "../BoopEngine/Boop/GameObject.h"
 #include "../BoopEngine/Boop/Event/Subject.h"
 #include "../BoopEngine/Boop/Scene/Scene.h"
+#include "Components/Enemy.h"
 #include <memory>
 
 namespace boop
@@ -52,7 +53,7 @@ private:
 	//vector of the players
 	std::vector<booble::Player*> m_Players{};
 	//vector of the enemies
-	std::vector<booble::Player*> m_Enemies{};
+	std::vector<Enemy*> m_Enemies{};
 
 
 	//collision functions

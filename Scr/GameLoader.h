@@ -22,6 +22,7 @@ namespace booble
 		std::unique_ptr<boop::GameObject> CreateWall(int whichBlock);
 		std::unique_ptr<boop::GameObject> CreatePlatform(int whichBlock);
 		std::unique_ptr<boop::GameObject> CreatePlayer(const std::string spritePath, const std::string tagName, int playerSpeed );
+		std::unique_ptr<boop::GameObject> CreateEnemy(const std::string spritePath, const std::string tagName, int playerSpeed );
 
 		//Level
 		void MakeLevelOne();

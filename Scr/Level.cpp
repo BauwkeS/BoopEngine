@@ -15,21 +15,19 @@ m_SubjPlayer1{ std::make_unique<boop::Subject>() }, m_SubjPlayer2{ std::make_uni
 	m_CollisionObjects = pScene->FindAllGameObjectByTag("collision");
 
 	//get player info
-	auto playerInfo = pScene->FindAllGameObjectByTag("p1");
-	for (auto& player : playerInfo)
-	{
-		auto playerComp = player->GetComponent<booble::Player>();
-		if (playerComp)
-		{
-			m_Players.emplace_back(playerComp);
-		}
-	}
+	auto playerInfo = pScene->FindGameObjectByTag("p1");
+	auto playerComp = playerInfo->GetComponent<booble::Player>();
+	if (playerComp)m_Players.emplace_back(playerComp);
+	
+	auto playerInfo2 = pScene->FindGameObjectByTag("p2");
+	auto playerComp2 = playerInfo2->GetComponent<booble::Player>();
+	if (playerComp2) m_Players.emplace_back(playerComp2);
 
 	//get enemy info
-	auto enemyInfo = pScene->FindAllGameObjectByTag("p2");
+	auto enemyInfo = pScene->FindAllGameObjectByTag("enemy");
 	for (auto& enemy : enemyInfo)
 	{
-		auto enemyComp = enemy->GetComponent<booble::Player>();
+		auto enemyComp = enemy->GetComponent<Enemy>();
 		if (enemyComp)
 		{
 			m_Enemies.emplace_back(enemyComp);
