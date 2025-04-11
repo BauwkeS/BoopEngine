@@ -62,11 +62,7 @@ namespace booble
 		auto playerObject = std::make_unique<boop::GameObject>();
 		playerObject->SetTag(tagName); //add tag for level
 
-		auto playerComp = playerObject->AddComponent<Player>(playerSpeed, spritePath); // add base player comp
-
-		//level brain
-		auto levelComp = playerObject->AddComponent<Level>();
-		levelComp->GetSubject()->AddObserver(playerComp);
+		playerObject->AddComponent<Player>(playerSpeed, spritePath); // add base player comp
 
 		return std::move(playerObject);
 	}
@@ -86,8 +82,10 @@ namespace booble
 		sceneLvl1->Add(std::move(howToPlay));
 
 		//input player 1 
-		auto* player1 = sceneLvl1->FindGameObjectByTag("p1")->GetComponent<Player>();
+		auto* player1GO = sceneLvl1->FindGameObjectByTag("p1");
+		auto* player1 = player1GO->GetComponent<Player>();
 		assert(player1);
+		player1->SetStartPos(player1GO->GetWorldPosition());
 		player1->AddKeyboardMovement(levelOne);
 
 		//set the UI position
@@ -105,9 +103,10 @@ namespace booble
 		player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
 
 		//level component
-		//auto levelItems = std::make_unique<boop::GameObject>();
-		//levelItems->AddComponent<Level>(sceneLvl1);
-		//sceneLvl1->Add(std::move(levelItems));
+		auto levelItems = std::make_unique<boop::GameObject>();
+		auto levelComp = levelItems->AddComponent<Level>(sceneLvl1);
+		levelComp->GetPlayer1Sub()->AddObserver(player1);
+		sceneLvl1->Add(std::move(levelItems));
 	}
 
 	void GameLoader::MakeMainScreen()

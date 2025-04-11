@@ -100,7 +100,7 @@ namespace level
 			colsRead = 0;
 		}
 
-		//now add the ones with tags
+		//now add the ones with important tags
 		for (auto& renderLastComp : renderLastComps)
 		{
 			scene.Add(std::move(renderLastComp));

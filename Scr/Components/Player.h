@@ -30,13 +30,21 @@ namespace booble
 		int GetScore() const { return m_Score; }
 		void OnNotify(boop::Event event) override;
 
+		glm::vec2 GetSize() const { return m_Size; }
+
+		void ResetPosition();
+		void SetStartPos(glm::vec2 pos) { m_StartPos = pos; }
+
 		//add input
 		void AddKeyboardMovement(const std::string& sceneName);
 		void AddControllerMovement(const std::string& sceneName);
 
+
 	private:
 		int m_Speed{};
 		int m_Score{};
+		glm::vec2 m_Size{};
+		glm::vec2 m_StartPos{};
 
 		std::unique_ptr<boop::Subject> m_Subject{};
 	};

@@ -21,7 +21,8 @@ namespace booble
 		: Component(owner), Observer(), m_Speed{ speed }, m_Subject{ std::make_unique<boop::Subject>() }
 	{
 		//add sprite
-		owner->AddComponent< boop::TextureComponent>(static_cast<std::string>(spritePath));
+		auto sprite = owner->AddComponent< boop::TextureComponent>(static_cast<std::string>(spritePath));
+		m_Size = sprite->GetSize();
 
 		//add health
 		auto healthComp = owner->AddComponent<Health>(4);
@@ -58,6 +59,11 @@ namespace booble
 		}
 	}
 
+	void Player::ResetPosition()
+	{
+		GetOwner()->SetLocalPosition(m_StartPos.x, m_StartPos.y);
+	}
+
 	void Player::AddKeyboardMovement(const std::string& sceneName)
 	{
 		const glm::vec2 leftVec{ -m_Speed,0 };
@@ -72,9 +78,9 @@ namespace booble
 		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_S, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
 
 		////TEST ACTIONS
-		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_C, boop::keyState::isDown, std::make_unique<TestGetHitCommand>(GetOwner()));
-		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_Z, boop::keyState::isDown, std::make_unique<TestHitTank>(GetOwner()));
-		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_X, boop::keyState::isDown, std::make_unique<TestHitRecognizer>(GetOwner()));
+		//boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_C, boop::keyState::isDown, std::make_unique<TestGetHitCommand>(GetOwner()));
+		//boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_Z, boop::keyState::isDown, std::make_unique<TestHitTank>(GetOwner()));
+		//boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_X, boop::keyState::isDown, std::make_unique<TestHitRecognizer>(GetOwner()));
 
 	}
 	void Player::AddControllerMovement(const std::string& sceneName)
@@ -94,9 +100,9 @@ namespace booble
 		boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::DPadDown, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
 
 		//TEST ACTIONS
-		boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::ButtonX, boop::keyState::isDown, std::make_unique<TestGetHitCommand>(GetOwner()));
-		boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown, std::make_unique<TestHitTank>(GetOwner()));
-		boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::ButtonB, boop::keyState::isDown, std::make_unique<TestHitRecognizer>(GetOwner()));
+		//boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::ButtonX, boop::keyState::isDown, std::make_unique<TestGetHitCommand>(GetOwner()));
+		//boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown, std::make_unique<TestHitTank>(GetOwner()));
+		//boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::ButtonB, boop::keyState::isDown, std::make_unique<TestHitRecognizer>(GetOwner()));
 
 	}
 }

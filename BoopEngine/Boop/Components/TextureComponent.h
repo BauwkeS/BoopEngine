@@ -23,6 +23,11 @@ namespace boop
 		void Render() const override;
 
 		SDL_Rect GetTextureRect() const;
+
+		glm::vec2 GetSize() const
+		{
+			return m_TexturePtr->GetSize();
+		}
 	private:
 		std::unique_ptr<Texture2D> m_TexturePtr{};
 		std::string m_TextureString{};
