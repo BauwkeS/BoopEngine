@@ -96,7 +96,7 @@ namespace booble
 		auto* player1GO = sceneLvl1->FindGameObjectByTag("p1");
 		auto* player1 = player1GO->GetComponent<Player>();
 		assert(player1);
-		player1->GetTankBase()->SetStartPos(player1GO->GetWorldPosition());
+		//player1->GetTankBase()->SetStartPos(player1GO->GetWorldPosition());
 		player1->AddKeyboardMovement(levelOne);
 
 		//set the UI position
@@ -104,8 +104,10 @@ namespace booble
 		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
 
 		//input player 2
-		auto* player2 = sceneLvl1->FindGameObjectByTag("p2")->GetComponent<Player>();
+		auto* player2GO = sceneLvl1->FindGameObjectByTag("p2");
+		auto* player2 = player2GO->GetComponent<Player>();
 		assert(player2);
+		//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
 		player2->AddControllerMovement(levelOne);
 		player1->AddControllerMovement(levelOne); // if there is a second controller, the first player can also use it
 		

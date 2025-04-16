@@ -17,10 +17,12 @@ m_SubjPlayer1{ std::make_unique<boop::Subject>() }, m_SubjPlayer2{ std::make_uni
 	//get player info
 	auto playerInfo = pScene->FindGameObjectByTag("p1");
 	auto playerComp = playerInfo->GetComponent<booble::Player>();
-	if (playerComp)m_Players.emplace_back(playerComp);
+	playerComp->GetTankBase()->SetStartPos(playerInfo->GetWorldPosition());
+	if (playerComp) m_Players.emplace_back(playerComp);
 	
 	auto playerInfo2 = pScene->FindGameObjectByTag("p2");
 	auto playerComp2 = playerInfo2->GetComponent<booble::Player>();
+	playerComp2->GetTankBase()->SetStartPos(playerInfo2->GetWorldPosition());
 	if (playerComp2) m_Players.emplace_back(playerComp2);
 
 	//get enemy info
@@ -30,6 +32,7 @@ m_SubjPlayer1{ std::make_unique<boop::Subject>() }, m_SubjPlayer2{ std::make_uni
 		auto enemyComp = enemy->GetComponent<Enemy>();
 		if (enemyComp)
 		{
+			enemyComp->GetTankBase()->SetStartPos(enemy->GetWorldPosition());
 			m_Enemies.emplace_back(enemyComp);
 		}
 	}
@@ -106,6 +109,7 @@ void Level::CollideWithTank()
 				//lose a life and reset the map
 				player->GetOwner()->GetComponent<Health>()->TakeDamage();
 				player->GetTankBase()->ResetPosition();
+				enemy->GetTankBase()->ResetPosition();
 			}
 		}
 	}
