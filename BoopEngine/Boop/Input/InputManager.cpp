@@ -158,6 +158,16 @@ namespace boop
 		return static_cast<int>(m_Controllers.size());
 	}
 
+	void InputManager::DeleteControllers()
+	{
+		//delete all controllers
+		for (auto& controller : m_Controllers)
+		{
+			controller.reset();
+		}
+		m_Controllers.clear();
+	}
+
 	//--COMMANDS
 
 	void InputManager::AddCommand(std::string sceneName, int controllerIdx, Controller::ControllerButton button,

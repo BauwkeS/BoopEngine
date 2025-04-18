@@ -20,7 +20,7 @@ class Level final : public boop::Component
 {
 public:
 	//Level(boop::GameObject* owner);
-	Level(boop::GameObject* owner, boop::Scene* pScene);
+	Level(boop::GameObject* owner, boop::Scene* pScene, int gamemode);
 	~Level() = default;
 	
 	Level(const Level& other) = delete;

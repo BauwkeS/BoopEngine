@@ -7,7 +7,7 @@
 #include "Components/Player.h"
 #include "Components/Health.h"
 
-Level::Level(boop::GameObject* owner, boop::Scene* pScene) : Component(owner),
+Level::Level(boop::GameObject* owner, boop::Scene* pScene, int gamemode) : Component(owner),
 m_SubjPlayer1{ std::make_unique<boop::Subject>() }, m_SubjPlayer2{ std::make_unique<boop::Subject>() }
 //Level::Level(boop::GameObject* owner) : Component(owner), m_Subject{ std::make_unique<boop::Subject>() }
 {
@@ -20,10 +20,24 @@ m_SubjPlayer1{ std::make_unique<boop::Subject>() }, m_SubjPlayer2{ std::make_uni
 	playerComp->GetTankBase()->SetStartPos(playerInfo->GetWorldPosition());
 	if (playerComp) m_Players.emplace_back(playerComp);
 	
-	auto playerInfo2 = pScene->FindGameObjectByTag("p2");
-	auto playerComp2 = playerInfo2->GetComponent<booble::Player>();
-	playerComp2->GetTankBase()->SetStartPos(playerInfo2->GetWorldPosition());
-	if (playerComp2) m_Players.emplace_back(playerComp2);
+	if (gamemode == static_cast<int>(booble::GameMode::MULTIPLAYER))
+	{
+		auto playerInfo2 = pScene->FindGameObjectByTag("p2");
+		auto playerComp2 = playerInfo2->GetComponent<booble::Player>();
+		playerComp2->GetTankBase()->SetStartPos(playerInfo2->GetWorldPosition());
+		if (playerComp2) m_Players.emplace_back(playerComp2);
+	}
+	else if (gamemode == static_cast<int>(booble::GameMode::COOP))
+	{
+		auto playerInfo2 = pScene->FindGameObjectByTag("p2");
+		auto playerComp2 = playerInfo2->GetComponent<booble::Player>();
+		playerComp2->GetTankBase()->SetStartPos(playerInfo2->GetWorldPosition());
+		if (playerComp2) m_Players.emplace_back(playerComp2);
+	}
+	//auto playerInfo2 = pScene->FindGameObjectByTag("p2");
+	//auto playerComp2 = playerInfo2->GetComponent<booble::Player>();
+	//playerComp2->GetTankBase()->SetStartPos(playerInfo2->GetWorldPosition());
+	//if (playerComp2) m_Players.emplace_back(playerComp2);
 
 	//get enemy info
 	auto enemyInfo = pScene->FindAllGameObjectByTag("enemy");

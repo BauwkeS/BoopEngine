@@ -53,6 +53,8 @@ namespace boop
 		bool IsKeyPressed(SDL_Scancode keyPressed);
 
 		int AddController();
+		int ControllerAmount() const { return static_cast<int>(m_Controllers.size()); }
+		void DeleteControllers();
 
 		void AddCommand(std::string sceneName, int controllerIdx, Controller::ControllerButton button, keyState state, std::unique_ptr<Command> pCommand);
 		void AddCommand(std::string sceneName, SDL_Scancode key, keyState state, std::unique_ptr<Command> pCommand);

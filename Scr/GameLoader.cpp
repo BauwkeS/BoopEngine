@@ -81,16 +81,40 @@ namespace booble
 	void GameLoader::MakeLevelOne()
 	{
 		const std::string levelOne{ "LevelOne" };
-		//SETUP
-		level::LevelLoader::GetInstance().CreateLevel("level1.txt", levelOne);
+		level::LevelLoader::GetInstance().CreateLevel("level1/level1_" + std::to_string(m_selectedGamemode) + ".txt", levelOne);
+		//set up the selected gamemode with whats needed for players
+
+		//switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
+		//case booble::GameMode::SINGLEPLAYER:
+
+		//	//SETUP LEVEL
+		//	
+
+		//	break;
+		//case booble::GameMode::MULTIPLAYER:
+		//	
+		//	//SETUP LEVEL
+		//	level::LevelLoader::GetInstance().CreateLevel("level1/level1_multi.txt", levelOne);
+
+		//	break;
+		//case booble::GameMode::COOP:
+
+		//	//SETUP LEVEL
+		//	level::LevelLoader::GetInstance().CreateLevel("level1/level1_coop.txt", levelOne);
+		//	
+		//	break;
+		//}
 		auto* sceneLvl1 = boop::SceneManager::GetInstance().GetScene(levelOne);
 		assert(sceneLvl1);
 
+		//--LEVEL SPECIFICS--
 		//player controls info
 		auto howToPlay = std::make_unique<boop::GameObject>();
 		howToPlay->AddComponent<boop::TextComponent>("Use D-Pad to move the blue tank, X to inflict damage, A and B to kill a tank")->SetPosition(0,50);
 		howToPlay->AddComponent<boop::TextComponent>("Use WASD to move the green tank, C to inflict damage, Z and X to kill a tank")->SetPosition(0,70);
 		sceneLvl1->Add(std::move(howToPlay));
+
+
 
 		//input player 1 
 		auto* player1GO = sceneLvl1->FindGameObjectByTag("p1");
@@ -98,28 +122,65 @@ namespace booble
 		assert(player1);
 		//player1->GetTankBase()->SetStartPos(player1GO->GetWorldPosition());
 		player1->AddKeyboardMovement(levelOne);
-
+		
 		//set the UI position
 		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
 		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
 
-		//input player 2
-		auto* player2GO = sceneLvl1->FindGameObjectByTag("p2");
-		auto* player2 = player2GO->GetComponent<Player>();
-		assert(player2);
-		//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
-		player2->AddControllerMovement(levelOne);
-		player1->AddControllerMovement(levelOne); // if there is a second controller, the first player can also use it
-		
-		//set the UI position
-		player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
-		player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
 
 		//level component
 		auto levelItems = std::make_unique<boop::GameObject>();
-		auto levelComp = levelItems->AddComponent<Level>(sceneLvl1);
+		auto levelComp = levelItems->AddComponent<Level>(sceneLvl1, m_selectedGamemode);
 		levelComp->GetPlayer1Sub()->AddObserver(player1);
+		
+
+
+		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
+		case booble::GameMode::MULTIPLAYER:
+		{
+
+			//input player 2
+			auto* player2GO = sceneLvl1->FindGameObjectByTag("p2");
+			auto* player2 = player2GO->GetComponent<Player>();
+			assert(player2);
+			//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
+			player2->AddControllerMovement(levelOne);
+			player1->AddControllerMovement(levelOne); // if there is a second controller, the first player can also use it
+
+			//set the UI position
+			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
+			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+
+			levelComp->GetPlayer2Sub()->AddObserver(player2);
+
+			break;
+		}
+		case booble::GameMode::COOP:
+		{
+
+			//input player 2
+			auto* player2GO = sceneLvl1->FindGameObjectByTag("p2");
+			auto* player2 = player2GO->GetComponent<Player>();
+			assert(player2);
+			//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
+			player2->AddControllerMovement(levelOne);
+			player1->AddControllerMovement(levelOne); // if there is a second controller, the first player can also use it
+
+			//set the UI position
+			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
+			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+
+			levelComp->GetPlayer2Sub()->AddObserver(player2);
+
+			break;
+		}
+		}
+
 		sceneLvl1->Add(std::move(levelItems));
+
+		
+
+		
 	}
 
 	void GameLoader::MakeMainScreen()
@@ -139,12 +200,13 @@ namespace booble
 
 		//keyboard commands
 		boop::InputManager::GetInstance().AddCommand(levelName, SDL_SCANCODE_SPACE, boop::keyState::isDown,
-			std::make_unique<booble::ChangeScene>(mainMenuText.get(), "LevelOne"));
+			std::make_unique<booble::StartGame>(this));
 		boop::InputManager::GetInstance().AddCommand(levelName, SDL_SCANCODE_TAB, boop::keyState::isDown,
 			std::make_unique<booble::ChangeGamemodeSelection>(selectionText.get(), this));
 		//controller commands
+		boop::InputManager::GetInstance().AddController();
 		boop::InputManager::GetInstance().AddCommand(levelName, static_cast<int>(boop::Controller::ControllerId::First),
-			boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(mainMenuText.get(), "LevelOne"));
+			boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown, std::make_unique<booble::StartGame>(this));
 		boop::InputManager::GetInstance().AddCommand(levelName, static_cast<int>(boop::Controller::ControllerId::First),
 			boop::Controller::ControllerButton::ButtonY, boop::keyState::isDown, std::make_unique<booble::ChangeGamemodeSelection>(selectionText.get(), this));
 
@@ -158,8 +220,8 @@ namespace booble
 		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(CreateAir()));
 		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(CreateWall(0)));
 		level::LevelLoader::GetInstance().AssignGameObject(2, std::move(CreatePlatform(0)));
-		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(CreatePlayer("GreenTank.png", "p1",200)));
-		level::LevelLoader::GetInstance().AssignGameObject(4, std::move(CreatePlayer("BlueTank.png", "p2",400)));
+		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(CreatePlayer("RedTank.png", "p1",200)));
+		level::LevelLoader::GetInstance().AssignGameObject(4, std::move(CreatePlayer("GreenTank.png", "p2", 200)));
 		level::LevelLoader::GetInstance().AssignGameObject(5, std::move(CreateEnemy("BlueTank.png", "enemy",400)));
 
 		//Set important tags
@@ -168,12 +230,17 @@ namespace booble
 		importantTags.emplace_back("p2");
 		level::LevelLoader::GetInstance().SetImportantTags(importantTags);
 
-		//CREATE LEVELS
+		//CREATE MAIN SCREEN
 		MakeMainScreen();
-		MakeLevelOne();
 
 		//LOAD LEVEL
 		boop::SceneManager::GetInstance().ChangeScene("MainScreen");
+	}
+
+	void GameLoader::InitializeLevels()
+	{
+		//CREATE LEVELS
+		MakeLevelOne();
 	}
 
 }

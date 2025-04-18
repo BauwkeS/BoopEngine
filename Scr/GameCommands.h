@@ -13,6 +13,7 @@
 
 #include "../BoopEngine/Boop/Scene/Scene.h"
 #include "../BoopEngine/Boop/Scene/SceneManager.h"
+#include "../BoopEngine/Boop/Input/InputManager.h"
 #include "../BoopEngine/Boop/Renderer.h"
 #include "../BoopEngine/Boop/Components/TextComponent.h"
 #include "../BoopEngine/Boop/Components/TextureComponent.h"
@@ -158,6 +159,27 @@ namespace booble
 		ChangeScene(ChangeScene&& other) = delete;
 		ChangeScene& operator=(const ChangeScene& other) = delete;
 		ChangeScene& operator=(ChangeScene&& other) = delete;
+
+	};
+
+	class StartGame final : public boop::Command {
+	private:
+		GameLoader* m_pGameLoader;
+	public:
+		StartGame(GameLoader* component)
+			: m_pGameLoader{ component } {
+		}
+		~StartGame() { m_pGameLoader = nullptr; delete m_pGameLoader; }
+
+		void Execute() override {
+			m_pGameLoader->InitializeLevels();
+			boop::SceneManager::GetInstance().ChangeScene("LevelOne");
+		};
+
+		StartGame(const StartGame& other) = delete;
+		StartGame(StartGame&& other) = delete;
+		StartGame& operator=(const StartGame& other) = delete;
+		StartGame& operator=(StartGame&& other) = delete;
 
 	};
 

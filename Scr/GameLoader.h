@@ -31,6 +31,7 @@ namespace booble
 		int m_selectedGamemode{};
 	public:
 		void MakeGame();
+		void InitializeLevels();
 
 		void SetSelectedGamemode(int gamemode) { m_selectedGamemode = gamemode; }
 		int GetSelectedGamemode() const { return m_selectedGamemode; }
