@@ -22,6 +22,7 @@ namespace boop
 		bool m_ToDelete{ false };
 
 		std::string m_Tag; //tag
+		bool m_IsPersistent{ false }; //persistent = stays between levels
 
 		//only used for private functions of SetParent
 		void RemoveChild(GameObject* child);
@@ -38,6 +39,8 @@ namespace boop
 		//TAG INFO
 		void SetTag(const std::string& tag);
 		const std::string& GetTag() const;
+		void SetPersistent(bool isPersistent=true) { m_IsPersistent = isPersistent; }
+		const bool& IsPersistent() const { return m_IsPersistent; }
 
 
 		void FixedUpdate();

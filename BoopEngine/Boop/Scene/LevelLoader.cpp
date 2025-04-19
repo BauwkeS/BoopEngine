@@ -124,7 +124,7 @@ namespace level
 		}
 		for (auto& persistentComp : m_PersistentObjects)
 		{
-			scene.Add(std::move(persistentComp));
+			scene.Add(std::move(persistentComp),true);
 		}
 	}
 }

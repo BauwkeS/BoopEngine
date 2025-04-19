@@ -39,10 +39,13 @@ void Scene::CleanupScene()
 	}
 };
 
-void Scene::Add(std::unique_ptr<GameObject> object)
+void Scene::Add(std::unique_ptr<GameObject> object, bool isPersistent)
 {
 	GameObject* gameObjectPtr = object.get();
 	m_objects.emplace_back(std::move(object));
+
+	// Set the object as persistent if needed
+	if (isPersistent) gameObjectPtr->SetPersistent();
 
 	// Update the tag map
 	if (!gameObjectPtr->GetTag().empty()) {
