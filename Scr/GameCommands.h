@@ -172,6 +172,7 @@ namespace booble
 		~StartGame() { m_pGameLoader = nullptr; delete m_pGameLoader; }
 
 		void Execute() override {
+			boop::InputManager::GetInstance().DeleteControllers();
 			m_pGameLoader->InitializeLevels();
 			boop::SceneManager::GetInstance().ChangeScene("LevelOne");
 		};
