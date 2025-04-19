@@ -217,12 +217,12 @@ namespace booble
 	void GameLoader::MakeGame()
 	{
 		//CREATE GAME OBJECTS
-		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(CreateAir()));
-		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(CreateWall(0)));
-		level::LevelLoader::GetInstance().AssignGameObject(2, std::move(CreatePlatform(0)));
-		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(CreatePlayer("RedTank.png", "p1",200)));
-		level::LevelLoader::GetInstance().AssignGameObject(4, std::move(CreatePlayer("GreenTank.png", "p2", 200)));
-		level::LevelLoader::GetInstance().AssignGameObject(5, std::move(CreateEnemy("BlueTank.png", "enemy",400)));
+		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(CreateAir()), level::LevelLayer::STATIC);
+		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(CreateWall(0)), level::LevelLayer::STATIC);
+		level::LevelLoader::GetInstance().AssignGameObject(2, std::move(CreatePlatform(0)), level::LevelLayer::STATIC);
+		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(CreatePlayer("RedTank.png", "p1",200)), level::LevelLayer::PERSISTENT);
+		level::LevelLoader::GetInstance().AssignGameObject(4, std::move(CreatePlayer("GreenTank.png", "p2", 200)), level::LevelLayer::PERSISTENT);
+		level::LevelLoader::GetInstance().AssignGameObject(5, std::move(CreateEnemy("BlueTank.png", "enemy",400)), level::LevelLayer::DYNAMIC);
 
 		//Set important tags
 		std::vector<std::string> importantTags;
