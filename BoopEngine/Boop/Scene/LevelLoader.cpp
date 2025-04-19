@@ -43,7 +43,7 @@ namespace level
 		constexpr int gridSize = 32;
 
 		//components with a tag to load last:
-		std::vector <std::unique_ptr<boop::GameObject>> renderLastComps{};
+		//std::vector <std::unique_ptr<boop::GameObject>> renderLastComps{};
 
 		std::string rowLine;
 		while (std::getline(gameFile, rowLine))
@@ -89,7 +89,20 @@ namespace level
 
 					}*/
 
-					if(clonedObject) scene.Add(std::move(clonedObject));
+					switch (m_GameComponents.at(index).second)
+					{
+					case LevelLayer::STATIC:
+						m_StaticObjects.emplace_back(std::move(clonedObject));
+						break;
+					case LevelLayer::DYNAMIC:
+						m_DynamicObjects.emplace_back(std::move(clonedObject));
+						break;
+					case LevelLayer::PERSISTENT:
+						m_PersistentObjects.emplace_back(std::move(clonedObject));
+						break;
+					}
+
+					//if(clonedObject) scene.Add(std::move(clonedObject));
 				}
 				
 				//--
@@ -100,10 +113,18 @@ namespace level
 			colsRead = 0;
 		}
 
-		//now add the ones with important tags
-		for (auto& renderLastComp : renderLastComps)
+		//now add everything in order of what is needed
+		for (auto& staticComp : m_StaticObjects)
 		{
-			scene.Add(std::move(renderLastComp));
+			scene.Add(std::move(staticComp));
+		}
+		for (auto& dynamicComp : m_DynamicObjects)
+		{
+			scene.Add(std::move(dynamicComp));
+		}
+		for (auto& persistentComp : m_PersistentObjects)
+		{
+			scene.Add(std::move(persistentComp));
 		}
 	}
 }

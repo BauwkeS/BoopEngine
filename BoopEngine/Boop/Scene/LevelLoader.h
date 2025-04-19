@@ -35,6 +35,10 @@ namespace level
 	private:
 		using GameObjectInfo = std::pair<std::unique_ptr<boop::GameObject>, LevelLayer>;
 		std::map<int, GameObjectInfo> m_GameComponents{};
+
+		std::vector<std::unique_ptr<boop::GameObject>> m_StaticObjects{};
+		std::vector<std::unique_ptr<boop::GameObject>> m_DynamicObjects{};
+		std::vector<std::unique_ptr<boop::GameObject>> m_PersistentObjects{};
 		//std::vector<std::string> m_ImportantTags{};
 	public:
 		LevelLoader() = default;
