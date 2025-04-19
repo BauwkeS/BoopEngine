@@ -134,4 +134,21 @@ std::vector<GameObject*> Scene::FindAllGameObjectByTag(const std::string& tag) c
 	return toReturnVec;
 }
 
+std::vector<std::unique_ptr<GameObject>> boop::Scene::GetAllPersistentObjects()
+{
+	std::vector<std::unique_ptr<GameObject>> persistentObjects;
+
+	for (auto& object : m_objects) {
+		if (object->IsPersistent()) {
+			persistentObjects.emplace_back(std::move(object));
+		}
+	}
+	// cleanup moved objects
+	m_objects.erase(std::remove_if(m_objects.begin(), m_objects.end(),
+		[](const auto& ptr) { return ptr == nullptr; }),
+		m_objects.end());
+
+	return persistentObjects;
+}
+
 

@@ -23,6 +23,8 @@ namespace boop
 		GameObject* FindGameObjectByTag(const std::string& tag) const;
 		std::vector<GameObject*> FindAllGameObjectByTag(const std::string& tag) const;
 
+		std::vector<std::unique_ptr<GameObject>> GetAllPersistentObjects();
+
 
 		Scene();
 		explicit Scene(const std::string& name);
