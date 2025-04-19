@@ -33,8 +33,6 @@ namespace boop
 		void UpdateWorldPosition();
 		void SetPositionDirty();
 
-		void SetLocalPosition(const glm::vec2& pos);
-
 	public:
 		//TAG INFO
 		void SetTag(const std::string& tag);
@@ -50,6 +48,7 @@ namespace boop
 
 		void RemoveComponent(int componentIdx);
 		void SetLocalPosition(float x, float y);
+		void SetLocalPosition(const glm::vec2& pos);
 
 		GameObject() : m_pParent(nullptr), m_LocalPosition(glm::vec2{}), m_WorldPosition(glm::vec2{}), m_PositionIsDirty(false)
 		{}
@@ -75,6 +74,9 @@ namespace boop
 		const glm::vec2& GetWorldPosition();
 		const glm::vec2& GetLocalPosition();
 		
+		const std::vector<std::unique_ptr<Component>>& GetAllComponents() const {
+			return m_pComponents;
+		}
 
 		template <class T, typename... Args>
 		//T* AddComponent(GameObject* owner, const Args&... args)
@@ -99,6 +101,13 @@ namespace boop
 			m_pComponents.emplace_back(std::move(pComponent));
 
 			return rawPtr;
+		}
+
+		Component* AddComponent(std::unique_ptr<Component> component) {
+			if (!component) return nullptr;
+			Component* rawPtr = component.get();
+			m_pComponents.emplace_back(std::move(component));
+			return rawPtr; // Return raw pointer for convenience
 		}
 
 		template <class T> 

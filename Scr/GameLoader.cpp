@@ -23,59 +23,109 @@
 
 namespace booble
 {
-	std::unique_ptr<boop::GameObject> GameLoader::CreateAir()
+//	std::unique_ptr<boop::GameObject> GameLoader::CreateAir()
+//	{
+//		auto gameObjPtr = std::make_unique<boop::GameObject>();
+//		gameObjPtr->AddComponent< boop::TextureComponent>( "", 4.f);
+//		return std::move(gameObjPtr);
+//	}
+//	std::unique_ptr<boop::GameObject> GameLoader::CreateWall(int whichBlock)
+//	{
+//		auto gameObjPtr = std::make_unique<boop::GameObject>();
+//		if (whichBlock == 0) {
+//			gameObjPtr->AddComponent< boop::TextureComponent>("purpleBlock.png", 4.f);
+//		}
+//		else {
+//			gameObjPtr->AddComponent< boop::TextureComponent>("stoneBlock.png", 4.f);
+//		}
+//		gameObjPtr->SetTag("collision");
+//
+//		return std::move(gameObjPtr);
+//	}
+//
+//	std::unique_ptr<boop::GameObject> GameLoader::CreatePlatform(int whichBlock)
+//	{
+//		auto gameObjPtr = std::make_unique<boop::GameObject>();
+//		if (whichBlock == 0) {
+//			gameObjPtr->AddComponent<boop::TextureComponent>("purpleBlock.png", 4.f);
+//		}
+//		else {
+//			gameObjPtr->AddComponent< boop::TextureComponent>("stoneBlock.png", 4.f);
+//		}
+//
+//		gameObjPtr->SetTag("Platform");
+//
+//		return std::move(gameObjPtr);
+//	}
+//
+//	std::unique_ptr<boop::GameObject> GameLoader::CreatePlayer(const std::string spritePath, const std::string tagName, int playerSpeed)
+//	{
+//		auto playerObject = std::make_unique<boop::GameObject>();
+//		playerObject->SetTag(tagName); //add tag for level
+//
+//		playerObject->AddComponent<Player>(playerSpeed, spritePath); // add base player comp
+//
+//		return std::move(playerObject);
+//	}
+//
+//	std::unique_ptr<boop::GameObject> GameLoader::CreateEnemy(const std::string spritePath, const std::string tagName, int playerSpeed)
+//	{
+//		auto enemyObject = std::make_unique<boop::GameObject>();
+//		enemyObject->SetTag(tagName); //add tag for level
+//
+//		enemyObject->AddComponent<Enemy>(playerSpeed, spritePath); // add base player comp
+//
+//		return std::move(enemyObject);
+//	}
+
+	void GameLoader::RegisterGameObjectTypes()
 	{
-		auto gameObjPtr = std::make_unique<boop::GameObject>();
-		gameObjPtr->AddComponent< boop::TextureComponent>( "", 4.f);
-		return std::move(gameObjPtr);
+		RegisterAirType();
+		//RegisterWallType(0); // Purple block
+		RegisterWallType(1); // Stone block
+		RegisterPlatformType(0); // Purple block
+		//RegisterPlatformType(1); // Stone block
+		RegisterPlayerType("RedTank.png", "p1", 200);
+		RegisterPlayerType("GreenTank.png", "p2", 200);
+		RegisterEnemyType("BlueTank.png", "enemy", 400);
 	}
-	std::unique_ptr<boop::GameObject> GameLoader::CreateWall(int whichBlock)
-	{
-		auto gameObjPtr = std::make_unique<boop::GameObject>();
-		if (whichBlock == 0) {
-			gameObjPtr->AddComponent< boop::TextureComponent>("purpleBlock.png", 4.f);
-		}
-		else {
-			gameObjPtr->AddComponent< boop::TextureComponent>("stoneBlock.png", 4.f);
-		}
-		gameObjPtr->SetTag("collision");
 
-		return std::move(gameObjPtr);
+	void GameLoader::RegisterAirType()
+	{
+		level::LevelLoader::GetInstance().RegisterType(0, level::LevelLayer::STATIC)
+			.AddComponent<boop::TextureComponent>("", 4.f);
 	}
 
-	std::unique_ptr<boop::GameObject> GameLoader::CreatePlatform(int whichBlock)
+	void GameLoader::RegisterWallType(int whichBlock)
 	{
-		auto gameObjPtr = std::make_unique<boop::GameObject>();
-		if (whichBlock == 0) {
-			gameObjPtr->AddComponent<boop::TextureComponent>("purpleBlock.png", 4.f);
-		}
-		else {
-			gameObjPtr->AddComponent< boop::TextureComponent>("stoneBlock.png", 4.f);
-		}
-
-		gameObjPtr->SetTag("Platform");
-
-		return std::move(gameObjPtr);
+		const std::string texture = (whichBlock == 0) ? "purpleBlock.png" : "stoneBlock.png";
+		//level::LevelLoader::GetInstance().RegisterType(1 + whichBlock, level::LevelLayer::STATIC)
+		level::LevelLoader::GetInstance().RegisterType(1, level::LevelLayer::STATIC)
+			.AddComponent<boop::TextureComponent>(texture, 4.f)
+			.SetDefaultTag("collision");
 	}
 
-	std::unique_ptr<boop::GameObject> GameLoader::CreatePlayer(const std::string spritePath, const std::string tagName, int playerSpeed)
+	void GameLoader::RegisterPlatformType(int whichBlock)
 	{
-		auto playerObject = std::make_unique<boop::GameObject>();
-		playerObject->SetTag(tagName); //add tag for level
-
-		playerObject->AddComponent<Player>(playerSpeed, spritePath); // add base player comp
-
-		return std::move(playerObject);
+		const std::string texture = (whichBlock == 0) ? "purpleBlock.png" : "stoneBlock.png";
+		level::LevelLoader::GetInstance().RegisterType(2 , level::LevelLayer::STATIC)
+			.AddComponent<boop::TextureComponent>(texture, 4.f)
+			.SetDefaultTag("Platform");
 	}
 
-	std::unique_ptr<boop::GameObject> GameLoader::CreateEnemy(const std::string spritePath, const std::string tagName, int playerSpeed)
+	void GameLoader::RegisterPlayerType(const std::string& spritePath, const std::string& tagName, int playerSpeed)
 	{
-		auto enemyObject = std::make_unique<boop::GameObject>();
-		enemyObject->SetTag(tagName); //add tag for level
+		int index = (tagName == "p1") ? 3 : 4; // Assign indices for players
+		level::LevelLoader::GetInstance().RegisterType(index, level::LevelLayer::PERSISTENT)
+			.AddComponent<Player>(playerSpeed, spritePath)
+			.SetDefaultTag(tagName);
+	}
 
-		enemyObject->AddComponent<Enemy>(playerSpeed, spritePath); // add base player comp
-
-		return std::move(enemyObject);
+	void GameLoader::RegisterEnemyType(const std::string& spritePath, const std::string& tagName, int playerSpeed)
+	{
+		level::LevelLoader::GetInstance().RegisterType(5, level::LevelLayer::DYNAMIC)
+			.AddComponent<Enemy>(playerSpeed, spritePath)
+			.SetDefaultTag(tagName);
 	}
 
 	void GameLoader::MakeLevelOne()
@@ -83,12 +133,6 @@ namespace booble
 		const std::string levelOne{ "LevelOne" };
 		level::LevelLoader::GetInstance().CreateLevel("level1/level1_" + std::to_string(m_selectedGamemode) + ".txt", levelOne);
 		//set up the selected gamemode with whats needed for players
-
-
-		level::LevelLoader::GetInstance().CreateLevel("level1/level1_0.txt", "level1_0");
-		auto* testlvl = boop::SceneManager::GetInstance().GetScene("level1_0");
-
-		//TESTING
 
 
 		//switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
@@ -124,9 +168,45 @@ namespace booble
 
 
 		//input player 1 
-		auto* player1GO = sceneLvl1->FindGameObjectByTag("p1");
+		/*auto* player1GO = sceneLvl1->FindGameObjectByTag("p1");
 		auto* player1 = player1GO->GetComponent<Player>();
-		assert(player1);
+		assert(player1);*/
+
+
+		//auto* enm = sceneLvl1->FindGameObjectByTag("collision");
+		//if (!enm) {
+		//	throw std::runtime_error("Player1 GameObject not found!");
+		//}
+
+		//auto* eee = enm->GetComponent<Enemy>();
+		//if (!eee) {
+		//	// Debug what components actually exist
+		//	std::cout << "Player1 GameObject has these components:\n";
+		//	for (const auto& comp : enm->GetAllComponents()) {
+		//		std::cout << typeid(*comp).name() << "\n";
+		//	}
+		//	throw std::runtime_error("Player component not found on Player1 GameObject!");
+		//}
+		//
+		
+		
+		
+		auto* player1GO = sceneLvl1->FindGameObjectByTag("p1");
+		if (!player1GO) {
+			throw std::runtime_error("Player1 GameObject not found!");
+		}
+
+		auto* player1 = player1GO->GetComponent<Player>();
+		if (!player1) {
+			// Debug what components actually exist
+			std::cout << "Player1 GameObject has these components:\n";
+			for (const auto& comp : player1GO->GetAllComponents()) {
+				std::cout << typeid(*comp).name() << "\n";
+			}
+			throw std::runtime_error("Player component not found on Player1 GameObject!");
+		}
+
+
 		//player1->GetTankBase()->SetStartPos(player1GO->GetWorldPosition());
 		player1->AddKeyboardMovement(levelOne);
 		
@@ -140,9 +220,6 @@ namespace booble
 		auto levelComp = levelItems->AddComponent<Level>(sceneLvl1, m_selectedGamemode);
 		levelComp->GetPlayer1Sub()->AddObserver(player1);
 		
-		//TEST
-		testlvl = sceneLvl1;
-
 		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
 		case booble::GameMode::MULTIPLAYER:
 		{
@@ -189,6 +266,78 @@ namespace booble
 		
 	}
 
+	void GameLoader::MakeLevelTwo()
+	{
+		//TESTING
+
+		level::LevelLoader::GetInstance().CreateLevel("level1/level1_3.txt", "level1_0");
+		auto* testlvl = boop::SceneManager::GetInstance().GetScene("level1_0");
+
+		//input player 1 
+		auto* player1GO = testlvl->FindGameObjectByTag("p1");
+		auto* player1 = player1GO->GetComponent<Player>();
+		assert(player1);
+		//player1->GetTankBase()->SetStartPos(player1GO->GetWorldPosition());
+		player1->AddKeyboardMovement( "level1_0");
+
+		//set the UI position
+		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
+		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
+
+		//level component
+		auto levelItems = std::make_unique<boop::GameObject>();
+		auto levelComp = levelItems->AddComponent<Level>(testlvl, m_selectedGamemode);
+		levelComp->GetPlayer1Sub()->AddObserver(player1);
+
+		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
+		case booble::GameMode::MULTIPLAYER:
+		{
+
+			//input player 2
+			auto* player2GO = testlvl->FindGameObjectByTag("p2");
+			auto* player2 = player2GO->GetComponent<Player>();
+			assert(player2);
+			//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
+			player2->AddControllerMovement("level1_0");
+			player1->AddControllerMovement("level1_0"); // if there is a second controller, the first player can also use it
+
+			//set the UI position
+			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
+			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+
+			levelComp->GetPlayer2Sub()->AddObserver(player2);
+
+			break;
+		}
+		case booble::GameMode::COOP:
+		{
+
+			//input player 2
+			auto* player2GO = testlvl->FindGameObjectByTag("p2");
+			auto* player2 = player2GO->GetComponent<Player>();
+			assert(player2);
+			//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
+			player2->AddControllerMovement("level1_0");
+			player1->AddControllerMovement("level1_0"); // if there is a second controller, the first player can also use it
+
+			//set the UI position
+			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
+			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+
+			levelComp->GetPlayer2Sub()->AddObserver(player2);
+
+			break;
+		}
+		}
+
+		
+
+
+		testlvl->Add(std::move(levelItems));
+
+
+	}
+
 	void GameLoader::MakeMainScreen()
 	{
 		//SETUP
@@ -223,18 +372,21 @@ namespace booble
 	void GameLoader::MakeGame()
 	{
 		//CREATE GAME OBJECTS
-		level::LevelLoader::GetInstance().AssignGameObject(0, std::move(CreateAir()), level::LevelLayer::STATIC);
+		/*level::LevelLoader::GetInstance().AssignGameObject(0, std::move(CreateAir()), level::LevelLayer::STATIC);
 		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(CreateWall(0)), level::LevelLayer::STATIC);
 		level::LevelLoader::GetInstance().AssignGameObject(2, std::move(CreatePlatform(0)), level::LevelLayer::STATIC);
 		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(CreatePlayer("RedTank.png", "p1",200)), level::LevelLayer::PERSISTENT);
 		level::LevelLoader::GetInstance().AssignGameObject(4, std::move(CreatePlayer("GreenTank.png", "p2", 200)), level::LevelLayer::PERSISTENT);
-		level::LevelLoader::GetInstance().AssignGameObject(5, std::move(CreateEnemy("BlueTank.png", "enemy",400)), level::LevelLayer::DYNAMIC);
+		level::LevelLoader::GetInstance().AssignGameObject(5, std::move(CreateEnemy("BlueTank.png", "enemy",400)), level::LevelLayer::DYNAMIC);*/
 
 		//Set important tags
 		/*std::vector<std::string> importantTags;
 		importantTags.emplace_back("p1");
 		importantTags.emplace_back("p2");
 		level::LevelLoader::GetInstance().SetImportantTags(importantTags);*/
+
+		RegisterGameObjectTypes();
+
 
 		//CREATE MAIN SCREEN
 		MakeMainScreen();
@@ -247,6 +399,7 @@ namespace booble
 	{
 		//CREATE LEVELS
 		MakeLevelOne();
+		MakeLevelTwo();
 	}
 
 }

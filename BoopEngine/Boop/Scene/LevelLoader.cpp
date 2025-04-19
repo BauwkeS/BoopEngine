@@ -12,11 +12,11 @@
 
 namespace level
 {
-	void LevelLoader::AssignGameObject(int index, std::unique_ptr<boop::GameObject> object, LevelLayer layer)
-	{
-		// Store the unique_ptr in the m_GameComponents map
-		m_GameComponents.emplace(index, std::make_pair(std::move(object), layer));
-	}
+	//void LevelLoader::AssignGameObject(int index, std::unique_ptr<boop::GameObject> object, LevelLayer layer)
+	//{
+	//	// Store the unique_ptr in the m_GameComponents map
+	//	//m_GameComponents.emplace(index, std::make_pair(std::move(object), layer));
+	//}
 
 	//void LevelLoader::SetImportantTags(std::vector<std::string> tags)
 	//{
@@ -61,7 +61,8 @@ namespace level
 				}
 
 				// Check if the component exists
-				if (m_GameComponents.find(index) == m_GameComponents.end())
+				if (m_GameObjectTypes.find(index) == m_GameObjectTypes.end())
+				//if (m_GameComponents.find(index) == m_GameComponents.end())
 				{
 					throw std::runtime_error(
 						"Component not found for index: " + std::to_string(index) + " (character: " + colChar + ")"
@@ -75,10 +76,22 @@ namespace level
 					tset;
 				}
 				
-				if (m_GameComponents.at(index).first.get())
+				//if (m_GameComponents.at(index).first.get())
+				if (m_GameObjectTypes.at(index).first.get())
 				{
-					auto clonedObject = std::move(m_GameComponents.at(index).first); //make clone function here
-					clonedObject->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
+					//auto clonedObject = std::move(m_GameComponents.at(index).first); //make clone function here
+					//clonedObject->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
+
+					auto newObj = m_GameObjectTypes.at(index).first->Instantiate();
+
+					newObj->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
+
+
+					//std::unique_ptr<boop::GameObject> newGO{};
+					
+
+
+
 
 					/*		for (auto tag : m_ImportantTags)
 					{
@@ -89,7 +102,7 @@ namespace level
 
 					}*/
 
-					switch (m_GameComponents.at(index).second)
+				/*	switch (m_GameComponents.at(index).second)
 					{
 					case LevelLayer::STATIC:
 						m_StaticObjects.emplace_back(std::move(clonedObject));
@@ -99,6 +112,19 @@ namespace level
 						break;
 					case LevelLayer::PERSISTENT:
 						m_PersistentObjects.emplace_back(std::move(clonedObject));
+						break;
+					}
+					*/
+					switch (m_GameObjectTypes.at(index).second)
+					{
+					case LevelLayer::STATIC:
+						m_StaticObjects.emplace_back(std::move(newObj));
+						break;
+					case LevelLayer::DYNAMIC:
+						m_DynamicObjects.emplace_back(std::move(newObj));
+						break;
+					case LevelLayer::PERSISTENT:
+						m_PersistentObjects.emplace_back(std::move(newObj));
 						break;
 					}
 
@@ -126,5 +152,6 @@ namespace level
 		{
 			scene.Add(std::move(persistentComp),true);
 		}
+		ClearVectors();
 	}
 }

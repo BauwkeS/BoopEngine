@@ -1,5 +1,6 @@
 #pragma once
 #include "../BoopEngine/Boop/HelperFiles/Singleton.h"
+#include "../BoopEngine/Boop/Scene/GameObjectType.h"
 #include <memory>
 #include <string>
 
@@ -18,14 +19,26 @@ namespace booble
 	class GameLoader final : public boop::Singleton<GameLoader>
 	{
 	private:
-		std::unique_ptr<boop::GameObject> CreateAir();
+	/*	std::unique_ptr<boop::GameObject> CreateAir();
 		std::unique_ptr<boop::GameObject> CreateWall(int whichBlock);
 		std::unique_ptr<boop::GameObject> CreatePlatform(int whichBlock);
 		std::unique_ptr<boop::GameObject> CreatePlayer(const std::string spritePath, const std::string tagName, int playerSpeed );
-		std::unique_ptr<boop::GameObject> CreateEnemy(const std::string spritePath, const std::string tagName, int playerSpeed );
+		std::unique_ptr<boop::GameObject> CreateEnemy(const std::string spritePath, const std::string tagName, int playerSpeed );*/
+
+
+		void RegisterGameObjectTypes();
+
+		// Changed from CreateX to RegisterXType
+		void RegisterAirType();
+		void RegisterWallType(int whichBlock);
+		void RegisterPlatformType(int whichBlock);
+		void RegisterPlayerType(const std::string& spritePath, const std::string& tagName, int playerSpeed);
+		void RegisterEnemyType(const std::string& spritePath, const std::string& tagName, int playerSpeed);
+
 
 		//Level
 		void MakeLevelOne();
+		void MakeLevelTwo();
 		void MakeMainScreen();
 		
 		int m_selectedGamemode{};

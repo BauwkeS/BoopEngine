@@ -41,6 +41,7 @@ add_library(${TARGET_NAME} STATIC
   Boop/Scene/SceneManager.h
   Boop/Scene/LevelLoader.h
   Boop/Scene/LevelLoader.cpp
+  Boop/Scene/GameObjectType.h
   Boop/Components/TextureComponent.h
   Boop/Components/TextureComponent.cpp
   Boop/Components/TextComponent.h

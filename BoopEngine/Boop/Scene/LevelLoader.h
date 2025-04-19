@@ -6,6 +6,7 @@
 
 #include "../HelperFiles/Singleton.h"
 #include "../Input/InputManager.h"
+#include "GameObjectType.h"
 
 namespace boop
 {
@@ -33,13 +34,21 @@ namespace level
 	class LevelLoader final : public boop::Singleton<LevelLoader>
 	{
 	private:
-		using GameObjectInfo = std::pair<std::unique_ptr<boop::GameObject>, LevelLayer>;
-		std::map<int, GameObjectInfo> m_GameComponents{};
+		/*using GameObjectInfo = std::pair<std::unique_ptr<boop::GameObject>, LevelLayer>;
+		std::map<int, GameObjectInfo> m_GameComponents{};*/
+		std::unordered_map<int, std::pair<std::unique_ptr<boop::GameObjectType>, LevelLayer>> m_GameObjectTypes;
 
 		std::vector<std::unique_ptr<boop::GameObject>> m_StaticObjects{};
 		std::vector<std::unique_ptr<boop::GameObject>> m_DynamicObjects{};
 		std::vector<std::unique_ptr<boop::GameObject>> m_PersistentObjects{};
 		//std::vector<std::string> m_ImportantTags{};
+
+		void ClearVectors()
+		{
+			m_StaticObjects.clear();
+			m_DynamicObjects.clear();
+			m_PersistentObjects.clear();
+		}
 	public:
 		LevelLoader() = default;
 		~LevelLoader() = default;
@@ -48,8 +57,27 @@ namespace level
 		LevelLoader& operator=(const LevelLoader& other) = delete;
 		LevelLoader& operator=(LevelLoader&& other) = delete;
 
-		void AssignGameObject(int index, std::unique_ptr<boop::GameObject> object, LevelLayer layer);
+		//void AssignGameObject(int index, std::unique_ptr<boop::GameObject> object, LevelLayer layer);
 		void CreateLevel(std::string fileName, std::string sceneName);
 		//void SetImportantTags(std::vector<std::string> tags);
+
+
+		//template for creating game objects
+		//template <typename... Args>
+		boop::GameObjectType& RegisterType(int index, LevelLayer layer)
+		{
+			auto [it, inserted] = m_GameObjectTypes.emplace(
+				index,
+				std::make_pair(std::make_unique<boop::GameObjectType>(), layer)
+			);
+
+			if (!inserted) {
+				throw std::runtime_error("Duplicate index registered");
+			}
+
+			return *(it->second.first); // Return reference to the stored object
+		}
+
+		//info for me: use & to chain down the commands to add component easily
 	};
 }
