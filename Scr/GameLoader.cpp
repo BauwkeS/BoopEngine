@@ -225,10 +225,10 @@ namespace booble
 		level::LevelLoader::GetInstance().AssignGameObject(5, std::move(CreateEnemy("BlueTank.png", "enemy",400)), level::LevelLayer::DYNAMIC);
 
 		//Set important tags
-		std::vector<std::string> importantTags;
+		/*std::vector<std::string> importantTags;
 		importantTags.emplace_back("p1");
 		importantTags.emplace_back("p2");
-		level::LevelLoader::GetInstance().SetImportantTags(importantTags);
+		level::LevelLoader::GetInstance().SetImportantTags(importantTags);*/
 
 		//CREATE MAIN SCREEN
 		MakeMainScreen();

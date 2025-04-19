@@ -35,7 +35,7 @@ namespace level
 	private:
 		using GameObjectInfo = std::pair<std::unique_ptr<boop::GameObject>, LevelLayer>;
 		std::map<int, GameObjectInfo> m_GameComponents{};
-		std::vector<std::string> m_ImportantTags{};
+		//std::vector<std::string> m_ImportantTags{};
 	public:
 		LevelLoader() = default;
 		~LevelLoader() = default;
@@ -46,6 +46,6 @@ namespace level
 
 		void AssignGameObject(int index, std::unique_ptr<boop::GameObject> object, LevelLayer layer);
 		void CreateLevel(std::string fileName, std::string sceneName);
-		void SetImportantTags(std::vector<std::string> tags);
+		//void SetImportantTags(std::vector<std::string> tags);
 	};
 }
