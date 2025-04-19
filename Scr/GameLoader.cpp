@@ -84,6 +84,13 @@ namespace booble
 		level::LevelLoader::GetInstance().CreateLevel("level1/level1_" + std::to_string(m_selectedGamemode) + ".txt", levelOne);
 		//set up the selected gamemode with whats needed for players
 
+
+		level::LevelLoader::GetInstance().CreateLevel("level1/level1_0.txt", "level1_0");
+		auto* testlvl = boop::SceneManager::GetInstance().GetScene("level1_0");
+
+		//TESTING
+
+
 		//switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
 		//case booble::GameMode::SINGLEPLAYER:
 
@@ -133,7 +140,8 @@ namespace booble
 		auto levelComp = levelItems->AddComponent<Level>(sceneLvl1, m_selectedGamemode);
 		levelComp->GetPlayer1Sub()->AddObserver(player1);
 		
-
+		//TEST
+		testlvl = sceneLvl1;
 
 		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
 		case booble::GameMode::MULTIPLAYER:
@@ -177,8 +185,6 @@ namespace booble
 		}
 
 		sceneLvl1->Add(std::move(levelItems));
-
-		
 
 		
 	}

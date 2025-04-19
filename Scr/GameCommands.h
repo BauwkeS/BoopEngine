@@ -152,6 +152,7 @@ namespace booble
 		~ChangeScene() { m_pGameObject = nullptr; delete m_pGameObject; }
 
 		void Execute() override {
+			std::cout << "Changing scene to: " << m_ToScene << std::endl;
 			boop::SceneManager::GetInstance().ChangeScene(m_ToScene);
 		};
 
