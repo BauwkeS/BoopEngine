@@ -30,6 +30,13 @@ namespace booble
 		//add score
 		auto scoreObs = owner->AddComponent<ScoreObserver>();
 		m_Subject->AddObserver(scoreObs);
+
+
+		//level component
+		auto levelItems = std::make_unique<boop::GameObject>();
+		levelItems->SetTag("level");
+		auto levelComp = levelItems->AddComponent<Level>();
+		levelComp->GetSubject()->AddObserver(this);
 	}
 
 	void Player::FixedUpdate()

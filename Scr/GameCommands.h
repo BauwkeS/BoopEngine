@@ -154,6 +154,11 @@ namespace booble
 		void Execute() override {
 			std::cout << "Changing scene to: " << m_ToScene << std::endl;
 			boop::SceneManager::GetInstance().ChangeScene(m_ToScene);
+			auto players = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
+			for (auto& player : players)
+			{
+				player->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
+			}
 		};
 
 		ChangeScene(const ChangeScene& other) = delete;

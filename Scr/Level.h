@@ -20,7 +20,7 @@ class Level final : public boop::Component
 {
 public:
 	//Level(boop::GameObject* owner);
-	Level(boop::GameObject* owner, boop::Scene* pScene, int gamemode);
+	Level(boop::GameObject* owner);
 	~Level() = default;
 	
 	Level(const Level& other) = delete;
@@ -37,21 +37,27 @@ public:
 	void SetHitTank() { m_HitTank = true; }
 	void SetHitRecognizer() { m_HitRecognizer = true; }
 
-	boop::Subject* GetPlayer1Sub() const { return m_SubjPlayer1.get(); }
-	boop::Subject* GetPlayer2Sub() const { return m_SubjPlayer2.get(); }
+	//boop::Subject* GetPlayer1Sub() const { return m_SubjPlayer1.get(); }
+	//boop::Subject* GetPlayer2Sub() const { return m_SubjPlayer2.get(); }
+
+	void ResetPlayerCollision(boop::Scene* scene);
+
+	boop::Subject* GetSubject() const { return m_Subject.get(); }
 
 private:
 	//test variables when button set
 	bool m_HitTank{};
 	bool m_HitRecognizer{};
 
-	std::unique_ptr<boop::Subject> m_SubjPlayer1{};
-	std::unique_ptr<boop::Subject> m_SubjPlayer2{};
+	//std::unique_ptr<boop::Subject> m_SubjPlayer1{};
+	//std::unique_ptr<boop::Subject> m_SubjPlayer2{};
+	std::unique_ptr<boop::Subject> m_Subject{};
 
 	//vector of all the wall objects you cannot pass
 	std::vector<boop::GameObject*> m_CollisionObjects{};
 	//vector of the players
-	std::vector<booble::Player*> m_Players{};
+	//std::vector<booble::Player*> m_Players{};
+	booble::Player* m_Player{};
 	//vector of the enemies
 	std::vector<Enemy*> m_Enemies{};
 

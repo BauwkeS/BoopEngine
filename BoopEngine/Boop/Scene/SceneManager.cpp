@@ -60,18 +60,30 @@ void boop::SceneManager::ChangeScene(const std::string& toSceneName)
 			auto persistentOld = m_Scenes[m_ActiveSceneId]->GetAllPersistentObjects(); //active persistent
 			auto persistentNew = m_Scenes[i]->GetAllPersistentObjects(); //new persistent
 
-			for (auto& objNew : persistentNew)
+			if (persistentOld.size() == 0)
 			{
-				//check if the object is already in the new scene
+				//if there are no persistent objects in the old scene, just move the new ones
+				for (auto& objNew : persistentNew)
+				{
+					m_Scenes[i]->Add(std::move(objNew), true);
+				}
+			}
+			else {
 				for (auto& objOld : persistentOld)
 				{
-					if (objOld->GetTag() == objNew->GetTag()) //its the same object
+					//check if the object is already in the new scene
+					for (auto& objNew : persistentNew)
 					{
-						//objNew->SetLocalPosition(objOld->GetLocalPosition());
-						objOld->SetToDelete();
+						if (objOld->GetTag() == objNew->GetTag()) //its the same object
+						{
+							objOld->SetLocalPosition(objNew->GetLocalPosition());
+							objNew->SetToDelete();
+							m_Scenes[i]->Add(std::move(objOld), true);
+							break;
+						}
 					}
+					
 				}
-				m_Scenes[i]->Add(std::move(objNew), true);
 			}
 
 			m_ActiveSceneId = i;

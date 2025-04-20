@@ -112,10 +112,10 @@ namespace booble
 		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
 
 
-		//level component
-		auto levelItems = std::make_unique<boop::GameObject>();
-		auto levelComp = levelItems->AddComponent<Level>(sceneLvl1, m_selectedGamemode);
-		levelComp->GetPlayer1Sub()->AddObserver(player1);
+		////level component
+		//auto levelItems = std::make_unique<boop::GameObject>();
+		//auto levelComp = levelItems->AddComponent<Level>(sceneLvl1, m_selectedGamemode);
+		//levelComp->GetPlayer1Sub()->AddObserver(player1);
 		
 		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
 		case booble::GameMode::MULTIPLAYER:
@@ -133,7 +133,7 @@ namespace booble
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
 			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
 
-			levelComp->GetPlayer2Sub()->AddObserver(player2);
+			//levelComp->GetPlayer2Sub()->AddObserver(player2);
 
 			break;
 		}
@@ -152,13 +152,13 @@ namespace booble
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
 			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
 
-			levelComp->GetPlayer2Sub()->AddObserver(player2);
+			//levelComp->GetPlayer2Sub()->AddObserver(player2);
 
 			break;
 		}
 		}
 
-		sceneLvl1->Add(std::move(levelItems));
+		//sceneLvl1->Add(std::move(levelItems));
 
 		
 	}
@@ -182,9 +182,9 @@ namespace booble
 		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
 
 		//level component
-		auto levelItems = std::make_unique<boop::GameObject>();
-		auto levelComp = levelItems->AddComponent<Level>(testlvl, m_selectedGamemode);
-		levelComp->GetPlayer1Sub()->AddObserver(player1);
+		/*auto levelItems = std::make_unique<boop::GameObject>();
+		auto levelComp = levelItems->AddComponent<Level>(testlvl, m_selectedGamemode);*/
+		//levelComp->GetPlayer1Sub()->AddObserver(player1);
 
 		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
 		case booble::GameMode::MULTIPLAYER:
@@ -202,7 +202,7 @@ namespace booble
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
 			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
 
-			levelComp->GetPlayer2Sub()->AddObserver(player2);
+		//levelComp->GetPlayer2Sub()->AddObserver(player2);
 
 			break;
 		}
@@ -221,7 +221,7 @@ namespace booble
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
 			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
 
-			levelComp->GetPlayer2Sub()->AddObserver(player2);
+			//levelComp->GetPlayer2Sub()->AddObserver(player2);
 
 			break;
 		}
@@ -230,7 +230,7 @@ namespace booble
 		
 
 
-		testlvl->Add(std::move(levelItems));
+		//testlvl->Add(std::move(levelItems));
 
 
 	}
