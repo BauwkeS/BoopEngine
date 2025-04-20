@@ -34,14 +34,11 @@ namespace level
 	class LevelLoader final : public boop::Singleton<LevelLoader>
 	{
 	private:
-		/*using GameObjectInfo = std::pair<std::unique_ptr<boop::GameObject>, LevelLayer>;
-		std::map<int, GameObjectInfo> m_GameComponents{};*/
 		std::unordered_map<int, std::pair<std::unique_ptr<boop::GameObjectType>, LevelLayer>> m_GameObjectTypes;
 
 		std::vector<std::unique_ptr<boop::GameObject>> m_StaticObjects{};
 		std::vector<std::unique_ptr<boop::GameObject>> m_DynamicObjects{};
 		std::vector<std::unique_ptr<boop::GameObject>> m_PersistentObjects{};
-		//std::vector<std::string> m_ImportantTags{};
 
 		void ClearVectors()
 		{
@@ -57,13 +54,8 @@ namespace level
 		LevelLoader& operator=(const LevelLoader& other) = delete;
 		LevelLoader& operator=(LevelLoader&& other) = delete;
 
-		//void AssignGameObject(int index, std::unique_ptr<boop::GameObject> object, LevelLayer layer);
 		void CreateLevel(std::string fileName, std::string sceneName);
-		//void SetImportantTags(std::vector<std::string> tags);
 
-
-		//template for creating game objects
-		//template <typename... Args>
 		boop::GameObjectType& RegisterType(int index, LevelLayer layer)
 		{
 			auto [it, inserted] = m_GameObjectTypes.emplace(

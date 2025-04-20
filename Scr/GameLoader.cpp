@@ -23,61 +23,6 @@
 
 namespace booble
 {
-//	std::unique_ptr<boop::GameObject> GameLoader::CreateAir()
-//	{
-//		auto gameObjPtr = std::make_unique<boop::GameObject>();
-//		gameObjPtr->AddComponent< boop::TextureComponent>( "", 4.f);
-//		return std::move(gameObjPtr);
-//	}
-//	std::unique_ptr<boop::GameObject> GameLoader::CreateWall(int whichBlock)
-//	{
-//		auto gameObjPtr = std::make_unique<boop::GameObject>();
-//		if (whichBlock == 0) {
-//			gameObjPtr->AddComponent< boop::TextureComponent>("purpleBlock.png", 4.f);
-//		}
-//		else {
-//			gameObjPtr->AddComponent< boop::TextureComponent>("stoneBlock.png", 4.f);
-//		}
-//		gameObjPtr->SetTag("collision");
-//
-//		return std::move(gameObjPtr);
-//	}
-//
-//	std::unique_ptr<boop::GameObject> GameLoader::CreatePlatform(int whichBlock)
-//	{
-//		auto gameObjPtr = std::make_unique<boop::GameObject>();
-//		if (whichBlock == 0) {
-//			gameObjPtr->AddComponent<boop::TextureComponent>("purpleBlock.png", 4.f);
-//		}
-//		else {
-//			gameObjPtr->AddComponent< boop::TextureComponent>("stoneBlock.png", 4.f);
-//		}
-//
-//		gameObjPtr->SetTag("Platform");
-//
-//		return std::move(gameObjPtr);
-//	}
-//
-//	std::unique_ptr<boop::GameObject> GameLoader::CreatePlayer(const std::string spritePath, const std::string tagName, int playerSpeed)
-//	{
-//		auto playerObject = std::make_unique<boop::GameObject>();
-//		playerObject->SetTag(tagName); //add tag for level
-//
-//		playerObject->AddComponent<Player>(playerSpeed, spritePath); // add base player comp
-//
-//		return std::move(playerObject);
-//	}
-//
-//	std::unique_ptr<boop::GameObject> GameLoader::CreateEnemy(const std::string spritePath, const std::string tagName, int playerSpeed)
-//	{
-//		auto enemyObject = std::make_unique<boop::GameObject>();
-//		enemyObject->SetTag(tagName); //add tag for level
-//
-//		enemyObject->AddComponent<Enemy>(playerSpeed, spritePath); // add base player comp
-//
-//		return std::move(enemyObject);
-//	}
-
 	void GameLoader::RegisterGameObjectTypes()
 	{
 		RegisterAirType();
@@ -99,7 +44,6 @@ namespace booble
 	void GameLoader::RegisterWallType(int whichBlock)
 	{
 		const std::string texture = (whichBlock == 0) ? "purpleBlock.png" : "stoneBlock.png";
-		//level::LevelLoader::GetInstance().RegisterType(1 + whichBlock, level::LevelLayer::STATIC)
 		level::LevelLoader::GetInstance().RegisterType(1, level::LevelLayer::STATIC)
 			.AddComponent<boop::TextureComponent>(texture, 4.f)
 			.SetDefaultTag("collision");
@@ -134,27 +78,6 @@ namespace booble
 		level::LevelLoader::GetInstance().CreateLevel("level1/level1_" + std::to_string(m_selectedGamemode) + ".txt", levelOne);
 		//set up the selected gamemode with whats needed for players
 
-
-		//switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
-		//case booble::GameMode::SINGLEPLAYER:
-
-		//	//SETUP LEVEL
-		//	
-
-		//	break;
-		//case booble::GameMode::MULTIPLAYER:
-		//	
-		//	//SETUP LEVEL
-		//	level::LevelLoader::GetInstance().CreateLevel("level1/level1_multi.txt", levelOne);
-
-		//	break;
-		//case booble::GameMode::COOP:
-
-		//	//SETUP LEVEL
-		//	level::LevelLoader::GetInstance().CreateLevel("level1/level1_coop.txt", levelOne);
-		//	
-		//	break;
-		//}
 		auto* sceneLvl1 = boop::SceneManager::GetInstance().GetScene(levelOne);
 		assert(sceneLvl1);
 
@@ -163,33 +86,7 @@ namespace booble
 		auto howToPlay = std::make_unique<boop::GameObject>();
 		howToPlay->AddComponent<boop::TextComponent>("Use D-Pad to move the blue tank, X to inflict damage, A and B to kill a tank")->SetPosition(0,50);
 		howToPlay->AddComponent<boop::TextComponent>("Use WASD to move the green tank, C to inflict damage, Z and X to kill a tank")->SetPosition(0,70);
-		sceneLvl1->Add(std::move(howToPlay));
-
-
-
-		//input player 1 
-		/*auto* player1GO = sceneLvl1->FindGameObjectByTag("p1");
-		auto* player1 = player1GO->GetComponent<Player>();
-		assert(player1);*/
-
-
-		//auto* enm = sceneLvl1->FindGameObjectByTag("collision");
-		//if (!enm) {
-		//	throw std::runtime_error("Player1 GameObject not found!");
-		//}
-
-		//auto* eee = enm->GetComponent<Enemy>();
-		//if (!eee) {
-		//	// Debug what components actually exist
-		//	std::cout << "Player1 GameObject has these components:\n";
-		//	for (const auto& comp : enm->GetAllComponents()) {
-		//		std::cout << typeid(*comp).name() << "\n";
-		//	}
-		//	throw std::runtime_error("Player component not found on Player1 GameObject!");
-		//}
-		//
-		
-		
+		sceneLvl1->Add(std::move(howToPlay));		
 		
 		auto* player1GO = sceneLvl1->FindGameObjectByTag("p1");
 		if (!player1GO) {
@@ -371,20 +268,7 @@ namespace booble
 
 	void GameLoader::MakeGame()
 	{
-		//CREATE GAME OBJECTS
-		/*level::LevelLoader::GetInstance().AssignGameObject(0, std::move(CreateAir()), level::LevelLayer::STATIC);
-		level::LevelLoader::GetInstance().AssignGameObject(1, std::move(CreateWall(0)), level::LevelLayer::STATIC);
-		level::LevelLoader::GetInstance().AssignGameObject(2, std::move(CreatePlatform(0)), level::LevelLayer::STATIC);
-		level::LevelLoader::GetInstance().AssignGameObject(3, std::move(CreatePlayer("RedTank.png", "p1",200)), level::LevelLayer::PERSISTENT);
-		level::LevelLoader::GetInstance().AssignGameObject(4, std::move(CreatePlayer("GreenTank.png", "p2", 200)), level::LevelLayer::PERSISTENT);
-		level::LevelLoader::GetInstance().AssignGameObject(5, std::move(CreateEnemy("BlueTank.png", "enemy",400)), level::LevelLayer::DYNAMIC);*/
-
-		//Set important tags
-		/*std::vector<std::string> importantTags;
-		importantTags.emplace_back("p1");
-		importantTags.emplace_back("p2");
-		level::LevelLoader::GetInstance().SetImportantTags(importantTags);*/
-
+		//REGISTER OBJECTS
 		RegisterGameObjectTypes();
 
 
