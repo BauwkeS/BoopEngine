@@ -28,8 +28,8 @@ namespace booble
 		void OnNotify(boop::Event event) override;
 
 		//add input
-		void AddKeyboardMovement(const std::string& sceneName);
-		void AddControllerMovement(const std::string& sceneName);
+		void AddKeyboardMovement();
+		void AddControllerMovement();
 
 		BaseTank* GetTankBase() const { return m_pTankBase; }
 

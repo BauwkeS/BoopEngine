@@ -64,7 +64,7 @@ namespace booble
 		}
 	}
 
-	void Player::AddKeyboardMovement(const std::string& sceneName)
+	void Player::AddKeyboardMovement()
 	{
 		auto speed = m_pTankBase->GetSpeed();
 		const glm::vec2 leftVec{ -speed,0};
@@ -73,14 +73,14 @@ namespace booble
 		const glm::vec2 downVec{ 0,speed };
 
 		//walk
-		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), leftVec));
-		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_D, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), rightVec));
-		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_W, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), upVec));
-		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_S, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_A, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), leftVec));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_D, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), rightVec));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_W, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), upVec));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_S, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
 	
-		boop::InputManager::GetInstance().AddCommand(sceneName, SDL_SCANCODE_L, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_0"));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_L, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_0"));
 	}
-	void Player::AddControllerMovement(const std::string& sceneName)
+	void Player::AddControllerMovement()
 	{
 		//MOVE
 		//move vectors -> this might have to be moved to a better place
@@ -91,10 +91,10 @@ namespace booble
 		const glm::vec2 downVec{ 0,speed };
 
 		int controllerId = boop::InputManager::GetInstance().AddController() -1;
-		boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::DPadLeft, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), leftVec));
-		boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::DPadRight, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), rightVec));
-		boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::DPadUp, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), upVec));
-		boop::InputManager::GetInstance().AddCommand(sceneName, controllerId, boop::Controller::ControllerButton::DPadDown, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
+		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::DPadLeft, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), leftVec));
+		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::DPadRight, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), rightVec));
+		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::DPadUp, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), upVec));
+		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::DPadDown, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
 	}
 }
 	

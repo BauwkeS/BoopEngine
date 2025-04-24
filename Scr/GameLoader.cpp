@@ -105,8 +105,10 @@ namespace booble
 
 
 		//player1->GetTankBase()->SetStartPos(player1GO->GetWorldPosition());
-		player1->AddKeyboardMovement(levelOne);
-		
+		player1->AddKeyboardMovement();
+		//TO-DO REMOVE THIS PIECE OF SHI
+
+
 		//set the UI position
 		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
 		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
@@ -126,8 +128,8 @@ namespace booble
 			auto* player2 = player2GO->GetComponent<Player>();
 			assert(player2);
 			//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
-			player2->AddControllerMovement(levelOne);
-			player1->AddControllerMovement(levelOne); // if there is a second controller, the first player can also use it
+			player2->AddControllerMovement();
+			player1->AddControllerMovement(); // if there is a second controller, the first player can also use it
 
 			//set the UI position
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
@@ -145,8 +147,8 @@ namespace booble
 			auto* player2 = player2GO->GetComponent<Player>();
 			assert(player2);
 			//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
-			player2->AddControllerMovement(levelOne);
-			player1->AddControllerMovement(levelOne); // if there is a second controller, the first player can also use it
+			player2->AddControllerMovement();
+			player1->AddControllerMovement(); // if there is a second controller, the first player can also use it
 
 			//set the UI position
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
@@ -175,7 +177,7 @@ namespace booble
 		auto* player1 = player1GO->GetComponent<Player>();
 		assert(player1);
 		//player1->GetTankBase()->SetStartPos(player1GO->GetWorldPosition());
-		player1->AddKeyboardMovement( "level1_0");
+		//player1->AddKeyboardMovement();
 
 		//set the UI position
 		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
@@ -195,8 +197,8 @@ namespace booble
 			auto* player2 = player2GO->GetComponent<Player>();
 			assert(player2);
 			//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
-			player2->AddControllerMovement("level1_0");
-			player1->AddControllerMovement("level1_0"); // if there is a second controller, the first player can also use it
+			//player2->AddControllerMovement("level1_0");
+			//player1->AddControllerMovement("level1_0"); // if there is a second controller, the first player can also use it
 
 			//set the UI position
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
@@ -214,8 +216,8 @@ namespace booble
 			auto* player2 = player2GO->GetComponent<Player>();
 			assert(player2);
 			//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
-			player2->AddControllerMovement("level1_0");
-			player1->AddControllerMovement("level1_0"); // if there is a second controller, the first player can also use it
+			//player2->AddControllerMovement("level1_0");
+			//player1->AddControllerMovement("level1_0"); // if there is a second controller, the first player can also use it
 
 			//set the UI position
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
@@ -251,16 +253,18 @@ namespace booble
 
 
 		//keyboard commands
-		boop::InputManager::GetInstance().AddCommand(levelName, SDL_SCANCODE_SPACE, boop::keyState::isDown,
-			std::make_unique<booble::StartGame>(this));
-		boop::InputManager::GetInstance().AddCommand(levelName, SDL_SCANCODE_TAB, boop::keyState::isDown,
-			std::make_unique<booble::ChangeGamemodeSelection>(selectionText.get(), this));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_SPACE, boop::keyState::isDown,
+			std::make_unique<booble::StartGame>(this), levelName);
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_TAB, boop::keyState::isDown,
+			std::make_unique<booble::ChangeGamemodeSelection>(selectionText.get(), this), levelName);
 		//controller commands
 		boop::InputManager::GetInstance().AddController();
-		boop::InputManager::GetInstance().AddCommand(levelName, static_cast<int>(boop::Controller::ControllerId::First),
-			boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown, std::make_unique<booble::StartGame>(this));
-		boop::InputManager::GetInstance().AddCommand(levelName, static_cast<int>(boop::Controller::ControllerId::First),
-			boop::Controller::ControllerButton::ButtonY, boop::keyState::isDown, std::make_unique<booble::ChangeGamemodeSelection>(selectionText.get(), this));
+		boop::InputManager::GetInstance().AddCommand(static_cast<int>(boop::Controller::ControllerId::First),
+			boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown,
+			std::make_unique<booble::StartGame>(this), levelName);
+		boop::InputManager::GetInstance().AddCommand(static_cast<int>(boop::Controller::ControllerId::First),
+			boop::Controller::ControllerButton::ButtonY, boop::keyState::isDown,
+			std::make_unique<booble::ChangeGamemodeSelection>(selectionText.get(), this), levelName);
 
 		sceneMain.Add(std::move(mainMenuText));
 		sceneMain.Add(std::move(selectionText));
@@ -281,6 +285,10 @@ namespace booble
 
 	void GameLoader::InitializeLevels()
 	{
+		//delete mainmenu stuff
+		//boop::InputManager::GetInstance().ClearCommands();
+		boop::InputManager::GetInstance().DeleteControllers();
+
 		//CREATE LEVELS
 		MakeLevelOne();
 		MakeLevelTwo();
