@@ -162,6 +162,7 @@ void Level::CollideWithTank()
 				m_Player->GetOwner()->GetComponent<Health>()->TakeDamage();
 				m_Player->GetTankBase()->ResetPosition();
 				enemy->GetTankBase()->ResetPosition();
+				break;
 			}
 	//	}
 	}
