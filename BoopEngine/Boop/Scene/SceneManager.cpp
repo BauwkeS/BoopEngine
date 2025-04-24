@@ -71,6 +71,12 @@ void boop::SceneManager::ChangeScene(const std::string& toSceneName)
 			else {
 				for (auto& objOld : persistentOld)
 				{
+					if (persistentNew.size() == 0)
+					{
+						//if there are no persistent objects in the new scene, just move the old ones
+						m_Scenes[i]->Add(std::move(objOld), true);
+						continue;
+					}
 					//check if the object is already in the new scene
 					for (auto& objNew : persistentNew)
 					{

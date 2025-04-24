@@ -44,6 +44,7 @@ namespace boop
 		static unsigned int m_idCounter;
 
 		void CleanupScene();
+		void UpdateTagMap();
 	};
 
 }

@@ -31,13 +31,33 @@ void Scene::CleanupScene()
 	}
 
 	// Update the tag map
+	/*m_taggedObjects.clear();
+	for (const auto& object : m_objects) {
+		if (!object->GetTag().empty()) {
+			m_taggedObjects.insert(std::make_pair(object->GetTag(), object.get()));
+		}
+	}*/
+	UpdateTagMap();
+}
+void boop::Scene::UpdateTagMap()
+{
+	// Update the tag map
 	m_taggedObjects.clear();
 	for (const auto& object : m_objects) {
 		if (!object->GetTag().empty()) {
 			m_taggedObjects.insert(std::make_pair(object->GetTag(), object.get()));
 		}
+
+		//also set the tags on the children
+		for (auto& child : object->GetAllChildren())
+		{
+			if (!child->GetTag().empty()) {
+				m_taggedObjects.insert(std::make_pair(child->GetTag(), child.get()));
+			}
+		}
 	}
-};
+}
+;
 
 void Scene::Add(std::unique_ptr<GameObject> object, bool isPersistent)
 {
@@ -155,6 +175,8 @@ std::vector<std::unique_ptr<GameObject>> boop::Scene::GetAllPersistentObjects()
 	m_objects.erase(std::remove_if(m_objects.begin(), m_objects.end(),
 		[](const auto& ptr) { return ptr == nullptr; }),
 		m_objects.end());
+
+	UpdateTagMap();
 
 	return persistentObjects;
 }
