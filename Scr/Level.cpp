@@ -11,7 +11,22 @@ Level::Level(boop::GameObject* owner) : Component(owner),
 m_Subject{ std::make_unique<boop::Subject>() }
 //Level::Level(boop::GameObject* owner) : Component(owner), m_Subject{ std::make_unique<boop::Subject>() }
 {
-	
+	/*auto levelItems = std::make_unique<boop::GameObject>();
+	levelItems->SetTag("level");
+	auto levelComp = levelItems->AddComponent<Level>();
+	levelComp->GetSubject()->AddObserver(player * here);*/
+
+	// The parent should be the player GameObject
+	//if (owner->GetParent())
+	//{
+	//	m_Player = owner->GetParent()->GetComponent<booble::Player>();
+
+	//	// If you need to do any setup with the player
+	//	if (m_Player)
+	//	{
+	//		m_Subject->AddObserver(m_Player); // Example: make player observe level events
+	//	}
+	//}
 }
 
 void Level::FixedUpdate()
@@ -28,7 +43,7 @@ void Level::ResetPlayerCollision(boop::Scene* scene)
 
 	//get player info
 	//auto playerInfo = pScene->FindGameObjectByTag("p1");
-	auto playerComp = GetOwner()->GetComponent<booble::Player>();
+	auto playerComp = GetOwner()->GetParent()->GetComponent<booble::Player>();
 	playerComp->GetTankBase()->SetStartPos(GetOwner()->GetWorldPosition());
 	if (playerComp) m_Player = playerComp;
 	
@@ -66,6 +81,21 @@ void Level::ResetPlayerCollision(boop::Scene* scene)
 		}
 	}
 }
+
+//void Level::FindPlayer()
+//{
+//	// The parent should be the player GameObject
+//		if (GetOwner()->GetParent())
+//		{
+//			m_Player = GetOwner()->GetParent()->GetComponent<booble::Player>();
+//
+//			// If you need to do any setup with the player
+//			if (m_Player)
+//			{
+//				m_Subject->AddObserver(m_Player); // Example: make player observe level events
+//			}
+//		}
+//}
 
 void Level::CollideWithBullet()
 {

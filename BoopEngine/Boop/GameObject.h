@@ -70,6 +70,7 @@ namespace boop
 		void SetParent(GameObject* parent, bool keepWorldPosition= true);
 		GameObject* GetParent() const { return m_pParent; }
 		GameObject* GetChildAt(int index) const;
+		const std::vector<std::unique_ptr<GameObject>>& GetAllChildren() const { return m_pChildren; }
 		
 		const glm::vec2& GetWorldPosition();
 		const glm::vec2& GetLocalPosition();

@@ -33,10 +33,10 @@ namespace booble
 
 
 		//level component
-		auto levelItems = std::make_unique<boop::GameObject>();
+		/*auto levelItems = std::make_unique<boop::GameObject>();
 		levelItems->SetTag("level");
 		auto levelComp = levelItems->AddComponent<Level>();
-		levelComp->GetSubject()->AddObserver(this);
+		levelComp->GetSubject()->AddObserver(this);*/
 	}
 
 	void Player::FixedUpdate()

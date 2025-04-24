@@ -51,6 +51,14 @@ void Scene::Add(std::unique_ptr<GameObject> object, bool isPersistent)
 	if (!gameObjectPtr->GetTag().empty()) {
 		m_taggedObjects.insert(std::make_pair(gameObjectPtr->GetTag(), gameObjectPtr));
 	}
+
+	//also set the tags on the children
+	for (auto& child : gameObjectPtr->GetAllChildren())
+	{
+		if (!child->GetTag().empty()) {
+			m_taggedObjects.insert(std::make_pair(child->GetTag(), child.get()));
+		}
+	}
 }
 
 void Scene::Remove(std::unique_ptr<GameObject> object)

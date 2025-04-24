@@ -41,6 +41,8 @@ public:
 	//boop::Subject* GetPlayer2Sub() const { return m_SubjPlayer2.get(); }
 
 	void ResetPlayerCollision(boop::Scene* scene);
+	//void SetPlayer(booble::Player* player) { m_Player = player; }
+	//void FindPlayer();
 
 	boop::Subject* GetSubject() const { return m_Subject.get(); }
 

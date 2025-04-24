@@ -62,10 +62,33 @@ namespace boop
             }
 
              //Instantiate all children
-            for (const auto& childType : m_ChildTypes)
-            {
-                auto child = childType->Instantiate();
-                child->SetParent(obj.get(), false);
+            //for (const auto& childType : m_ChildTypes)
+            //{
+            //    auto child = childType->Instantiate();
+            //    //child->SetParent(obj.get(), false);
+
+            //    // Transfer ownership to parent
+            //   /* obj->m_pChildren.push_back(std::move(child));
+            //    obj->m_pChildren.back()->m_pParent = obj.get();*/
+            //}
+
+
+            // Temporary storage for children
+            std::vector<std::unique_ptr<GameObject>> tempChildren;
+
+             // Instantiate children first
+            for (const auto& childType : m_ChildTypes) {
+                tempChildren.emplace_back(childType->Instantiate());
+            }
+
+            // Then set parent (which will transfer ownership)
+            for (auto& child : tempChildren) {
+                // Release ownership temporarily
+                GameObject* rawChild = child.release();
+                rawChild->SetParent(obj.get(), false);
+
+                // Ownership is now with parent's m_pChildren
+                // through AddChild() which uses emplace_back
             }
 
             return obj;

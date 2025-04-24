@@ -190,6 +190,11 @@ namespace booble
 			//boop::InputManager::GetInstance().DeleteControllers();
 			m_pGameLoader->InitializeLevels();
 			boop::SceneManager::GetInstance().ChangeScene("LevelOne");
+			auto players = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
+			for (auto& player : players)
+			{
+				player->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
+			}
 		};
 
 		StartGame(const StartGame& other) = delete;
