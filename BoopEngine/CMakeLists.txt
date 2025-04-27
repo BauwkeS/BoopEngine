@@ -143,19 +143,13 @@ target_link_libraries(${TARGET_NAME} PUBLIC
 #----
 #-- sound
 
-# Find SDL2
-#find_package(SDL2 REQUIRED)
-
-# Set up FetchContent for SDL2_mixer
-include(FetchContent)
-
 # Configure SDL2_mixer with minimal features
 set(SDL2MIXER_VENDORED ON CACHE BOOL "" FORCE)
 set(SDL2MIXER_MOD OFF CACHE BOOL "" FORCE)          # Disable MOD support
 set(SDL2MIXER_MIDI OFF CACHE BOOL "" FORCE)         # Disable MIDI support
 set(SDL2MIXER_FLAC OFF CACHE BOOL "" FORCE)         # Disable FLAC support
 set(SDL2MIXER_OGG OFF CACHE BOOL "" FORCE)          # Disable OGG support
-set(SDL2MIXER_MP3_MPG123 OFF CACHE BOOL "" FORCE)   # Disable MP3 support (or enable if needed)
+set(SDL2MIXER_MP3_DRMP3 ON)
 set(SDL2MIXER_INSTALL OFF CACHE BOOL "" FORCE)      # Don't install as part of your project
 
 FetchContent_Declare(
