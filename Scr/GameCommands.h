@@ -152,12 +152,18 @@ namespace booble
 		~ChangeScene() { m_pGameObject = nullptr; delete m_pGameObject; }
 
 		void Execute() override {
-			std::cout << "Changing scene to: " << m_ToScene << std::endl;
-			boop::SceneManager::GetInstance().ChangeScene(m_ToScene);
 			auto players = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
 			for (auto& player : players)
 			{
-				player->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
+				player->GetParent()->GetComponent<Player>()->GetTankBase()->ResetPosition();
+			}
+
+			std::cout << "Changing scene to: " << m_ToScene << std::endl;
+			boop::SceneManager::GetInstance().ChangeScene(m_ToScene);
+			auto levels = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
+			for (auto& level : levels)
+			{
+				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
 			}
 		};
 
@@ -186,14 +192,13 @@ namespace booble
 			boop::InputManager::GetInstance().RemoveCommand(static_cast<int>(boop::Controller::ControllerId::First),
 				boop::Controller::ControllerButton::ButtonY, boop::keyState::isDown);*/
 
-
 			//boop::InputManager::GetInstance().DeleteControllers();
 			m_pGameLoader->InitializeLevels();
 			boop::SceneManager::GetInstance().ChangeScene("LevelOne");
-			auto players = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
-			for (auto& player : players)
+			auto levels = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
+			for (auto& level : levels)
 			{
-				player->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
+				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
 			}
 		};
 

@@ -38,6 +38,9 @@ void Level::FixedUpdate()
 
 void Level::ResetPlayerCollision(boop::Scene* scene)
 {
+	m_CollisionObjects.clear();
+	m_Enemies.clear();
+
 	//load up the vectors with the information about the scene yuo're in
 	m_CollisionObjects = scene->FindAllGameObjectByTag("collision");
 

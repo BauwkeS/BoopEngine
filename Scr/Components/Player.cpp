@@ -79,6 +79,9 @@ namespace booble
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_S, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
 	
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_L, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_0"));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_K, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_1"));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_P, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_2"));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_O, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_3"));
 	}
 	void Player::AddControllerMovement()
 	{

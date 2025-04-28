@@ -48,13 +48,6 @@ namespace level
 						"Component not found for index: " + std::to_string(index) + " (character: " + colChar + ")"
 					);
 				}
-
-				//TO-DO
-				if(index == 3)
-				{
-					int tset = 2;
-					tset;
-				}
 				
 				if (m_GameObjectTypes.at(index).first.get())
 				{

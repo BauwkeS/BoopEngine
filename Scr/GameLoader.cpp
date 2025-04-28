@@ -179,8 +179,11 @@ namespace booble
 	{
 		//TESTING
 
-		level::LevelLoader::GetInstance().CreateLevel("level1/level1_3.txt", "level1_0");
-		auto* testlvl = boop::SceneManager::GetInstance().GetScene("level1_0");
+		level::LevelLoader::GetInstance().CreateLevel("level1/level1_0.txt", "level1_0");
+		level::LevelLoader::GetInstance().CreateLevel("level1/level1_1.txt", "level1_1");
+		level::LevelLoader::GetInstance().CreateLevel("level1/level1_2.txt", "level1_2");
+		level::LevelLoader::GetInstance().CreateLevel("level1/level1_3.txt", "level1_3");
+		auto* testlvl = boop::SceneManager::GetInstance().GetScene("level1_1");
 
 		//input player 1 
 		auto* player1GO = testlvl->FindGameObjectByTag("p1");

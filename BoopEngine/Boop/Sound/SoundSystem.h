@@ -19,7 +19,12 @@ namespace boop
 
 	class SoundSystemLogger final : public SoundSystem
 	{
+	private:
+		SoundSystem& m_SoundSystemWrapped;
 	public:
-		void PlaySound(const unsigned short id, const float volume) override;
+		SoundSystemLogger(SoundSystem& soundSystemWrapped)
+			: m_SoundSystemWrapped(soundSystemWrapped) {
+		}
+		virtual void PlaySound(const unsigned short id, const float volume) override;
 	};
 }

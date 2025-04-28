@@ -172,9 +172,18 @@ std::vector<std::unique_ptr<GameObject>> boop::Scene::GetAllPersistentObjects()
 		}
 	}
 	// cleanup moved objects
-	m_objects.erase(std::remove_if(m_objects.begin(), m_objects.end(),
+	/*m_objects.erase(std::remove_if(m_objects.begin(), m_objects.end(),
 		[](const auto& ptr) { return ptr == nullptr; }),
-		m_objects.end());
+		m_objects.end());*/
+
+	m_objects.erase(
+		std::remove(
+			m_objects.begin(),
+			m_objects.end(),
+			nullptr
+		),
+		m_objects.end()
+	);
 
 	UpdateTagMap();
 

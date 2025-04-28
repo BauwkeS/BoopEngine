@@ -82,12 +82,48 @@ void boop::SceneManager::ChangeScene(const std::string& toSceneName)
 					{
 						if (objOld->GetTag() == objNew->GetTag()) //its the same object
 						{
+							//move the old object to the new scene with correct vars
+							//move the new object to the old scene -> when re-entering the scene, this object will hold the info it needs to do this process again correctly
+							auto tempPos = objOld->GetLocalPosition();
 							objOld->SetLocalPosition(objNew->GetLocalPosition());
-							objNew->SetToDelete();
+
+							objNew->SetLocalPosition(tempPos);
+							m_Scenes[m_ActiveSceneId]->Add(std::move(objNew), true);
+
+							//objNew->SetToDelete();
 							m_Scenes[i]->Add(std::move(objOld), true);
+
+							//update the persistent vector
+							persistentNew.erase(std::remove(persistentNew.begin(),persistentNew.end(),nullptr),persistentNew.end());
+
 							break;
 						}
 					}
+					/*for (size_t newIdx = 0; newIdx < persistentNew.size(); ++newIdx)
+					{
+						auto& objNew = persistentNew[newIdx];
+						if (objOld->GetTag() == objNew->GetTag())
+						{
+							auto tempPos = objOld->GetLocalPosition();
+							objOld->SetLocalPosition(objNew->GetLocalPosition());
+							objNew->SetLocalPosition(tempPos);
+
+							m_Scenes[m_ActiveSceneId]->Add(std::move(objNew), true);
+							m_Scenes[i]->Add(std::move(objOld), true);
+
+							persistentNew.erase(
+								std::remove(
+									persistentNew.begin(),
+									persistentNew.end(),
+									nullptr
+								),
+								persistentNew.end()
+							);
+
+
+							break;
+						}
+					}*/
 					
 				}
 			}
