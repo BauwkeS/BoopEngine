@@ -30,13 +30,6 @@ namespace booble
 		//add score
 		auto scoreObs = owner->AddComponent<ScoreObserver>();
 		m_Subject->AddObserver(scoreObs);
-
-
-		//level component
-		/*auto levelItems = std::make_unique<boop::GameObject>();
-		levelItems->SetTag("level");
-		auto levelComp = levelItems->AddComponent<Level>();
-		levelComp->GetSubject()->AddObserver(this);*/
 	}
 
 	void Player::FixedUpdate()
@@ -78,6 +71,7 @@ namespace booble
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_W, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), upVec));
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_S, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
 	
+		//TO-DO: DELETE TEST COMMANDS
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_L, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_0"));
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_K, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_1"));
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_P, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_2"));

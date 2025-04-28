@@ -53,25 +53,10 @@ namespace boop
             {
                 auto component = factory(obj.get());
                 // Ensure the component is actually added to the GameObject
-                /*if (component) {
-                    obj->m_pComponents.emplace_back(std::move(component));
-                }*/
                 if (component) {
                     obj->AddComponent(std::move(component)); 
                 }
             }
-
-             //Instantiate all children
-            //for (const auto& childType : m_ChildTypes)
-            //{
-            //    auto child = childType->Instantiate();
-            //    //child->SetParent(obj.get(), false);
-
-            //    // Transfer ownership to parent
-            //   /* obj->m_pChildren.push_back(std::move(child));
-            //    obj->m_pChildren.back()->m_pParent = obj.get();*/
-            //}
-
 
             // Temporary storage for children
             std::vector<std::unique_ptr<GameObject>> tempChildren;

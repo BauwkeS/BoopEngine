@@ -29,14 +29,6 @@ void Scene::CleanupScene()
 	{
 		if (object->ToDelete()) object->CleanupDeletion();
 	}
-
-	// Update the tag map
-	/*m_taggedObjects.clear();
-	for (const auto& object : m_objects) {
-		if (!object->GetTag().empty()) {
-			m_taggedObjects.insert(std::make_pair(object->GetTag(), object.get()));
-		}
-	}*/
 	UpdateTagMap();
 }
 void boop::Scene::UpdateTagMap()
@@ -171,10 +163,6 @@ std::vector<std::unique_ptr<GameObject>> boop::Scene::GetAllPersistentObjects()
 			persistentObjects.emplace_back(std::move(object));
 		}
 	}
-	// cleanup moved objects
-	/*m_objects.erase(std::remove_if(m_objects.begin(), m_objects.end(),
-		[](const auto& ptr) { return ptr == nullptr; }),
-		m_objects.end());*/
 
 	m_objects.erase(
 		std::remove(

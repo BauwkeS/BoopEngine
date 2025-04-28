@@ -19,7 +19,6 @@ namespace booble
 class Level final : public boop::Component
 {
 public:
-	//Level(boop::GameObject* owner);
 	Level(boop::GameObject* owner);
 	~Level() = default;
 	
@@ -37,12 +36,7 @@ public:
 	void SetHitTank() { m_HitTank = true; }
 	void SetHitRecognizer() { m_HitRecognizer = true; }
 
-	//boop::Subject* GetPlayer1Sub() const { return m_SubjPlayer1.get(); }
-	//boop::Subject* GetPlayer2Sub() const { return m_SubjPlayer2.get(); }
-
-	void ResetPlayerCollision(boop::Scene* scene);
-	//void SetPlayer(booble::Player* player) { m_Player = player; }
-	//void FindPlayer();
+	void ResetPlayerCollision(boop::Scene* scene);;
 
 	boop::Subject* GetSubject() const { return m_Subject.get(); }
 
@@ -51,15 +45,12 @@ private:
 	bool m_HitTank{};
 	bool m_HitRecognizer{};
 
-	//std::unique_ptr<boop::Subject> m_SubjPlayer1{};
-	//std::unique_ptr<boop::Subject> m_SubjPlayer2{};
 	std::unique_ptr<boop::Subject> m_Subject{};
+
+	booble::Player* m_Player{};
 
 	//vector of all the wall objects you cannot pass
 	std::vector<boop::GameObject*> m_CollisionObjects{};
-	//vector of the players
-	//std::vector<booble::Player*> m_Players{};
-	booble::Player* m_Player{};
 	//vector of the enemies
 	std::vector<Enemy*> m_Enemies{};
 
@@ -67,5 +58,4 @@ private:
 	//collision functions
 	void CollideWithBullet();
 	void CollideWithTank();
-	void CollideGameBounds();
 };

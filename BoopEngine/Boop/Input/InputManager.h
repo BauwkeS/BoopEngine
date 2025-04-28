@@ -45,22 +45,12 @@ namespace boop
 
 		SceneControllerCommandsMap m_ControllerCommands{};
 		SceneKeyboardCommandsMap m_KeyboardCommands{};
-		
-		//scene specific commands
-		//using InputCommandsMap = std::map<KeyboardCommandsMap, ControllerCommandsMap>;
-		//using SceneInputCommandsMap = std::map<std::string, InputCommandsMap>;
-
-
-		//ControllerCommandsMap m_ControllerCommands{};
-		//KeyboardCommandsMap m_KeyboardCommands{};
-
+	
 		//Controllers for when you have 2 controllers
 		std::vector<std::unique_ptr<Controller>> m_Controllers{};
 
 		std::vector<Uint8> m_PreviousKeyState{ std::vector<Uint8>(SDL_NUM_SCANCODES) };
 		std::vector<Uint8> m_CurrentPressed{ std::vector<Uint8>(SDL_NUM_SCANCODES) };
-
-	//	SceneManager& m_SceneManager{ SceneManager::GetInstance() };
 
 	public:
 		bool ProcessInput();

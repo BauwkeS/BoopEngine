@@ -184,15 +184,6 @@ namespace booble
 		~StartGame() { }
 
 		void Execute() override {
-			//boop::InputManager::GetInstance().ClearCommands();
-			/*boop::InputManager::GetInstance().RemoveCommand(SDL_SCANCODE_SPACE, boop::keyState::isDown);
-			boop::InputManager::GetInstance().RemoveCommand(SDL_SCANCODE_TAB, boop::keyState::isDown);
-			boop::InputManager::GetInstance().RemoveCommand(static_cast<int>(boop::Controller::ControllerId::First),
-				boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown);
-			boop::InputManager::GetInstance().RemoveCommand(static_cast<int>(boop::Controller::ControllerId::First),
-				boop::Controller::ControllerButton::ButtonY, boop::keyState::isDown);*/
-
-			//boop::InputManager::GetInstance().DeleteControllers();
 			m_pGameLoader->InitializeLevels();
 			boop::SceneManager::GetInstance().ChangeScene("LevelOne");
 			auto levels = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");

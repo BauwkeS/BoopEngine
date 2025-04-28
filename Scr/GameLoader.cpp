@@ -26,10 +26,8 @@ namespace booble
 	void GameLoader::RegisterGameObjectTypes()
 	{
 		RegisterAirType();
-		//RegisterWallType(0); // Purple block
-		RegisterWallType(1); // Stone block
-		RegisterPlatformType(0); // Purple block
-		//RegisterPlatformType(1); // Stone block
+		RegisterWallType(1);
+		RegisterPlatformType(0); 
 		RegisterPlayerType("RedTank.png", "p1", 200);
 		RegisterPlayerType("GreenTank.png", "p2", 200);
 		RegisterEnemyType("BlueTank.png", "enemy", 400);
@@ -123,11 +121,6 @@ namespace booble
 		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
 		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
 
-
-		////level component
-		//auto levelItems = std::make_unique<boop::GameObject>();
-		//auto levelComp = levelItems->AddComponent<Level>(sceneLvl1, m_selectedGamemode);
-		//levelComp->GetPlayer1Sub()->AddObserver(player1);
 		
 		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
 		case booble::GameMode::MULTIPLAYER:
@@ -169,10 +162,6 @@ namespace booble
 			break;
 		}
 		}
-
-		//sceneLvl1->Add(std::move(levelItems));
-
-		
 	}
 
 	void GameLoader::MakeLevelTwo()
@@ -195,11 +184,6 @@ namespace booble
 		//set the UI position
 		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
 		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
-
-		//level component
-		/*auto levelItems = std::make_unique<boop::GameObject>();
-		auto levelComp = levelItems->AddComponent<Level>(testlvl, m_selectedGamemode);*/
-		//levelComp->GetPlayer1Sub()->AddObserver(player1);
 
 		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
 		case booble::GameMode::MULTIPLAYER:
@@ -241,13 +225,6 @@ namespace booble
 			break;
 		}
 		}
-
-		
-
-
-		//testlvl->Add(std::move(levelItems));
-
-
 	}
 
 	void GameLoader::MakeMainScreen()
@@ -298,8 +275,7 @@ namespace booble
 
 	void GameLoader::InitializeLevels()
 	{
-		//delete mainmenu stuff
-		//boop::InputManager::GetInstance().ClearCommands();
+		//RESET CONTROLLERS
 		boop::InputManager::GetInstance().DeleteControllers();
 
 		//CREATE LEVELS
