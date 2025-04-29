@@ -81,6 +81,13 @@ namespace level
 						break;
 					case LevelLayer::PERSISTENT:
 						m_PersistentObjects.emplace_back(std::move(newObj));
+						if (m_UnderpersistentIndex != -1)
+						{
+							//put object behind persistent objects if needed
+							auto extraObj = m_GameObjectTypes.at(m_UnderpersistentIndex).first->Instantiate();
+							extraObj->SetLocalPosition(x_pos, y_pos);
+							m_StaticObjects.emplace_back(std::move(extraObj));
+						}
 						break;
 					}
 

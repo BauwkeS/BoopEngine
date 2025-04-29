@@ -58,7 +58,7 @@ namespace booble
 
 
 		int index = (tagName == "p1") ? 5 : 6; // Assign indices for players
-		auto& playerType = level::LevelLoader::GetInstance().RegisterType(index, level::LevelLayer::PERSISTENT)
+		auto& playerType = level::LevelLoader::GetInstance().RegisterType(index, level::LevelLayer::PERSISTENT,2)
 			.AddComponent<Player>(playerSpeed, spritePath)
 			.SetDefaultTag(tagName);
 
@@ -94,7 +94,7 @@ namespace booble
 
 	void GameLoader::MakeLevelTwo()
 	{
-		//TESTING
+		//lvl2
 
 		level::LevelLoader::GetInstance().CreateLevel("levels/level2.txt", "level2");
 		auto* testlvl = boop::SceneManager::GetInstance().GetScene("level2");
