@@ -12,7 +12,7 @@
 
 namespace level
 {
-	void LevelLoader::CreateLevel(std::string fileName, std::string sceneName)
+	void LevelLoader::CreateLevel(std::string fileName, std::string sceneName, int grid)
 	{
 		auto& scene = boop::SceneManager::GetInstance().AddScene(sceneName);
 		std::ifstream gameFile("Data\\" + fileName);
@@ -24,7 +24,7 @@ namespace level
 
 		int colsRead = 0;
 		int rowsRead = 0;
-		constexpr int gridSize = 32;
+		int gridSize = grid;
 
 		std::string rowLine;
 		while (std::getline(gameFile, rowLine))

@@ -54,7 +54,7 @@ namespace level
 		LevelLoader& operator=(const LevelLoader& other) = delete;
 		LevelLoader& operator=(LevelLoader&& other) = delete;
 
-		void CreateLevel(std::string fileName, std::string sceneName);
+		void CreateLevel(std::string fileName, std::string sceneName, int gridSize=32);
 
 		boop::GameObjectType& RegisterType(int index, LevelLayer layer)
 		{
