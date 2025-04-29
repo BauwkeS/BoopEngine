@@ -30,6 +30,7 @@ namespace level
 		PERSISTENT //objects that need to transfer between levels, eg: players
 	};
 
+	//to-do: using flyweigh pattern instead of type object would be a good choice for static objects
 
 	class LevelLoader final : public boop::Singleton<LevelLoader>
 	{

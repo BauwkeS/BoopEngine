@@ -6,6 +6,7 @@
 
 namespace boop {
 	class GameObject;
+	class Scene;
 }
 
 namespace booble
@@ -32,6 +33,8 @@ namespace booble
 		void MakeLevelOne();
 		void MakeLevelTwo();
 		void MakeMainScreen();
+
+		void ChangeSceneForGamemode(boop::Scene* level);
 		
 		int m_selectedGamemode{};
 	public:

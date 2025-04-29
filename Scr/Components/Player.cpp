@@ -72,10 +72,9 @@ namespace booble
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_S, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
 	
 		//TO-DO: DELETE TEST COMMANDS
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_L, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_0"));
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_K, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_1"));
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_P, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_2"));
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_O, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1_3"));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_L, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level2"));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_K, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level3"));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_P, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "LevelOne"));
 	}
 	void Player::AddControllerMovement()
 	{

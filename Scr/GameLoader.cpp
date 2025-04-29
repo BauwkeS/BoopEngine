@@ -82,165 +82,33 @@ namespace booble
 
 	void GameLoader::MakeLevelOne()
 	{
-		const std::string levelOne{ "LevelOne" };
-		//level::LevelLoader::GetInstance().CreateLevel("level1/level1_" + std::to_string(m_selectedGamemode) + ".txt", levelOne);
-		level::LevelLoader::GetInstance().CreateLevel("level1/level1_0.txt", levelOne);
-		//set up the selected gamemode with whats needed for players
+		const std::string levelOne{ "LevelOne" };;
+		level::LevelLoader::GetInstance().CreateLevel("levels/level1.txt", levelOne);
 
 		//make sure the level was created
 		auto* sceneLvl1 = boop::SceneManager::GetInstance().GetScene(levelOne);
 		assert(sceneLvl1);
 
-		//--LEVEL SPECIFICS--
-		//player controls info
-/*		auto howToPlay = std::make_unique<boop::GameObject>();
-		howToPlay->AddComponent<boop::TextComponent>("Use D-Pad to move the blue tank, X to inflict damage, A and B to kill a tank")->SetPosition(0,50);
-		howToPlay->AddComponent<boop::TextComponent>("Use WASD to move the green tank, C to inflict damage, Z and X to kill a tank")->SetPosition(0,70);
-		sceneLvl1->Add(std::move(howToPlay));	*/	
-
-
-		//
-		//auto* player1GO = sceneLvl1->FindGameObjectByTag("p1");
-		//if (!player1GO) {
-		//	throw std::runtime_error("Player1 GameObject not found!");
-		//}
-
-		//auto* player1 = player1GO->GetComponent<Player>();
-		//if (!player1) {
-		//	// Debug what components actually exist
-		//	std::cout << "Player1 GameObject has these components:\n";
-		//	for (const auto& comp : player1GO->GetAllComponents()) {
-		//		std::cout << typeid(*comp).name() << "\n";
-		//	}
-		//	throw std::runtime_error("Player component not found on Player1 GameObject!");
-		//}
-
-
-		//player1
-		auto* player1 = sceneLvl1->FindGameObjectByTag("p1")->GetComponent<Player>();
-		assert(player1);
-		//player2
-		auto* player2 = sceneLvl1->FindGameObjectByTag("p2")->GetComponent<Player>();
-		assert(player2);
-		
-		
-		//player1->GetTankBase()->SetStartPos(player1GO->GetWorldPosition());
-		player1->AddKeyboardMovement();
-		//TO-DO REMOVE THIS PIECE OF SHI
-
-
-		//set the UI position
-		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
-		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
-
-		
-		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
-		case booble::GameMode::SINGLEPLAYER:
-		{
-			//remove p2 out of the level
-			player2->GetOwner()->SetToDelete();
-			break;
-		}
-		case booble::GameMode::MULTIPLAYER:
-		{
-
-			//input player 2
-			
-			//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
-			player2->AddControllerMovement();
-			player1->AddControllerMovement(); // if there is a second controller, the first player can also use it
-
-			//set the UI position
-			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
-			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
-
-			//levelComp->GetPlayer2Sub()->AddObserver(player2);
-
-			break;
-		}
-		case booble::GameMode::COOP:
-		{
-
-			//input player 2
-			/*auto* player2GO = sceneLvl1->FindGameObjectByTag("p2");
-			auto* player2 = player2GO->GetComponent<Player>();
-			assert(player2);*/
-			//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
-			player2->AddControllerMovement();
-			player1->AddControllerMovement(); // if there is a second controller, the first player can also use it
-
-			//set the UI position
-			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
-			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
-
-			//levelComp->GetPlayer2Sub()->AddObserver(player2);
-
-			break;
-		}
-		}
+		ChangeSceneForGamemode(sceneLvl1);
 	}
 
 	void GameLoader::MakeLevelTwo()
 	{
 		//TESTING
 
-		level::LevelLoader::GetInstance().CreateLevel("level1/level1_0.txt", "level1_0");
-		level::LevelLoader::GetInstance().CreateLevel("level1/level1_1.txt", "level1_1");
-		level::LevelLoader::GetInstance().CreateLevel("level1/level1_2.txt", "level1_2");
-		level::LevelLoader::GetInstance().CreateLevel("level1/level1_3.txt", "level1_3");
-		auto* testlvl = boop::SceneManager::GetInstance().GetScene("level1_1");
+		level::LevelLoader::GetInstance().CreateLevel("levels/level2.txt", "level2");
+		auto* testlvl = boop::SceneManager::GetInstance().GetScene("level2");
+		assert(testlvl);
 
-		//input player 1 
-		auto* player1GO = testlvl->FindGameObjectByTag("p1");
-		auto* player1 = player1GO->GetComponent<Player>();
-		assert(player1);
-		//player1->GetTankBase()->SetStartPos(player1GO->GetWorldPosition());
-		//player1->AddKeyboardMovement();
+		ChangeSceneForGamemode(testlvl);
 
-		//set the UI position
-		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
-		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
 
-		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
-		case booble::GameMode::MULTIPLAYER:
-		{
+		//lvl3
+		level::LevelLoader::GetInstance().CreateLevel("levels/level3.txt", "level3");
+		auto* lvl3 = boop::SceneManager::GetInstance().GetScene("level3");
+		assert(lvl3);
 
-			//input player 2
-			auto* player2GO = testlvl->FindGameObjectByTag("p2");
-			auto* player2 = player2GO->GetComponent<Player>();
-			assert(player2);
-			//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
-			//player2->AddControllerMovement("level1_0");
-			//player1->AddControllerMovement("level1_0"); // if there is a second controller, the first player can also use it
-
-			//set the UI position
-			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
-			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
-
-		//levelComp->GetPlayer2Sub()->AddObserver(player2);
-
-			break;
-		}
-		case booble::GameMode::COOP:
-		{
-
-			//input player 2
-			auto* player2GO = testlvl->FindGameObjectByTag("p2");
-			auto* player2 = player2GO->GetComponent<Player>();
-			assert(player2);
-			//player2->GetTankBase()->SetStartPos(player2GO->GetWorldPosition());
-			//player2->AddControllerMovement("level1_0");
-			//player1->AddControllerMovement("level1_0"); // if there is a second controller, the first player can also use it
-
-			//set the UI position
-			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
-			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
-
-			//levelComp->GetPlayer2Sub()->AddObserver(player2);
-
-			break;
-		}
-		}
+		ChangeSceneForGamemode(lvl3);
 	}
 
 	void GameLoader::MakeMainScreen()
@@ -276,6 +144,45 @@ namespace booble
 		sceneMain.Add(std::move(selectionText));
 	}
 
+	void GameLoader::ChangeSceneForGamemode(boop::Scene* level)
+	{
+		//player1
+		auto* player1 = level->FindGameObjectByTag("p1")->GetComponent<Player>();
+		assert(player1);
+		//player2
+		auto* player2 = level->FindGameObjectByTag("p2")->GetComponent<Player>();
+		assert(player2);
+
+		player1->AddKeyboardMovement();
+		//TO-DO REMOVE THIS PIECE OF SHI
+
+
+		//set the UI position
+		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
+		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
+
+
+		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
+		case booble::GameMode::SINGLEPLAYER:
+		{
+			//remove p2 out of the level
+			player2->GetOwner()->SetToDelete();
+			break;
+		}
+		default:
+		{
+			//input player 2
+			player2->AddControllerMovement();
+			player1->AddControllerMovement(); // if there is a second controller, the first player can also use it
+
+			//set the UI position
+			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
+			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+			break;
+		}
+		}
+	}
+
 	void GameLoader::MakeGame()
 	{
 		//REGISTER OBJECTS
@@ -296,7 +203,7 @@ namespace booble
 
 		//CREATE LEVELS
 		MakeLevelOne();
-		//MakeLevelTwo();
+		MakeLevelTwo();
 	}
 
 }
