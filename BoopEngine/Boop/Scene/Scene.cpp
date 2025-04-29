@@ -37,7 +37,7 @@ void boop::Scene::UpdateTagMap()
 	m_taggedObjects.clear();
 	for (const auto& object : m_objects) {
 		if (!object->GetTag().empty()) {
-			m_taggedObjects.insert(std::make_pair(object->GetTag(), object.get()));
+ 			m_taggedObjects.insert(std::make_pair(object->GetTag(), object.get()));
 		}
 
 		//also set the tags on the children

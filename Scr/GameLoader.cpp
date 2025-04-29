@@ -26,8 +26,8 @@ namespace booble
 	void GameLoader::RegisterGameObjectTypes()
 	{
 		RegisterAirType();
-		RegisterWallType(1);
-		RegisterPlatformType(0); 
+		RegisterWallType();
+		RegisterWallBorderType();
 		RegisterPlayerType("RedTank.png", "p1", 200);
 		RegisterPlayerType("GreenTank.png", "p2", 200);
 		RegisterEnemyType("BlueTank.png", "enemy", 400);
@@ -35,29 +35,29 @@ namespace booble
 
 	void GameLoader::RegisterAirType()
 	{
-		level::LevelLoader::GetInstance().RegisterType(0, level::LevelLayer::STATIC)
-			.AddComponent<boop::TextureComponent>("", 4.f);
+		level::LevelLoader::GetInstance().RegisterType(2, level::LevelLayer::STATIC)
+			.AddComponent<boop::TextureComponent>("path.png",2.f);
 	}
 
-	void GameLoader::RegisterWallType(int whichBlock)
+	void GameLoader::RegisterWallType()
 	{
-		const std::string texture = (whichBlock == 0) ? "purpleBlock.png" : "stoneBlock.png";
-		level::LevelLoader::GetInstance().RegisterType(1, level::LevelLayer::STATIC)
-			.AddComponent<boop::TextureComponent>(texture, 4.f)
+		level::LevelLoader::GetInstance().RegisterType(0, level::LevelLayer::STATIC)
+			.AddComponent<boop::TextureComponent>("wall.png",2.f)
 			.SetDefaultTag("collision");
 	}
 
-	void GameLoader::RegisterPlatformType(int whichBlock)
+	void GameLoader::RegisterWallBorderType()
 	{
-		const std::string texture = (whichBlock == 0) ? "purpleBlock.png" : "stoneBlock.png";
-		level::LevelLoader::GetInstance().RegisterType(2 , level::LevelLayer::STATIC)
-			.AddComponent<boop::TextureComponent>(texture, 4.f)
-			.SetDefaultTag("Platform");
+		level::LevelLoader::GetInstance().RegisterType(1, level::LevelLayer::STATIC)
+			.AddComponent<boop::TextureComponent>("void.png",2.f);
 	}
 
 	void GameLoader::RegisterPlayerType(const std::string& spritePath, const std::string& tagName, int playerSpeed)
 	{
-		int index = (tagName == "p1") ? 3 : 4; // Assign indices for players
+		//TO-DO ADD WHAT BLOCK IT LEAVES BEHIND
+
+
+		int index = (tagName == "p1") ? 5 : 6; // Assign indices for players
 		auto& playerType = level::LevelLoader::GetInstance().RegisterType(index, level::LevelLayer::PERSISTENT)
 			.AddComponent<Player>(playerSpeed, spritePath)
 			.SetDefaultTag(tagName);
@@ -75,7 +75,7 @@ namespace booble
 
 	void GameLoader::RegisterEnemyType(const std::string& spritePath, const std::string& tagName, int playerSpeed)
 	{
-		level::LevelLoader::GetInstance().RegisterType(5, level::LevelLayer::DYNAMIC)
+		level::LevelLoader::GetInstance().RegisterType(4, level::LevelLayer::DYNAMIC)
 			.AddComponent<Enemy>(playerSpeed, spritePath)
 			.SetDefaultTag(tagName);
 	}
@@ -280,7 +280,7 @@ namespace booble
 
 		//CREATE LEVELS
 		MakeLevelOne();
-		MakeLevelTwo();
+		//MakeLevelTwo();
 	}
 
 }

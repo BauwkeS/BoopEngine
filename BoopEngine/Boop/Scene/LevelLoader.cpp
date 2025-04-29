@@ -12,7 +12,7 @@
 
 namespace level
 {
-	void LevelLoader::CreateLevel(std::string fileName, std::string sceneName, int grid)
+	void LevelLoader::CreateLevel(std::string fileName, std::string sceneName)
 	{
 		auto& scene = boop::SceneManager::GetInstance().AddScene(sceneName);
 		std::ifstream gameFile("Data\\" + fileName);
@@ -24,11 +24,24 @@ namespace level
 
 		int colsRead = 0;
 		int rowsRead = 0;
-		int gridSize = grid;
+		float gridSize = 30;
+
+		//fluid grid : to-do additions here
+		//get file length to get columm size
+		gameFile.seekg(0, gameFile.end);
+		int fileLength = static_cast<int>(gameFile.tellg());
+		gameFile.seekg(0, gameFile.beg);
 
 		std::string rowLine;
 		while (std::getline(gameFile, rowLine))
 		{
+			//fluid grid : to-do additions here
+			//colLine size
+			float rowSize = static_cast<float>(rowLine.size()+1);
+			float colSize = roundf(static_cast<float>(fileLength / rowSize));
+			float offset = (colSize > rowSize) ? gridSize / colSize : gridSize / rowSize;
+			offset = (roundf(offset * 10.f)) / 10.f;
+	
 			for (const auto& colChar : rowLine)
 			{
 
@@ -53,7 +66,10 @@ namespace level
 				{
 					auto newObj = m_GameObjectTypes.at(index).first->Instantiate();
 
-					newObj->SetLocalPosition(static_cast<float>(gridSize * colsRead), static_cast<float>(gridSize * rowsRead));
+					//fluid grid : to-do additions here
+					auto x_pos = (offset * gridSize) * static_cast<float>(colsRead);
+					auto y_pos = (offset * gridSize) * static_cast<float>(rowsRead);
+					newObj->SetLocalPosition(x_pos, y_pos);
 
 					switch (m_GameObjectTypes.at(index).second)
 					{
