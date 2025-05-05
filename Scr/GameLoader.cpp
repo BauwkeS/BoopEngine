@@ -36,20 +36,20 @@ namespace booble
 	void GameLoader::RegisterAirType()
 	{
 		level::LevelLoader::GetInstance().RegisterType(2, level::LevelLayer::STATIC)
-			.AddComponent<boop::TextureComponent>("path.png",2.f);
+			.AddComponent<boop::TextureComponent>("path.png");
 	}
 
 	void GameLoader::RegisterWallType()
 	{
 		level::LevelLoader::GetInstance().RegisterType(0, level::LevelLayer::STATIC)
-			.AddComponent<boop::TextureComponent>("wall.png",2.f)
+			.AddComponent<boop::TextureComponent>("wall.png")
 			.SetDefaultTag("collision");
 	}
 
 	void GameLoader::RegisterWallBorderType()
 	{
 		level::LevelLoader::GetInstance().RegisterType(1, level::LevelLayer::STATIC)
-			.AddComponent<boop::TextureComponent>("void.png",2.f);
+			.AddComponent<boop::TextureComponent>("void.png");
 	}
 
 	void GameLoader::RegisterPlayerType(const std::string& spritePath, const std::string& tagName, int playerSpeed)

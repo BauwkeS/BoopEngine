@@ -17,7 +17,7 @@ BaseTank::BaseTank(boop::GameObject* owner, int speed, const std::string spriteP
 	: Component(owner), m_Speed{ speed }
 {
 	//add sprite
-	auto sprite = owner->AddComponent< boop::TextureComponent>(static_cast<std::string>(spritePath),1.75f);
+	auto sprite = owner->AddComponent< boop::TextureComponent>(static_cast<std::string>(spritePath));
 	m_Size = sprite->GetSize();
 
 

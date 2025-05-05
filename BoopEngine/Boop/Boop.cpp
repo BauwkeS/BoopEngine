@@ -79,8 +79,8 @@ boop::Minigin::Minigin(const std::filesystem::path &dataPath)
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		1200,
-		1000,
+		800,
+		600,
 		SDL_WINDOW_OPENGL
 	);
 	if (g_window == nullptr) 

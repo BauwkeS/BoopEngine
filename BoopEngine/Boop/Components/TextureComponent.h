@@ -10,7 +10,7 @@ namespace boop
 	class TextureComponent : public Component
 	{
 	public:
-		TextureComponent(boop::GameObject* const ownerPtr, std::string texture, float scale=1);
+		TextureComponent(boop::GameObject* const ownerPtr, std::string texture, float scale={0});
 		~TextureComponent() override = default;
 
 		TextureComponent(const TextureComponent& other) = delete;
@@ -28,10 +28,15 @@ namespace boop
 		{
 			return m_TexturePtr->GetSize();
 		}
+
+		void ResetSize(float width, float height);
+		void ResetSize(float scale);
 	private:
 		std::unique_ptr<Texture2D> m_TexturePtr{};
 		std::string m_TextureString{};
 		float m_Scale{};
+		float m_Width{};
+		float m_Height{};
 	};
 }
 
