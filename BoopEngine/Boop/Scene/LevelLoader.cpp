@@ -114,26 +114,26 @@ namespace level
 					auto y_pos = std::round(cellSize) * static_cast<float>(rowsRead);
 					newObj->SetLocalPosition(x_pos, y_pos);
 					
-					if (m_GameObjectTypes.at(index).first->GetCanScale())
+			/*		if (m_GameObjectTypes.at(index).first->GetCanScale())
 					{
 						if (auto tex = newObj->GetComponent<boop::TextureComponent>()) {
 							tex->ResetSize(std::round(cellSize), std::round(cellSize));
 						}
-					}
+					}*/
 					/*auto x_pos = (gridSize/rowSize) * static_cast<float>(colsRead);
 					auto y_pos = (gridSize / colSize) * static_cast<float>(rowsRead);
 					newObj->SetLocalPosition(x_pos, y_pos);*/
 
 					//if you have a texture, set it to the correct size
-				/*	auto textureComp = newObj->GetComponent<boop::TextureComponent>();
+					auto textureComp = newObj->GetComponent<boop::TextureComponent>();
 					if (textureComp)
 					{
 						auto oldSize = textureComp->GetSize();
-						if (oldSize.x != offset * gridSize)
+						if (oldSize.x != cellSize * gridSize)
 						{
-							textureComp->ResetSize(offset * gridSize, offset * gridSize);
+							cellSize = oldSize.x;
 						}
-					}*/
+					}
 
 					//	//auto scaleX = (oldSize.x > 0) ? (offset * gridSize) / oldSize.x : 1.f;
 					//	//textureComp->SetScale(scaleX, scaleY);
