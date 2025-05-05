@@ -36,59 +36,54 @@ namespace level
 
 
 		//fluid grid : to-do additions here
-		//get file length to get columm size
+		// addition: size it with the game window size
+
 		gameFile.seekg(0, gameFile.end);
 		int fileLength = static_cast<int>(gameFile.tellg());
 		gameFile.seekg(0, gameFile.beg);
 
-		auto rowSize = std::count_if(std::istreambuf_iterator<char>{gameFile}, {}, [](char c) { return c == '\n'; });
-		++rowSize; //add for last row that doesnt have an enter
+		// Read entire file into memory
+		std::string fileContent((std::istreambuf_iterator<char>(gameFile)),
+			std::istreambuf_iterator<char>());
 
-		//rowSize = static_cast<float>(rowSize);
+		// Count lines
+		auto rowSize = std::count(fileContent.begin(), fileContent.end(), '\n') + 1;
+
 		float colSize = roundf(static_cast<float>(fileLength / rowSize));
 
+		//float offset = (colSize > rowSize) ? gridSize / colSize : gridSize / rowSize;
+		//offset = (roundf(offset * 10.f)) / 10.f;
+
+		float maxDimension = (colSize > rowSize) ? colSize : rowSize;
+		float cellSize = static_cast<float>(gridSize / maxDimension);
+		auto tempCell = static_cast<int>(cellSize * 10.f);
+		cellSize = static_cast<float>(tempCell/10.f);
+
+
+		// Process lines
+		std::istringstream iss(fileContent);
 		std::string rowLine;
-		while (std::getline(gameFile, rowLine))
-		{
-			//fluid grid : to-do additions here
-			// addition: size it with the game window size
-			//colLine size
-			
+		while (std::getline(iss, rowLine)) {
+			// Process each line
+		//}
 
 
+		//gameFile.seekg(0, gameFile.end);
+		//int fileLength = static_cast<int>(gameFile.tellg());
+		//gameFile.seekg(0, gameFile.beg);
 
-			//float widthToUse = gridSize * rowSize;
-			//float heightToUse = gridSize * colSize;
+		//auto rowSize = std::count_if(std::istreambuf_iterator<char>{gameFile}, {}, [](char c) { return c == '\n'; });
+		//++rowSize; //add for last row that doesnt have an enter
 
-			//how much space each grid NEEDS to take
-			/*float perGridSizeX = widthToUse / gridSize;
-			float perGridSizeY = heightToUse / gridSize;*/
+		//float colSize = roundf(static_cast<float>(fileLength / rowSize));
 
+		//float offset = (colSize > rowSize) ? gridSize / colSize : gridSize / rowSize;
+		//offset = (roundf(offset * 10.f)) / 10.f;
 
-			//how much space it will take now
-			/*float gridBeingUsedX = widthToUse / rowSize;
-			float gridBeingUsedY = heightToUse / colSize;*/
-
-			//how much space it will take now
-			//float scaleX = gridBeingUsedX / perGridSizeX;
-			//float scaleX = (gridBeingUsedX > perGridSizeX) ? gridBeingUsedX/perGridSizeX  : gridBeingUsedX/ perGridSizeX;
-			//float scaleY = (gridBeingUsedY > perGridSizeY) ? gridBeingUsedY/perGridSizeY  : gridBeingUsedY/ perGridSizeY;
-			//float scaleY = gridBeingUsedY / perGridSizeY;
-
-			//float offsetX = gridSize / rowSize;
-			//float offsetY = gridSize / colSize;
-			float offset = (colSize > rowSize) ? gridSize / colSize : gridSize / rowSize;
-			//float offsetX = gridSize/widthToUse;
-			//float offsetY = gridSize / heightToUse;
-			offset = (roundf(offset * 10.f)) / 10.f;
-			//offsetY = (round(offsetY * 10.f)) / 10.f;
-			//scaleX = (roundf(scaleX * 10.f)) / 10.f;
-			//scaleY = (roundf(scaleY * 10.f)) / 10.f;
-			//offsetX = (roundf(offsetX * 10.f)) / 10.f;
-			//offsetY = (roundf(offsetY * 10.f)) / 10.f;
-
-			//size o fwidow / gridsize => amount per grid space
-	
+		//std::string rowLine;
+		//while (std::getline(gameFile, rowLine))
+		//{
+		//	
 			for (const auto& colChar : rowLine)
 			{
 
@@ -114,8 +109,8 @@ namespace level
 					auto newObj = m_GameObjectTypes.at(index).first->Instantiate();
 
 					//fluid grid : to-do additions here
-					auto x_pos = (offset * gridSize) * static_cast<float>(colsRead);
-					auto y_pos = (offset * gridSize) * static_cast<float>(rowsRead);
+					auto x_pos = std::round(cellSize * gridSize) * static_cast<float>(colsRead);
+					auto y_pos = std::round(cellSize * gridSize) * static_cast<float>(rowsRead);
 					newObj->SetLocalPosition(x_pos, y_pos);
 					
 					/*auto x_pos = (gridSize/rowSize) * static_cast<float>(colsRead);
