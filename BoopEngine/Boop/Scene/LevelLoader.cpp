@@ -56,8 +56,9 @@ namespace level
 
 		float maxDimension = (colSize > rowSize) ? colSize : rowSize;
 		float cellSize = static_cast<float>(gridSize / maxDimension);
-		auto tempCell = static_cast<int>(cellSize * 10.f);
-		cellSize = static_cast<float>(tempCell/10.f);
+		cellSize = cellSize * gridSize;
+	/*	auto tempCell = static_cast<int>(cellSize * 10.f);
+		cellSize = static_cast<float>(tempCell/10.f);*/
 
 
 		// Process lines
@@ -109,10 +110,16 @@ namespace level
 					auto newObj = m_GameObjectTypes.at(index).first->Instantiate();
 
 					//fluid grid : to-do additions here
-					auto x_pos = std::round(cellSize * gridSize) * static_cast<float>(colsRead);
-					auto y_pos = std::round(cellSize * gridSize) * static_cast<float>(rowsRead);
+					auto x_pos = std::round(cellSize) * static_cast<float>(colsRead);
+					auto y_pos = std::round(cellSize) * static_cast<float>(rowsRead);
 					newObj->SetLocalPosition(x_pos, y_pos);
 					
+					if (m_GameObjectTypes.at(index).first->GetCanScale())
+					{
+						if (auto tex = newObj->GetComponent<boop::TextureComponent>()) {
+							tex->ResetSize(std::round(cellSize), std::round(cellSize));
+						}
+					}
 					/*auto x_pos = (gridSize/rowSize) * static_cast<float>(colsRead);
 					auto y_pos = (gridSize / colSize) * static_cast<float>(rowsRead);
 					newObj->SetLocalPosition(x_pos, y_pos);*/
