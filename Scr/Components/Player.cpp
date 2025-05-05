@@ -74,7 +74,7 @@ namespace booble
 		//TO-DO: DELETE TEST COMMANDS
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_L, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level2"));
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_K, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level3"));
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_P, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "LevelOne"));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_P, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level1"));
 	}
 	void Player::AddControllerMovement()
 	{

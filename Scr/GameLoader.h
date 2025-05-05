@@ -30,11 +30,8 @@ namespace booble
 
 
 		//Level
-		void MakeLevelOne();
-		void MakeLevelTwo();
+		void MakeLevel(const std::string& levelPath, const std::string& levelName);
 		void MakeMainScreen();
-
-		void ChangeSceneForGamemode(boop::Scene* level);
 		
 		int m_selectedGamemode{};
 	public:

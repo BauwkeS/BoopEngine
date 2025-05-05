@@ -3,7 +3,7 @@
 #include "Components/Events.h"
 #include "../BoopEngine/Boop/Event/Event.h"
 #include "GameLoader.h"
-#include <SDL_rect.h>
+
 #include "Components/Player.h"
 #include "Components/Health.h"
 
@@ -16,7 +16,14 @@ void Level::FixedUpdate()
 {
 	//check for collisions of the bullets and tanks
 
-	CollideWithTank();
+	auto playerPos = GetOwner()->GetWorldPosition();
+	glm::vec2 playerSize = m_Player->GetTankBase()->GetSize();
+
+	SDL_Rect playerRect{ static_cast<int>(playerPos.x), static_cast<int>(playerPos.y),
+		static_cast<int>(playerSize.x), static_cast<int>(playerSize.y) };
+
+
+	CollideWithTank(playerRect);
 }
 
 void Level::ResetPlayerCollision(boop::Scene* scene)
@@ -64,16 +71,10 @@ void Level::CollideWithBullet()
 	//THIS IS WRONG PLEASE FIX WTF THIS IS
 }
 
-void Level::CollideWithTank()
+void Level::CollideWithTank(SDL_Rect playerRect)
 {
 	
 		//check if player runs in with another tank
-		auto playerPos = GetOwner()->GetWorldPosition();
-		glm::vec2 playerSize = m_Player->GetTankBase()->GetSize();
-
-		SDL_Rect playerRect{ static_cast<int>(playerPos.x), static_cast<int>(playerPos.y),
-			static_cast<int>(playerSize.x), static_cast<int>(playerSize.y) };
-
 		for (auto& enemy : m_Enemies)
 		{
 			auto enemyPos = enemy->GetOwner()->GetWorldPosition();
@@ -93,4 +94,23 @@ void Level::CollideWithTank()
 				break;
 			}
 	}
+}
+
+void Level::MapCollision(SDL_Rect)
+{
+	//check if player runs in with another tank
+	//for (auto& wall : m_CollisionObjects)
+	//{
+	//	auto wallPos = wall->GetWorldPosition();
+	//	glm::vec2 wallSize = wall->GetComponent<boop::TextureComponent>()->GetSize();
+	//	SDL_Rect wallRect{ static_cast<int>(wallPos.x), static_cast<int>(wallPos.y),
+	//		static_cast<int>(wallSize.x), static_cast<int>(wallSize.y) };
+	//	//check if the rects intersect or not
+	//	if (SDL_HasIntersection(&playerRect, &wallRect))
+	//	{
+	//		//you have collided!
+	//		m_Player->GetTankBase()->ResetPosition();
+	//		break;
+	//	}
+	//}
 }

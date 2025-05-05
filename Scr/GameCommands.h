@@ -36,6 +36,7 @@ namespace booble
 		int m_WindowHeight{};
 		int m_WindowWidth{};
 		SDL_Rect m_ObjectSize{};
+		Level* m_Player{};
 	public:
 		WalkCommand(boop::GameObject* component, glm::vec2 speed)
 			: m_pGameObject{ component }, m_Speed{ speed } 
@@ -44,6 +45,7 @@ namespace booble
 			SDL_GetWindowSize(window, &m_WindowWidth, &m_WindowHeight);
 
 			m_ObjectSize = m_pGameObject->GetComponent<boop::TextureComponent>()->GetTextureRect();
+			m_Player = m_pGameObject->GetChildAt(0)->GetComponent<Level>();
 		}
 		~WalkCommand() { m_pGameObject = nullptr; delete m_pGameObject; }
 
@@ -52,20 +54,42 @@ namespace booble
 			//move the player
 			//you should not be allowed to go outside the game bounds!
 
-			m_pGameObject->SetLocalPosition(m_pGameObject->GetLocalPosition().x + (m_Speed.x * boop::DeltaTime::GetInstance().GetDeltaTime()),
-				m_pGameObject->GetLocalPosition().y + (m_Speed.y * boop::DeltaTime::GetInstance().GetDeltaTime()));
+			auto newXPos = m_pGameObject->GetLocalPosition().x + (m_Speed.x * boop::DeltaTime::GetInstance().GetDeltaTime());
+			auto newYPos = m_pGameObject->GetLocalPosition().y + (m_Speed.y * boop::DeltaTime::GetInstance().GetDeltaTime());
+
+
+			//TESTING
+			//1.75 is the size right now
+			//auto toAdd = m_ObjectSize.w * 1.75f;
+			//TO-DO AAAAAAAAAAAAAAAAAAAAAA
 
 			//maybe this should happen in the level.cpp instead
 			//check bounds of game and set player back if needed
-			if (m_pGameObject->GetLocalPosition().x < 0)
-				m_pGameObject->SetLocalPosition(0, m_pGameObject->GetLocalPosition().y);
-			if (m_pGameObject->GetLocalPosition().x > m_WindowWidth- m_ObjectSize.w)
-				m_pGameObject->SetLocalPosition(static_cast<float>(m_WindowWidth- m_ObjectSize.w), m_pGameObject->GetLocalPosition().y);
-			if (m_pGameObject->GetLocalPosition().y < 0)
-				m_pGameObject->SetLocalPosition(m_pGameObject->GetLocalPosition().x, 0);
-			if (m_pGameObject->GetLocalPosition().y > m_WindowHeight - m_ObjectSize.h)
-				m_pGameObject->SetLocalPosition(m_pGameObject->GetLocalPosition().x, static_cast<float>(m_WindowHeight - m_ObjectSize.h));
+			if (newXPos < 0 || newXPos > m_WindowWidth - m_ObjectSize.w
+				|| newYPos < 0 || newYPos > m_WindowHeight - m_ObjectSize.h) return;
 
+			//-------------
+			//also check for collisions with the walls
+			for (auto& wall : m_Player->GetCollisionObjects())
+			{
+				auto wallPos = wall->GetWorldPosition();
+				glm::vec2 wallSize = wall->GetComponent<boop::TextureComponent>()->GetSize();
+				SDL_Rect wallRect{ static_cast<int>(wallPos.x), static_cast<int>(wallPos.y),
+					static_cast<int>(wallSize.x), static_cast<int>(wallSize.y) };
+
+				m_ObjectSize.x = static_cast<int>(newXPos);
+				m_ObjectSize.y = static_cast<int>(newYPos);
+
+				//check if the rects intersect or not
+				if (SDL_HasIntersection(&m_ObjectSize, &wallRect))
+				{
+					//you have collided!
+					return;
+				}
+			}
+
+			//if you are nto colliding with anything, move player
+			m_pGameObject->SetLocalPosition(newXPos, newYPos);
 		};
 
 		WalkCommand(const WalkCommand& other) = delete;
@@ -76,25 +100,6 @@ namespace booble
 	};
 
 	//TEST
-	class TestGetHitCommand final : public boop::Command {
-	private:
-		boop::GameObject* m_pGameObject;
-	public:
-		TestGetHitCommand(boop::GameObject* component)
-			: m_pGameObject{ component } {
-		}
-		~TestGetHitCommand() { m_pGameObject = nullptr; delete m_pGameObject; }
-
-		void Execute() override {
-			m_pGameObject->GetComponent<Health>()->TakeDamage();
-		};
-
-		TestGetHitCommand(const TestGetHitCommand& other) = delete;
-		TestGetHitCommand(TestGetHitCommand&& other) = delete;
-		TestGetHitCommand& operator=(const TestGetHitCommand& other) = delete;
-		TestGetHitCommand& operator=(TestGetHitCommand&& other) = delete;
-
-	};
 	class TestHitTank final : public boop::Command {
 	private:
 		boop::GameObject* m_pGameObject;
@@ -185,7 +190,7 @@ namespace booble
 
 		void Execute() override {
 			m_pGameLoader->InitializeLevels();
-			boop::SceneManager::GetInstance().ChangeScene("LevelOne");
+			boop::SceneManager::GetInstance().ChangeScene("level1");
 			auto levels = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
 			for (auto& level : levels)
 			{

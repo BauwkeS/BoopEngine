@@ -5,6 +5,7 @@
 #include "../BoopEngine/Boop/Scene/Scene.h"
 #include "Components/Enemy.h"
 #include <memory>
+#include <SDL_rect.h>
 
 namespace boop
 {
@@ -40,6 +41,9 @@ public:
 
 	boop::Subject* GetSubject() const { return m_Subject.get(); }
 
+	//getters
+	std::vector<boop::GameObject*> GetCollisionObjects() const { return m_CollisionObjects; }
+
 private:
 	//test variables when button set
 	bool m_HitTank{};
@@ -57,5 +61,6 @@ private:
 
 	//collision functions
 	void CollideWithBullet();
-	void CollideWithTank();
+	void CollideWithTank(SDL_Rect playerRect);
+	void MapCollision(SDL_Rect playerRect);
 };
