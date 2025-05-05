@@ -16,12 +16,6 @@ namespace level
 {
 	void LevelLoader::CreateLevel(std::string fileName, std::string sceneName)
 	{
-		//int windowHeight{};
-		//int windowWidth{};
-
-		//auto window = boop::Renderer::GetInstance().GetSDLWindow();
-		//SDL_GetWindowSize(window, &windowWidth, &windowHeight);
-
 		auto& scene = boop::SceneManager::GetInstance().AddScene(sceneName);
 		std::ifstream gameFile("Data\\" + fileName);
 
@@ -51,40 +45,14 @@ namespace level
 
 		float colSize = roundf(static_cast<float>(fileLength / rowSize));
 
-		//float offset = (colSize > rowSize) ? gridSize / colSize : gridSize / rowSize;
-		//offset = (roundf(offset * 10.f)) / 10.f;
-
 		float maxDimension = (colSize > rowSize) ? colSize : rowSize;
 		float cellSize = static_cast<float>(gridSize / maxDimension);
 		cellSize = cellSize * gridSize;
-	/*	auto tempCell = static_cast<int>(cellSize * 10.f);
-		cellSize = static_cast<float>(tempCell/10.f);*/
-
 
 		// Process lines
 		std::istringstream iss(fileContent);
 		std::string rowLine;
 		while (std::getline(iss, rowLine)) {
-			// Process each line
-		//}
-
-
-		//gameFile.seekg(0, gameFile.end);
-		//int fileLength = static_cast<int>(gameFile.tellg());
-		//gameFile.seekg(0, gameFile.beg);
-
-		//auto rowSize = std::count_if(std::istreambuf_iterator<char>{gameFile}, {}, [](char c) { return c == '\n'; });
-		//++rowSize; //add for last row that doesnt have an enter
-
-		//float colSize = roundf(static_cast<float>(fileLength / rowSize));
-
-		//float offset = (colSize > rowSize) ? gridSize / colSize : gridSize / rowSize;
-		//offset = (roundf(offset * 10.f)) / 10.f;
-
-		//std::string rowLine;
-		//while (std::getline(gameFile, rowLine))
-		//{
-		//	
 			for (const auto& colChar : rowLine)
 			{
 
@@ -113,18 +81,10 @@ namespace level
 					auto x_pos = std::round(cellSize) * static_cast<float>(colsRead);
 					auto y_pos = std::round(cellSize) * static_cast<float>(rowsRead);
 					newObj->SetLocalPosition(x_pos, y_pos);
-					
-			/*		if (m_GameObjectTypes.at(index).first->GetCanScale())
-					{
-						if (auto tex = newObj->GetComponent<boop::TextureComponent>()) {
-							tex->ResetSize(std::round(cellSize), std::round(cellSize));
-						}
-					}*/
-					/*auto x_pos = (gridSize/rowSize) * static_cast<float>(colsRead);
-					auto y_pos = (gridSize / colSize) * static_cast<float>(rowsRead);
-					newObj->SetLocalPosition(x_pos, y_pos);*/
 
 					//if you have a texture, set it to the correct size
+					//for now just reset the gridSize to the first component
+					//this si not a solid and scalable solution and should be replaced to make it more flexible and usable for any txt file
 					auto textureComp = newObj->GetComponent<boop::TextureComponent>();
 					if (textureComp)
 					{
@@ -134,11 +94,6 @@ namespace level
 							cellSize = oldSize.x;
 						}
 					}
-
-					//	//auto scaleX = (oldSize.x > 0) ? (offset * gridSize) / oldSize.x : 1.f;
-					//	//textureComp->SetScale(scaleX, scaleY);
-					//	//textureComp->SetScale(offsetX, offsetY);
-					//}
 
 					switch (m_GameObjectTypes.at(index).second)
 					{

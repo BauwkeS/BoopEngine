@@ -16,7 +16,6 @@ namespace boop
         std::vector<std::unique_ptr<GameObjectType>> m_ChildTypes;
         std::string m_DefaultTag;
         bool m_DefaultPersistent;
-        bool m_CanScale{ true };
 
     public:
         GameObjectType() = default;
@@ -40,16 +39,6 @@ namespace boop
         GameObjectType& SetDefaultTag(const std::string tag)
         {
 			m_DefaultTag = tag;
-            return *this;
-        }
-		bool GetCanScale() const
-		{
-			return m_CanScale;
-		}
-
-        GameObjectType& TurnScalingOff()
-        {
-            m_CanScale = false;
             return *this;
         }
 

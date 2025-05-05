@@ -60,8 +60,7 @@ namespace booble
 		int index = (tagName == "p1") ? 5 : 6; // Assign indices for players
 		auto& playerType = level::LevelLoader::GetInstance().RegisterType(index, level::LevelLayer::PERSISTENT, 2)
 			.AddComponent<Player>(playerSpeed, spritePath)
-			.SetDefaultTag(tagName)
-			.TurnScalingOff();
+			.SetDefaultTag(tagName);
 
 		// Create a child type that will hold the Level component
 		auto levelChildType = std::make_unique<boop::GameObjectType>();
@@ -78,8 +77,7 @@ namespace booble
 	{
 		level::LevelLoader::GetInstance().RegisterType(4, level::LevelLayer::DYNAMIC)
 			.AddComponent<Enemy>(playerSpeed, spritePath)
-			.SetDefaultTag(tagName)
-			.TurnScalingOff();
+			.SetDefaultTag(tagName);
 	}
 
 	void GameLoader::MakeLevel(const std::string& levelPath, const std::string& levelName)
