@@ -26,7 +26,7 @@ namespace level
 
 		int colsRead = 0;
 		int rowsRead = 0;
-		float gridSize = 24;
+		float gridSize = 22;
 
 
 		//fluid grid : to-do additions here
@@ -85,7 +85,7 @@ namespace level
 					//if you have a texture, set it to the correct size
 					//for now just reset the gridSize to the first component
 					//this si not a solid and scalable solution and should be replaced to make it more flexible and usable for any txt file
-					auto textureComp = newObj->GetComponent<boop::TextureComponent>();
+				/*	auto textureComp = newObj->GetComponent<boop::TextureComponent>();
 					if (textureComp)
 					{
 						auto oldSize = textureComp->GetSize();
@@ -93,7 +93,7 @@ namespace level
 						{
 							cellSize = oldSize.x;
 						}
-					}
+					}*/
 
 					switch (m_GameObjectTypes.at(index).second)
 					{
