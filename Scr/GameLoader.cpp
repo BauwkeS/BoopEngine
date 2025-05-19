@@ -20,6 +20,7 @@
 
 #include "Level.h"
 #include "Components/Enemy.h"
+#include "Components/TankGun.h"
 
 namespace booble
 {
@@ -60,6 +61,7 @@ namespace booble
 		int index = (tagName == "p1") ? 5 : 6; // Assign indices for players
 		auto& playerType = level::LevelLoader::GetInstance().RegisterType(index, level::LevelLayer::PERSISTENT, 2)
 			.AddComponent<BaseTank>(playerSpeed, spritePath)
+			.AddComponent<TankGun>("RedTankGun.png")
 			.AddComponent<Player>()
 			.SetDefaultTag(tagName);
 

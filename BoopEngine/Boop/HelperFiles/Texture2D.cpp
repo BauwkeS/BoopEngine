@@ -37,6 +37,9 @@ boop::Texture2D::Texture2D(const Texture2D& other)
 	// Create a new texture with the same format, width, and height as the original
 	m_texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_TARGET, width, height);
 
+	//to make the background transparent:
+	SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_BLEND);
+
 	if (!m_texture) {
 		throw std::runtime_error("Failed to create texture copy: " + std::string(SDL_GetError()));
 	}
