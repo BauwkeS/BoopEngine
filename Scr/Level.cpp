@@ -17,7 +17,7 @@ void Level::FixedUpdate()
 	//check for collisions of the bullets and tanks
 
 	auto playerPos = GetOwner()->GetWorldPosition();
-	glm::vec2 playerSize = m_Player->GetTankBase()->GetSize();
+	glm::vec2 playerSize = m_BaseTank->GetSize();
 
 	SDL_Rect playerRect{ static_cast<int>(playerPos.x), static_cast<int>(playerPos.y),
 		static_cast<int>(playerSize.x), static_cast<int>(playerSize.y) };
@@ -36,9 +36,9 @@ void Level::ResetPlayerCollision(boop::Scene* scene)
 
 	//get player info
 	//auto playerInfo = pScene->FindGameObjectByTag("p1");
-	auto playerComp = GetOwner()->GetParent()->GetComponent<booble::Player>();
-	playerComp->GetTankBase()->SetStartPos(GetOwner()->GetWorldPosition());
-	if (playerComp) m_Player = playerComp;
+	auto playerComp = GetOwner()->GetParent()->GetComponent<BaseTank>();
+	playerComp->SetStartPos(GetOwner()->GetWorldPosition());
+	if (playerComp) m_BaseTank = playerComp;
 	
 	//get enemy info
 	auto enemyInfo = scene->FindAllGameObjectByTag("enemy");
@@ -88,8 +88,8 @@ void Level::CollideWithTank(SDL_Rect playerRect)
 			{
 				//you have collided!
 				//lose a life and reset the map
-				m_Player->GetOwner()->GetComponent<Health>()->TakeDamage();
-				m_Player->GetTankBase()->ResetPosition();
+				m_BaseTank->GetOwner()->GetComponent<Health>()->TakeDamage();
+				m_BaseTank->ResetPosition();
 				enemy->GetTankBase()->ResetPosition();
 				break;
 			}

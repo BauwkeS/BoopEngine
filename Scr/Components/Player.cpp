@@ -17,11 +17,11 @@
 
 namespace booble
 {
-	Player::Player(boop::GameObject* owner, int speed, const std::string spritePath)
+	Player::Player(boop::GameObject* owner)
 		: Component(owner), Observer(), m_Subject{ std::make_unique<boop::Subject>() }
 	{
 		//add base tank
-		m_pTankBase = owner->AddComponent<BaseTank>(speed, spritePath);
+		m_Speed = owner->GetComponent<BaseTank>()->GetSpeed();
 
 		//add health UI
 		auto healthObs = owner->AddComponent<HealthObserver>();
@@ -59,7 +59,7 @@ namespace booble
 
 	void Player::AddKeyboardMovement()
 	{
-		auto speed = m_pTankBase->GetSpeed();
+		auto speed = m_Speed;
 		const glm::vec2 leftVec{ -speed,0};
 		const glm::vec2 rightVec{ speed,0 };
 		const glm::vec2 upVec{ 0,-speed };
@@ -80,7 +80,7 @@ namespace booble
 	{
 		//MOVE
 		//move vectors -> this might have to be moved to a better place
-		auto speed = m_pTankBase->GetSpeed();
+		auto speed = m_Speed;
 		const glm::vec2 leftVec{ -speed,0 };
 		const glm::vec2 rightVec{ speed,0 };
 		const glm::vec2 upVec{ 0,-speed };

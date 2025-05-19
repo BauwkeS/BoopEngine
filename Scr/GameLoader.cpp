@@ -59,7 +59,8 @@ namespace booble
 
 		int index = (tagName == "p1") ? 5 : 6; // Assign indices for players
 		auto& playerType = level::LevelLoader::GetInstance().RegisterType(index, level::LevelLayer::PERSISTENT, 2)
-			.AddComponent<Player>(playerSpeed, spritePath)
+			.AddComponent<BaseTank>(playerSpeed, spritePath)
+			.AddComponent<Player>()
 			.SetDefaultTag(tagName);
 
 		// Create a child type that will hold the Level component
@@ -109,7 +110,7 @@ namespace booble
 			player2->GetOwner()->SetToDelete();
 			break;
 		}
-		default:
+		case booble::GameMode::MULTIPLAYER:
 		{
 			//input player 2
 			player2->AddControllerMovement();
@@ -118,6 +119,19 @@ namespace booble
 			//set the UI position
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
 			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+			break;
+		}
+		case booble::GameMode::COOP:
+		{
+			//to-do update this for being an enemy after enemies are done
+			//input player 2
+			player2->AddControllerMovement();
+			player1->AddControllerMovement(); // if there is a second controller, the first player can also use it
+
+			//set the UI position
+			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
+			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+			break;
 			break;
 		}
 		}

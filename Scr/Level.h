@@ -51,7 +51,8 @@ private:
 
 	std::unique_ptr<boop::Subject> m_Subject{};
 
-	booble::Player* m_Player{};
+	//booble::Player* m_Player{};
+	BaseTank* m_BaseTank{};
 
 	//vector of all the wall objects you cannot pass
 	std::vector<boop::GameObject*> m_CollisionObjects{};

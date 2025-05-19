@@ -18,7 +18,7 @@ namespace booble
 	class Player : public boop::Component, public boop::Observer
 	{
 	public:
-		Player(boop::GameObject* owner, int speed, const std::string spritePath);
+		Player(boop::GameObject* owner);
 		~Player() = default;
 
 		void FixedUpdate() override;
@@ -31,14 +31,15 @@ namespace booble
 		void AddKeyboardMovement();
 		void AddControllerMovement();
 
-		BaseTank* GetTankBase() const { return m_pTankBase; }
+		//BaseTank* GetTankBase() const { return m_pTankBase; }
 
 	private:
 		int m_Score{};
+		int m_Speed{};
 
 		std::unique_ptr<boop::Subject> m_Subject{};
 
-		BaseTank* m_pTankBase{};
+		//BaseTank* m_pTankBase{};
 	};
 
 }

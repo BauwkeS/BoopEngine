@@ -160,7 +160,7 @@ namespace booble
 			auto players = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
 			for (auto& player : players)
 			{
-				player->GetParent()->GetComponent<Player>()->GetTankBase()->ResetPosition();
+				player->GetParent()->GetComponent<BaseTank>()->ResetPosition();
 			}
 
 			std::cout << "Changing scene to: " << m_ToScene << std::endl;
