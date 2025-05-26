@@ -61,10 +61,6 @@ namespace booble
 			auto newXPos = m_pGameObject->GetLocalPosition().x + (m_Speed.x * boop::DeltaTime::GetInstance().GetDeltaTime());
 			auto newYPos = m_pGameObject->GetLocalPosition().y + (m_Speed.y * boop::DeltaTime::GetInstance().GetDeltaTime());
 
-			//TESTING
-			//1.75 is the size right now
-			//auto toAdd = m_ObjectSize.w * 1.75f;
-			//TO-DO AAAAAAAAAAAAAAAAAAAAAA
 
 			//maybe this should happen in the level.cpp instead
 			//check bounds of game and set player back if needed
@@ -93,28 +89,6 @@ namespace booble
 
 			//if you are nto colliding with anything, move player
 			m_pGameObject->SetLocalPosition(newXPos, newYPos);
-
-			//RIGHT = flip none
-			//	LEFT = flip hori
-			//	DOWN = 90 deg
-			//	UP = flip hori + 90 deg
-
-			//if (m_Speed.x > 0)
-			//{
-			//	m_pPlayerTexture->FlipTexture({ false, false }); //right
-			//}
-			//else if (m_Speed.x < 0)
-			//{
-			//	m_pPlayerTexture->FlipTexture({ true, false }); //left
-			//}
-			//if (m_Speed.y > 0)
-			//{
-			//	m_pPlayerTexture->FlipTexture({ false, true }); //down
-			//}
-			//else if (m_Speed.y < 0)
-			//{
-			//	m_pPlayerTexture->FlipTexture({ true, true }); //up
-			//}
 
 			m_pPlayerTexture->FlipTextureDir(m_Speed);
 			
