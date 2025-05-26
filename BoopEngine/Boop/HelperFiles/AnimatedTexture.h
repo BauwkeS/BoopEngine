@@ -21,7 +21,7 @@ namespace boop
 		bool m_FliptTexture{};
 
 	public:
-		explicit AnimatedTexture(std::string texture, int cols, int rows, float frameSec, int startPicIndex, int AmountPics, float scale=1, bool flip=false);
+		explicit AnimatedTexture(std::string texture, int cols=1, int rows=1, float frameSec=1, int startPicIndex=0, int AmountPics=1, float scale=1, bool flip=false);
 
 		AnimatedTexture(const AnimatedTexture& other) = delete;
 		AnimatedTexture(AnimatedTexture&& other) = delete;

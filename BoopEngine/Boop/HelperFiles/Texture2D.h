@@ -5,6 +5,11 @@
 struct SDL_Texture;
 namespace boop
 {
+	struct flipTexture {
+		bool horizontal{ false };
+		bool vertical{ false };
+	};
+
 	/**
 	 * Simple RAII wrapper for an SDL_Texture
 	 */

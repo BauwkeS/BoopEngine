@@ -36,6 +36,8 @@ namespace booble
 		int m_WindowHeight{};
 		int m_WindowWidth{};
 		SDL_Rect m_ObjectSize{};
+		boop::TextureComponent* m_pPlayerTexture{};
+		boop::TextureComponent* m_pGunTexture{};
 		Level* m_Player{};
 	public:
 		WalkCommand(boop::GameObject* component, glm::vec2 speed)
@@ -44,10 +46,12 @@ namespace booble
 			auto window = boop::Renderer::GetInstance().GetSDLWindow();
 			SDL_GetWindowSize(window, &m_WindowWidth, &m_WindowHeight);
 
-			m_ObjectSize = m_pGameObject->GetComponent<boop::TextureComponent>()->GetTextureRect();
+			m_pPlayerTexture = m_pGameObject->GetComponent<boop::TextureComponent>();
+			m_pGunTexture = m_pGameObject->GetChildAt(1)->GetComponent<boop::TextureComponent>();
+			m_ObjectSize = m_pPlayerTexture->GetTextureRect();
 			m_Player = m_pGameObject->GetChildAt(0)->GetComponent<Level>();
 		}
-		~WalkCommand() { m_pGameObject = nullptr; delete m_pGameObject; }
+		~WalkCommand() { m_pGameObject = nullptr; delete m_pGameObject; m_pPlayerTexture = nullptr; delete m_pPlayerTexture; }
 
 		void Execute() override {
 
@@ -56,7 +60,6 @@ namespace booble
 
 			auto newXPos = m_pGameObject->GetLocalPosition().x + (m_Speed.x * boop::DeltaTime::GetInstance().GetDeltaTime());
 			auto newYPos = m_pGameObject->GetLocalPosition().y + (m_Speed.y * boop::DeltaTime::GetInstance().GetDeltaTime());
-
 
 			//TESTING
 			//1.75 is the size right now
@@ -90,6 +93,53 @@ namespace booble
 
 			//if you are nto colliding with anything, move player
 			m_pGameObject->SetLocalPosition(newXPos, newYPos);
+
+			//RIGHT = flip none
+			//	LEFT = flip hori
+			//	DOWN = 90 deg
+			//	UP = flip hori + 90 deg
+
+			//if (m_Speed.x > 0)
+			//{
+			//	m_pPlayerTexture->FlipTexture({ false, false }); //right
+			//}
+			//else if (m_Speed.x < 0)
+			//{
+			//	m_pPlayerTexture->FlipTexture({ true, false }); //left
+			//}
+			//if (m_Speed.y > 0)
+			//{
+			//	m_pPlayerTexture->FlipTexture({ false, true }); //down
+			//}
+			//else if (m_Speed.y < 0)
+			//{
+			//	m_pPlayerTexture->FlipTexture({ true, true }); //up
+			//}
+
+			m_pPlayerTexture->FlipTextureDir(m_Speed);
+			
+
+			if (m_Speed.x > 0)
+			{
+				m_pGunTexture->FlipTexture({ false, false }); //right
+				m_pGunTexture->GetOwner()->SetLocalPosition(-10, -8);
+			}
+			else if (m_Speed.x < 0)
+			{
+				m_pGunTexture->FlipTexture({ true, false }); //left
+				m_pGunTexture->GetOwner()->SetLocalPosition(-6, -8);
+			}
+			if (m_Speed.y > 0)
+			{
+				m_pGunTexture->FlipTexture({ false, true }); //down
+				m_pGunTexture->GetOwner()->SetLocalPosition(-8, -10);
+			}
+			else if (m_Speed.y < 0)
+			{
+				m_pGunTexture->FlipTexture({ true, true }); //up
+				m_pGunTexture->GetOwner()->SetLocalPosition(-8, -6);
+			}
+
 		};
 
 		WalkCommand(const WalkCommand& other) = delete;

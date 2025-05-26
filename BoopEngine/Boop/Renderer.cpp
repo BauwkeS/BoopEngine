@@ -48,7 +48,7 @@ void boop::Renderer::Destroy()
 	}
 }
 
-void boop::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, float scale) const
+void boop::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, float scale, flipTexture flip) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
@@ -56,7 +56,20 @@ void boop::Renderer::RenderTexture(const Texture2D& texture, const float x, cons
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
 	dst.w = static_cast<int>(scale * dst.w);
 	dst.h = static_cast<int>(scale * dst.h);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+
+	SDL_Rect scr{};
+	scr.w = static_cast<int>(x);
+	scr.h = static_cast<int>(y);
+
+	const SDL_Point center{ dst.w / 2, dst.h / 2 };
+
+	int angle = flip.vertical ? 90 : 0;
+
+	//auto flip = flipQuadrant * 90.f; // Convert quadrant to degrees
+
+	//SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &scr, &dst, angle, &center, static_cast<SDL_RendererFlip>(flip.horizontal));
+
 }
 
 void boop::Renderer::RenderTexture(const Texture2D& texture, SDL_Rect& dstRect, const SDL_Rect& scrRect, bool flipTexture) const
