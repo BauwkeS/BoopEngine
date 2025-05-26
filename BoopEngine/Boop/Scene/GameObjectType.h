@@ -15,6 +15,7 @@ namespace boop
         std::vector<std::function<std::unique_ptr<Component>(GameObject*)>> m_ComponentFactories;
         std::vector<std::unique_ptr<GameObjectType>> m_ChildTypes;
         std::string m_DefaultTag;
+        glm::vec2 m_LocalPositionChanges;
         bool m_DefaultPersistent;
 
     public:
@@ -42,11 +43,16 @@ namespace boop
             return *this;
         }
 
+        void SetLocalPosition(float x, float y) {
+			m_LocalPositionChanges = glm::vec2(x, y);
+        }
+
         std::unique_ptr<GameObject> Instantiate() const {
             auto obj = std::make_unique<GameObject>();
             //obj->SetLocalPosition(m_DefaultLocalPosition);
             obj->SetTag(m_DefaultTag);
             obj->SetPersistent(m_DefaultPersistent);
+			obj->SetLocalPosition(m_LocalPositionChanges.x, m_LocalPositionChanges.y);
 
             // Create all components
             for (const auto& factory : m_ComponentFactories)

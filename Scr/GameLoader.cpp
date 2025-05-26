@@ -61,7 +61,6 @@ namespace booble
 		int index = (tagName == "p1") ? 5 : 6; // Assign indices for players
 		auto& playerType = level::LevelLoader::GetInstance().RegisterType(index, level::LevelLayer::PERSISTENT, 2)
 			.AddComponent<BaseTank>(playerSpeed, spritePath)
-			.AddComponent<TankGun>("RedTankGun.png")
 			.AddComponent<Player>()
 			.SetDefaultTag(tagName);
 
@@ -72,8 +71,18 @@ namespace booble
 		// Add the Level component to the child
 		levelChildType->AddComponent<Level>();
 
+
+		// Create tank gun child
+		auto tankGunChildType = std::make_unique<boop::GameObjectType>();
+		tankGunChildType->SetDefaultTag("tankgun");
+		if(index==5) tankGunChildType->AddComponent<TankGun>("RedTankGun.png");
+		else tankGunChildType->AddComponent<TankGun>("GreenTankGun.png");
+		tankGunChildType->SetLocalPosition(-10,-8);
+
+
 		// Add the child type to the player type
 		playerType.AddChildType(std::move(levelChildType));
+		playerType.AddChildType(std::move(tankGunChildType));
 	}
 
 	void GameLoader::RegisterEnemyType(const std::string& spritePath, const std::string& tagName, int playerSpeed)
