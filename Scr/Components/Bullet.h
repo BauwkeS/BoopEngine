@@ -12,9 +12,6 @@ public:
 	void Update() override;
 	void Render() const override;
 
-
-	void SetSpeed(glm::vec2 speed) { m_Speed = speed; }
-
 private:
-	glm::vec2 m_Speed{};
+	glm::vec2 m_Dir{};
 };

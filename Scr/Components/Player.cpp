@@ -72,10 +72,10 @@ namespace booble
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_S, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
 
 		//shoot
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_LEFT, boop::keyState::isPressed, std::make_unique<booble::ShootCommand>(GetOwner(), leftVec));
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_RIGHT, boop::keyState::isPressed, std::make_unique<booble::ShootCommand>(GetOwner(), rightVec));
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_UP, boop::keyState::isPressed, std::make_unique<booble::ShootCommand>(GetOwner(), upVec));
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_DOWN, boop::keyState::isPressed, std::make_unique<booble::ShootCommand>(GetOwner(), downVec));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_LEFT, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), leftVec));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_RIGHT, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), rightVec));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_UP, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), upVec));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_DOWN, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), downVec));
 	
 		//TO-DO: DELETE TEST COMMANDS
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_L, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level2"));
@@ -99,10 +99,10 @@ namespace booble
 		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::DPadDown, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
 	
 		//shoot
-		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::ButtonX, boop::keyState::isPressed, std::make_unique<booble::ShootCommand>(GetOwner(), leftVec));
-		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::ButtonB, boop::keyState::isPressed, std::make_unique<booble::ShootCommand>(GetOwner(), rightVec));
-		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::ButtonY, boop::keyState::isPressed, std::make_unique<booble::ShootCommand>(GetOwner(), upVec));
-		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::ButtonA, boop::keyState::isPressed, std::make_unique<booble::ShootCommand>(GetOwner(), downVec));
+		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::ButtonX, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), leftVec));
+		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::ButtonB, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), rightVec));
+		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::ButtonY, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), upVec));
+		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), downVec));
 
 
 	

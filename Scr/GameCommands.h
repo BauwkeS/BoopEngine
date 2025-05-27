@@ -15,13 +15,14 @@
 #include "../BoopEngine/Boop/Scene/SceneManager.h"
 #include "../BoopEngine/Boop/Input/InputManager.h"
 #include "../BoopEngine/Boop/Renderer.h"
+#include "../BoopEngine/Boop/GameObject.h"
 #include "../BoopEngine/Boop/Components/TextComponent.h"
 #include "../BoopEngine/Boop/Components/TextureComponent.h"
+#include "Components/Bullet.h"
 
 //COMMANDS HERE
 namespace boop
 {
-	class GameObject;
 	class Command;
 	class SpriteComponent;
 }
@@ -139,49 +140,21 @@ namespace booble
 
 		void Execute() override {
 
-			////also check for collisions with the walls
-			//for (auto& wall : m_Player->GetCollisionObjects())
-			//{
-			//	auto wallPos = wall->GetWorldPosition();
-			//	glm::vec2 wallSize = wall->GetComponent<boop::TextureComponent>()->GetSize();
-			//	SDL_Rect wallRect{ static_cast<int>(wallPos.x), static_cast<int>(wallPos.y),
-			//		static_cast<int>(wallSize.x), static_cast<int>(wallSize.y) };
-
-			//	m_ObjectSize.x = static_cast<int>(newXPos);
-			//	m_ObjectSize.y = static_cast<int>(newYPos);
-
-			//	//check if the rects intersect or not
-			//	if (SDL_HasIntersection(&m_ObjectSize, &wallRect))
-			//	{
-			//		//you have collided!
-			//		return;
-			//	}
-			//}
-
-			////if you are nto colliding with anything, move player
-			//m_pGameObject->SetLocalPosition(newXPos, newYPos);
-
 			m_pGunTexture->FlipTextureDir(m_Speed);
-			//if (m_Speed.x > 0)
-			//{
-			//	m_pGunTexture->FlipTexture({ false, false }); //right
-			//	m_pGunTexture->GetOwner()->SetLocalPosition(-10, -8);
-			//}
-			//else if (m_Speed.x < 0)
-			//{
-			//	m_pGunTexture->FlipTexture({ true, false }); //left
-			//	m_pGunTexture->GetOwner()->SetLocalPosition(-6, -8);
-			//}
-			//if (m_Speed.y > 0)
-			//{
-			//	m_pGunTexture->FlipTexture({ false, true }); //down
-			//	m_pGunTexture->GetOwner()->SetLocalPosition(-8, -10);
-			//}
-			//else if (m_Speed.y < 0)
-			//{
-			//	m_pGunTexture->FlipTexture({ true, true }); //up
-			//	m_pGunTexture->GetOwner()->SetLocalPosition(-8, -6);
-			//}
+			
+			//create a bullet
+			//m_pGameObject->AddComponent<Bullet>("BulletPlayer.png", m_Speed);
+
+			auto bullet = std::make_unique<boop::GameObject>();
+			bullet->SetTag("bullet");
+			bullet->AddComponent<Bullet>("BulletPlayer.png", m_Speed);
+			bullet->AddComponent<boop::TextureComponent>("BulletPlayer.png");
+			//bullet->SetLocalPosition(-10, -8);
+
+			bullet->SetParent(m_pGunTexture->GetOwner(), true); // Set the parent to the tank gun
+			boop::SceneManager::GetInstance().GetActiveScene()->Add(std::move(bullet));
+
+			//m_pGunTexture->GetOwner()->AddComponent<Bullet>("BulletPlayer.png", m_Speed);
 
 		};
 
