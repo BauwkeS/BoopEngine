@@ -130,13 +130,15 @@ namespace booble
 		boop::GameObject* m_pGameObject;
 		glm::vec2 m_Speed;
 		boop::TextureComponent* m_pGunTexture{};
+		Level* m_pLevel{};
 	public:
 		ShootCommand(boop::GameObject* component, glm::vec2 speed)
 			: m_pGameObject{ component }, m_Speed{ speed }
 		{
 			m_pGunTexture = m_pGameObject->GetChildAt(1)->GetComponent<boop::TextureComponent>();
+			m_pLevel = m_pGameObject->GetChildAt(0)->GetComponent<Level>();
 		}
-		~ShootCommand() { m_pGameObject = nullptr; delete m_pGameObject; m_pGunTexture = nullptr; delete m_pGunTexture; }
+		~ShootCommand() { m_pGameObject = nullptr; delete m_pGameObject; m_pLevel = nullptr; delete m_pLevel; }
 
 		void Execute() override {
 
@@ -147,11 +149,47 @@ namespace booble
 
 			auto bullet = std::make_unique<boop::GameObject>();
 			bullet->SetTag("bullet");
-			bullet->AddComponent<Bullet>("BulletPlayer.png", m_Speed);
+			bullet->AddComponent<Bullet>(m_Speed, m_pLevel->GetCollisionObjects());
 			bullet->AddComponent<boop::TextureComponent>("BulletPlayer.png");
-			//bullet->SetLocalPosition(-10, -8);
+			//bullet->SetParent(m_pGunTexture->GetOwner(), false); // Set the parent to the tank gun
 
-			bullet->SetParent(m_pGunTexture->GetOwner(), true); // Set the parent to the tank gun
+			// Set the position of the bullet relative to the gun
+			auto gunSize = m_pGunTexture->GetSize();
+			auto gunPos = m_pGunTexture->GetOwner()->GetWorldPosition();
+
+			float mar = 3.f;
+
+			float xOffset{};
+			float yOffset{};
+
+			if (m_Speed.x > 0)
+			{
+				//bullet->SetLocalPosition(gunSize.x-mar, gunSize.y / 3);
+				xOffset = gunSize.x - mar;
+				yOffset = gunSize.y / 3;
+			}
+			else if (m_Speed.x < 0)
+			{
+				//bullet->SetLocalPosition(0, gunSize.y / 3);
+				xOffset = 0;
+				yOffset = gunSize.y / 3;
+			}
+			if (m_Speed.y > 0)
+			{
+				//bullet->SetLocalPosition(gunSize.x/3+mar, gunSize.y-mar);
+				xOffset = gunSize.x / 3 + mar;
+				yOffset = gunSize.y - mar;
+			}
+			else if (m_Speed.y < 0)
+			{
+				//bullet->SetLocalPosition(gunSize.x/3+mar, 0);
+				xOffset = gunSize.x / 3 + mar;
+				yOffset = 0;
+			}
+
+			bullet->SetLocalPosition(gunPos.x + xOffset, gunPos.y + yOffset);
+
+
 			boop::SceneManager::GetInstance().GetActiveScene()->Add(std::move(bullet));
 
 			//m_pGunTexture->GetOwner()->AddComponent<Bullet>("BulletPlayer.png", m_Speed);

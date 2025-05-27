@@ -72,10 +72,10 @@ namespace booble
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_S, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
 
 		//shoot
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_LEFT, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), leftVec));
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_RIGHT, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), rightVec));
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_UP, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), upVec));
-		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_DOWN, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), downVec));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_LEFT, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), glm::vec2{-1,0}));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_RIGHT, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), glm::vec2{1,0}));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_UP, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), glm::vec2{0,-1}));
+		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_DOWN, boop::keyState::isDown, std::make_unique<booble::ShootCommand>(GetOwner(), glm::vec2{0,1}));
 	
 		//TO-DO: DELETE TEST COMMANDS
 		boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_L, boop::keyState::isDown, std::make_unique<booble::ChangeScene>(GetOwner(), "level2"));

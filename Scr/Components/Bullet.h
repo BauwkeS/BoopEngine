@@ -5,7 +5,7 @@
 class Bullet : public boop::Component
 {
 public:
-	Bullet(boop::GameObject* owner, const std::string& spritePath, glm::vec2 speed);
+	Bullet(boop::GameObject* owner, glm::vec2 speed, std::vector<boop::GameObject*> collision);
 	~Bullet() = default;
 
 	void FixedUpdate() override;
@@ -14,4 +14,10 @@ public:
 
 private:
 	glm::vec2 m_Dir{};
+	std::vector<boop::GameObject*> m_CollisionObjects{};
+	float m_Speed{100.f};
+
+	int m_BounceCount{};
+
+	void CheckCollision();
 };
