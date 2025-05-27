@@ -97,6 +97,15 @@ namespace booble
 		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::DPadRight, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), rightVec));
 		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::DPadUp, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), upVec));
 		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::DPadDown, boop::keyState::isPressed, std::make_unique<booble::WalkCommand>(GetOwner(), downVec));
+	
+		//shoot
+		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::ButtonX, boop::keyState::isPressed, std::make_unique<booble::ShootCommand>(GetOwner(), leftVec));
+		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::ButtonB, boop::keyState::isPressed, std::make_unique<booble::ShootCommand>(GetOwner(), rightVec));
+		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::ButtonY, boop::keyState::isPressed, std::make_unique<booble::ShootCommand>(GetOwner(), upVec));
+		boop::InputManager::GetInstance().AddCommand(controllerId, boop::Controller::ControllerButton::ButtonA, boop::keyState::isPressed, std::make_unique<booble::ShootCommand>(GetOwner(), downVec));
+
+
+	
 	}
 }
 	
