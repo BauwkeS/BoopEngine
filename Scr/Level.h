@@ -43,6 +43,7 @@ public:
 
 	//getters
 	std::vector<boop::GameObject*> GetCollisionObjects() const { return m_CollisionObjects; }
+	std::vector<Enemy*> GetEnemies() const { return m_Enemies; }
 
 private:
 	//test variables when button set

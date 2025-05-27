@@ -1,13 +1,16 @@
 #include "Bullet.h"
 #include "../../BoopEngine/Boop/Components/TextureComponent.h"
 #include "../../BoopEngine/Boop/DeltaTime.h"
+#include "Enemy.h"
+#include "../Level.h"
 
-Bullet::Bullet(boop::GameObject* owner, glm::vec2 dir, std::vector<boop::GameObject*> collision)
-	: Component(owner), m_Dir{ dir }, m_CollisionObjects{ collision }
+Bullet::Bullet(boop::GameObject* owner, glm::vec2 dir, Level* levelinfo)
+	: Component(owner), m_Dir{ dir }, m_LevelInfo{ levelinfo }
 {
 	//add sprite
 	//owner->AddComponent< boop::TextureComponent>(static_cast<std::string>(spritePath));
-
+	//m_CollisionObjects = m_LevelInfo->GetCollisionObjects();
+	//m_Enemies = m_LevelInfo->GetEnemies();
 }
 
 void Bullet::FixedUpdate()
@@ -38,13 +41,45 @@ void Bullet::CheckCollision()
 	auto newXPos = GetOwner()->GetWorldPosition().x + (moveX);
 	auto newYPos = GetOwner()->GetWorldPosition().y + (moveY);
 
-	for (auto& collisionObject : m_CollisionObjects)
+	auto bulletRect = GetOwner()->GetComponent<boop::TextureComponent>()->GetTextureRect();
+	bulletRect.x = static_cast<int>(newXPos);
+	bulletRect.y = static_cast<int>(newYPos);
+
+
+	//check if you hit an enemy first
+	for (auto& enemy : m_LevelInfo->GetEnemies())
+	{
+		if (!enemy) continue;
+		auto enemyPos = enemy->GetOwner()->GetWorldPosition();
+		glm::vec2 enemySize = enemy->GetTankBase()->GetSize();
+
+		SDL_Rect enemyRect{ static_cast<int>(enemyPos.x), static_cast<int>(enemyPos.y),
+			static_cast<int>(enemySize.x), static_cast<int>(enemySize.y) };
+
+		if (SDL_HasIntersection(&bulletRect, &enemyRect))
+		{
+			//collided with enemy
+			m_LevelInfo->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillTank") });
+			GetOwner()->SetToDelete();
+			enemy->GetOwner()->SetToDelete(); //delete the enemy
+			//m_LevelInfo->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
+
+			auto levels = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
+			for (auto& level : levels)
+			{
+				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
+			}
+
+			//m_Enemies = m_LevelInfo->GetEnemies();
+			return; // Exit after first collision
+		}
+	}
+
+
+	for (auto& collisionObject : m_LevelInfo->GetCollisionObjects())
 	{
 		if (!collisionObject) continue;
 		auto collisionRect = collisionObject->GetComponent<boop::TextureComponent>()->GetTextureRect();
-		auto bulletRect = GetOwner()->GetComponent<boop::TextureComponent>()->GetTextureRect();
-		bulletRect.x = static_cast<int>(newXPos);
-		bulletRect.y = static_cast<int>(newYPos);
 		
 
 		if (SDL_HasIntersection(&bulletRect, &collisionRect))
@@ -67,12 +102,6 @@ void Bullet::CheckCollision()
 
 			break; // Exit after first collision
 		}
-
-		//check for x rect and y rect seperately to reflect correctly on the map?
-
-
-		
-
 	}
 
 	GetOwner()->SetLocalPosition(GetOwner()->GetLocalPosition().x + (moveX),

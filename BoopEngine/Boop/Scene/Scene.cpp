@@ -145,7 +145,7 @@ std::vector<GameObject*> Scene::FindAllGameObjectByTag(const std::string& tag) c
 
 	for(auto obj : m_taggedObjects)
 	{
-		if (obj.first == tag)
+		if (obj.first == tag && !obj.second->ToDelete())
 		{
 			toReturnVec.emplace_back(obj.second);
 		}

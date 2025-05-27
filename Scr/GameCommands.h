@@ -149,7 +149,7 @@ namespace booble
 
 			auto bullet = std::make_unique<boop::GameObject>();
 			bullet->SetTag("bullet");
-			bullet->AddComponent<Bullet>(m_Speed, m_pLevel->GetCollisionObjects());
+			bullet->AddComponent<Bullet>(m_Speed, m_pLevel);
 			bullet->AddComponent<boop::TextureComponent>("BulletPlayer.png");
 			//bullet->SetParent(m_pGunTexture->GetOwner(), false); // Set the parent to the tank gun
 

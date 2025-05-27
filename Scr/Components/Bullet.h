@@ -1,11 +1,13 @@
 #pragma once
 #include "../../BoopEngine/Boop/GameObject.h"
 
+class Enemy;
+class Level;
 
 class Bullet : public boop::Component
 {
 public:
-	Bullet(boop::GameObject* owner, glm::vec2 speed, std::vector<boop::GameObject*> collision);
+	Bullet(boop::GameObject* owner, glm::vec2 speed, Level* levelinfo);
 	~Bullet() = default;
 
 	void FixedUpdate() override;
@@ -14,10 +16,12 @@ public:
 
 private:
 	glm::vec2 m_Dir{};
-	std::vector<boop::GameObject*> m_CollisionObjects{};
+	//std::vector<boop::GameObject*> m_CollisionObjects{};
+	//std::vector<Enemy*> m_Enemies{};
+	Level* m_LevelInfo{};
 	float m_Speed{100.f};
 
-	int m_BounceCount{};
+	int m_BounceCount{0};
 
 	void CheckCollision();
 };
