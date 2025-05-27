@@ -95,22 +95,22 @@ namespace booble
 
 			if (m_Speed.x > 0)
 			{
-				m_pGunTexture->FlipTexture({ false, false }); //right
+				//m_pGunTexture->FlipTexture({ false, false }); //right
 				m_pGunTexture->GetOwner()->SetLocalPosition(-10, -8);
 			}
 			else if (m_Speed.x < 0)
 			{
-				m_pGunTexture->FlipTexture({ true, false }); //left
+				//m_pGunTexture->FlipTexture({ true, false }); //left
 				m_pGunTexture->GetOwner()->SetLocalPosition(-6, -8);
 			}
 			if (m_Speed.y > 0)
 			{
-				m_pGunTexture->FlipTexture({ false, true }); //down
+				//m_pGunTexture->FlipTexture({ false, true }); //down
 				m_pGunTexture->GetOwner()->SetLocalPosition(-8, -10);
 			}
 			else if (m_Speed.y < 0)
 			{
-				m_pGunTexture->FlipTexture({ true, true }); //up
+				//m_pGunTexture->FlipTexture({ true, true }); //up
 				m_pGunTexture->GetOwner()->SetLocalPosition(-8, -6);
 			}
 
@@ -120,6 +120,75 @@ namespace booble
 		WalkCommand(WalkCommand&& other) = delete;
 		WalkCommand& operator=(const WalkCommand& other) = delete;
 		WalkCommand& operator=(WalkCommand&& other) = delete;
+
+	};
+
+	//SHOOTING
+	class ShootCommand final : public boop::Command {
+	private:
+		boop::GameObject* m_pGameObject;
+		glm::vec2 m_Speed;
+		boop::TextureComponent* m_pGunTexture{};
+	public:
+		ShootCommand(boop::GameObject* component, glm::vec2 speed)
+			: m_pGameObject{ component }, m_Speed{ speed }
+		{
+			m_pGunTexture = m_pGameObject->GetChildAt(1)->GetComponent<boop::TextureComponent>();
+		}
+		~ShootCommand() { m_pGameObject = nullptr; delete m_pGameObject; m_pGunTexture = nullptr; delete m_pGunTexture; }
+
+		void Execute() override {
+
+			////also check for collisions with the walls
+			//for (auto& wall : m_Player->GetCollisionObjects())
+			//{
+			//	auto wallPos = wall->GetWorldPosition();
+			//	glm::vec2 wallSize = wall->GetComponent<boop::TextureComponent>()->GetSize();
+			//	SDL_Rect wallRect{ static_cast<int>(wallPos.x), static_cast<int>(wallPos.y),
+			//		static_cast<int>(wallSize.x), static_cast<int>(wallSize.y) };
+
+			//	m_ObjectSize.x = static_cast<int>(newXPos);
+			//	m_ObjectSize.y = static_cast<int>(newYPos);
+
+			//	//check if the rects intersect or not
+			//	if (SDL_HasIntersection(&m_ObjectSize, &wallRect))
+			//	{
+			//		//you have collided!
+			//		return;
+			//	}
+			//}
+
+			////if you are nto colliding with anything, move player
+			//m_pGameObject->SetLocalPosition(newXPos, newYPos);
+
+			m_pGunTexture->FlipTextureDir(m_Speed);
+			//if (m_Speed.x > 0)
+			//{
+			//	m_pGunTexture->FlipTexture({ false, false }); //right
+			//	m_pGunTexture->GetOwner()->SetLocalPosition(-10, -8);
+			//}
+			//else if (m_Speed.x < 0)
+			//{
+			//	m_pGunTexture->FlipTexture({ true, false }); //left
+			//	m_pGunTexture->GetOwner()->SetLocalPosition(-6, -8);
+			//}
+			//if (m_Speed.y > 0)
+			//{
+			//	m_pGunTexture->FlipTexture({ false, true }); //down
+			//	m_pGunTexture->GetOwner()->SetLocalPosition(-8, -10);
+			//}
+			//else if (m_Speed.y < 0)
+			//{
+			//	m_pGunTexture->FlipTexture({ true, true }); //up
+			//	m_pGunTexture->GetOwner()->SetLocalPosition(-8, -6);
+			//}
+
+		};
+
+		ShootCommand(const ShootCommand& other) = delete;
+		ShootCommand(ShootCommand&& other) = delete;
+		ShootCommand& operator=(const ShootCommand& other) = delete;
+		ShootCommand& operator=(ShootCommand&& other) = delete;
 
 	};
 
