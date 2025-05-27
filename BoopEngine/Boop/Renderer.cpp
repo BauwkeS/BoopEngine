@@ -58,8 +58,8 @@ void boop::Renderer::RenderTexture(const Texture2D& texture, const float x, cons
 	dst.h = static_cast<int>(scale * dst.h);
 
 	SDL_Rect scr{};
-	scr.w = static_cast<int>(x);
-	scr.h = static_cast<int>(y);
+	scr.w = static_cast<int>(dst.w);
+	scr.h = static_cast<int>(dst.h);
 
 	const SDL_Point center{ dst.w / 2, dst.h / 2 };
 
