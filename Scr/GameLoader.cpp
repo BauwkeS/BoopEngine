@@ -113,6 +113,8 @@ namespace booble
 		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
 		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
 
+		//set observers
+		player1->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player1);
 
 		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
 		case booble::GameMode::SINGLEPLAYER:
@@ -130,6 +132,10 @@ namespace booble
 			//set the UI position
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
 			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+
+			//set observers
+			player2->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player2);
+
 			break;
 		}
 		case booble::GameMode::COOP:
@@ -142,6 +148,10 @@ namespace booble
 			//set the UI position
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
 			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+
+			//set observers
+			player2->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player2);
+
 			break;
 			break;
 		}

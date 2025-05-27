@@ -10,11 +10,16 @@
 Level::Level(boop::GameObject* owner) : Component(owner),
 m_Subject{ std::make_unique<boop::Subject>() }
 {
+	//add player
+	//auto playerComp = owner->GetParent()->GetComponent<booble::Player>();
+	//m_Subject->AddObserver(playerComp);
 }
 
 void Level::FixedUpdate()
 {
 	//check for collisions of the bullets and tanks
+
+	if (!m_BaseTank) return;
 
 	auto playerPos = GetOwner()->GetWorldPosition();
 	glm::vec2 playerSize = m_BaseTank->GetSize();
@@ -24,6 +29,7 @@ void Level::FixedUpdate()
 
 
 	CollideWithTank(playerRect);
+	CollideWithBullet();
 }
 
 void Level::ResetPlayerCollision(boop::Scene* scene)

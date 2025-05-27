@@ -19,7 +19,7 @@ private:
 	//std::vector<boop::GameObject*> m_CollisionObjects{};
 	//std::vector<Enemy*> m_Enemies{};
 	Level* m_LevelInfo{};
-	float m_Speed{100.f};
+	float m_Speed{300.f};
 
 	int m_BounceCount{0};
 

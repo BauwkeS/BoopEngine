@@ -33,6 +33,8 @@ namespace booble
 
 		//BaseTank* GetTankBase() const { return m_pTankBase; }
 
+		boop::Subject* GetSubject() const { return m_Subject.get(); }
+
 	private:
 		int m_Score{};
 		int m_Speed{};
