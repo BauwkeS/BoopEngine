@@ -16,8 +16,6 @@ public:
 
 private:
 	glm::vec2 m_Dir{};
-	//std::vector<boop::GameObject*> m_CollisionObjects{};
-	//std::vector<Enemy*> m_Enemies{};
 	Level* m_LevelInfo{};
 	float m_Speed{300.f};
 

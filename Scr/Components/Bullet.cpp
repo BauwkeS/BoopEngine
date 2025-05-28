@@ -8,10 +8,6 @@
 Bullet::Bullet(boop::GameObject* owner, glm::vec2 dir, Level* levelinfo)
 	: Component(owner), m_Dir{ dir }, m_LevelInfo{ levelinfo }
 {
-	//add sprite
-	//owner->AddComponent< boop::TextureComponent>(static_cast<std::string>(spritePath));
-	//m_CollisionObjects = m_LevelInfo->GetCollisionObjects();
-	//m_Enemies = m_LevelInfo->GetEnemies();
 }
 
 void Bullet::FixedUpdate()
@@ -21,11 +17,6 @@ void Bullet::FixedUpdate()
 
 void Bullet::Update()
 {
-	//
-	//m_Dir.x = m_Dir.x + (m_Dir.x * boop::DeltaTime::GetInstance().GetDeltaTime());
-	//m_Dir.y = m_Dir.y + (m_Dir.y * boop::DeltaTime::GetInstance().GetDeltaTime());
-	//GetOwner()->SetLocalPosition(newXPos, newYPos);
-	
 	
 }
 
@@ -61,22 +52,10 @@ void Bullet::CheckCollision()
 		if (SDL_HasIntersection(&bulletRect, &enemyRect))
 		{
 			//collided with enemy
-			//booble::Player* player = m_LevelInfo->GetOwner()->GetParent()->GetComponent<booble::Player>();
-			//if (!player) return; // no player found, exit
-			//player->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillTank") });
-
-
-			//player->Onn(boop::Event{ boop::make_sdbm_hash("PlayerKillEnemy") });
 			m_LevelInfo->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillTank") });
-
-			//m_LevelInfo->SetHitTank();
-
-
-			//m_LevelInfo->get
 
 			GetOwner()->SetToDelete();
 			enemy->GetOwner()->SetToDelete(); //delete the enemy
-			//m_LevelInfo->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
 
 			auto levels = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
 			for (auto& level : levels)
@@ -84,7 +63,6 @@ void Bullet::CheckCollision()
 				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
 			}
 
-			//m_Enemies = m_LevelInfo->GetEnemies();
 			return; // Exit after first collision
 		}
 	}
