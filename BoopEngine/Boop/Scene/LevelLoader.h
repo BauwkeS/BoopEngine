@@ -40,7 +40,6 @@ namespace level
 		std::vector<std::unique_ptr<boop::GameObject>> m_StaticObjects{};
 		std::vector<std::unique_ptr<boop::GameObject>> m_DynamicObjects{};
 		std::vector<std::unique_ptr<boop::GameObject>> m_PersistentObjects{};
-		int m_UnderpersistentIndex{-1};
 
 		void ClearVectors()
 		{
@@ -59,7 +58,7 @@ namespace level
 		//TO-DO: add extra parameter to change grod size : float gridSize=32
 		void CreateLevel(std::string fileName, std::string sceneName);
 
-		boop::GameObjectType& RegisterType(int index, LevelLayer layer, int objectUnderPersistentIndex=-1)
+		boop::GameObjectType& RegisterType(int index, LevelLayer layer)
 		{
 			auto [it, inserted] = m_GameObjectTypes.emplace(
 				index,
@@ -70,7 +69,7 @@ namespace level
 				throw std::runtime_error("Duplicate index registered");
 			}
 
-			if (objectUnderPersistentIndex != -1) m_UnderpersistentIndex = objectUnderPersistentIndex;
+			//if (objectUndertIndex != -1) m_ObjectUnderIndex = objectUndertIndex;
 
 			return *(it->second.first); // Return reference to the stored object
 		}

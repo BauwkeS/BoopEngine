@@ -17,6 +17,7 @@ namespace boop
         std::string m_DefaultTag;
         glm::vec2 m_LocalPositionChanges;
         bool m_DefaultPersistent;
+        int m_ObjectUnderIndex{ -1 };
 
     public:
         GameObjectType() = default;
@@ -42,6 +43,17 @@ namespace boop
 			m_DefaultTag = tag;
             return *this;
         }
+
+        GameObjectType& SetObjectUnder(const int index)
+        {
+            m_ObjectUnderIndex = index;
+            return *this;
+        }
+
+		int GetObjectUnderIndex() const
+		{
+			return m_ObjectUnderIndex;
+		}
 
         void SetLocalPosition(float x, float y) {
 			m_LocalPositionChanges = glm::vec2(x, y);

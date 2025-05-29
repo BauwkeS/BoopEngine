@@ -60,7 +60,8 @@ namespace booble
 
 
 		int index = (tagName == "p1") ? 5 : 6; // Assign indices for players
-		auto& playerType = level::LevelLoader::GetInstance().RegisterType(index, level::LevelLayer::PERSISTENT, 2)
+		auto& playerType = level::LevelLoader::GetInstance().RegisterType(index, level::LevelLayer::PERSISTENT)
+			.SetObjectUnder(2) // Set the object under index to 2 (air type)
 			.AddComponent<Health>(4)
 			.AddComponent<BaseTank>(playerSpeed, spritePath)
 			.AddComponent<Player>()
@@ -90,6 +91,7 @@ namespace booble
 	void GameLoader::RegisterEnemyType(const std::string& spritePath, const std::string& tagName, int playerSpeed)
 	{
 		level::LevelLoader::GetInstance().RegisterType(7, level::LevelLayer::DYNAMIC)
+			.SetObjectUnder(2)
 			.AddComponent<Enemy>(playerSpeed, spritePath)
 			.SetDefaultTag(tagName);
 	}
@@ -97,6 +99,7 @@ namespace booble
 	void GameLoader::RegisterBlueTankEnemy(const std::string& spritePath, const std::string& tagName, int playerSpeed)
 	{
 		level::LevelLoader::GetInstance().RegisterType(4, level::LevelLayer::DYNAMIC)
+			.SetObjectUnder(2)
 			.AddComponent<BlueTankEnemy>(playerSpeed, spritePath)
 			.SetDefaultTag(tagName);
 	}
