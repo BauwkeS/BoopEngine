@@ -60,6 +60,7 @@ namespace booble
 
 		int index = (tagName == "p1") ? 5 : 6; // Assign indices for players
 		auto& playerType = level::LevelLoader::GetInstance().RegisterType(index, level::LevelLayer::PERSISTENT, 2)
+			.AddComponent<Health>(4)
 			.AddComponent<BaseTank>(playerSpeed, spritePath)
 			.AddComponent<Player>()
 			.SetDefaultTag(tagName);

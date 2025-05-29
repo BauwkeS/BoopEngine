@@ -21,8 +21,7 @@ BaseTank::BaseTank(boop::GameObject* owner, int speed, const std::string spriteP
 	m_Size = sprite->GetSize();
 
 
-	//add health
-	owner->AddComponent<Health>(4);
+	
 }
 
 void BaseTank::ResetPosition()

@@ -51,6 +51,8 @@ void Bullet::CheckCollision()
 
 		if (SDL_HasIntersection(&bulletRect, &enemyRect))
 		{
+			//to-do -> check which enemy type was collided with
+			
 			//collided with enemy
 			m_LevelInfo->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillTank") });
 
