@@ -12,7 +12,9 @@ namespace boop
 	public:
 		Scene& AddScene(const std::string& name);
 		void ChangeScene(const std::string& toSceneName);
+		void ChangeScene(const int toSceneName);
 		Scene* GetActiveScene();
+		int GetActiveSceneId() const;
 		Scene* GetScene(const std::string& name);
 
 		void FixedUpdate();
@@ -24,6 +26,8 @@ namespace boop
 		SceneManager();
 		~SceneManager();
 		std::vector<std::unique_ptr<Scene>> m_Scenes;
+
+		void ChangeScenePersistency(int newScene);
 
 		int m_ActiveSceneId{};
 	};
