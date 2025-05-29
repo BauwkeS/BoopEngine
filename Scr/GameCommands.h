@@ -246,45 +246,17 @@ namespace booble
 	};
 
 
-
-	class SkipLevel final : public boop::Command {
-	private:
-		
-	public:
-		SkipLevel()
-			{
-		}
-		~SkipLevel() { }
-
-		void Execute() override {
-			
-			auto activeScene = boop::SceneManager::GetInstance().GetActiveSceneId();
-			int nextScene = (activeScene + 1) % 3; // 3 is the number max of levels
-			std::string nextSceneName = "level" + std::to_string(nextScene+1); // level1, level2, level3
-			boop::SceneManager::GetInstance().ChangeScene(nextSceneName);
-
-		};
-
-		SkipLevel(const SkipLevel& other) = delete;
-		SkipLevel(SkipLevel&& other) = delete;
-		SkipLevel& operator=(const SkipLevel& other) = delete;
-		SkipLevel& operator=(SkipLevel&& other) = delete;
-
-	};
-
-
 	//--------------------------------------
 	//MAIN MENU
 	//--------------------------------------
 	class ChangeScene final : public boop::Command {
 	private:
-		boop::GameObject* m_pGameObject;
 		std::string m_ToScene;
 	public:
-		ChangeScene(boop::GameObject* component, const std::string toScene)
-			: m_pGameObject{ component }, m_ToScene{toScene} {
+		ChangeScene(const std::string toScene)
+			: m_ToScene{toScene} {
 		}
-		~ChangeScene() { m_pGameObject = nullptr; delete m_pGameObject; }
+		~ChangeScene() { }
 
 		void Execute() override {
 			auto players = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
@@ -293,7 +265,7 @@ namespace booble
 				player->GetParent()->GetComponent<BaseTank>()->ResetPosition();
 			}
 
-			std::cout << "Changing scene to: " << m_ToScene << std::endl;
+			//std::cout << "Changing scene to: " << m_ToScene << std::endl;
 			boop::SceneManager::GetInstance().ChangeScene(m_ToScene);
 			auto levels = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
 			for (auto& level : levels)
@@ -308,6 +280,32 @@ namespace booble
 		ChangeScene& operator=(ChangeScene&& other) = delete;
 
 	};
+
+	class SkipLevel final : public boop::Command {
+	private:
+
+	public:
+		SkipLevel()
+		{
+		}
+		~SkipLevel() {}
+
+		void Execute() override {
+
+			auto activeScene = boop::SceneManager::GetInstance().GetActiveSceneId();
+			int nextScene = (activeScene) % 3; // 3 is the number max of levels
+			std::string nextSceneName = "level" + std::to_string(nextScene + 1); // level1, level2, level3
+			ChangeScene(nextSceneName).Execute();
+
+		};
+
+		SkipLevel(const SkipLevel& other) = delete;
+		SkipLevel(SkipLevel&& other) = delete;
+		SkipLevel& operator=(const SkipLevel& other) = delete;
+		SkipLevel& operator=(SkipLevel&& other) = delete;
+
+	};
+
 
 	class StartGame final : public boop::Command {
 	private:

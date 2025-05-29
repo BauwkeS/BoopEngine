@@ -91,7 +91,7 @@ namespace booble
 	void GameLoader::RegisterEnemyType(const std::string& spritePath, const std::string& tagName, int playerSpeed)
 	{
 		level::LevelLoader::GetInstance().RegisterType(7, level::LevelLayer::DYNAMIC)
-			.SetObjectUnder(2)
+			.SetObjectUnder(1)
 			.AddComponent<Enemy>(playerSpeed, spritePath)
 			.SetDefaultTag(tagName);
 	}
@@ -99,7 +99,7 @@ namespace booble
 	void GameLoader::RegisterBlueTankEnemy(const std::string& spritePath, const std::string& tagName, int playerSpeed)
 	{
 		level::LevelLoader::GetInstance().RegisterType(4, level::LevelLayer::DYNAMIC)
-			.SetObjectUnder(2)
+			.SetObjectUnder(1)
 			.AddComponent<BlueTankEnemy>(playerSpeed, spritePath)
 			.SetDefaultTag(tagName);
 	}
