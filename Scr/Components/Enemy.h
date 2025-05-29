@@ -12,6 +12,28 @@ namespace boop {
 	class Subject;
 }
 
+namespace enemy
+{
+	//-------------------------------------------------------------------------
+	//-------STATES------------------------------------------------------------
+	//-------------------------------------------------------------------------
+	class BaseState {
+	public:
+		virtual ~BaseState() = default;
+		virtual void Update() = 0;
+		virtual void OnEnter() = 0;
+		virtual void OnExit() = 0;
+		BaseState() = default;
+		BaseState(const BaseState& other) = delete;
+		BaseState(BaseState&& other) = delete;
+		BaseState& operator=(const BaseState& other) = delete;
+		BaseState& operator=(BaseState&& other) = delete; 
+	};
+}
+
+//-------------------------------------------------------------------------
+
+
 class Enemy : public boop::Component
 	{
 	public:
@@ -25,5 +47,25 @@ class Enemy : public boop::Component
 		BaseTank* GetTankBase() const { return m_pTankBase; }
 
 	private:
-		BaseTank* m_pTankBase{};
+		BaseTank* m_pTankBase{}; 
+
+		void SeePlayer(boop::GameObject* player);
 	};
+
+
+//-------------------------------------------------------------------------
+//--------ENEMIES----------------------------------------------------------
+//-------------------------------------------------------------------------
+
+class BlueTankEnemy : public Enemy
+{
+public:
+	BlueTankEnemy(boop::GameObject* owner, int speed, const std::string spritePath)
+		: Enemy(owner, speed, spritePath) {
+	}
+	//void Update() override;
+	//void OnEnter();
+	//void OnExit();
+private:
+	std::unique_ptr<enemy::BaseState> m_pCurrentState;
+};

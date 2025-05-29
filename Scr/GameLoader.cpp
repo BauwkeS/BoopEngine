@@ -31,7 +31,8 @@ namespace booble
 		RegisterWallBorderType();
 		RegisterPlayerType("RedTank.png", "p1", 50);
 		RegisterPlayerType("GreenTank.png", "p2", 50);
-		RegisterEnemyType("BlueTank.png", "enemy", 0);
+		RegisterBlueTankEnemy("BlueTank.png", "enemy", 0);
+		RegisterEnemyType("Recognizer.png", "enemy", 0);
 	}
 
 	void GameLoader::RegisterAirType()
@@ -88,8 +89,15 @@ namespace booble
 
 	void GameLoader::RegisterEnemyType(const std::string& spritePath, const std::string& tagName, int playerSpeed)
 	{
-		level::LevelLoader::GetInstance().RegisterType(4, level::LevelLayer::DYNAMIC)
+		level::LevelLoader::GetInstance().RegisterType(7, level::LevelLayer::DYNAMIC)
 			.AddComponent<Enemy>(playerSpeed, spritePath)
+			.SetDefaultTag(tagName);
+	}
+
+	void GameLoader::RegisterBlueTankEnemy(const std::string& spritePath, const std::string& tagName, int playerSpeed)
+	{
+		level::LevelLoader::GetInstance().RegisterType(4, level::LevelLayer::DYNAMIC)
+			.AddComponent<BlueTankEnemy>(playerSpeed, spritePath)
 			.SetDefaultTag(tagName);
 	}
 

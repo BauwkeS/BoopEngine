@@ -35,3 +35,7 @@ void Enemy::Update()
 void Enemy::Render() const
 {
 }
+
+void Enemy::SeePlayer(boop::GameObject*)
+{
+}
