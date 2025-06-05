@@ -32,7 +32,7 @@ namespace booble
 		RegisterPlayerType("RedTank.png", "p1", 50);
 		RegisterPlayerType("GreenTank.png", "p2", 50);
 		RegisterBlueTankEnemy("BlueTank.png", "enemy", 0);
-		RegisterEnemyType("Recognizer.png", "enemy", 0);
+		RegisterRecognizerEnemy("Recognizer.png", "enemy", 0);
 	}
 
 	void GameLoader::RegisterAirType()
@@ -56,9 +56,6 @@ namespace booble
 
 	void GameLoader::RegisterPlayerType(const std::string& spritePath, const std::string& tagName, int playerSpeed)
 	{
-		//TO-DO ADD WHAT BLOCK IT LEAVES BEHIND
-
-
 		int index = (tagName == "p1") ? 5 : 6; // Assign indices for players
 		auto& playerType = level::LevelLoader::GetInstance().RegisterType(index, level::LevelLayer::PERSISTENT)
 			.SetObjectUnder(2) // Set the object under index to 2 (air type)
@@ -88,7 +85,7 @@ namespace booble
 		playerType.AddChildType(std::move(tankGunChildType));
 	}
 
-	void GameLoader::RegisterEnemyType(const std::string& spritePath, const std::string& tagName, int playerSpeed)
+	void GameLoader::RegisterRecognizerEnemy(const std::string& spritePath, const std::string& tagName, int playerSpeed)
 	{
 		level::LevelLoader::GetInstance().RegisterType(7, level::LevelLayer::DYNAMIC)
 			.SetObjectUnder(1)
