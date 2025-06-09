@@ -30,7 +30,7 @@ void Enemy::FixedUpdate()
 
 void Enemy::Update()
 {
-	m_pCurrentState->Update();
+	if (m_pCurrentState) m_pCurrentState->Update();
 }
 
 void Enemy::Render() const
@@ -56,6 +56,32 @@ glm::vec2 Enemy::SeePlayer()
 	return resultPos;
 }
 
+void Enemy::MoveToPos(glm::vec2)
+{
+	//for (auto& wall : m_Player->GetCollisionObjects())
+	//{
+	//	auto wallPos = wall->GetWorldPosition();
+	//	glm::vec2 wallSize = wall->GetComponent<boop::TextureComponent>()->GetSize();
+	//	SDL_Rect wallRect{ static_cast<int>(wallPos.x), static_cast<int>(wallPos.y),
+	//		static_cast<int>(wallSize.x), static_cast<int>(wallSize.y) };
+
+	//	m_ObjectSize.x = static_cast<int>(newXPos);
+	//	m_ObjectSize.y = static_cast<int>(newYPos);
+
+	//	//check if the rects intersect or not
+	//	if (SDL_HasIntersection(&m_ObjectSize, &wallRect))
+	//	{
+	//		//you have collided!
+	//		return;
+	//	}
+	//}
+
+	////if you are nto colliding with anything, move player
+	//m_pGameObject->SetLocalPosition(newXPos, newYPos);
+
+	//m_pPlayerTexture->FlipTextureDir(m_Speed);
+}
+
 glm::vec2 Enemy::CheckPlayerPosSeen(glm::vec2 playerPos)
 {
 	auto tankPos = m_pTankBase->GetOwner()->GetWorldPosition();
@@ -71,6 +97,9 @@ glm::vec2 Enemy::CheckPlayerPosSeen(glm::vec2 playerPos)
 
 void enemy::GoToClosestPlayer::OnEnter()
 {
+	auto scene = boop::SceneManager::GetInstance().GetActiveScene();
+	m_Player1 = scene->FindGameObjectByTag("p1");
+	m_Player2 = scene->FindGameObjectByTag("p2");
 }
 void enemy::GoToClosestPlayer::OnExit()
 {
@@ -81,7 +110,7 @@ enemy::GoToClosestPlayer::GoToClosestPlayer(Enemy* owner)
 }
 void enemy::GoToClosestPlayer::Update()
 {
-	m_pOwner->SeePlayer();
+	if (m_pOwner->SeePlayer() != glm::vec2{ 0,0 }) std::cout << "SEE PLAYER HEREEE (so you should've shot now)\n";
 
 	//auto scene = boop::SceneManager::GetInstance().GetActiveScene();
 	//auto player1 = scene->FindGameObjectByTag("p1");
@@ -117,4 +146,19 @@ void enemy::GoToClosestPlayer::Update()
 //	}
 //}
 	//}
+}
+
+glm::vec2 enemy::GoToClosestPlayer::FindPlayer()
+{
+	if (m_Player1)
+	{
+		glm::vec2 playerPos = m_Player1->GetWorldPosition();
+		glm::vec2 tankPos = m_pOwner->GetOwner()->GetWorldPosition();
+		// Check if the player is within a certain distance
+		if (glm::distance(playerPos, tankPos) < 500.f) // Example distance threshold
+		{
+			return playerPos; // Return the player's position if seen
+		}
+	}
+	return glm::vec2();
 }

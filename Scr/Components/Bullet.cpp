@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "../Level.h"
 #include "Player.h"
+#include "Health.h"
 
 Bullet::Bullet(boop::GameObject* owner, glm::vec2 dir, Level* levelinfo)
 	: Component(owner), m_Dir{ dir }, m_LevelInfo{ levelinfo }
@@ -54,10 +55,15 @@ void Bullet::CheckCollision()
 			//to-do -> check which enemy type was collided with
 			
 			//collided with enemy
-			m_LevelInfo->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillTank") });
+			//m_LevelInfo->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillTank") });
 
 			GetOwner()->SetToDelete();
-			enemy->GetOwner()->SetToDelete(); //delete the enemy
+			//enemy->GetOwner()->SetToDelete(); //delete the enemy
+
+			auto enemyDied = enemy->GetOwner()->GetComponent<Health>()->TakeDamage(); //decrease enemy health
+			if (enemyDied == 1) m_LevelInfo->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillTank") });
+			else if (enemyDied == 2) m_LevelInfo->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillRecognizer") });
+
 
 			auto levels = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
 			for (auto& level : levels)

@@ -13,7 +13,7 @@ namespace booble {
 		if (event.id == boop::make_sdbm_hash("PlayerKillTank")
 			|| event.id == boop::make_sdbm_hash("PlayerKillRecognizer"))
 		{
-			int score = GetOwner()->GetComponent<Player>()->GetScore() + 100;
+			int score = GetOwner()->GetComponent<Player>()->GetScore();
 			SetText("Score: " + std::to_string(score));
 		}
 	}

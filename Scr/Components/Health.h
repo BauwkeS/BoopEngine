@@ -12,7 +12,7 @@ class Health : public boop::Component
 	void Update() override {};
 	void Render() const override {};
 	
-	void TakeDamage(int damage=1);
+	int TakeDamage(int damage=1);
 	int GetHealth() const { return m_Health; }
 
 	boop::Subject* GetSubject() const { return m_Subject.get(); }

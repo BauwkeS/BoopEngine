@@ -44,6 +44,15 @@ namespace enemy
 		void Update() override;
 		void OnEnter() override;
 		void OnExit() override;
+	private:
+		//player stuff
+		boop::GameObject* m_Player1{};
+		boop::GameObject* m_Player2{};
+
+		std::vector<boop::GameObject*> m_CollisionObjects{};
+
+		glm::vec2 m_TargetPosition{ 0,0 }; // Target position to move towards
+		glm::vec2 FindPlayer();
 	};
 
 	/*class Shoot : public BaseState
@@ -106,7 +115,9 @@ class Enemy : public boop::Component
 	protected:
 		BaseTank* m_pTankBase{}; 
 		std::unique_ptr<enemy::BaseState> m_pCurrentState;
+		void MoveToPos(glm::vec2 movePos);
 
+		
 	private:
 		glm::vec2 CheckPlayerPosSeen(glm::vec2 playerPos);
 
@@ -126,5 +137,6 @@ public:
 		GoToState(std::make_unique<enemy::GoToClosestPlayer>(this));
 	}
 private:
+	// Add any specific functionality for BlueTankEnemy here
 	
 };
