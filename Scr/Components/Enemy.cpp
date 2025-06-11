@@ -109,13 +109,18 @@ void Enemy::MoveToPos(glm::vec2 pos)
 	//if you cannot move one direction anymore, take the other
 	if (m_MovingX && glm::distance(pos.x, newPos.x) < 1)
 	{
+		if (!CheckWallInBetween(tankPos, false)) {
+
 		m_MovingX = false; //change direction to y
 		return;
+		}
 	}
 	else if (!m_MovingX && glm::distance(pos.y, newPos.y) < 1)
 	{
-		m_MovingX = true; //change direction to x
-		return;
+		if (!CheckWallInBetween(tankPos, true)) {
+			m_MovingX = true; //change direction to x
+			return;
+		}
 	}
 
 	newPos = WouldCollideWithWall(newPos);
@@ -153,7 +158,7 @@ void Enemy::MoveToPos(glm::vec2 pos)
 	//m_MovementVec = moveVec;
 	//m_pTankBase->Move(moveVec);
 
-	std::cout << "m_MovingX: " << m_MovingX << std::endl;
+	//std::cout << "m_MovingX: " << m_MovingX << std::endl;
 
 	GetOwner()->SetLocalPosition(newPos);
 
@@ -184,10 +189,21 @@ glm::vec2 Enemy::WouldCollideWithWall(glm::vec2 newPos)
 			//collided
 			m_MovingX = !m_MovingX;
 
+			auto testpos = GetOwner()->GetLocalPosition();
+			int calcnewTest = static_cast<int>(testpos.x / 8) *8;
+			int calcnewTestY = static_cast<int>(testpos.y / 8) *8;
+
 			int newX = static_cast<int>(newPos.x/8);
 			int newY = static_cast<int>(newPos.y /8);
 			newPos.x = newX * 8.f; //round to 8
 			newPos.y = newY * 8.f; //round to 8
+
+			if (static_cast<float>(calcnewTest) != newPos.x || static_cast<float>(calcnewTestY) != newPos.y)
+			{
+				newPos.x = static_cast<float>(calcnewTest);
+				newPos.y = static_cast<float>(calcnewTestY);
+			}
+
 			return newPos; //return the new position
 		}
 	}
