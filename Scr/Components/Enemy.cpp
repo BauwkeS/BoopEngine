@@ -84,46 +84,84 @@ void Enemy::MoveToPos(glm::vec2 pos)
 
 	//step 1: move x way
 	if (m_MovingX && tankPos.x > pos.x) {
-		//m_MovementVec = glm::vec2{ -m_pTankBase->GetSpeed(),0 };
-		newPos.x = tankLocalPos.x + -m_pTankBase->GetSpeed() * boop::DeltaTime::GetInstance().GetDeltaTime();
+		m_MovementVec = glm::vec2{ -m_pTankBase->GetSpeed(),0 };
+		//newPos.x = tankLocalPos.x + -m_pTankBase->GetSpeed() * boop::DeltaTime::GetInstance().GetDeltaTime();
 	}
 	else if (m_MovingX && tankPos.x < pos.x)
 	{
-		//m_MovementVec = glm::vec2{ m_pTankBase->GetSpeed(),0 };
-		newPos.x = tankLocalPos.x + m_pTankBase->GetSpeed() * boop::DeltaTime::GetInstance().GetDeltaTime();
+		m_MovementVec = glm::vec2{ m_pTankBase->GetSpeed(),0 };
+		//newPos.x = tankLocalPos.x + m_pTankBase->GetSpeed() * boop::DeltaTime::GetInstance().GetDeltaTime();
 	}
 
 	//step 2: move x way
 	if (!m_MovingX && tankPos.y > pos.y) {
-		//m_MovementVec = glm::vec2{ -m_pTankBase->GetSpeed(),0 };
-		newPos.y = tankLocalPos.y + -m_pTankBase->GetSpeed() * boop::DeltaTime::GetInstance().GetDeltaTime();
+		m_MovementVec = glm::vec2{ 0, -m_pTankBase->GetSpeed() };
+		//newPos.y = tankLocalPos.y + -m_pTankBase->GetSpeed() * boop::DeltaTime::GetInstance().GetDeltaTime();
 	}
 	else if (!m_MovingX && tankPos.y < pos.y)
 	{
-		//m_MovementVec = glm::vec2{ m_pTankBase->GetSpeed(),0 };
-		newPos.y = tankLocalPos.y + m_pTankBase->GetSpeed() * boop::DeltaTime::GetInstance().GetDeltaTime();
+		m_MovementVec = glm::vec2{ 0, m_pTankBase->GetSpeed()};
+		//newPos.y = tankLocalPos.y + m_pTankBase->GetSpeed() * boop::DeltaTime::GetInstance().GetDeltaTime();
 	}
 
+	newPos = GetOwner()->GetLocalPosition() + m_MovementVec * boop::DeltaTime::GetInstance().GetDeltaTime();
 	
 
+	/*if (SeePlayer() != glm::vec2{ 0,0 }) m_MovingX = !m_MovingX;
+	else {
+		newPos = WouldCollideWithWall(newPos);
+	}*/
+	bool roundPostBack{};
+
+	if (WouldCollideWithWall(newPos)) {
+		roundPostBack = true;
+		std::cout << "Collide wall\n";
+	}
+	else if (glm::distance(pos.x, newPos.x) < 1 && SeePlayer() != glm::vec2{ 0,0 }) {
+		//if you see the player, change direction
+		m_MovingX = false;
+		//roundPostBack = true;
+		std::cout << "See player TO FALSE\n";
+	}
+	else if (glm::distance(pos.y, newPos.y) < 1 && SeePlayer() != glm::vec2{ 0,0 }) {
+		//if you see the player, change direction
+		m_MovingX = true;
+	//	roundPostBack = true;
+		std::cout << "See player TO TRUE\n";
+	}
+
+	if (roundPostBack)
+	{
+		newPos.x = static_cast<int>(tankLocalPos.x / 8) * 8.f; //round
+		newPos.y = static_cast<int>(tankLocalPos.y / 8) * 8.f; //round
+		roundPostBack = false;
+	}
+
+
 	//if you cannot move one direction anymore, take the other
-	if (m_MovingX && glm::distance(pos.x, newPos.x) < 1)
-	{
-		if (!CheckWallInBetween(tankPos, false)) {
+	//if (m_MovingX && glm::distance(pos.x, newPos.x) < 1)
+	//{
+	//	if (!CheckWallInBetween(tankPos, false)) {
 
-		m_MovingX = false; //change direction to y
-		return;
-		}
-	}
-	else if (!m_MovingX && glm::distance(pos.y, newPos.y) < 1)
-	{
-		if (!CheckWallInBetween(tankPos, true)) {
-			m_MovingX = true; //change direction to x
-			return;
-		}
-	}
+	//	m_MovingX = false; //change direction to y
+	//	return;
+	//	}
+	//}
+	//else if (!m_MovingX && glm::distance(pos.y, newPos.y) < 1)
+	//{
+	//	if (!CheckWallInBetween(tankPos, true)) {
+	//		m_MovingX = true; //change direction to x
+	//		return;
+	//	}
+	//}
 
-	newPos = WouldCollideWithWall(newPos);
+	//newPos = WouldCollideWithWall(newPos);
+	
+
+
+
+
+
 
 	//dont collide in a wall, if you would you go the other way on x or y
 	//if (WouldCollideWithWall(newPos)) {
@@ -170,46 +208,74 @@ void Enemy::MoveToPos(glm::vec2 pos)
 
 	//m_pOwner->GetOwner()->SetLocalPosition(m_pOwner->GetOwner()->GetLocalPosition() + m_TargetPosition);
 }
+//
+//glm::vec2 Enemy::WouldCollideWithWall(glm::vec2 newPos)
+//{
+//	for (const auto& wall : m_CollisionObjects)
+//	{
+//		auto wallPos = wall->GetWorldPosition();
+//		glm::vec2 wallSize = wall->GetComponent<boop::TextureComponent>()->GetSize();
+//		SDL_Rect wallRect{ static_cast<int>(wallPos.x), static_cast<int>(wallPos.y),
+//			static_cast<int>(wallSize.x), static_cast<int>(wallSize.y) };
+//		SDL_Rect checkRect{ static_cast<int>(newPos.x),
+//			static_cast<int>(newPos.y),
+//			static_cast<int>(m_pTankBase->GetSize().x),
+//			static_cast<int>(m_pTankBase->GetSize().y) };
+//
+//		if (SDL_HasIntersection(&checkRect, &wallRect))
+//		{
+//			//collided
+//			m_MovingX = !m_MovingX;
+//
+//			auto testpos = GetOwner()->GetLocalPosition();
+//			int calcnewTest = static_cast<int>(testpos.x / 8) *8;
+//			int calcnewTestY = static_cast<int>(testpos.y / 8) *8;
+//
+//			int newX = static_cast<int>(newPos.x/8);
+//			int newY = static_cast<int>(newPos.y /8);
+//			newPos.x = newX * 8.f; //round to 8
+//			newPos.y = newY * 8.f; //round to 8
+//
+//			if (static_cast<float>(calcnewTest) != newPos.x || static_cast<float>(calcnewTestY) != newPos.y)
+//			{
+//				newPos.x = static_cast<float>(calcnewTest);
+//				newPos.y = static_cast<float>(calcnewTestY);
+//			}
+//
+//			return newPos; //return the new position
+//		}
+//	}
+//
+//	return newPos;
+//}
 
-glm::vec2 Enemy::WouldCollideWithWall(glm::vec2 newPos)
+bool Enemy::WouldCollideWithWall(glm::vec2 newPos)
 {
+	SDL_Rect checkRect{ static_cast<int>(newPos.x),
+			static_cast<int>(newPos.y),
+			static_cast<int>(m_pTankBase->GetSize().x),
+			static_cast<int>(m_pTankBase->GetSize().y) };
+
 	for (const auto& wall : m_CollisionObjects)
 	{
 		auto wallPos = wall->GetWorldPosition();
 		glm::vec2 wallSize = wall->GetComponent<boop::TextureComponent>()->GetSize();
 		SDL_Rect wallRect{ static_cast<int>(wallPos.x), static_cast<int>(wallPos.y),
 			static_cast<int>(wallSize.x), static_cast<int>(wallSize.y) };
-		SDL_Rect checkRect{ static_cast<int>(newPos.x),
-			static_cast<int>(newPos.y),
-			static_cast<int>(m_pTankBase->GetSize().x),
-			static_cast<int>(m_pTankBase->GetSize().y) };
+		
 
 		if (SDL_HasIntersection(&checkRect, &wallRect))
 		{
 			//collided
 			m_MovingX = !m_MovingX;
 
-			auto testpos = GetOwner()->GetLocalPosition();
-			int calcnewTest = static_cast<int>(testpos.x / 8) *8;
-			int calcnewTestY = static_cast<int>(testpos.y / 8) *8;
-
-			int newX = static_cast<int>(newPos.x/8);
-			int newY = static_cast<int>(newPos.y /8);
-			newPos.x = newX * 8.f; //round to 8
-			newPos.y = newY * 8.f; //round to 8
-
-			if (static_cast<float>(calcnewTest) != newPos.x || static_cast<float>(calcnewTestY) != newPos.y)
-			{
-				newPos.x = static_cast<float>(calcnewTest);
-				newPos.y = static_cast<float>(calcnewTestY);
-			}
-
-			return newPos; //return the new position
+			return true;
 		}
 	}
 
-	return newPos;
+	return false;
 }
+
 
 bool Enemy::CheckWallInBetween(glm::vec2 pos, bool horizontal)
 {
