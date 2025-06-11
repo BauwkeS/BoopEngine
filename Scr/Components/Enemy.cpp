@@ -69,6 +69,8 @@ glm::vec2 Enemy::SeePlayer()
 
 void Enemy::MoveToPos(glm::vec2 pos)
 {
+	//TODO: Make the follow better -> when stuck behind a wall on the same line -> switch directions too
+
 	auto tankPos = m_pTankBase->GetOwner()->GetWorldPosition();
 	auto tankLocalPos = GetOwner()->GetLocalPosition();
 
