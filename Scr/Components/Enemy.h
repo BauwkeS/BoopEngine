@@ -46,7 +46,7 @@ namespace enemy
 		void OnExit() override;
 		std::unique_ptr<BaseState>HandleState() override;
 	private:
-		glm::vec2 m_TargetPosition{ 0,0 }; // Target position to move towards
+		//glm::vec2 m_TargetPosition{ 0,0 }; // Target position to move towards
 		glm::vec2 FindPlayer();
 	};
 
@@ -112,7 +112,7 @@ class Enemy : public boop::Component
 		//check functions
 		glm::vec2 SeePlayer();
 		void MoveToPos(glm::vec2 movePos);
-		bool CollideWithWall();
+		glm::vec2  WouldCollideWithWall(glm::vec2 newPos);
 
 
 		boop::GameObject* GetPlayer1() const { return m_Player1; }
@@ -127,6 +127,10 @@ class Enemy : public boop::Component
 	private:
 		bool CheckWallInBetween(glm::vec2 pos, bool horizontal);
 		glm::vec2 CheckPlayerPosSeen(glm::vec2 playerPos);
+
+		glm::vec2 m_MovementVec{ 0,0 };
+
+		bool m_MovingX{true};
 
 		//player stuff
 		boop::GameObject* m_Player1{};

@@ -31,8 +31,8 @@ namespace booble
 		RegisterWallBorderType();
 		RegisterPlayerType("RedTank.png", "p1", 50);
 		RegisterPlayerType("GreenTank.png", "p2", 50);
-		RegisterBlueTankEnemy("BlueTank.png", "enemy", 0);
-		RegisterRecognizerEnemy("Recognizer.png", "enemy", 0);
+		RegisterBlueTankEnemy("BlueTank.png", "enemy", 30);
+		RegisterRecognizerEnemy("Recognizer.png", "enemy", 60);
 	}
 
 	void GameLoader::RegisterAirType()

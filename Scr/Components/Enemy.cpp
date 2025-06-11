@@ -74,33 +74,99 @@ glm::vec2 Enemy::SeePlayer()
 	return resultPos;
 }
 
-void Enemy::MoveToPos(glm::vec2)
+void Enemy::MoveToPos(glm::vec2 pos)
 {
-	//for (auto& wall : m_Player->GetCollisionObjects())
-	//{
-	//	auto wallPos = wall->GetWorldPosition();
-	//	glm::vec2 wallSize = wall->GetComponent<boop::TextureComponent>()->GetSize();
-	//	SDL_Rect wallRect{ static_cast<int>(wallPos.x), static_cast<int>(wallPos.y),
-	//		static_cast<int>(wallSize.x), static_cast<int>(wallSize.y) };
+	auto tankPos = m_pTankBase->GetOwner()->GetWorldPosition();
+	auto tankLocalPos = GetOwner()->GetLocalPosition();
 
-	//	m_ObjectSize.x = static_cast<int>(newXPos);
-	//	m_ObjectSize.y = static_cast<int>(newYPos);
+	//bool direction{true};
+	glm::vec2 newPos{ tankLocalPos };
 
-	//	//check if the rects intersect or not
-	//	if (SDL_HasIntersection(&m_ObjectSize, &wallRect))
-	//	{
-	//		//you have collided!
-	//		return;
-	//	}
+	//step 1: move x way
+	if (m_MovingX && tankPos.x > pos.x) {
+		//m_MovementVec = glm::vec2{ -m_pTankBase->GetSpeed(),0 };
+		newPos.x = tankLocalPos.x + -m_pTankBase->GetSpeed() * boop::DeltaTime::GetInstance().GetDeltaTime();
+	}
+	else if (m_MovingX && tankPos.x < pos.x)
+	{
+		//m_MovementVec = glm::vec2{ m_pTankBase->GetSpeed(),0 };
+		newPos.x = tankLocalPos.x + m_pTankBase->GetSpeed() * boop::DeltaTime::GetInstance().GetDeltaTime();
+	}
+
+	//step 2: move x way
+	if (!m_MovingX && tankPos.y > pos.y) {
+		//m_MovementVec = glm::vec2{ -m_pTankBase->GetSpeed(),0 };
+		newPos.y = tankLocalPos.y + -m_pTankBase->GetSpeed() * boop::DeltaTime::GetInstance().GetDeltaTime();
+	}
+	else if (!m_MovingX && tankPos.y < pos.y)
+	{
+		//m_MovementVec = glm::vec2{ m_pTankBase->GetSpeed(),0 };
+		newPos.y = tankLocalPos.y + m_pTankBase->GetSpeed() * boop::DeltaTime::GetInstance().GetDeltaTime();
+	}
+
+	
+
+	//if you cannot move one direction anymore, take the other
+	if (m_MovingX && glm::distance(pos.x, newPos.x) < 1)
+	{
+		m_MovingX = false; //change direction to y
+		return;
+	}
+	else if (!m_MovingX && glm::distance(pos.y, newPos.y) < 1)
+	{
+		m_MovingX = true; //change direction to x
+		return;
+	}
+
+	newPos = WouldCollideWithWall(newPos);
+
+	//dont collide in a wall, if you would you go the other way on x or y
+	//if (WouldCollideWithWall(newPos)) {
+	//	m_MovingX = !m_MovingX;
+	//	std::cout << "Would collide with wall, changing direction!\n" << "posx: " << newPos.x << " | posy: " << newPos.y << std::endl;;
+	//	return; //exit if you would collide with a wall
 	//}
 
-	////if you are nto colliding with anything, move player
-	//m_pGameObject->SetLocalPosition(newXPos, newYPos);
+	//step 2: move y way
+	/*if (!direction && tankPos.y > pos.y) m_MovementVec = glm::vec2{ 0,-m_pTankBase->GetSpeed() };
+	else if (!direction && tankPos.y < pos.y) m_MovementVec = glm::vec2{ 0,m_pTankBase->GetSpeed() };
 
-	//m_pPlayerTexture->FlipTextureDir(m_Speed);
+	*/
+
+
+	//if (pos.x < tankPos.x)
+	//{
+	//	m_MovementVec.x = -m_pTankBase->GetSpeed();
+	//}
+	//else if (pos.x > tankPos.x)
+	//{
+	//	moveVec.x = m_pTankBase->GetSpeed();
+	//}
+	//if (pos.y < tankPos.y)
+	//{
+	//	moveVec.y = -m_pTankBase->GetSpeed();
+	//}
+	//else if (pos.y > tankPos.y)
+	//{
+	//	moveVec.y = m_pTankBase->GetSpeed();
+	//}
+	//m_MovementVec = moveVec;
+	//m_pTankBase->Move(moveVec);
+
+	std::cout << "m_MovingX: " << m_MovingX << std::endl;
+
+	GetOwner()->SetLocalPosition(newPos);
+
+
+	/*GetOwner()->SetLocalPosition(
+		GetOwner()->GetLocalPosition().x + m_MovementVec.x * boop::DeltaTime::GetInstance().GetDeltaTime(),
+		GetOwner()->GetLocalPosition().y);*/
+	//	GetOwner()->GetLocalPosition().y + m_MovementVec.y * boop::DeltaTime::GetInstance().GetDeltaTime());
+
+	//m_pOwner->GetOwner()->SetLocalPosition(m_pOwner->GetOwner()->GetLocalPosition() + m_TargetPosition);
 }
 
-bool Enemy::CollideWithWall()
+glm::vec2 Enemy::WouldCollideWithWall(glm::vec2 newPos)
 {
 	for (const auto& wall : m_CollisionObjects)
 	{
@@ -108,20 +174,25 @@ bool Enemy::CollideWithWall()
 		glm::vec2 wallSize = wall->GetComponent<boop::TextureComponent>()->GetSize();
 		SDL_Rect wallRect{ static_cast<int>(wallPos.x), static_cast<int>(wallPos.y),
 			static_cast<int>(wallSize.x), static_cast<int>(wallSize.y) };
-		SDL_Rect checkRect{ static_cast<int>(m_pTankBase->GetOwner()->GetWorldPosition().x),
-			static_cast<int>(m_pTankBase->GetOwner()->GetWorldPosition().y),
+		SDL_Rect checkRect{ static_cast<int>(newPos.x),
+			static_cast<int>(newPos.y),
 			static_cast<int>(m_pTankBase->GetSize().x),
 			static_cast<int>(m_pTankBase->GetSize().y) };
 
-		//wrong -> dont check the tank, check the positions between the player and the tank pls
-
 		if (SDL_HasIntersection(&checkRect, &wallRect))
 		{
-			return true; //collision detected
+			//collided
+			m_MovingX = !m_MovingX;
+
+			int newX = static_cast<int>(newPos.x/8);
+			int newY = static_cast<int>(newPos.y /8);
+			newPos.x = newX * 8.f; //round to 8
+			newPos.y = newY * 8.f; //round to 8
+			return newPos; //return the new position
 		}
 	}
 
-	return false;
+	return newPos;
 }
 
 bool Enemy::CheckWallInBetween(glm::vec2 pos, bool horizontal)
@@ -220,55 +291,34 @@ enemy::GoToClosestPlayer::GoToClosestPlayer(Enemy* owner)
 }
 void enemy::GoToClosestPlayer::Update()
 {
-	if (m_pOwner->SeePlayer() != glm::vec2{ 0,0 }) std::cout << "SEE PLAYER HEREEE (so you should've shot now)\n";
+	//if (m_pOwner->SeePlayer() != glm::vec2{ 0,0 }) std::cout << "SEE PLAYER HEREEE (so you should've shot now)\n";
 
-	//auto scene = boop::SceneManager::GetInstance().GetActiveScene();
-	//auto player1 = scene->FindGameObjectByTag("p1");
-	//auto player2 = scene->FindGameObjectByTag("p2");
-//	if (player1 && player2)
-//	{
-//		// Calculate distances to both players
-//		float distanceToPlayer1 = glm::distance(m_pTankBase->GetOwner()->GetWorldPosition(), player1->GetWorldPosition());
-//		float distanceToPlayer2 = glm::distance(m_pTankBase->GetOwner()->GetWorldPosition(), player2->GetWorldPosition());
-//		// Determine which player is closer
-//	/*	if (distanceToPlayer1 < distanceToPlayer2)
-//		{
-//			m_pTankBase->MoveTowards(player1->GetWorldPosition());
-//		}
-//		else
-//		{
-//			m_pTankBase->MoveTowards(player2->GetWorldPosition());
-//		}*/
-//
-//		if (distanceToPlayer1 < 100.f || distanceToPlayer2 < 100.f)
-//		{
-//			std::cout << "Close to player within 100.f" << std::endl;
-//		}
-//	}
-//	else {
-//		//no second player, just go to player 1
-//		float distanceToPlayer1 = glm::distance(m_pTankBase->GetOwner()->GetWorldPosition(), player1->GetWorldPosition());
-//
-//		if (distanceToPlayer1 < 100.f)
-//		{
-//			std::cout << "Close to player within 100.f" << std::endl;
-//		}
-//	}
-//}
-	//}
+	m_pOwner->MoveToPos(FindPlayer());
 }
 
 glm::vec2 enemy::GoToClosestPlayer::FindPlayer()
 {
+	glm::vec2 returnVec{};
+
 	if (m_pOwner->GetPlayer1())
 	{
 		glm::vec2 playerPos = m_pOwner->GetPlayer1()->GetWorldPosition();
 		glm::vec2 tankPos = m_pOwner->GetOwner()->GetWorldPosition();
+
+		float distance{100000000.f};
+		
+
+		//check if there is a second player
+		if (m_pOwner->GetPlayer2() && !m_pOwner->GetPlayer2()->ToDelete()) {
+			distance = glm::distance(m_pOwner->GetPlayer2()->GetWorldPosition(), tankPos);
+			returnVec = m_pOwner->GetPlayer2()->GetWorldPosition();
+		}
+
 		// Check if the player is within a certain distance
-		if (glm::distance(playerPos, tankPos) < 500.f) // Example distance threshold
+		if (glm::distance(playerPos, tankPos) < distance) // Example distance threshold
 		{
-			return playerPos; // Return the player's position if seen
+			returnVec = playerPos; // Return the player's position if seen
 		}
 	}
-	return glm::vec2();
+	return returnVec;
 }
