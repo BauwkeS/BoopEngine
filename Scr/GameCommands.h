@@ -272,6 +272,11 @@ namespace booble
 			{
 				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
 			}
+			auto enemies = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("enemy");
+			for (auto& enemy : enemies)
+			{
+				enemy->GetComponent<Enemy>()->UpdateFromScene();
+			}
 		};
 
 		ChangeScene(const ChangeScene& other) = delete;
@@ -323,6 +328,11 @@ namespace booble
 			for (auto& level : levels)
 			{
 				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
+			}
+			auto enemies = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("enemy");
+			for (auto& enemy : enemies)
+			{
+				enemy->GetComponent<Enemy>()->UpdateFromScene();
 			}
 		};
 

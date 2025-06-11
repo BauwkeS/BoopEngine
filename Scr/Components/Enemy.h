@@ -25,15 +25,15 @@ namespace enemy
 		virtual void Update() = 0;
 		virtual void OnEnter() = 0;
 		virtual void OnExit() = 0;
-	//	BaseState() = default;
 		BaseState(const BaseState& other) = delete;
 		BaseState(BaseState&& other) = delete;
 		BaseState& operator=(const BaseState& other) = delete;
 		BaseState& operator=(BaseState&& other) = delete; 
+		virtual std::unique_ptr<BaseState>HandleState() { return nullptr; };
 
 	protected:
-		Enemy* m_pOwner{}; // Pointer to the owner GameObject
-		BaseState(Enemy* owner) : m_pOwner(owner) {} // Constructor to set owner
+		Enemy* m_pOwner{}; 
+		BaseState(Enemy* owner) : m_pOwner(owner) {}
 	};
 
 	class GoToClosestPlayer : public BaseState
@@ -44,13 +44,8 @@ namespace enemy
 		void Update() override;
 		void OnEnter() override;
 		void OnExit() override;
+		std::unique_ptr<BaseState>HandleState() override;
 	private:
-		//player stuff
-		boop::GameObject* m_Player1{};
-		boop::GameObject* m_Player2{};
-
-		std::vector<boop::GameObject*> m_CollisionObjects{};
-
 		glm::vec2 m_TargetPosition{ 0,0 }; // Target position to move towards
 		glm::vec2 FindPlayer();
 	};
@@ -83,7 +78,7 @@ namespace enemy
 class Enemy : public boop::Component
 	{
 	public:
-		Enemy(boop::GameObject* owner, int speed, const std::string spritePath);
+		Enemy(boop::GameObject* owner);
 		~Enemy() = default;
 
 		void FixedUpdate() override;
@@ -98,28 +93,46 @@ class Enemy : public boop::Component
 
 		BaseTank* GetTankBase() const { return m_pTankBase; }
 
-		virtual void GoToState(std::unique_ptr<enemy::BaseState> newState) 
+		void UpdateFromScene();
+
+		void HandleStateChanges()
 		{
-			if (newState)
+			if (m_pCurrentState)
 			{
-				if (m_pCurrentState)
+				auto newState = m_pCurrentState->HandleState();
+				if (newState)
 				{
 					m_pCurrentState->OnExit();
+					m_pCurrentState = std::move(newState);
+					m_pCurrentState->OnEnter();
 				}
-				m_pCurrentState = std::move(newState);
-				m_pCurrentState->OnEnter();
 			}
 		}
 
+		//check functions
 		glm::vec2 SeePlayer();
+		void MoveToPos(glm::vec2 movePos);
+		bool CollideWithWall();
+
+
+		boop::GameObject* GetPlayer1() const { return m_Player1; }
+		boop::GameObject* GetPlayer2() const { return m_Player2; }
+
 	protected:
+
 		BaseTank* m_pTankBase{}; 
 		std::unique_ptr<enemy::BaseState> m_pCurrentState;
-		void MoveToPos(glm::vec2 movePos);
 
 		
 	private:
+		bool CheckWallInBetween(glm::vec2 pos, bool horizontal);
 		glm::vec2 CheckPlayerPosSeen(glm::vec2 playerPos);
+
+		//player stuff
+		boop::GameObject* m_Player1{};
+		boop::GameObject* m_Player2{};
+
+		std::vector<boop::GameObject*> m_CollisionObjects{};
 
 	};
 
@@ -131,12 +144,27 @@ class Enemy : public boop::Component
 class BlueTankEnemy : public Enemy
 {
 public:
-	BlueTankEnemy(boop::GameObject* owner, int speed, const std::string spritePath)
-		: Enemy(owner, speed, spritePath) {
+	BlueTankEnemy(boop::GameObject* owner)
+		: Enemy(owner) {
 		//set base state to use
-		GoToState(std::make_unique<enemy::GoToClosestPlayer>(this));
+		//GoToState(std::make_unique<enemy::GoToClosestPlayer>(this));
+		m_pCurrentState = std::make_unique<enemy::GoToClosestPlayer>(this);
 	}
 private:
 	// Add any specific functionality for BlueTankEnemy here
+	float m_CooldownShoot{ 0.f }; // Cooldown for shooting
 	
+};
+
+class RecognizerEnemy : public Enemy
+{
+public:
+	RecognizerEnemy(boop::GameObject* owner)
+		: Enemy(owner) {
+		//set base state to use
+		//GoToState(std::make_unique<enemy::GoToClosestPlayer>(this));
+		m_pCurrentState = std::make_unique<enemy::GoToClosestPlayer>(this);
+	}
+	//private:
+		// Add any specific functionality for BlueTankEnemy here
 };

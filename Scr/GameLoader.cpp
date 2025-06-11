@@ -89,7 +89,8 @@ namespace booble
 	{
 		level::LevelLoader::GetInstance().RegisterType(7, level::LevelLayer::DYNAMIC)
 			.SetObjectUnder(1)
-			.AddComponent<Enemy>(playerSpeed, spritePath)
+			.AddComponent<BaseTank>(playerSpeed, spritePath)
+			.AddComponent<RecognizerEnemy>()
 			.AddComponent<Health>(1)
 			.SetDefaultTag(tagName);
 	}
@@ -98,7 +99,8 @@ namespace booble
 	{
 		level::LevelLoader::GetInstance().RegisterType(4, level::LevelLayer::DYNAMIC)
 			.SetObjectUnder(1)
-			.AddComponent<BlueTankEnemy>(playerSpeed, spritePath)
+			.AddComponent<BaseTank>(playerSpeed, spritePath)
+			.AddComponent<BlueTankEnemy>()
 			.AddComponent<Health>(3)
 			.SetDefaultTag(tagName);
 	}
