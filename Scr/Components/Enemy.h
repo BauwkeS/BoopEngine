@@ -112,7 +112,6 @@ class Enemy : public boop::Component
 		//check functions
 		glm::vec2 SeePlayer();
 		void MoveToPos(glm::vec2 movePos);
-		//glm::vec2  WouldCollideWithWall(glm::vec2 newPos);
 		bool WouldCollideWithWall(glm::vec2 newPos);
 
 
