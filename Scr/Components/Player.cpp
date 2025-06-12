@@ -47,14 +47,7 @@ namespace booble
 
 	void Player::OnNotify(boop::Event event)
 	{
-		if (event.id == boop::make_sdbm_hash("PlayerKillTank")) {
-			//m_Score += 100;
-			m_Subject->NotifyObserver(event);
-		}
-		if (event.id == boop::make_sdbm_hash("PlayerKillRecognizer")) {
-			//m_Score += 250;
-			m_Subject->NotifyObserver(event);
-		}
+		m_Subject->NotifyObserver(event);
 	}
 
 	void Player::AddKeyboardMovement()

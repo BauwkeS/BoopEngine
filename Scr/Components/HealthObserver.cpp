@@ -3,7 +3,6 @@
 #include "../../BoopEngine/Boop/GameObject.h"
 #include "Events.h"
 #include "Health.h"
-#include "../GameCommands.h"
 
 HealthObserver::HealthObserver(boop::GameObject* owner)
 	: TextComponent(owner)
@@ -23,9 +22,6 @@ void HealthObserver::OnNotify(boop::Event event)
 	{
 		int health = GetOwner()->GetComponent<Health>()->GetHealth();
 		SetText("Health: " + std::to_string(health) + " - YOU DIED");
-
-		auto changeScene = booble::ChangeScene("EndingScreen");
-		changeScene.Execute();
 	}
 	
 }

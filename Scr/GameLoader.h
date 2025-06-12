@@ -3,6 +3,7 @@
 #include "../BoopEngine/Boop/Scene/GameObjectType.h"
 #include <memory>
 #include <string>
+#include "Components/LevelObserver.h"
 
 namespace boop {
 	class GameObject;
@@ -36,6 +37,9 @@ namespace booble
 		void MakeEndingScreen();
 		
 		int m_selectedGamemode{};
+
+		std::unique_ptr<LevelObserver> m_levelObserver{};
+
 	public:
 		void MakeGame();
 		void InitializeLevels();

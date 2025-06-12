@@ -17,7 +17,7 @@ add_executable(${PROJECT_NAME}
  
  "Scr/GameCommands.h"
     "Scr/Components/Health.h" "Scr/Components/Health.cpp" "Scr/Components/Events.h" "Scr/Components/HealthObserver.h"
-"Scr/Components/HealthObserver.cpp" "Scr/Level.h" "Scr/Level.cpp" "Scr/Components/ScoreObserver.h" "Scr/Components/ScoreObserver.cpp" "Scr/Components/BaseTank.cpp" "Scr/Components/BaseTank.h" "Scr/Components/Enemy.h" "Scr/Components/Enemy.cpp" "Scr/Components/TankGun.h" "Scr/Components/TankGun.cpp" "Scr/Components/Bullet.h" "Scr/Components/Bullet.cpp")
+"Scr/Components/HealthObserver.cpp" "Scr/Level.h" "Scr/Level.cpp" "Scr/Components/ScoreObserver.h" "Scr/Components/ScoreObserver.cpp" "Scr/Components/BaseTank.cpp" "Scr/Components/BaseTank.h" "Scr/Components/Enemy.h" "Scr/Components/Enemy.cpp" "Scr/Components/TankGun.h" "Scr/Components/TankGun.cpp" "Scr/Components/Bullet.h" "Scr/Components/Bullet.cpp" "Scr/Components/LevelObserver.h" "Scr/Components/LevelObserver.cpp")
 
 # Ensure correct target name
 if(EMSCRIPTEN)

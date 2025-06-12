@@ -131,7 +131,7 @@ namespace booble
 
 		//set observers
 		player1->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player1);
-		
+		player1->GetOwner()->GetComponent<Health>()->GetSubject()->AddObserver(m_levelObserver.get());
 
 		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
 		case booble::GameMode::SINGLEPLAYER:
@@ -148,6 +148,7 @@ namespace booble
 
 			//set observers
 			player2->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player2);
+			player2->GetOwner()->GetComponent<Health>()->GetSubject()->AddObserver(m_levelObserver.get());
 
 			//score
 			auto scoreObsPlayer2 = player2->GetOwner()->AddComponent<ScoreObserver>();
@@ -171,6 +172,8 @@ namespace booble
 
 			//set observers
 			player2->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player2);
+			player2->GetOwner()->GetComponent<Health>()->GetSubject()->AddObserver(m_levelObserver.get());
+
 
 			//set the UI position
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
@@ -244,6 +247,9 @@ namespace booble
 
 	void GameLoader::InitializeLevels()
 	{
+		//Level control
+		m_levelObserver = std::make_unique<LevelObserver>();
+
 		//RESET CONTROLLERS
 		boop::InputManager::GetInstance().DeleteControllers();
 
