@@ -64,16 +64,35 @@ namespace enemy
 		float m_CooldownShoot{ 0.f }; // Cooldown for shooting
 
 	};
-	/*
-	class Die : public BaseState
+	
+	class Roam : public BaseState
 	{
 	public:
-		Die(Enemy* owner);
-		~Die() = default;
+		Roam(Enemy* owner);
+		~Roam() = default;
 		void Update() override;
 		void OnEnter() override;
 		void OnExit() override;
-	};*/
+		std::unique_ptr<BaseState>HandleState() override;
+	private:
+		glm::vec2 m_RandomTargetPos{};
+		void FindRandomTargetPos();
+		float m_RoamTimer{ 0.f }; // Timer for roaming
+	};
+
+	class ChasePlayer : public BaseState
+	{
+	public:
+		ChasePlayer(Enemy* owner);
+		~ChasePlayer() = default;
+		void Update() override;
+		void OnEnter() override;
+		void OnExit() override;
+		std::unique_ptr<BaseState>HandleState() override;
+	private:
+		glm::vec2 m_TargetPosition{ 0,0 };
+		//bool m_IsChasing{ true };
+	};
 }
 
 //-------------------------------------------------------------------------
@@ -175,7 +194,7 @@ public:
 		: Enemy(owner) {
 		//set base state to use
 		//GoToState(std::make_unique<enemy::GoToClosestPlayer>(this));
-		m_pCurrentState = std::make_unique<enemy::GoToClosestPlayer>(this);
+		m_pCurrentState = std::make_unique<enemy::Roam>(this);
 	}
 	//private:
 		// Add any specific functionality for BlueTankEnemy here

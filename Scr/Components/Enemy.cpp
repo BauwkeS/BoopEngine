@@ -99,15 +99,16 @@ void Enemy::MoveToPos(glm::vec2 pos)
 
 	newPos = GetOwner()->GetLocalPosition() + m_MovementVec * boop::DeltaTime::GetInstance().GetDeltaTime();
 
-	if (WouldCollideWithWall(newPos)) {
-		newPos.x = static_cast<int>(tankLocalPos.x / 8) * 8.f; //round
-		newPos.y = static_cast<int>(tankLocalPos.y / 8) * 8.f; //round
-	}
-	else if (glm::distance(pos.x, newPos.x) < 1 && SeePlayer() != glm::vec2{ 0,0 }) {
+	
+	if (glm::distance(pos.x, newPos.x) < 1 && SeePlayer() != glm::vec2{ 0,0 }) {
 		m_MovingX = false;
 	}
 	else if (glm::distance(pos.y, newPos.y) < 1 && SeePlayer() != glm::vec2{ 0,0 }) {
 		m_MovingX = true;
+	}
+	else if (WouldCollideWithWall(newPos)) {
+		newPos.x = static_cast<int>(tankLocalPos.x / 8) * 8.f; //round
+		newPos.y = static_cast<int>(tankLocalPos.y / 8) * 8.f; //round
 	}
 
 	m_pTankTexture->FlipTextureDir(m_MovementVec);
@@ -330,5 +331,105 @@ std::unique_ptr<enemy::BaseState> enemy::Shoot::HandleState()
 		return std::make_unique<enemy::GoToClosestPlayer>(m_pOwner); // Change state back to GoToClosestPlayer
 	}
 
+	return nullptr;
+}
+
+//------------------------------------------------------------------------
+
+
+enemy::Roam::Roam(Enemy* owner)
+	: BaseState(owner)
+{
+	//m_RandomTargetPos = m_pOwner->GetOwner()->GetWorldPosition();
+}
+
+void enemy::Roam::Update()
+{
+	m_RoamTimer += boop::DeltaTime::GetInstance().GetDeltaTime();
+
+	if (m_RandomTargetPos == glm::vec2{ 0,0 }) FindRandomTargetPos();
+	//move to the random target position
+	m_pOwner->MoveToPos(m_RandomTargetPos);
+	//check if reached the target position
+	if (glm::distance(m_pOwner->GetOwner()->GetWorldPosition(), m_RandomTargetPos) < 40.f)
+	{
+		m_RandomTargetPos = glm::vec2{ 0,0 }; //reset target pos
+	}
+
+	if (m_RoamTimer >= 4.f) {
+		m_RandomTargetPos = glm::vec2{ 0,0 }; //reset target pos
+		m_RoamTimer = 0.f; // Reset roam timer
+	}
+}
+
+void enemy::Roam::OnEnter()
+{
+	FindRandomTargetPos();
+}
+
+void enemy::Roam::OnExit()
+{
+	m_RoamTimer = 0.f; // Reset roam timer
+}
+
+std::unique_ptr<enemy::BaseState> enemy::Roam::HandleState()
+{
+	if (m_pOwner->SeePlayer() != glm::vec2{ 0,0 })
+	{
+		return std::make_unique<enemy::ChasePlayer>(m_pOwner);
+	}
+	return nullptr; //no state change
+}
+
+void enemy::Roam::FindRandomTargetPos()
+{
+	//roam within a derimeter
+	int derimeter = 800;
+
+	//m_RandomTargetPos.x = static_cast<float>(rand() % static_cast<int>(derimeter));
+	//m_RandomTargetPos.y = static_cast<float>(rand() % static_cast<int>(derimeter));
+
+	auto tankPos = m_pOwner->GetOwner()->GetWorldPosition();
+
+	while (m_RandomTargetPos.x <= 0 || m_RandomTargetPos.y <= 0 ||
+		m_pOwner->WouldCollideWithWall(m_RandomTargetPos))
+	{
+		m_RandomTargetPos.x = tankPos.x + (static_cast<float>(rand() % static_cast<int>(derimeter))-derimeter/2);
+		m_RandomTargetPos.y = tankPos.y + (static_cast<float>(rand() % static_cast<int>(derimeter))-derimeter / 2);
+	}
+}
+
+//------------------------------------------------------------------------
+
+enemy::ChasePlayer::ChasePlayer(Enemy* owner)
+	: BaseState(owner)
+{
+}
+
+void enemy::ChasePlayer::Update()
+{
+	m_pOwner->MoveToPos(m_TargetPosition);
+
+	if (glm::distance(m_pOwner->GetOwner()->GetWorldPosition(), m_TargetPosition) < 5.f)
+	{
+		m_TargetPosition = m_pOwner->SeePlayer();
+	}
+}
+
+void enemy::ChasePlayer::OnEnter()
+{
+	m_TargetPosition = m_pOwner->SeePlayer();
+}
+
+void enemy::ChasePlayer::OnExit()
+{
+}
+
+std::unique_ptr<enemy::BaseState> enemy::ChasePlayer::HandleState()
+{
+	if (m_TargetPosition == glm::vec2{ 0,0 })
+	{
+		return std::make_unique<enemy::Roam>(m_pOwner); // Change state to Roam if no player is seen
+	}
 	return nullptr;
 }
