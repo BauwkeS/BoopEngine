@@ -27,6 +27,8 @@ Enemy::Enemy(boop::GameObject* owner)
 	m_Player2 = scene->FindGameObjectByTag("p2");
 
 	m_CollisionObjects = scene->FindAllGameObjectByTag("collision");
+
+	m_pTankTexture = GetOwner()->GetComponent<boop::TextureComponent>();
 }
 
 void Enemy::FixedUpdate()
@@ -107,6 +109,8 @@ void Enemy::MoveToPos(glm::vec2 pos)
 	else if (glm::distance(pos.y, newPos.y) < 1 && SeePlayer() != glm::vec2{ 0,0 }) {
 		m_MovingX = true;
 	}
+
+	m_pTankTexture->FlipTextureDir(m_MovementVec);
 
 	GetOwner()->SetLocalPosition(newPos);
 }
@@ -309,7 +313,7 @@ void enemy::Shoot::OnEnter()
 	bullet->AddComponent<Bullet>(m_pOwner->m_MovementVec, m_pOwner->GetPlayer1()->GetChildAt(0)->GetComponent<Level>(), true);
 	bullet->AddComponent<boop::TextureComponent>("BulletNPC.png");
 	glm::vec2 bulletSpawnPos = m_pOwner->GetOwner()->GetWorldPosition();
-	bulletSpawnPos += m_pOwner->GetOwner()->GetComponent<boop::TextureComponent>()->GetSize() / 3.f; // Center the bullet spawn position
+	bulletSpawnPos += m_pOwner->GetTankTexture()->GetSize() / 3.f; // Center the bullet spawn position
 	bullet->SetLocalPosition(bulletSpawnPos);
 	boop::SceneManager::GetInstance().GetActiveScene()->Add(std::move(bullet));
 }

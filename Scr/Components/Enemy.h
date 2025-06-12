@@ -10,6 +10,7 @@ namespace boop {
 	class Component;
 	class Scene;
 	class Subject;
+	class TextureComponent;
 }
 
 class Enemy;
@@ -96,6 +97,7 @@ class Enemy : public boop::Component
 		Enemy& operator=(Enemy&& other) = delete;
 
 		BaseTank* GetTankBase() const { return m_pTankBase; }
+		boop::TextureComponent* GetTankTexture() const { return m_pTankTexture; }
 
 		//glm::vec2 GetMovementVec() const { return m_MovementVec; }
 
@@ -135,6 +137,7 @@ class Enemy : public boop::Component
 	private:
 		glm::vec2 CheckPlayerPosSeen(glm::vec2 playerPos);
 
+		boop::TextureComponent* m_pTankTexture{};
 
 		bool m_MovingX{true};
 
