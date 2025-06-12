@@ -124,6 +124,7 @@ namespace booble
 		//set score observsers and merge if needed
 		auto scoreObsPlayer1 = player1->GetOwner()->AddComponent<ScoreObserver>();
 		player1->GetSubject()->AddObserver(scoreObsPlayer1);
+		player1->GetSubject()->AddObserver(m_levelObserver.get());
 
 		//set the UI position
 		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
@@ -153,6 +154,7 @@ namespace booble
 			//score
 			auto scoreObsPlayer2 = player2->GetOwner()->AddComponent<ScoreObserver>();
 			player2->GetSubject()->AddObserver(scoreObsPlayer2);
+			player2->GetSubject()->AddObserver(m_levelObserver.get());
 
 			//set the UI position
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
@@ -169,6 +171,7 @@ namespace booble
 
 			//merge the score from player2 to player1
 			player2->GetSubject()->AddObserver(scoreObsPlayer1);
+			player2->GetSubject()->AddObserver(m_levelObserver.get());
 
 			//set observers
 			player2->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player2);
