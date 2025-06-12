@@ -199,7 +199,7 @@ bool Enemy::CheckWallInBetween(glm::vec2 pos, bool horizontal)
 glm::vec2 Enemy::CheckPlayerPosSeen(glm::vec2 playerPos)
 {
 	auto tankPos = m_pTankBase->GetOwner()->GetWorldPosition();
-	int margin = 15;
+	int margin = 5;
 
 	//TODO also check for wall collision!
 
@@ -217,17 +217,41 @@ glm::vec2 Enemy::CheckPlayerPosSeen(glm::vec2 playerPos)
 	return glm::vec2{ 0,0 }; //not seen
 }
 
+//------------------------------------------------------------------------
+
 void enemy::GoToClosestPlayer::OnEnter()
 {
 	
 }
 void enemy::GoToClosestPlayer::OnExit()
 {
+	float bulletSpeed = 1.f;
+
+	//look towards the player
+	auto tankPos = m_pOwner->GetOwner()->GetWorldPosition();
+	int margin = 15;
+
+	auto playerPos = m_pOwner->SeePlayer();
+
+	//y check
+	if (playerPos.x - margin < tankPos.x && playerPos.x + margin > tankPos.x)
+	{
+		if (playerPos.y < tankPos.y) m_pOwner->m_MovementVec = glm::vec2{ 0, -bulletSpeed }; //look up
+		else m_pOwner->m_MovementVec = glm::vec2{ 0, bulletSpeed }; //look up
+	}
+	//x check
+	if (playerPos.y - margin < tankPos.y && playerPos.y + margin > tankPos.y) {
+		if (playerPos.x < tankPos.x) m_pOwner->m_MovementVec = glm::vec2{ -bulletSpeed,0 }; //look up
+		else m_pOwner->m_MovementVec = glm::vec2{ bulletSpeed,0 }; //look up
+	}
 }
 std::unique_ptr<enemy::BaseState> enemy::GoToClosestPlayer::HandleState()
 {
-
-	return std::unique_ptr<BaseState>();
+	if (m_pOwner->SeePlayer() != glm::vec2{ 0,0 })
+	{
+		return std::make_unique<enemy::Shoot>(m_pOwner); //change state to shoot
+	}
+	return nullptr; //no state change
 }
 enemy::GoToClosestPlayer::GoToClosestPlayer(Enemy* owner)
 	: BaseState(owner)
@@ -263,4 +287,44 @@ glm::vec2 enemy::GoToClosestPlayer::FindPlayer()
 		}
 	}
 	return returnVec;
+}
+
+//------------------------------------------------------------------------
+
+
+enemy::Shoot::Shoot(Enemy* owner)
+	: BaseState(owner)
+{
+}
+
+void enemy::Shoot::Update()
+{
+	m_CooldownShoot += boop::DeltaTime::GetInstance().GetDeltaTime();
+}
+
+void enemy::Shoot::OnEnter()
+{//shoot the bullet
+	auto bullet = std::make_unique<boop::GameObject>();
+	bullet->SetTag("bullet");
+	bullet->AddComponent<Bullet>(m_pOwner->m_MovementVec, m_pOwner->GetPlayer1()->GetChildAt(0)->GetComponent<Level>(), true);
+	bullet->AddComponent<boop::TextureComponent>("BulletNPC.png");
+	glm::vec2 bulletSpawnPos = m_pOwner->GetOwner()->GetWorldPosition();
+	bulletSpawnPos += m_pOwner->GetOwner()->GetComponent<boop::TextureComponent>()->GetSize() / 3.f; // Center the bullet spawn position
+	bullet->SetLocalPosition(bulletSpawnPos);
+	boop::SceneManager::GetInstance().GetActiveScene()->Add(std::move(bullet));
+}
+
+void enemy::Shoot::OnExit()
+{
+	m_CooldownShoot = 0.f; // Reset cooldown
+}
+
+std::unique_ptr<enemy::BaseState> enemy::Shoot::HandleState()
+{
+	if (m_CooldownShoot >= 1.5f) // cooldown time
+	{
+		return std::make_unique<enemy::GoToClosestPlayer>(m_pOwner); // Change state back to GoToClosestPlayer
+	}
+
+	return nullptr;
 }

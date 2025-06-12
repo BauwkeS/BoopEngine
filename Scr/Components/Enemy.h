@@ -50,7 +50,7 @@ namespace enemy
 		glm::vec2 FindPlayer();
 	};
 
-	/*class Shoot : public BaseState
+	class Shoot : public BaseState
 	{
 	public:
 		Shoot(Enemy* owner);
@@ -58,8 +58,12 @@ namespace enemy
 		void Update() override;
 		void OnEnter() override;
 		void OnExit() override;
-	};
+		std::unique_ptr<BaseState>HandleState() override;
+	private:
+		float m_CooldownShoot{ 0.f }; // Cooldown for shooting
 
+	};
+	/*
 	class Die : public BaseState
 	{
 	public:
@@ -93,6 +97,8 @@ class Enemy : public boop::Component
 
 		BaseTank* GetTankBase() const { return m_pTankBase; }
 
+		//glm::vec2 GetMovementVec() const { return m_MovementVec; }
+
 		void UpdateFromScene();
 
 		void HandleStateChanges()
@@ -113,11 +119,13 @@ class Enemy : public boop::Component
 		glm::vec2 SeePlayer();
 		void MoveToPos(glm::vec2 movePos);
 		bool WouldCollideWithWall(glm::vec2 newPos);
+		glm::vec2 m_MovementVec{ 0,0 };
 
 
 		boop::GameObject* GetPlayer1() const { return m_Player1; }
 		boop::GameObject* GetPlayer2() const { return m_Player2; }
 
+		bool CheckWallInBetween(glm::vec2 pos, bool horizontal);
 	protected:
 
 		BaseTank* m_pTankBase{}; 
@@ -125,10 +133,8 @@ class Enemy : public boop::Component
 
 		
 	private:
-		bool CheckWallInBetween(glm::vec2 pos, bool horizontal);
 		glm::vec2 CheckPlayerPosSeen(glm::vec2 playerPos);
 
-		glm::vec2 m_MovementVec{ 0,0 };
 
 		bool m_MovingX{true};
 
@@ -156,7 +162,6 @@ public:
 	}
 private:
 	// Add any specific functionality for BlueTankEnemy here
-	float m_CooldownShoot{ 0.f }; // Cooldown for shooting
 	
 };
 

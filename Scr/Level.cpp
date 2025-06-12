@@ -29,7 +29,6 @@ void Level::FixedUpdate()
 
 
 	CollideWithTank(playerRect);
-	CollideWithBullet();
 }
 
 void Level::ResetPlayerCollision(boop::Scene* scene)
@@ -61,44 +60,34 @@ void Level::ResetPlayerCollision(boop::Scene* scene)
 
 void Level::CollideWithBullet()
 {
-	//here you should check for your collisions
-
-	///set bools for now, activated by buttons
-	/*if (m_HitTank)
+	m_BaseTank->GetOwner()->GetComponent<Health>()->TakeDamage();
+	m_BaseTank->ResetPosition();
+	for (auto& enemy : m_Enemies)
 	{
-		m_Subject->NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerKillTank")));
-		m_HitTank = false;
+		enemy->GetTankBase()->ResetPosition();
 	}
-	if (m_HitRecognizer)
-	{
-		m_Subject->NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerKillRecognizer")));
-		m_HitRecognizer = false;
-	}*/
-	//THIS IS WRONG PLEASE FIX WTF THIS IS
 }
 
 void Level::CollideWithTank(SDL_Rect playerRect)
 {
 	
-		//check if player runs in with another tank
-		for (auto& enemy : m_Enemies)
+	//check if player runs in with another tank
+	for (auto& enemy : m_Enemies)
+	{
+		auto enemyPos = enemy->GetOwner()->GetWorldPosition();
+		glm::vec2 enemySize = enemy->GetTankBase()->GetSize();
+
+		SDL_Rect enemyRect{ static_cast<int>(enemyPos.x), static_cast<int>(enemyPos.y),
+			static_cast<int>(enemySize.x), static_cast<int>(enemySize.y) };
+
+		//check if the rects intersect or not
+		if (SDL_HasIntersection(&playerRect, &enemyRect))
 		{
-			auto enemyPos = enemy->GetOwner()->GetWorldPosition();
-			glm::vec2 enemySize = enemy->GetTankBase()->GetSize();
-
-			SDL_Rect enemyRect{ static_cast<int>(enemyPos.x), static_cast<int>(enemyPos.y),
-				static_cast<int>(enemySize.x), static_cast<int>(enemySize.y) };
-
-			//check if the rects intersect or not
-			if (SDL_HasIntersection(&playerRect, &enemyRect))
-			{
-				//you have collided!
-				//lose a life and reset the map
-				m_BaseTank->GetOwner()->GetComponent<Health>()->TakeDamage();
-				m_BaseTank->ResetPosition();
-				enemy->GetTankBase()->ResetPosition();
-				break;
-			}
+			//you have collided!
+			//lose a life and reset the map
+			CollideWithBullet();
+			break;
+		}
 	}
 }
 

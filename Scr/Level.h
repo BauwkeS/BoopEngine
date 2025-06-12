@@ -45,6 +45,8 @@ public:
 	std::vector<boop::GameObject*> GetCollisionObjects() const { return m_CollisionObjects; }
 	std::vector<Enemy*> GetEnemies() const { return m_Enemies; }
 
+	void CollideWithBullet();
+
 private:
 	//test variables when button set
 	bool m_HitTank{};
@@ -62,7 +64,6 @@ private:
 
 
 	//collision functions
-	void CollideWithBullet();
 	void CollideWithTank(SDL_Rect playerRect);
 	void MapCollision(SDL_Rect playerRect);
 };
