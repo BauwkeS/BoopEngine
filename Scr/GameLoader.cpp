@@ -215,6 +215,20 @@ namespace booble
 		sceneMain.Add(std::move(selectionText));
 	}
 
+	void GameLoader::MakeEndingScreen()
+	{
+		//SETUP
+		const std::string levelName{ "EndingScreen" };
+		auto& sceneMain = boop::SceneManager::GetInstance().AddScene(levelName);
+
+		//selection info
+		auto mainMenuText = std::make_unique<boop::GameObject>();
+		mainMenuText->AddComponent<boop::TextComponent>("Eyo the end?")->SetPosition(300, 100);
+		mainMenuText->AddComponent<boop::TextComponent>("Yesyes the end")->SetPosition(300, 300);
+
+		sceneMain.Add(std::move(mainMenuText));
+	}
+
 	void GameLoader::MakeGame()
 	{
 		//REGISTER OBJECTS
@@ -237,6 +251,8 @@ namespace booble
 		MakeLevel("levels/level1.txt", "level1");
 		MakeLevel("levels/level2.txt", "level2");
 		MakeLevel("levels/level3.txt", "level3");
+
+		MakeEndingScreen();
 	}
 
 }
