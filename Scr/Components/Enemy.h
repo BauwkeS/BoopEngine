@@ -121,6 +121,10 @@ class Enemy : public boop::Component
 		//glm::vec2 GetMovementVec() const { return m_MovementVec; }
 
 		void UpdateFromScene();
+		void ResetPosition()
+		{
+			if (m_pTankBase) m_pTankBase->ResetPosition();
+		}
 
 		void HandleStateChanges()
 		{

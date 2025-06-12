@@ -28,8 +28,8 @@ namespace booble
 		owner->GetComponent<Health>()->GetSubject()->AddObserver(healthObs);
 
 		//add score
-		auto scoreObs = owner->AddComponent<ScoreObserver>();
-		m_Subject->AddObserver(scoreObs);
+		//auto scoreObs = owner->AddComponent<ScoreObserver>();
+		//m_Subject->AddObserver(scoreObs);
 	}
 
 	void Player::FixedUpdate()
@@ -48,11 +48,11 @@ namespace booble
 	void Player::OnNotify(boop::Event event)
 	{
 		if (event.id == boop::make_sdbm_hash("PlayerKillTank")) {
-			m_Score += 100;
+			//m_Score += 100;
 			m_Subject->NotifyObserver(event);
 		}
 		if (event.id == boop::make_sdbm_hash("PlayerKillRecognizer")) {
-			m_Score += 250;
+			//m_Score += 250;
 			m_Subject->NotifyObserver(event);
 		}
 	}

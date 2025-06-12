@@ -19,6 +19,7 @@ namespace boop
 		bool m_PositionIsDirty;
 
 		bool m_ToDelete{ false };
+		bool m_IsGhost{ false };
 
 		std::string m_Tag; //tag
 		bool m_IsPersistent{ false }; //persistent = stays between levels
@@ -63,6 +64,8 @@ namespace boop
 		void SetToDelete();
 		bool ToDelete() const { return m_ToDelete; }
 		void CleanupDeletion();
+		void SetAsGhost();
+		bool IsGhost() const { return m_IsGhost; }
 
 		//---
 

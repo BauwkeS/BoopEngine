@@ -275,7 +275,15 @@ namespace booble
 			auto enemies = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("enemy");
 			for (auto& enemy : enemies)
 			{
-				enemy->GetComponent<Enemy>()->UpdateFromScene();
+				auto enemyComp = enemy->GetComponent<Enemy>();
+				enemyComp->UpdateFromScene();
+				enemyComp->ResetPosition();
+			}
+			//delete any roaming bullets
+			auto bullets = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("bullet");
+			for (auto& bullet : bullets)
+			{
+				bullet->SetToDelete();
 			}
 		};
 
@@ -332,7 +340,9 @@ namespace booble
 			auto enemies = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("enemy");
 			for (auto& enemy : enemies)
 			{
-				enemy->GetComponent<Enemy>()->UpdateFromScene();
+				auto enemyComp = enemy->GetComponent<Enemy>();
+				enemyComp->UpdateFromScene();
+				enemyComp->ResetPosition();
 			}
 		};
 

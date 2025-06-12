@@ -18,16 +18,16 @@ void boop::GameObject::FixedUpdate()
 {
 	for (const std::unique_ptr<boop::Component>& component : m_pComponents)
 	{
-		if (!component)
-			continue;
+		if (!component) continue;
+		if (component->ToDelete() || component->IsGhost()) continue;
 
 		component->FixedUpdate();
 	}
 
 	for (const std::unique_ptr<boop::GameObject>& gameObj : m_pChildren)
 	{
-		if (!gameObj)
-			continue;
+		if (!gameObj) continue;
+		if (gameObj->ToDelete() || gameObj->IsGhost()) continue;
 
 		gameObj->FixedUpdate();
 	}
@@ -38,14 +38,14 @@ void boop::GameObject::Update()
 	for (const std::unique_ptr<boop::Component>& component : m_pComponents)
 	{
 		if (!component) continue;
-		if (component->ToDelete()) continue;
+		if (component->ToDelete() || component->IsGhost()) continue;
 
 		component->Update();
 	}
 	for (const std::unique_ptr<boop::GameObject>& gameObj : m_pChildren)
 	{
 		if (!gameObj) continue;
-		if (gameObj->ToDelete()) continue;
+		if (gameObj->ToDelete() || gameObj->IsGhost()) continue;
 
 		gameObj->Update();
 	}
@@ -55,15 +55,15 @@ void boop::GameObject::Render() const
 {
 	for (const std::unique_ptr<boop::Component>& component : m_pComponents)
 	{
-		if (!component)
-			continue;
+		if (!component) continue;
+		if (component->ToDelete() || component->IsGhost()) continue;
 
 		component->Render();
 	}
 	for (const std::unique_ptr<boop::GameObject>& gameObj : m_pChildren)
 	{
-		if (!gameObj)
-			continue;
+		if (!gameObj) continue;
+		if (gameObj->ToDelete() || gameObj->IsGhost()) continue;
 
 		gameObj->Render();
 	}
@@ -147,6 +147,21 @@ void boop::GameObject::CleanupDeletion()
 			continue;
 
 		RemoveChild(gameComp.get());
+	}
+}
+
+void boop::GameObject::SetAsGhost()
+{
+	m_IsGhost = !m_IsGhost; // Set the object as a ghost (not rendered, but still exists in the scene)
+	for (const std::unique_ptr<boop::Component>& component : m_pComponents)
+	{
+		if (!component) continue;
+		component->SetAsGhost(); // Recursively set all components as ghosts
+	}
+	for (const std::unique_ptr<boop::GameObject>& gameObj : m_pChildren)
+	{
+		if (!gameObj) continue;
+		gameObj->SetAsGhost(); // Recursively set children as ghosts
 	}
 }
 

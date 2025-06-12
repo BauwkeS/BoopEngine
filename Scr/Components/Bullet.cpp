@@ -50,7 +50,7 @@ void Bullet::CheckCollisionPlayerBullet()
 	//check if you hit an enemy first
 	for (auto& enemy : m_LevelInfo->GetEnemies())
 	{
-		if (!enemy) continue;
+		if (!enemy || enemy->GetOwner()->IsGhost()) continue;
 		auto enemyPos = enemy->GetOwner()->GetWorldPosition();
 		glm::vec2 enemySize = enemy->GetTankBase()->GetSize();
 

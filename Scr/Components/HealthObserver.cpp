@@ -22,6 +22,8 @@ void HealthObserver::OnNotify(boop::Event event)
 	{
 		int health = GetOwner()->GetComponent<Health>()->GetHealth();
 		SetText("Health: " + std::to_string(health) + " - YOU DIED");
+
+
 	}
 	
 }

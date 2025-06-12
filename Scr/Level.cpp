@@ -74,6 +74,7 @@ void Level::CollideWithTank(SDL_Rect playerRect)
 	//check if player runs in with another tank
 	for (auto& enemy : m_Enemies)
 	{
+		if (!enemy || enemy->GetOwner()->IsGhost()) continue;
 		auto enemyPos = enemy->GetOwner()->GetWorldPosition();
 		glm::vec2 enemySize = enemy->GetTankBase()->GetSize();
 

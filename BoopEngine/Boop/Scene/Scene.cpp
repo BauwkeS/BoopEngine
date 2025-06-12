@@ -95,6 +95,7 @@ void boop::Scene::FixedUpdate()
 {
 	for (auto& object : m_objects)
 	{
+		if (object->ToDelete() || object->IsGhost()) continue;
 		object->FixedUpdate();
 	}
 	
@@ -104,7 +105,7 @@ void Scene::Update()
 {
 	for(auto& object : m_objects)
 	{
-		if (object->ToDelete()) continue;
+		if (object->ToDelete() || object->IsGhost()) continue;
 		object->Update();
 	}
 
@@ -115,7 +116,7 @@ void Scene::Render() const
 {
 	for (const auto& object : m_objects)
 	{
-		
+		if (object->IsGhost()) continue;
 		object->Render();
 	}
 }

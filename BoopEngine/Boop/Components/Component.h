@@ -8,6 +8,7 @@ namespace boop
 	private:
 		GameObject* m_pOwner{};
 		bool m_ToDelete{ false };
+		bool m_IsGhost{ false };
 
 	protected:
 		Component(GameObject* pOwner) :
@@ -27,6 +28,9 @@ namespace boop
 		//deletion
 		bool ToDelete() const { return m_ToDelete; }
 		void SetToDelete() { m_ToDelete = true; }
+		//ghost
+		bool IsGhost() const { return m_IsGhost; }
+		void SetAsGhost() { m_IsGhost = !m_IsGhost; }
 
 		GameObject* GetOwner() const { return m_pOwner; }
 	};

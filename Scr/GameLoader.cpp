@@ -121,6 +121,9 @@ namespace booble
 		player1->AddKeyboardMovement();
 		//TO-DO REMOVE THIS PIECE OF SHI
 
+		//set score observsers and merge if needed
+		auto scoreObsPlayer1 = player1->GetOwner()->AddComponent<ScoreObserver>();
+		player1->GetSubject()->AddObserver(scoreObsPlayer1);
 
 		//set the UI position
 		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
@@ -128,6 +131,7 @@ namespace booble
 
 		//set observers
 		player1->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player1);
+		
 
 		switch (static_cast<booble::GameMode>(m_selectedGamemode)) {
 		case booble::GameMode::SINGLEPLAYER:
@@ -142,12 +146,16 @@ namespace booble
 			player2->AddControllerMovement();
 			player1->AddControllerMovement(); // if there is a second controller, the first player can also use it
 
+			//set observers
+			player2->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player2);
+
+			//score
+			auto scoreObsPlayer2 = player2->GetOwner()->AddComponent<ScoreObserver>();
+			player2->GetSubject()->AddObserver(scoreObsPlayer2);
+
 			//set the UI position
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
 			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
-
-			//set observers
-			player2->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player2);
 
 			break;
 		}
@@ -158,14 +166,17 @@ namespace booble
 			player2->AddControllerMovement();
 			player1->AddControllerMovement(); // if there is a second controller, the first player can also use it
 
-			//set the UI position
-			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
-			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+			//merge the score from player2 to player1
+			player2->GetSubject()->AddObserver(scoreObsPlayer1);
 
 			//set observers
 			player2->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player2);
 
-			break;
+			//set the UI position
+			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
+			//player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+
+
 			break;
 		}
 		}

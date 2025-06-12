@@ -71,6 +71,12 @@ void boop::SceneManager::ChangeScenePersistency(int i)
 			}
 		}
 	}
+
+	//also updates ghosts back to their original state
+	for (auto& obj : m_Scenes[i]->GetObjects())
+	{
+		if (obj->IsGhost()) obj->SetAsGhost(); //remove ghost state
+	}
 }
 
 boop::Scene& boop::SceneManager::AddScene(const std::string& name)

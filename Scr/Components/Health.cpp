@@ -31,7 +31,7 @@ int Health::TakeDamage(int damage)
 			//	m_Subject->NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerKillTank")));
 			//	GetOwner()->SetToDelete(); //delete the enemy
 			//}
-			GetOwner()->SetToDelete(); //delete the enemy
+			GetOwner()->SetAsGhost(); //delete the enemy
 			return 1;
 		}
 		else if (m_Health <= 0 && GetOwner()->GetComponent<Enemy>())
@@ -42,7 +42,7 @@ int Health::TakeDamage(int damage)
 			//	m_Subject->NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerKillRecognizer")));
 			//	GetOwner()->SetToDelete(); //delete the enemy
 			//}
-			GetOwner()->SetToDelete(); //delete the enemy
+			GetOwner()->SetAsGhost(); //delete the enemy
 			return 2;
 		}
 		

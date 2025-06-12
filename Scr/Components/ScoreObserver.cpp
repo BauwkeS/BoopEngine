@@ -10,12 +10,19 @@ namespace booble {
 
 	void ScoreObserver::OnNotify(boop::Event event)
 	{
-		if (event.id == boop::make_sdbm_hash("PlayerKillTank")
-			|| event.id == boop::make_sdbm_hash("PlayerKillRecognizer"))
-		{
-			int score = GetOwner()->GetComponent<Player>()->GetScore();
-			SetText("Score: " + std::to_string(score));
+		//if (event.id == boop::make_sdbm_hash("PlayerKillTank")
+		//	|| event.id == boop::make_sdbm_hash("PlayerKillRecognizer"))
+		//{
+		//	m_Score += GetOwner()->GetComponent<Player>()->GetScore();
+		//	
+		//}
+		if (event.id == boop::make_sdbm_hash("PlayerKillTank")) {
+			m_Score += 100;
 		}
+		if (event.id == boop::make_sdbm_hash("PlayerKillRecognizer")) {
+			m_Score += 250;
+		}
+		SetText("Score: " + std::to_string(m_Score));
 	}
 
 }
