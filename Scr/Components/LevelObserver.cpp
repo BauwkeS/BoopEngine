@@ -151,11 +151,12 @@ void LevelObserver::MakeInputEndScreen()
 	mainTexts->AddComponent<boop::TextComponent>("Use arrow keys/buttons:")->SetPosition(200, 300);
 	mainTexts->AddComponent<boop::TextComponent>("- up/down to change letter")->SetPosition(200, 330);
 	mainTexts->AddComponent<boop::TextComponent>("- left right to switch letter ")->SetPosition(200, 360);
-	mainTexts->AddComponent<boop::TextComponent>("Press enter to continue")->SetPosition(200, 400);
+	mainTexts->AddComponent<boop::TextComponent>("Press enter/A to continue")->SetPosition(200, 400);
 
 	//---
 	//INPUT
 
+	//keyboard
 	boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_RETURN, boop::keyState::isDown,
 		std::make_unique<GoToEndScreen>(this));
 
@@ -167,6 +168,25 @@ void LevelObserver::MakeInputEndScreen()
 		std::make_unique<ChangeSelection>(m_SelectedLetter, true));
 	boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_LEFT, boop::keyState::isDown,
 		std::make_unique<ChangeSelection>(m_SelectedLetter, false));
+
+	//controller
+	boop::InputManager::GetInstance().AddCommand(static_cast<int>(boop::Controller::ControllerId::First),
+		boop::Controller::ControllerButton::ButtonA, boop::keyState::isDown,
+		std::make_unique<GoToEndScreen>(this));;
+
+	boop::InputManager::GetInstance().AddCommand(static_cast<int>(boop::Controller::ControllerId::First),
+		boop::Controller::ControllerButton::DPadDown, boop::keyState::isDown,
+		std::make_unique<ChangeLetter>(this, m_LetterIndexes, m_SelectedLetter, true));
+	boop::InputManager::GetInstance().AddCommand(static_cast<int>(boop::Controller::ControllerId::First),
+		boop::Controller::ControllerButton::DPadUp, boop::keyState::isDown,  
+		std::make_unique<ChangeLetter>(this, m_LetterIndexes, m_SelectedLetter, false));
+	boop::InputManager::GetInstance().AddCommand(static_cast<int>(boop::Controller::ControllerId::First),
+		boop::Controller::ControllerButton::DPadRight, boop::keyState::isDown,
+		std::make_unique<ChangeSelection>(m_SelectedLetter, true));
+	boop::InputManager::GetInstance().AddCommand(static_cast<int>(boop::Controller::ControllerId::First),
+		boop::Controller::ControllerButton::DPadLeft, boop::keyState::isDown,
+		std::make_unique<ChangeSelection>(m_SelectedLetter, false));
+
 
 
 	endingScene.Add(std::move(slectionText));
