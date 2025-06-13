@@ -2,6 +2,7 @@
 #include "Level.h"
 #include "Components/Events.h"
 #include "../BoopEngine/Boop/Event/Event.h"
+#include "../BoopEngine/Boop/Components/TextureComponent.h"
 #include "GameLoader.h"
 
 #include "Components/Player.h"
@@ -29,6 +30,7 @@ void Level::FixedUpdate()
 
 
 	CollideWithTank(playerRect);
+	CollideWithDiamond(playerRect);
 }
 
 void Level::ResetPlayerCollision(boop::Scene* scene)
@@ -56,6 +58,8 @@ void Level::ResetPlayerCollision(boop::Scene* scene)
 			m_Enemies.emplace_back(enemyComp);
 		}
 	}
+	//get diamond info
+	m_Diamond = scene->FindGameObjectByTag("diamond")->GetComponent<boop::TextureComponent>();
 }
 
 void Level::CollideWithBullet()
@@ -92,21 +96,58 @@ void Level::CollideWithTank(SDL_Rect playerRect)
 	}
 }
 
-void Level::MapCollision(SDL_Rect)
+bool Level::MapCollision(SDL_Rect playerR)
 {
-	//check if player runs in with another tank
-	//for (auto& wall : m_CollisionObjects)
-	//{
-	//	auto wallPos = wall->GetWorldPosition();
-	//	glm::vec2 wallSize = wall->GetComponent<boop::TextureComponent>()->GetSize();
-	//	SDL_Rect wallRect{ static_cast<int>(wallPos.x), static_cast<int>(wallPos.y),
-	//		static_cast<int>(wallSize.x), static_cast<int>(wallSize.y) };
-	//	//check if the rects intersect or not
-	//	if (SDL_HasIntersection(&playerRect, &wallRect))
-	//	{
-	//		//you have collided!
-	//		m_Player->GetTankBase()->ResetPosition();
-	//		break;
-	//	}
-	//}
+	for (auto& wall : m_CollisionObjects)
+	{
+		auto wallPos = wall->GetWorldPosition();
+		glm::vec2 wallSize = wall->GetComponent<boop::TextureComponent>()->GetSize();
+		SDL_Rect wallRect{ static_cast<int>(wallPos.x), static_cast<int>(wallPos.y),
+			static_cast<int>(wallSize.x), static_cast<int>(wallSize.y) };
+
+		//check if the rects intersect or not
+		if (SDL_HasIntersection(&playerR, &wallRect))
+		{
+			//you have collided!
+			return true;
+		}
+	}
+	return false;
+}
+
+void Level::CollideWithDiamond(SDL_Rect playerRect)
+{
+	if (!m_Diamond) return;
+
+	SDL_Rect diamondRect{ static_cast<int>(m_Diamond->GetOwner()->GetWorldPosition().x),
+		static_cast<int>(m_Diamond->GetOwner()->GetWorldPosition().y),
+		static_cast<int>(m_Diamond->GetSize().x), static_cast<int>(m_Diamond->GetSize().y)};
+
+	//check if the rects intersect or not
+	if (SDL_HasIntersection(&playerRect, &diamondRect))
+	{
+		//now you should teleport
+		TeleportPlayer();
+	}
+}
+
+void Level::TeleportPlayer()
+{
+	GetOwner()->GetParent()->SetLocalPosition(FindNewPosition());
+}
+
+glm::vec2 Level::FindNewPosition()
+{
+	glm::vec2 newPos{};
+	auto size = m_BaseTank->GetSize();
+
+	while (newPos.x <= 0 || newPos.y <= 0 ||
+		MapCollision(SDL_Rect{ static_cast<int>(newPos.x), static_cast<int>(newPos.y), 
+			static_cast<int>(size.x), static_cast<int>(size.y) }))
+	{
+		newPos.x = (static_cast<float>(rand() % 450));
+		newPos.y = (static_cast<float>(rand() % 410));
+	}
+
+	return newPos;
 }

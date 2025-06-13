@@ -6,6 +6,7 @@
 #include "Components/Enemy.h"
 #include <memory>
 #include <SDL_rect.h>
+#include <glm/vec2.hpp>
 
 namespace boop
 {
@@ -61,9 +62,14 @@ private:
 	std::vector<boop::GameObject*> m_CollisionObjects{};
 	//vector of the enemies
 	std::vector<Enemy*> m_Enemies{};
+	boop::TextureComponent* m_Diamond{};
 
 
 	//collision functions
 	void CollideWithTank(SDL_Rect playerRect);
-	void MapCollision(SDL_Rect playerRect);
+	void CollideWithDiamond(SDL_Rect playerRect);
+
+	void TeleportPlayer();
+	glm::vec2 FindNewPosition();
+	bool MapCollision(SDL_Rect playerRect);
 };

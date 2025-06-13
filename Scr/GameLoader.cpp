@@ -29,6 +29,7 @@ namespace booble
 		RegisterAirType();
 		RegisterWallType();
 		RegisterWallBorderType();
+		RegisterDiamondType();
 		RegisterPlayerType("RedTank.png", "p1", 50);
 		RegisterPlayerType("GreenTank.png", "p2", 50);
 		RegisterBlueTankEnemy("BlueTank.png", "enemy", 30);
@@ -52,6 +53,13 @@ namespace booble
 	{
 		level::LevelLoader::GetInstance().RegisterType(1, level::LevelLayer::STATIC)
 			.AddComponent<boop::TextureComponent>("void.png");
+	}
+
+	void GameLoader::RegisterDiamondType()
+	{
+		level::LevelLoader::GetInstance().RegisterType(3, level::LevelLayer::STATIC)
+			.AddComponent<boop::TextureComponent>("teleport.png")
+			.SetDefaultTag("diamond");
 	}
 
 	void GameLoader::RegisterPlayerType(const std::string& spritePath, const std::string& tagName, int playerSpeed)

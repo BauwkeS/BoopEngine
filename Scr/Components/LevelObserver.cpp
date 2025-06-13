@@ -7,6 +7,13 @@ void LevelObserver::OnNotify(boop::Event event)
 {
 	if (event.id == boop::make_sdbm_hash("PlayerDied"))
 	{
+		auto scene = boop::SceneManager::GetInstance().GetActiveScene();
+		auto player1 = scene->FindGameObjectByTag("p1");
+		if (player1) player1->SetToDelete();
+		auto player2 = scene->FindGameObjectByTag("p2");
+		if (player2) player2->SetToDelete();
+
+
 		auto changeScene = booble::ChangeScene("EndingScreen");
 		changeScene.Execute();
 	}

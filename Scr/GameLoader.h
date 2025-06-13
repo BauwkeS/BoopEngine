@@ -25,6 +25,7 @@ namespace booble
 		void RegisterGameObjectTypes();
 		void RegisterAirType();
 		void RegisterWallType();
+		void RegisterDiamondType();
 		void RegisterWallBorderType();
 		void RegisterPlayerType(const std::string& spritePath, const std::string& tagName, int playerSpeed);
 		void RegisterRecognizerEnemy(const std::string& spritePath, const std::string& tagName, int playerSpeed);
