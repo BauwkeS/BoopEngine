@@ -24,6 +24,7 @@ public:
 
 	void ResetPosition();
 	void SetStartPos(glm::vec2 pos) { m_StartPos = pos; }
+	glm::bvec2 GetStartPos() const { return m_StartPos; }
 
 
 	void FixedUpdate() override;

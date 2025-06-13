@@ -54,10 +54,17 @@ void Level::ResetPlayerCollision(boop::Scene* scene, bool alsoSetPos)
 		auto enemyComp = enemy->GetComponent<Enemy>();
 		if (enemyComp)
 		{
-			if (alsoSetPos) enemyComp->GetTankBase()->SetStartPos(enemy->GetWorldPosition());
+			if (alsoSetPos) {
+				//enemyComp->GetTankBase()->SetStartPos(enemy->GetWorldPosition());
+				if (enemyComp->GetTankBase()->GetStartPos() == glm::bvec2{ 0,0 }) enemyComp->GetTankBase()->SetStartPos(enemy->GetWorldPosition());
+				enemyComp->UpdateFromScene();
+				enemyComp->ResetPosition();
+			}
 			m_Enemies.emplace_back(enemyComp);
 		}
 	}
+	if (alsoSetPos) ResetBullets();
+	
 	//get diamond info
 	auto diamondCheck = scene->FindGameObjectByTag("diamond");
 	if(diamondCheck) m_Diamond = diamondCheck->GetComponent<boop::TextureComponent>();
@@ -71,6 +78,7 @@ void Level::CollideWithBullet()
 	{
 		enemy->GetTankBase()->ResetPosition();
 	}
+	ResetBullets();
 }
 
 void Level::CollideWithTank(SDL_Rect playerRect)
@@ -114,6 +122,16 @@ bool Level::MapCollision(SDL_Rect playerR)
 		}
 	}
 	return false;
+}
+
+void Level::ResetBullets()
+{
+	//delete any roaming bullets
+	auto bullets = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("bullet");
+	for (auto& bullet : bullets)
+	{
+		bullet->SetToDelete();
+	}
 }
 
 void Level::CollideWithDiamond(SDL_Rect playerRect)

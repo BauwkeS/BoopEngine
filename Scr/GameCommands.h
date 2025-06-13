@@ -272,19 +272,18 @@ namespace booble
 			{
 				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
 			}
-			auto enemies = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("enemy");
-			for (auto& enemy : enemies)
-			{
-				auto enemyComp = enemy->GetComponent<Enemy>();
-				enemyComp->UpdateFromScene();
-				enemyComp->ResetPosition();
-			}
-			//delete any roaming bullets
-			auto bullets = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("bullet");
-			for (auto& bullet : bullets)
-			{
-				bullet->SetToDelete();
-			}
+			//auto enemies = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("enemy");
+			//for (auto& enemy : enemies)
+			//{
+			//	auto enemyComp = enemy->GetComponent<Enemy>();
+			//	
+			//}
+			////delete any roaming bullets
+			//auto bullets = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("bullet");
+			//for (auto& bullet : bullets)
+			//{
+			//	bullet->SetToDelete();
+			//}
 		};
 
 		ChangeScene(const ChangeScene& other) = delete;
@@ -337,13 +336,13 @@ namespace booble
 			{
 				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
 			}
-			auto enemies = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("enemy");
-			for (auto& enemy : enemies)
-			{
-				auto enemyComp = enemy->GetComponent<Enemy>();
-				enemyComp->UpdateFromScene();
-				enemyComp->ResetPosition();
-			}
+			//auto enemies = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("enemy");
+			//for (auto& enemy : enemies)
+			//{
+			//	auto enemyComp = enemy->GetComponent<Enemy>();
+			//	enemyComp->UpdateFromScene();
+			//	enemyComp->ResetPosition();
+			//}
 		};
 
 		StartGame(const StartGame& other) = delete;

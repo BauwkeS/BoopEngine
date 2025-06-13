@@ -136,8 +136,8 @@ namespace booble
 		player1->GetSubject()->AddObserver(m_levelObserver.get());
 
 		//set the UI position
-		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 200);
-		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 250);
+		player1->GetOwner()->GetComponent<HealthObserver>()->SetPosition(600, 200);
+		player1->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(600, 250);
 
 		//set observers
 		player1->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player1);
@@ -168,8 +168,8 @@ namespace booble
 			player2->GetSubject()->AddObserver(m_levelObserver.get());
 
 			//set the UI position
-			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
-			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
+			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(600, 500);
+			player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(600, 550);
 
 			break;
 		}
@@ -190,7 +190,7 @@ namespace booble
 
 
 			//set the UI position
-			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(0, 500);
+			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(600, 500);
 			//player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
 
 

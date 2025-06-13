@@ -72,4 +72,6 @@ private:
 	void TeleportPlayer();
 	glm::vec2 FindNewPosition();
 	bool MapCollision(SDL_Rect playerRect);
+
+	void ResetBullets();
 };
