@@ -108,6 +108,9 @@ namespace boop
 
 		template <class T>
 		T* GetComponent() const;
+		
+		template <class T>
+		std::vector<T*> GetSomeComponent() const;
 
 	};
 
@@ -139,6 +142,21 @@ namespace boop
 		}
 
 		return nullptr;
+	}
+
+	template<class T>
+	inline std::vector<T*> boop::GameObject::GetSomeComponent() const
+	{
+		std::vector<T*> componentsOfType;
+		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
+
+		for (const auto& component : m_pComponents)
+		{
+			if (dynamic_cast<T*>(component.get()))
+				componentsOfType.emplace_back(dynamic_cast<T*>(component.get()));
+		}
+
+		return componentsOfType;
 	}
 
 	
