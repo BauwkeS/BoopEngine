@@ -127,7 +127,6 @@ namespace booble
 		assert(player2);
 
 		player1->AddKeyboardMovement();
-		player1->AddControllerMovement(); 
 
 		//TO-DO REMOVE THIS PIECE OF SHI
 
@@ -149,12 +148,15 @@ namespace booble
 		{
 			//remove p2 out of the level
 			player2->GetOwner()->SetToDelete();
+			player1->AddControllerMovement();
+
 			break;
 		}
 		case booble::GameMode::MULTIPLAYER:
 		{
 			//input player 2
 			player2->AddControllerMovement();
+			player1->AddControllerMovement();
 
 			//set observers
 			player2->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player2);
@@ -176,6 +178,7 @@ namespace booble
 			//to-do update this for being an enemy after enemies are done
 			//input player 2
 			player2->AddControllerMovement();
+			player1->AddControllerMovement();
 
 			//merge the score from player2 to player1
 			player2->GetSubject()->AddObserver(scoreObsPlayer1);
