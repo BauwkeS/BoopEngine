@@ -33,7 +33,7 @@ void Level::FixedUpdate()
 	CollideWithDiamond(playerRect);
 }
 
-void Level::ResetPlayerCollision(boop::Scene* scene)
+void Level::ResetPlayerCollision(boop::Scene* scene, bool alsoSetPos)
 {
 	m_CollisionObjects.clear();
 	m_Enemies.clear();
@@ -44,7 +44,7 @@ void Level::ResetPlayerCollision(boop::Scene* scene)
 	//get player info
 	//auto playerInfo = pScene->FindGameObjectByTag("p1");
 	auto playerComp = GetOwner()->GetParent()->GetComponent<BaseTank>();
-	playerComp->SetStartPos(GetOwner()->GetWorldPosition());
+	if (alsoSetPos) playerComp->SetStartPos(GetOwner()->GetWorldPosition());
 	if (playerComp) m_BaseTank = playerComp;
 	
 	//get enemy info
@@ -54,7 +54,7 @@ void Level::ResetPlayerCollision(boop::Scene* scene)
 		auto enemyComp = enemy->GetComponent<Enemy>();
 		if (enemyComp)
 		{
-			enemyComp->GetTankBase()->SetStartPos(enemy->GetWorldPosition());
+			if (alsoSetPos) enemyComp->GetTankBase()->SetStartPos(enemy->GetWorldPosition());
 			m_Enemies.emplace_back(enemyComp);
 		}
 	}

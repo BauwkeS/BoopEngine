@@ -3,6 +3,7 @@
 #include "../../BoopEngine/Boop/Event/Observer.h"
 #include "../../BoopEngine/Boop/Event/Event.h"
 #include <string>
+#include "../Highscores.h"
 
 
 class boop::GameObject;
@@ -16,11 +17,8 @@ public:
 	void OnNotify(boop::Event event) override;
 
 private:
-	struct EndData {
-		int score;
-		std::string playerWon; // 1 for player 1, 2 for player 2, 0 for coop
-	};
-	
 	void SetUpEndScreen();
-	EndData GetEndData();
+	Highscores::highscoreData GetEndData();
+
+	std::unique_ptr<Highscores> m_Highscores{};
 };

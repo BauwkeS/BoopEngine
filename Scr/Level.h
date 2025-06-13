@@ -38,7 +38,7 @@ public:
 	void SetHitTank() { m_HitTank = true; }
 	void SetHitRecognizer() { m_HitRecognizer = true; }
 
-	void ResetPlayerCollision(boop::Scene* scene);;
+	void ResetPlayerCollision(boop::Scene* scene, bool alsoSetPos=true);
 
 	boop::Subject* GetSubject() const { return m_Subject.get(); }
 

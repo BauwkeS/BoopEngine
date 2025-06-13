@@ -5,6 +5,7 @@
 #include "../GameLoader.h"
 
 LevelObserver::LevelObserver()
+	: m_Highscores{ std::make_unique<Highscores>() }
 {
 }
 
@@ -51,37 +52,42 @@ void LevelObserver::SetUpEndScreen()
 	const std::string levelName{ "EndingScreen" };
 	auto& endingScene = boop::SceneManager::GetInstance().AddScene(levelName);
 
-	EndData endData = GetEndData();
+	Highscores::highscoreData endData = GetEndData();
+	m_Highscores->AddHighScore(endData);
 
 	//selection info
 	auto mainTexts = std::make_unique<boop::GameObject>();
 	mainTexts->AddComponent<boop::TextComponent>("GAME OVER: " + endData.playerWon + " won!")->SetPosition(300, 100);
-	mainTexts->AddComponent<boop::TextComponent>("With score: " + endData.score)->SetPosition(300, 200);
-
-
-
-
-
-
-
-
-
-
+	mainTexts->AddComponent<boop::TextComponent>("With score: " + std::to_string(endData.score))->SetPosition(300, 200);
 
 	endingScene.Add(std::move(mainTexts));
-}
 
-LevelObserver::EndData LevelObserver::GetEndData()
+
+	auto getScores = m_Highscores->GetHighscores();
+
+	auto scoretext = std::make_unique<boop::GameObject>();
+	scoretext->AddComponent<boop::TextComponent>("Scores::")->SetPosition(300, 240);
+
+	for (int i = 0; i < getScores.size(); i++)
+	{
+		scoretext->AddComponent<boop::TextComponent>(getScores[i].playerWon + " - " + std::to_string(getScores[i].score))->SetPosition(300.f, 260.f + (i * 30));
+	}
+
+
+
+	endingScene.Add(std::move(scoretext));
+}
+Highscores::highscoreData LevelObserver::GetEndData()
 {
-	int endScore{};
+	int endScore{0};
 	std::string playerWon{"Player 1"};
 
 	//delete the players if they exist
 	auto scene = boop::SceneManager::GetInstance().GetActiveScene();
 	auto player1 = scene->FindGameObjectByTag("p1");
 	if (player1) {
+		endScore += player1->GetComponent<booble::Player>()->GetScore();
 		player1->SetToDelete();
-		endScore = player1->GetComponent<booble::Player>()->GetScore();
 	}
 
 	switch (static_cast<booble::GameMode>(booble::GameLoader::GetInstance().GetSelectedGamemode()))
@@ -92,7 +98,6 @@ LevelObserver::EndData LevelObserver::GetEndData()
 			auto player2 = scene->FindGameObjectByTag("p2");
 			if (!player2) break;
 
-			player2->SetToDelete();
 			//get score from player 2
 			int scorePlayer2 = player2->GetComponent<booble::Player>()->GetScore();
 
@@ -101,6 +106,8 @@ LevelObserver::EndData LevelObserver::GetEndData()
 				endScore = scorePlayer2;
 				playerWon = "Player 2"; //player 2 won
 			}
+			player2->SetToDelete();
+
 			break;
 		}
 		case booble::GameMode::COOP:
@@ -111,16 +118,17 @@ LevelObserver::EndData LevelObserver::GetEndData()
 			auto player2 = scene->FindGameObjectByTag("p2");
 			if (!player2) break;
 			
-			player2->SetToDelete();
 
 			//scores combine /2 to make the leaderboard fair
 
 			endScore += player2->GetComponent<booble::Player>()->GetScore();
 			endScore /= 2;
 
+			player2->SetToDelete();
+
 			break;
 		}
 	}
 
-	return EndData{endScore,playerWon};
+	return Highscores::highscoreData{playerWon, endScore};
 }

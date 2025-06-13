@@ -19,8 +19,12 @@ Bullet::Bullet(boop::GameObject* owner, glm::vec2 dir, Level* levelinfo, bool en
 
 void Bullet::FixedUpdate()
 {
-	if (!m_EnemyBullet) CheckCollisionPlayerBullet();
-	else CheckCollisionEnemyBullet();
+	if (!GetOwner()->ToDelete())
+	{
+		if (!m_EnemyBullet) CheckCollisionPlayerBullet();
+		else CheckCollisionEnemyBullet();
+	}
+	
 }
 
 void Bullet::Update()
@@ -67,16 +71,18 @@ void Bullet::CheckCollisionPlayerBullet()
 			GetOwner()->SetToDelete();
 			//enemy->GetOwner()->SetToDelete(); //delete the enemy
 
+			auto levels = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
+			for (auto& level : levels)
+			{
+				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene(), false);
+			}
+
+
 			auto enemyDied = enemy->GetOwner()->GetComponent<Health>()->TakeDamage(); //decrease enemy health
 			if (enemyDied == 1) m_LevelInfo->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillTank") });
 			else if (enemyDied == 2) m_LevelInfo->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillRecognizer") });
 
 
-			auto levels = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
-			for (auto& level : levels)
-			{
-				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
-			}
 
 			return; // Exit after first collision
 		}
