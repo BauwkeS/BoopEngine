@@ -59,7 +59,8 @@ void Level::ResetPlayerCollision(boop::Scene* scene)
 		}
 	}
 	//get diamond info
-	m_Diamond = scene->FindGameObjectByTag("diamond")->GetComponent<boop::TextureComponent>();
+	auto diamondCheck = scene->FindGameObjectByTag("diamond");
+	if(diamondCheck) m_Diamond = diamondCheck->GetComponent<boop::TextureComponent>();
 }
 
 void Level::CollideWithBullet()

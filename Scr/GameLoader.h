@@ -35,7 +35,7 @@ namespace booble
 		//Level
 		void MakeLevel(const std::string& levelPath, const std::string& levelName);
 		void MakeMainScreen();
-		void MakeEndingScreen();
+		//void MakeEndingScreen();
 		
 		int m_selectedGamemode{};
 

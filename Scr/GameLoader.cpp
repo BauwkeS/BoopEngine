@@ -127,6 +127,8 @@ namespace booble
 		assert(player2);
 
 		player1->AddKeyboardMovement();
+		player1->AddControllerMovement(); 
+
 		//TO-DO REMOVE THIS PIECE OF SHI
 
 		//set score observsers and merge if needed
@@ -153,7 +155,6 @@ namespace booble
 		{
 			//input player 2
 			player2->AddControllerMovement();
-			player1->AddControllerMovement(); // if there is a second controller, the first player can also use it
 
 			//set observers
 			player2->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player2);
@@ -175,7 +176,6 @@ namespace booble
 			//to-do update this for being an enemy after enemies are done
 			//input player 2
 			player2->AddControllerMovement();
-			player1->AddControllerMovement(); // if there is a second controller, the first player can also use it
 
 			//merge the score from player2 to player1
 			player2->GetSubject()->AddObserver(scoreObsPlayer1);
@@ -229,19 +229,19 @@ namespace booble
 		sceneMain.Add(std::move(selectionText));
 	}
 
-	void GameLoader::MakeEndingScreen()
-	{
-		//SETUP
-		const std::string levelName{ "EndingScreen" };
-		auto& sceneMain = boop::SceneManager::GetInstance().AddScene(levelName);
+	//void GameLoader::MakeEndingScreen()
+	//{
+	//	////SETUP
+	//	//const std::string levelName{ "EndingScreen" };
+	//	//auto& sceneMain = boop::SceneManager::GetInstance().AddScene(levelName);
 
-		//selection info
-		auto mainMenuText = std::make_unique<boop::GameObject>();
-		mainMenuText->AddComponent<boop::TextComponent>("Eyo the end?")->SetPosition(300, 100);
-		mainMenuText->AddComponent<boop::TextComponent>("Yesyes the end")->SetPosition(300, 300);
+	//	////selection info
+	//	//auto mainMenuText = std::make_unique<boop::GameObject>();
+	//	//mainMenuText->AddComponent<boop::TextComponent>("GAME OVER:?")->SetPosition(300, 100);
+	//	//mainMenuText->AddComponent<boop::TextComponent>("Yesyes the end")->SetPosition(300, 300);
 
-		sceneMain.Add(std::move(mainMenuText));
-	}
+	//	//sceneMain.Add(std::move(mainMenuText));
+	//}
 
 	void GameLoader::MakeGame()
 	{
@@ -269,7 +269,7 @@ namespace booble
 		MakeLevel("levels/level2.txt", "level2");
 		MakeLevel("levels/level3.txt", "level3");
 
-		MakeEndingScreen();
+		//MakeEndingScreen();
 	}
 
 }
