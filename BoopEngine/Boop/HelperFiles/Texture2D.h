@@ -10,9 +10,6 @@ namespace boop
 		bool vertical{ false };
 	};
 
-	/**
-	 * Simple RAII wrapper for an SDL_Texture
-	 */
 	class Texture2D final
 	{
 	public:

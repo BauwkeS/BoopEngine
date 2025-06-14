@@ -124,7 +124,7 @@ void Bullet::CheckCollisionEnemyBullet()
 		{
 			//collided with player 1
 			m_Player1->GetChildAt(0)->GetComponent<Level>()->CollideWithBullet();
-			GetOwner()->SetToDelete();
+			//GetOwner()->SetToDelete();
 			return; // Exit after first collision
 		}
 	}

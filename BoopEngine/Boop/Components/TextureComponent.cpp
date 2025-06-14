@@ -12,7 +12,7 @@ boop::TextureComponent::TextureComponent(boop::GameObject* const ownerPtr, std::
 	if (!m_TextureString.empty())
 	{
 		m_TexturePtr = std::make_unique<Texture2D>(*boop::ResourceManager::GetInstance().LoadTexture(texture));
-		//set the width and ehight from the texture created
+		//set the width and height from the texture created
 		auto size = m_TexturePtr->GetSize();
 		m_Width = static_cast<float>(size.x);
 		m_Height = static_cast<float>(size.y);

@@ -95,7 +95,7 @@ void boop::Scene::FixedUpdate()
 {
 	for (auto& object : m_objects)
 	{
-		if (object->ToDelete() || object->IsGhost()) continue;
+		if (!object || object->ToDelete() || object->IsGhost()) continue;
 		object->FixedUpdate();
 	}
 	

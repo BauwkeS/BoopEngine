@@ -29,8 +29,7 @@ namespace level
 		float gridSize = 22;
 
 
-		//fluid grid : to-do additions here
-		// addition: size it with the game window size
+		//todo future: make sizable fluid grid usable with any tile or grid
 
 		gameFile.seekg(0, gameFile.end);
 		int fileLength = static_cast<int>(gameFile.tellg());
@@ -77,23 +76,9 @@ namespace level
 				{
 					auto newObj = m_GameObjectTypes.at(index).first->Instantiate();
 
-					//fluid grid : to-do additions here
 					auto x_pos = std::round(cellSize) * static_cast<float>(colsRead);
 					auto y_pos = std::round(cellSize) * static_cast<float>(rowsRead);
 					newObj->SetLocalPosition(x_pos, y_pos);
-
-					//if you have a texture, set it to the correct size
-					//for now just reset the gridSize to the first component
-					//this si not a solid and scalable solution and should be replaced to make it more flexible and usable for any txt file
-				/*	auto textureComp = newObj->GetComponent<boop::TextureComponent>();
-					if (textureComp)
-					{
-						auto oldSize = textureComp->GetSize();
-						if (oldSize.x != cellSize * gridSize)
-						{
-							cellSize = oldSize.x;
-						}
-					}*/
 
 					switch (m_GameObjectTypes.at(index).second)
 					{

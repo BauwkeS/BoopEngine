@@ -4,9 +4,6 @@
 #include "HelperFiles/Texture2D.h"
 namespace boop
 {
-	/**
-	 * Simple RAII wrapper for the SDL renderer
-	 */
 	class Renderer final : public Singleton<Renderer>
 	{
 	public:

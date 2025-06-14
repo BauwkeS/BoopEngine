@@ -65,9 +65,6 @@ void boop::Renderer::RenderTexture(const Texture2D& texture, const float x, cons
 
 	int angle = flip.vertical ? 90 : 0;
 
-	//auto flip = flipQuadrant * 90.f; // Convert quadrant to degrees
-
-	//SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &scr, &dst, angle, &center, static_cast<SDL_RendererFlip>(flip.horizontal));
 
 }

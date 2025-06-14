@@ -2,7 +2,6 @@
 namespace boop
 {
 	//use pimpl pattern to improve compile time and avoid ambiguity for a basic controller & no recompile needed
-	//to-do research: maybe do some extra research for pimpl pattern for extra understanding
 	class Controller final
 	{
 	private:
@@ -29,7 +28,7 @@ namespace boop
 			ButtonY = 0x8000
 		};
 
-		//amount of controllers -> limit to 2 for the game I have
+		//amount of controllers -> limit to 2
 		enum struct ControllerId
 		{
 			First,

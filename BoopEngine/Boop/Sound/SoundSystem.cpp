@@ -35,7 +35,6 @@ public:
 
 		if (IsMuted()) volume = 0.0f; // If muted, set volume to 0
 
-		// Implementation for playing sound using SDL2
 		Mix_Chunk* sound = Mix_LoadWAV(fullFile.c_str());
 		if (!sound) {
 			std::cerr << "Failed to load sound: " << Mix_GetError() << std::endl;
@@ -56,7 +55,6 @@ public:
 
 		if (IsMuted()) volume = 0.0f; // If muted, set volume to 0
 
-		// Implementation for playing music using SDL2
 		if (m_Music) {
 			Mix_FreeMusic(m_Music);
 		}

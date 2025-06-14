@@ -42,26 +42,6 @@ namespace boop
 
 	void InputManager::ExecuteKeyboardCommands(const std::pair<const KeyboardKey, std::unique_ptr<Command>>& keyCommand, const Uint8* currentKeyState, const std::vector<Uint8>& releasedState)
 	{
-
-		//// Decompose the keyStatePair into key and state
-		//const auto& [key, state] = keyStatePair;
-
-		//// Determine if the key is currently pressed and if the expected state is 'isDown'
-		//bool isKeyDown = IsKeyPressed(key) && (state == keyState::isDown);
-
-		//// Determine if the key is held down and if the expected state is 'isPressed'
-		//bool isKeyHeld = currentKeyState[key] && (state == keyState::isPressed);
-
-		//// Determine if the key has been released and if the expected state is 'isUp'
-		//bool isKeyUp = releasedState[key] && (state == keyState::isUp);
-
-		//// Execute the command if any of the conditions (isKeyDown, isKeyHeld, or isKeyUp) are true
-		//if (isKeyDown || isKeyHeld || isKeyUp)
-		//{
-		//	command->Execute(); // Execute the command with the elapsed time as an argument
-		//}
-		//--
-
 		const auto& [key, state] = keyCommand.first;
 
 		bool shouldExecute = false;
@@ -148,23 +128,6 @@ namespace boop
 
 		for (const auto& keyCommand : m_KeyboardCommands[""])
 		{
-			// Decompose the keyStatePair into key and state
-			//const auto& [key, state] = keyStatePair;
-
-			// Determine if the key is currently pressed and if the expected state is 'isDown'
-			//bool isKeyDown = IsKeyPressed(key) && (state == keyState::isDown);
-
-			// Determine if the key is held down and if the expected state is 'isPressed'
-			//bool isKeyHeld = currentKeyState[key] && (state == keyState::isPressed);
-
-			// Determine if the key has been released and if the expected state is 'isUp'
-			//bool isKeyUp = releasedState[key] && (state == keyState::isUp);
-
-			// Execute the command if any of the conditions (isKeyDown, isKeyHeld, or isKeyUp) are true
-			//if (isKeyDown || isKeyHeld || isKeyUp)
-			//{
-			//	command->Execute(); // Execute the command with the elapsed time as an argument
-			//}
 			ExecuteKeyboardCommands(keyCommand, currentKeyState, releasedState);
 		}
 
@@ -180,36 +143,6 @@ namespace boop
 
 			for (const auto& command : m_ControllerCommands[""])
 			{
-				//auto [controllerIdx, cButton] = command.first.first;
-
-				//if (controllerIdx == controller->GetId())
-				//{
-				//	bool shouldExecute = false; // Flag to determine if the command should be executed
-
-				//	// Determine if the command should execute based on the key state
-				//	switch (command.first.second) //the key state
-				//	{
-				//	case keyState::isDown:
-				//		// Check if the key is pressed down in the current frame
-				//		shouldExecute = controller->IsDownThisFrame(cButton);
-				//		break;
-				//	case keyState::isPressed:
-				//		// Check if the key is pressed continuously (held down)
-				//		shouldExecute = controller->IsPressed(cButton);
-				//		break;
-				//	case keyState::isUp:
-				//		// Check if the key is released in the current frame
-				//		shouldExecute = controller->IsUpThisFrame(cButton);
-				//		break;
-				//	}
-
-				//	// If the conditions for executing the command are met, perform the action
-				//	if (shouldExecute)
-				//	{
-				//		// Execute the command with the elapsed time as an argument
-				//		command.second->Execute();
-				//	}
-				//}
 				ExecuteControllerCommands(command, controller);
 			}
 			for (const auto& command : m_ControllerCommands[sceneName]) //check for scene only commands too
@@ -299,14 +232,6 @@ namespace boop
 	void InputManager::ClearCommands()
 	{
 		//clear all commands
-		//for (auto& controller : m_ControllerCommands)
-		//{
-		//	controller.second.reset();
-		//}
-		//for (auto& controller : m_KeyboardCommands)
-		//{
-		//	controller.second.reset();
-		//}
 		m_ControllerCommands.clear();
 		m_KeyboardCommands.clear();
 	}

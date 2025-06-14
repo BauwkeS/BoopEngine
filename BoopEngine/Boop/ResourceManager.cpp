@@ -6,10 +6,6 @@
 #include "HelperFiles/Texture2D.h"
 #include "HelperFiles/Font.h"
 
-//not actually a manager -> it just loads files -> you can change this to store pointers to the textes
-// => when one is called that exists you can already just give that pointer to it instead of making a new one
-
-
 void boop::ResourceManager::Init(const std::filesystem::path& dataPath)
 {
 	m_dataPath = dataPath;

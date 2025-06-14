@@ -2,11 +2,6 @@
 #include <Windows.h>
 #include <Xinput.h>
 
-//has:
-// - the previous state + current state (of both XINPUT and WORD)
-// -> this is to check if it has changed from before 
-// - code from ppt
-
 
 namespace boop
 {

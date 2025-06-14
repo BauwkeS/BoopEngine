@@ -4,9 +4,6 @@
 struct _TTF_Font;
 namespace boop
 {
-	/**
-	 * Simple RAII wrapper for a _TTF_Font
-	 */
 	class Font final
 	{
 	public:

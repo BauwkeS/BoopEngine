@@ -61,7 +61,6 @@ namespace boop
 
         std::unique_ptr<GameObject> Instantiate() const {
             auto obj = std::make_unique<GameObject>();
-            //obj->SetLocalPosition(m_DefaultLocalPosition);
             obj->SetTag(m_DefaultTag);
             obj->SetPersistent(m_DefaultPersistent);
 			obj->SetLocalPosition(m_LocalPositionChanges.x, m_LocalPositionChanges.y);

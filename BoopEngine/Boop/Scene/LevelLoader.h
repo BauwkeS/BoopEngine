@@ -20,7 +20,7 @@ namespace boop
 
 namespace level
 {
-	// original Inspiration (has evolved)
+	// original Inspiration (has evolved over a year)
 	// https://www.youtube.com/watch?v=KrhDQAPMmvw
 	// docu: https://cplusplus.com/doc/tutorial/files/#:~:text=Reading%20from%20a%20file%20can%20also%20be%20performed%20in%20the%20same%20way%20that%20we%20did%20with%20cin%3A
 
@@ -30,7 +30,7 @@ namespace level
 		PERSISTENT //objects that need to transfer between levels, eg: players
 	};
 
-	//to-do: using flyweigh pattern instead of type object would be a good choice for static objects
+	//to-do: using flyweigh pattern (or another) instead of type object -> type object isnt good performance for static objects
 
 	class LevelLoader final : public boop::Singleton<LevelLoader>
 	{
@@ -55,7 +55,6 @@ namespace level
 		LevelLoader& operator=(const LevelLoader& other) = delete;
 		LevelLoader& operator=(LevelLoader&& other) = delete;
 
-		//TO-DO: add extra parameter to change grod size : float gridSize=32
 		void CreateLevel(std::string fileName, std::string sceneName);
 
 		boop::GameObjectType& RegisterType(int index, LevelLayer layer)
@@ -69,9 +68,7 @@ namespace level
 				throw std::runtime_error("Duplicate index registered");
 			}
 
-			//if (objectUndertIndex != -1) m_ObjectUnderIndex = objectUndertIndex;
-
-			return *(it->second.first); // Return reference to the stored object
+			return *(it->second.first);
 		}
 
 		//info for me: use & to chain down the commands to add component easily

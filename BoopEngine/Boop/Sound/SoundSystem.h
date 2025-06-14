@@ -14,7 +14,7 @@ namespace boop
 		virtual void StopSound()=0;
 		virtual void StopAll() = 0;
 		virtual void SetMuting(bool muting)=0;
-		virtual bool IsMuted() const { return false; } // Default implementation, can be overridden
+		virtual bool IsMuted() const { return false; }
 	};
 
 
@@ -37,9 +37,6 @@ namespace boop
 		class SDL2SoundSystemImpl;
 		std::unique_ptr<SDL2SoundSystemImpl> m_SoundSysImpl{};
 	public:
-	/*	SDL2SoundSystem(SoundSystem& ssImpl)
-			: m_SoundSysImpl(ssImpl) {
-		}*/
 		SDL2SoundSystem();
 		~SDL2SoundSystem();
 		void PlaySound(const std::string& file, const float volume) override;
