@@ -5,6 +5,7 @@
 #include "../Level.h"
 #include "Player.h"
 #include "Health.h"
+#include "../../BoopEngine/Boop/Sound/ServiceLocator.h"
 
 Bullet::Bullet(boop::GameObject* owner, glm::vec2 dir, Level* levelinfo, bool enemyBullet)
 	: Component(owner), m_Dir{ dir }, m_LevelInfo{ levelinfo }, m_EnemyBullet{ enemyBullet }
@@ -15,6 +16,8 @@ Bullet::Bullet(boop::GameObject* owner, glm::vec2 dir, Level* levelinfo, bool en
 		m_Player2 = boop::SceneManager::GetInstance().GetActiveScene()->FindGameObjectByTag("p2");
 		m_BounceCount = 4; //cannot bounce back
 	}
+
+	boop::ServiceLocator::GetSoundSystem()->PlaySound("Shoot.wav", 0.5f);
 }
 
 void Bullet::FixedUpdate()

@@ -7,6 +7,7 @@
 
 #include "Components/Player.h"
 #include "Components/Health.h"
+#include "../BoopEngine/Boop/Sound/ServiceLocator.h"
 
 Level::Level(boop::GameObject* owner) : Component(owner),
 m_Subject{ std::make_unique<boop::Subject>() }
@@ -147,6 +148,7 @@ void Level::CollideWithDiamond(SDL_Rect playerRect)
 	{
 		//now you should teleport
 		TeleportPlayer();
+		boop::ServiceLocator::GetSoundSystem()->PlaySound("Teleport.wav", 0.5f);
 	}
 }
 
