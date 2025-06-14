@@ -1,5 +1,4 @@
 #include "ScoreObserver.h"
-#include "Events.h"
 #include "Player.h"
 
 namespace booble {
@@ -10,12 +9,6 @@ namespace booble {
 
 	void ScoreObserver::OnNotify(boop::Event event)
 	{
-		//if (event.id == boop::make_sdbm_hash("PlayerKillTank")
-		//	|| event.id == boop::make_sdbm_hash("PlayerKillRecognizer"))
-		//{
-		//	m_Score += GetOwner()->GetComponent<Player>()->GetScore();
-		//	
-		//}
 		if (event.id == boop::make_sdbm_hash("PlayerKillTank")) {
 			m_Score += 100;
 		}

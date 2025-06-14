@@ -1,6 +1,5 @@
 #pragma once
 #include "Level.h"
-#include "Components/Events.h"
 #include "../BoopEngine/Boop/Event/Event.h"
 #include "../BoopEngine/Boop/Components/TextureComponent.h"
 #include "GameLoader.h"
@@ -12,15 +11,10 @@
 Level::Level(boop::GameObject* owner) : Component(owner),
 m_Subject{ std::make_unique<boop::Subject>() }
 {
-	//add player
-	//auto playerComp = owner->GetParent()->GetComponent<booble::Player>();
-	//m_Subject->AddObserver(playerComp);
 }
 
 void Level::FixedUpdate()
 {
-	//check for collisions of the bullets and tanks
-
 	if (!m_BaseTank) return;
 
 	auto playerPos = GetOwner()->GetWorldPosition();
@@ -43,7 +37,6 @@ void Level::ResetPlayerCollision(boop::Scene* scene, bool alsoSetPos)
 	m_CollisionObjects = scene->FindAllGameObjectByTag("collision");
 
 	//get player info
-	//auto playerInfo = pScene->FindGameObjectByTag("p1");
 	auto playerComp = GetOwner()->GetParent()->GetComponent<BaseTank>();
 	if (alsoSetPos) playerComp->SetStartPos(GetOwner()->GetWorldPosition());
 	if (playerComp) m_BaseTank = playerComp;
@@ -56,7 +49,6 @@ void Level::ResetPlayerCollision(boop::Scene* scene, bool alsoSetPos)
 		if (enemyComp)
 		{
 			if (alsoSetPos) {
-				//enemyComp->GetTankBase()->SetStartPos(enemy->GetWorldPosition());
 				if (enemyComp->GetTankBase()->GetStartPos() == glm::bvec2{ 0,0 }) enemyComp->GetTankBase()->SetStartPos(enemy->GetWorldPosition());
 				enemyComp->UpdateFromScene();
 				enemyComp->ResetPosition();
@@ -95,11 +87,8 @@ void Level::CollideWithTank(SDL_Rect playerRect)
 		SDL_Rect enemyRect{ static_cast<int>(enemyPos.x), static_cast<int>(enemyPos.y),
 			static_cast<int>(enemySize.x), static_cast<int>(enemySize.y) };
 
-		//check if the rects intersect or not
 		if (SDL_HasIntersection(&playerRect, &enemyRect))
 		{
-			//you have collided!
-			//lose a life and reset the map
 			CollideWithBullet();
 			break;
 		}
@@ -115,10 +104,8 @@ bool Level::MapCollision(SDL_Rect playerR)
 		SDL_Rect wallRect{ static_cast<int>(wallPos.x), static_cast<int>(wallPos.y),
 			static_cast<int>(wallSize.x), static_cast<int>(wallSize.y) };
 
-		//check if the rects intersect or not
 		if (SDL_HasIntersection(&playerR, &wallRect))
 		{
-			//you have collided!
 			return true;
 		}
 	}
@@ -143,7 +130,6 @@ void Level::CollideWithDiamond(SDL_Rect playerRect)
 		static_cast<int>(m_Diamond->GetOwner()->GetWorldPosition().y),
 		static_cast<int>(m_Diamond->GetSize().x), static_cast<int>(m_Diamond->GetSize().y)};
 
-	//check if the rects intersect or not
 	if (SDL_HasIntersection(&playerRect, &diamondRect))
 	{
 		//now you should teleport

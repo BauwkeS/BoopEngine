@@ -17,9 +17,7 @@ class Enemy;
 
 namespace enemy
 {
-	//-------------------------------------------------------------------------
-	//-------STATES------------------------------------------------------------
-	//-------------------------------------------------------------------------
+	//--STATES--------------------------------------------------------------
 	class BaseState {
 	public:
 		virtual ~BaseState() = default;
@@ -47,7 +45,6 @@ namespace enemy
 		void OnExit() override;
 		std::unique_ptr<BaseState>HandleState() override;
 	private:
-		//glm::vec2 m_TargetPosition{ 0,0 }; // Target position to move towards
 		glm::vec2 FindPlayer();
 	};
 
@@ -61,7 +58,7 @@ namespace enemy
 		void OnExit() override;
 		std::unique_ptr<BaseState>HandleState() override;
 	private:
-		float m_CooldownShoot{ 0.f }; // Cooldown for shooting
+		float m_CooldownShoot{ 0.f }; 
 
 	};
 	
@@ -77,7 +74,7 @@ namespace enemy
 	private:
 		glm::vec2 m_RandomTargetPos{};
 		void FindRandomTargetPos();
-		float m_RoamTimer{ 0.f }; // Timer for roaming
+		float m_RoamTimer{ 0.f };
 	};
 
 	class ChasePlayer : public BaseState
@@ -91,13 +88,10 @@ namespace enemy
 		std::unique_ptr<BaseState>HandleState() override;
 	private:
 		glm::vec2 m_TargetPosition{ 0,0 };
-		//bool m_IsChasing{ true };
 	};
 }
 
-//-------------------------------------------------------------------------
-//--------ENEMY-BASE-------------------------------------------------------
-//-------------------------------------------------------------------------
+//--ENEMY-BASE---------------------------------------------------------
 
 class Enemy : public boop::Component
 	{
@@ -117,8 +111,6 @@ class Enemy : public boop::Component
 
 		BaseTank* GetTankBase() const { return m_pTankBase; }
 		boop::TextureComponent* GetTankTexture() const { return m_pTankTexture; }
-
-		//glm::vec2 GetMovementVec() const { return m_MovementVec; }
 
 		void UpdateFromScene();
 		void ResetPosition()
@@ -173,22 +165,17 @@ class Enemy : public boop::Component
 	};
 
 
-//-------------------------------------------------------------------------
-//--------ENEMIES----------------------------------------------------------
-//-------------------------------------------------------------------------
+//--ENEMIES------------------------------------------------------------
+
 
 class BlueTankEnemy : public Enemy
 {
 public:
 	BlueTankEnemy(boop::GameObject* owner)
 		: Enemy(owner) {
-		//set base state to use
-		//GoToState(std::make_unique<enemy::GoToClosestPlayer>(this));
 		m_pCurrentState = std::make_unique<enemy::GoToClosestPlayer>(this);
 	}
 private:
-	// Add any specific functionality for BlueTankEnemy here
-	
 };
 
 class RecognizerEnemy : public Enemy
@@ -196,10 +183,6 @@ class RecognizerEnemy : public Enemy
 public:
 	RecognizerEnemy(boop::GameObject* owner)
 		: Enemy(owner) {
-		//set base state to use
-		//GoToState(std::make_unique<enemy::GoToClosestPlayer>(this));
 		m_pCurrentState = std::make_unique<enemy::Roam>(this);
 	}
-	//private:
-		// Add any specific functionality for BlueTankEnemy here
 };

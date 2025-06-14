@@ -16,7 +16,7 @@ add_executable(${PROJECT_NAME}
  
  
  "Scr/GameCommands.h"
-    "Scr/Components/Health.h" "Scr/Components/Health.cpp" "Scr/Components/Events.h" "Scr/Components/HealthObserver.h"
+    "Scr/Components/Health.h" "Scr/Components/Health.cpp"  "Scr/Components/HealthObserver.h"
 "Scr/Components/HealthObserver.cpp" "Scr/Level.h" "Scr/Level.cpp" "Scr/Components/ScoreObserver.h" "Scr/Components/ScoreObserver.cpp" "Scr/Components/BaseTank.cpp" "Scr/Components/BaseTank.h" "Scr/Components/Enemy.h" "Scr/Components/Enemy.cpp" "Scr/Components/TankGun.h" "Scr/Components/TankGun.cpp" "Scr/Components/Bullet.h" "Scr/Components/Bullet.cpp" "Scr/Components/LevelObserver.h" "Scr/Components/LevelObserver.cpp"   "Scr/Highscores.h" "Scr/Highscores.cpp")
 
 # Ensure correct target name
@@ -49,6 +49,12 @@ add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
 
 # enable c++20 features
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
+
+set_property(TARGET ${PROJECT_NAME} PROPERTY
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED TRUE
+    CXX_EXTENSIONS FALSE
+)
 
 # compile at max warning level + treat warnings as errors
 target_compile_options(${PROJECT_NAME} PRIVATE

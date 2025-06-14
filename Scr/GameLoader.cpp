@@ -130,8 +130,6 @@ namespace booble
 
 		player1->AddKeyboardMovement();
 
-		//TO-DO REMOVE THIS PIECE OF SHI
-
 		//set score observsers and merge if needed
 		auto scoreObsPlayer1 = player1->GetOwner()->AddComponent<ScoreObserver>();
 		player1->GetSubject()->AddObserver(scoreObsPlayer1);
@@ -177,7 +175,6 @@ namespace booble
 		}
 		case booble::GameMode::COOP:
 		{
-			//to-do update this for being an enemy after enemies are done
 			//input player 2
 			player2->AddControllerMovement();
 			player1->AddControllerMovement();
@@ -190,11 +187,8 @@ namespace booble
 			player2->GetOwner()->GetChildAt(0)->GetComponent<Level>()->GetSubject()->AddObserver(player2);
 			player2->GetOwner()->GetComponent<Health>()->GetSubject()->AddObserver(m_levelObserver.get());
 
-
 			//set the UI position
 			player2->GetOwner()->GetComponent<HealthObserver>()->SetPosition(600, 500);
-			//player2->GetOwner()->GetComponent<ScoreObserver>()->SetPosition(0, 550);
-
 
 			break;
 		}
@@ -234,20 +228,6 @@ namespace booble
 		sceneMain.Add(std::move(selectionText));
 	}
 
-	//void GameLoader::MakeEndingScreen()
-	//{
-	//	////SETUP
-	//	//const std::string levelName{ "EndingScreen" };
-	//	//auto& sceneMain = boop::SceneManager::GetInstance().AddScene(levelName);
-
-	//	////selection info
-	//	//auto mainMenuText = std::make_unique<boop::GameObject>();
-	//	//mainMenuText->AddComponent<boop::TextComponent>("GAME OVER:?")->SetPosition(300, 100);
-	//	//mainMenuText->AddComponent<boop::TextComponent>("Yesyes the end")->SetPosition(300, 300);
-
-	//	//sceneMain.Add(std::move(mainMenuText));
-	//}
-
 	void GameLoader::MakeGame()
 	{
 		//REGISTER OBJECTS
@@ -264,15 +244,12 @@ namespace booble
 		boop::ServiceLocator::RegisterSoundSystem(std::make_unique<boop::SDL2SoundSystem>());
 		boop::ServiceLocator::GetSoundSystem()->PlaySound("MainMenuMusic.wav", 0.5f);
 
-		//Level control
+		//LEVEL CONTROL
 		m_levelObserver = std::make_unique<LevelObserver>();
 	}
 
 	void GameLoader::InitializeLevels()
 	{
-		//Level control
-		//m_levelObserver = std::make_unique<LevelObserver>();
-
 		//RESET CONTROLLERS
 		boop::InputManager::GetInstance().DeleteControllers();
 
@@ -280,8 +257,5 @@ namespace booble
 		MakeLevel("levels/level1.txt", "level1");
 		MakeLevel("levels/level2.txt", "level2");
 		MakeLevel("levels/level3.txt", "level3");
-
-		//MakeEndingScreen();
 	}
-
 }

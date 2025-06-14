@@ -8,7 +8,6 @@
 #include "../../BoopEngine/Boop/Scene/Scene.h"
 #include "../../BoopEngine/Boop/Input/InputManager.h"
 #include "../GameCommands.h"
-#include "Events.h"
 #include "../../BoopEngine/Boop/Event/Subject.h"
 #include "../../BoopEngine/Boop/Components/TextureComponent.h"
 #include "HealthObserver.h"
@@ -26,10 +25,6 @@ namespace booble
 		//add health UI
 		auto healthObs = owner->AddComponent<HealthObserver>();
 		owner->GetComponent<Health>()->GetSubject()->AddObserver(healthObs);
-
-		//add score
-		//auto scoreObs = owner->AddComponent<ScoreObserver>();
-		//m_Subject->AddObserver(scoreObs);
 	}
 
 	void Player::FixedUpdate()

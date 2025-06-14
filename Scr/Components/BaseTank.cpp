@@ -8,7 +8,6 @@
 #include "../../BoopEngine/Boop/Scene/Scene.h"
 #include "../../BoopEngine/Boop/Input/InputManager.h"
 #include "../GameCommands.h"
-#include "Events.h"
 #include "../../BoopEngine/Boop/Event/Subject.h"
 #include "../../BoopEngine/Boop/Components/TextureComponent.h"
 #include "HealthObserver.h"

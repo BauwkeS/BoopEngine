@@ -31,8 +31,6 @@ namespace booble
 		void AddKeyboardMovement();
 		void AddControllerMovement();
 
-		//BaseTank* GetTankBase() const { return m_pTankBase; }
-
 		boop::Subject* GetSubject() const { return m_Subject.get(); }
 
 	private:
@@ -40,8 +38,6 @@ namespace booble
 		int m_Speed{};
 
 		std::unique_ptr<boop::Subject> m_Subject{};
-
-		//BaseTank* m_pTankBase{};
 	};
 
 }

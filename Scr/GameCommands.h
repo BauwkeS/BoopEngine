@@ -65,8 +65,6 @@ namespace booble
 			auto newXPos = m_pGameObject->GetLocalPosition().x + (m_Speed.x * boop::DeltaTime::GetInstance().GetDeltaTime());
 			auto newYPos = m_pGameObject->GetLocalPosition().y + (m_Speed.y * boop::DeltaTime::GetInstance().GetDeltaTime());
 
-
-			//maybe this should happen in the level.cpp instead
 			//check bounds of game and set player back if needed
 			if (newXPos < 0 || newXPos > m_WindowWidth - m_ObjectSize.w
 				|| newYPos < 0 || newYPos > m_WindowHeight - m_ObjectSize.h) return;
@@ -91,32 +89,16 @@ namespace booble
 				}
 			}
 
-			//if you are nto colliding with anything, move player
+			//if you are not colliding with anything, move player
 			m_pGameObject->SetLocalPosition(newXPos, newYPos);
 
 			m_pPlayerTexture->FlipTextureDir(m_Speed);
 			
 
-			if (m_Speed.x > 0)
-			{
-				//m_pGunTexture->FlipTexture({ false, false }); //right
-				m_pGunTexture->GetOwner()->SetLocalPosition(-10, -8);
-			}
-			else if (m_Speed.x < 0)
-			{
-				//m_pGunTexture->FlipTexture({ true, false }); //left
-				m_pGunTexture->GetOwner()->SetLocalPosition(-6, -8);
-			}
-			if (m_Speed.y > 0)
-			{
-				//m_pGunTexture->FlipTexture({ false, true }); //down
-				m_pGunTexture->GetOwner()->SetLocalPosition(-8, -10);
-			}
-			else if (m_Speed.y < 0)
-			{
-				//m_pGunTexture->FlipTexture({ true, true }); //up
-				m_pGunTexture->GetOwner()->SetLocalPosition(-8, -6);
-			}
+			if (m_Speed.x > 0) m_pGunTexture->GetOwner()->SetLocalPosition(-10, -8);
+			else if (m_Speed.x < 0) m_pGunTexture->GetOwner()->SetLocalPosition(-6, -8);
+			if (m_Speed.y > 0) m_pGunTexture->GetOwner()->SetLocalPosition(-8, -10);
+			else if (m_Speed.y < 0) m_pGunTexture->GetOwner()->SetLocalPosition(-8, -6);
 
 		};
 
@@ -148,13 +130,11 @@ namespace booble
 			m_pGunTexture->FlipTextureDir(m_Speed);
 			
 			//create a bullet
-			//m_pGameObject->AddComponent<Bullet>("BulletPlayer.png", m_Speed);
 
 			auto bullet = std::make_unique<boop::GameObject>();
 			bullet->SetTag("bullet");
 			bullet->AddComponent<Bullet>(m_Speed, m_pLevel);
 			bullet->AddComponent<boop::TextureComponent>("BulletPlayer.png");
-			//bullet->SetParent(m_pGunTexture->GetOwner(), false); // Set the parent to the tank gun
 
 			// Set the position of the bullet relative to the gun
 			auto gunSize = m_pGunTexture->GetSize();
@@ -167,25 +147,21 @@ namespace booble
 
 			if (m_Speed.x > 0)
 			{
-				//bullet->SetLocalPosition(gunSize.x-mar, gunSize.y / 3);
 				xOffset = gunSize.x - mar;
 				yOffset = gunSize.y / 3;
 			}
 			else if (m_Speed.x < 0)
 			{
-				//bullet->SetLocalPosition(0, gunSize.y / 3);
 				xOffset = 0;
 				yOffset = gunSize.y / 3;
 			}
 			if (m_Speed.y > 0)
 			{
-				//bullet->SetLocalPosition(gunSize.x/3+mar, gunSize.y-mar);
 				xOffset = gunSize.x / 3 + mar;
 				yOffset = gunSize.y - mar;
 			}
 			else if (m_Speed.y < 0)
 			{
-				//bullet->SetLocalPosition(gunSize.x/3+mar, 0);
 				xOffset = gunSize.x / 3 + mar;
 				yOffset = 0;
 			}
@@ -194,9 +170,6 @@ namespace booble
 
 
 			boop::SceneManager::GetInstance().GetActiveScene()->Add(std::move(bullet));
-
-			//m_pGunTexture->GetOwner()->AddComponent<Bullet>("BulletPlayer.png", m_Speed);
-
 		};
 
 		ShootCommand(const ShootCommand& other) = delete;
@@ -218,7 +191,6 @@ namespace booble
 
 		void Execute() override {
 			m_pGameObject->GetComponent<Level>()->SetHitTank();
-			//boop::SceneManager::GetInstance().GetActiveScene()->FindGameObjectByTag("Level")->GetComponent<Level>()->SetHitTank();
 		};
 
 		TestHitTank(const TestHitTank& other) = delete;
@@ -238,7 +210,6 @@ namespace booble
 
 		void Execute() override {
 			m_pGameObject->GetComponent<Level>()->SetHitRecognizer();
-			//boop::SceneManager::GetInstance().GetActiveScene()->FindGameObjectByTag("Level")->GetComponent<Level>()->SetHitRecognizer();
 		};
 
 		TestHitRecognizer(const TestHitRecognizer& other) = delete;
@@ -268,25 +239,12 @@ namespace booble
 				player->GetParent()->GetComponent<BaseTank>()->ResetPosition();
 			}
 
-			//std::cout << "Changing scene to: " << m_ToScene << std::endl;
 			boop::SceneManager::GetInstance().ChangeScene(m_ToScene);
 			auto levels = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
 			for (auto& level : levels)
 			{
 				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
 			}
-			//auto enemies = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("enemy");
-			//for (auto& enemy : enemies)
-			//{
-			//	auto enemyComp = enemy->GetComponent<Enemy>();
-			//	
-			//}
-			////delete any roaming bullets
-			//auto bullets = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("bullet");
-			//for (auto& bullet : bullets)
-			//{
-			//	bullet->SetToDelete();
-			//}
 		};
 
 		ChangeScene(const ChangeScene& other) = delete;
@@ -342,14 +300,6 @@ namespace booble
 			//set background music
 			boop::ServiceLocator::GetSoundSystem()->StopAll();
 			boop::ServiceLocator::GetSoundSystem()->PlayMusic("Background.wav", 0.5f);
-
-			//auto enemies = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("enemy");
-			//for (auto& enemy : enemies)
-			//{
-			//	auto enemyComp = enemy->GetComponent<Enemy>();
-			//	enemyComp->UpdateFromScene();
-			//	enemyComp->ResetPosition();
-			//}
 		};
 
 		StartGame(const StartGame& other) = delete;

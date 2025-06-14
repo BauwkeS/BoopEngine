@@ -8,7 +8,6 @@
 #include "../../BoopEngine/Boop/Scene/Scene.h"
 #include "../../BoopEngine/Boop/Input/InputManager.h"
 #include "../GameCommands.h"
-#include "Events.h"
 #include "../../BoopEngine/Boop/Event/Subject.h"
 #include "../../BoopEngine/Boop/Components/TextureComponent.h"
 #include "HealthObserver.h"
@@ -62,9 +61,6 @@ glm::vec2 Enemy::SeePlayer()
 	resultPos = CheckPlayerPosSeen(m_Player1->GetWorldPosition());
 	//check player2
 	if (m_Player2 && !m_Player2->ToDelete() && resultPos == glm::vec2{0,0}) resultPos = CheckPlayerPosSeen(m_Player2->GetWorldPosition());
-
-	//debug check
-	//if (resultPos != glm::vec2{ 0,0 }) std::cout << "PLAYER SEEN!\n";
 
 	return resultPos;
 }
@@ -278,17 +274,15 @@ glm::vec2 enemy::GoToClosestPlayer::FindPlayer()
 
 		float distance{100000000.f};
 		
-
 		//check if there is a second player
 		if (m_pOwner->GetPlayer2() && !m_pOwner->GetPlayer2()->ToDelete()) {
 			distance = glm::distance(m_pOwner->GetPlayer2()->GetWorldPosition(), tankPos);
 			returnVec = m_pOwner->GetPlayer2()->GetWorldPosition();
 		}
 
-		// Check if the player is within a certain distance
-		if (glm::distance(playerPos, tankPos) < distance) // Example distance threshold
+		if (glm::distance(playerPos, tankPos) < distance)
 		{
-			returnVec = playerPos; // Return the player's position if seen
+			returnVec = playerPos;
 		}
 	}
 	return returnVec;
@@ -308,7 +302,7 @@ void enemy::Shoot::Update()
 }
 
 void enemy::Shoot::OnEnter()
-{//shoot the bullet
+{	//shoot the bullet
 	auto bullet = std::make_unique<boop::GameObject>();
 	bullet->SetTag("bullet");
 	bullet->AddComponent<Bullet>(m_pOwner->m_MovementVec, m_pOwner->GetPlayer1()->GetChildAt(0)->GetComponent<Level>(), true);
@@ -328,7 +322,7 @@ std::unique_ptr<enemy::BaseState> enemy::Shoot::HandleState()
 {
 	if (m_CooldownShoot >= 1.5f) // cooldown time
 	{
-		return std::make_unique<enemy::GoToClosestPlayer>(m_pOwner); // Change state back to GoToClosestPlayer
+		return std::make_unique<enemy::GoToClosestPlayer>(m_pOwner); 
 	}
 
 	return nullptr;
@@ -340,7 +334,6 @@ std::unique_ptr<enemy::BaseState> enemy::Shoot::HandleState()
 enemy::Roam::Roam(Enemy* owner)
 	: BaseState(owner)
 {
-	//m_RandomTargetPos = m_pOwner->GetOwner()->GetWorldPosition();
 }
 
 void enemy::Roam::Update()
@@ -351,14 +344,11 @@ void enemy::Roam::Update()
 	//move to the random target position
 	m_pOwner->MoveToPos(m_RandomTargetPos);
 	//check if reached the target position
-	if (glm::distance(m_pOwner->GetOwner()->GetWorldPosition(), m_RandomTargetPos) < 40.f)
-	{
-		m_RandomTargetPos = glm::vec2{ 0,0 }; //reset target pos
-	}
+	if (glm::distance(m_pOwner->GetOwner()->GetWorldPosition(), m_RandomTargetPos) < 40.f) m_RandomTargetPos = glm::vec2{ 0,0 };
 
 	if (m_RoamTimer >= 4.f) {
-		m_RandomTargetPos = glm::vec2{ 0,0 }; //reset target pos
-		m_RoamTimer = 0.f; // Reset roam timer
+		m_RandomTargetPos = glm::vec2{ 0,0 }; 
+		m_RoamTimer = 0.f; 
 	}
 }
 
@@ -369,7 +359,7 @@ void enemy::Roam::OnEnter()
 
 void enemy::Roam::OnExit()
 {
-	m_RoamTimer = 0.f; // Reset roam timer
+	m_RoamTimer = 0.f; 
 }
 
 std::unique_ptr<enemy::BaseState> enemy::Roam::HandleState()
@@ -378,16 +368,13 @@ std::unique_ptr<enemy::BaseState> enemy::Roam::HandleState()
 	{
 		return std::make_unique<enemy::ChasePlayer>(m_pOwner);
 	}
-	return nullptr; //no state change
+	return nullptr;
 }
 
 void enemy::Roam::FindRandomTargetPos()
 {
 	//roam within a derimeter
 	int derimeter = 800;
-
-	//m_RandomTargetPos.x = static_cast<float>(rand() % static_cast<int>(derimeter));
-	//m_RandomTargetPos.y = static_cast<float>(rand() % static_cast<int>(derimeter));
 
 	auto tankPos = m_pOwner->GetOwner()->GetWorldPosition();
 
@@ -429,7 +416,7 @@ std::unique_ptr<enemy::BaseState> enemy::ChasePlayer::HandleState()
 {
 	if (m_TargetPosition == glm::vec2{ 0,0 })
 	{
-		return std::make_unique<enemy::Roam>(m_pOwner); // Change state to Roam if no player is seen
+		return std::make_unique<enemy::Roam>(m_pOwner); 
 	}
 	return nullptr;
 }

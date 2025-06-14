@@ -66,26 +66,15 @@ void Bullet::CheckCollisionPlayerBullet()
 
 		if (SDL_HasIntersection(&bulletRect, &enemyRect))
 		{
-			//to-do -> check which enemy type was collided with
-			
-			//collided with enemy
-			//m_LevelInfo->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillTank") });
-
-			GetOwner()->SetToDelete();
-			//enemy->GetOwner()->SetToDelete(); //delete the enemy
-
 			auto levels = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("level");
 			for (auto& level : levels)
 			{
 				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene(), false);
 			}
-
-
-			auto enemyDied = enemy->GetOwner()->GetComponent<Health>()->TakeDamage(); //decrease enemy health
+			GetOwner()->SetToDelete(); //delete bullet
+			auto enemyDied = enemy->GetOwner()->GetComponent<Health>()->TakeDamage();
 			if (enemyDied == 1) m_LevelInfo->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillTank") });
 			else if (enemyDied == 2) m_LevelInfo->GetSubject()->NotifyObserver(boop::Event{ boop::make_sdbm_hash("PlayerKillRecognizer") });
-
-
 
 			return; // Exit after first collision
 		}
@@ -124,7 +113,6 @@ void Bullet::CheckCollisionEnemyBullet()
 		{
 			//collided with player 1
 			m_Player1->GetChildAt(0)->GetComponent<Level>()->CollideWithBullet();
-			//GetOwner()->SetToDelete();
 			return; // Exit after first collision
 		}
 	}
@@ -136,7 +124,7 @@ void Bullet::CheckCollisionEnemyBullet()
 			static_cast<int>(player1Size.x), static_cast<int>(player1Size.y) };
 		if (SDL_HasIntersection(&bulletRect, &player1Rect))
 		{
-			//collided with player 1
+			//collided with player 2
 			m_Player2->GetChildAt(0)->GetComponent<Level>()->CollideWithBullet();
 			GetOwner()->SetToDelete();
 			return; // Exit after first collision

@@ -32,9 +32,6 @@ std::vector<Highscores::highscoreData> Highscores::GetHighscores() const
 			{
 				throw std::runtime_error("Invalid highscore format in line: " + line);
 			}
-
-
-			//highscores.push_back(line);
 		}
 	}
 

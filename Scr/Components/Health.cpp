@@ -1,6 +1,5 @@
 #pragma once
 #include "Health.h"
-#include "Events.h"
 #include "Player.h"
 #include "Enemy.h"
 
@@ -25,24 +24,12 @@ int Health::TakeDamage(int damage)
 	{
 		if (m_Health <= 0 && GetOwner()->GetComponent<BlueTankEnemy>())
 		{
-			//m_Subject->NotifyObserver(boop::Event(boop::make_sdbm_hash("EnemyHitBlueTank")));
-			//if (m_Health <= 0)
-			//{
-			//	m_Subject->NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerKillTank")));
-			//	GetOwner()->SetToDelete(); //delete the enemy
-			//}
-			GetOwner()->SetAsGhost(); //delete the enemy
+			GetOwner()->SetAsGhost();
 			return 1;
 		}
 		else if (m_Health <= 0 && GetOwner()->GetComponent<Enemy>())
 		{
-			//m_Subject->NotifyObserver(boop::Event(boop::make_sdbm_hash("EnemyHitRecognizer")));
-			//if (m_Health <= 0)
-			//{
-			//	m_Subject->NotifyObserver(boop::Event(boop::make_sdbm_hash("PlayerKillRecognizer")));
-			//	GetOwner()->SetToDelete(); //delete the enemy
-			//}
-			GetOwner()->SetAsGhost(); //delete the enemy
+			GetOwner()->SetAsGhost();
 			return 2;
 		}
 		

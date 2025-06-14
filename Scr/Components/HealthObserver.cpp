@@ -1,7 +1,6 @@
 #pragma once
 #include "HealthObserver.h"
 #include "../../BoopEngine/Boop/GameObject.h"
-#include "Events.h"
 #include "Health.h"
 
 HealthObserver::HealthObserver(boop::GameObject* owner)
