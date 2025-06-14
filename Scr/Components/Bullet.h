@@ -25,7 +25,7 @@ private:
 	
 	bool m_EnemyBullet{ false };
 
-	float m_Speed{300.f};
+	float m_Speed{500.f};
 
 	int m_BounceCount{0};
 	
