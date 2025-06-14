@@ -69,7 +69,7 @@ void LevelObserver::SetUpEndScreen()
 	//selection info
 	auto mainTexts = std::make_unique<boop::GameObject>();
 	mainTexts->AddComponent<boop::TextComponent>("GAME OVER: " + m_EndData.playerWon + " won!")->SetPosition(300, 100);
-	mainTexts->AddComponent<boop::TextComponent>("With score: " + std::to_string(m_EndData.score))->SetPosition(300, 200);
+	mainTexts->AddComponent<boop::TextComponent>("With score: " + std::to_string(m_EndData.score))->SetPosition(300, 150);
 
 	endingScene.Add(std::move(mainTexts));
 
