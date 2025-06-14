@@ -14,7 +14,6 @@
 #include "../BoopEngine/Boop/Input/InputManager.h"
 
 #include "../BoopEngine/Boop/Sound/ServiceLocator.h"
-#include "../BoopEngine/Boop/Sound/SoundSystem.h"
 
 #include "Components/player.h"
 #include "Components/Health.h"
@@ -263,7 +262,7 @@ namespace booble
 
 		//SET MUSIC
 		boop::ServiceLocator::RegisterSoundSystem(std::make_unique<boop::SDL2SoundSystem>());
-		boop::ServiceLocator::GetSoundSystem()->PlayMusic("MainMenuMusic.wav", 0.5f);
+		boop::ServiceLocator::GetSoundSystem()->PlaySound("MainMenuMusic.wav", 0.5f);
 	}
 
 	void GameLoader::InitializeLevels()

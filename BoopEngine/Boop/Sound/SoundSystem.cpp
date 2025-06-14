@@ -67,6 +67,23 @@ public:
 			std::cerr << "Failed to play music: " << Mix_GetError() << std::endl;
 		}
 	}
+	void StopMusic()
+	{
+		if (m_Music) {
+			Mix_HaltMusic();
+			Mix_FreeMusic(m_Music);
+			m_Music = nullptr;
+		}
+	}
+
+	void StopSound()
+	{
+		for (auto& sound : m_SoundEffects) {
+			Mix_HaltChannel(-1); // Stop all channels
+			Mix_FreeChunk(sound);
+		}
+		m_SoundEffects.clear();
+	}
 
 };
 
@@ -87,4 +104,19 @@ void boop::SDL2SoundSystem::PlaySound(const std::string& file, const float volum
 void boop::SDL2SoundSystem::PlayMusic(const std::string& file, const float volume)
 {
 	m_SoundSysImpl->PlayMusic(file, volume);
+}
+
+void boop::SDL2SoundSystem::StopMusic()
+{
+	m_SoundSysImpl->StopMusic();
+}
+void boop::SDL2SoundSystem::StopSound()
+{
+	m_SoundSysImpl->StopSound();
+}
+
+void boop::SDL2SoundSystem::StopAll()
+{
+	m_SoundSysImpl->StopMusic();
+	m_SoundSysImpl->StopSound();
 }

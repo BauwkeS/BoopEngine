@@ -20,6 +20,9 @@
 #include "../BoopEngine/Boop/Components/TextureComponent.h"
 #include "Components/Bullet.h"
 
+#include "../BoopEngine/Boop/Sound/ServiceLocator.h"
+
+
 //COMMANDS HERE
 namespace boop
 {
@@ -336,6 +339,10 @@ namespace booble
 			{
 				level->GetComponent<Level>()->ResetPlayerCollision(boop::SceneManager::GetInstance().GetActiveScene());
 			}
+			//set background music
+			boop::ServiceLocator::GetSoundSystem()->StopAll();
+			boop::ServiceLocator::GetSoundSystem()->PlayMusic("Background.wav", 0.5f);
+
 			//auto enemies = boop::SceneManager::GetInstance().GetActiveScene()->FindAllGameObjectByTag("enemy");
 			//for (auto& enemy : enemies)
 			//{

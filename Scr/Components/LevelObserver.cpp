@@ -15,6 +15,11 @@ void LevelObserver::OnNotify(boop::Event event)
 	//GO TO END SCREEN
 	if (event.id == boop::make_sdbm_hash("PlayerDied"))
 	{
+		//sound
+		boop::ServiceLocator::GetSoundSystem()->StopAll();
+		boop::ServiceLocator::GetSoundSystem()->PlaySound("FailMusic.wav", 0.5f);
+
+		//set up the end screen
 		boop::InputManager::GetInstance().ClearCommands();
 		SetEndData();
 
