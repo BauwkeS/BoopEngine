@@ -4,10 +4,13 @@
 #include "../../BoopEngine/Boop/Scene/SceneManager.h"
 #include "../GameCommands.h"
 #include "../GameLoader.h"
+#include "../../BoopEngine/Boop/Sound/ServiceLocator.h"
 
 LevelObserver::LevelObserver()
 	: m_Highscores{ std::make_unique<Highscores>() }
 {
+	boop::InputManager::GetInstance().AddCommand(SDL_SCANCODE_F2, boop::keyState::isDown,
+		std::make_unique<SetMutingSound>(m_musicMuted));
 }
 
 void LevelObserver::OnNotify(boop::Event event)
@@ -226,4 +229,10 @@ void GoToEndScreen::Execute()
 	m_pLevelObs->SetUpEndScreen();
 	booble::ChangeScene changeScene("EndingScreen");
 	changeScene.Execute();
+}
+
+void SetMutingSound::Execute()
+{
+	m_Muting = !m_Muting;
+	boop::ServiceLocator::GetSoundSystem()->SetMuting(m_Muting);
 }

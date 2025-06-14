@@ -13,6 +13,8 @@ namespace boop
 		virtual void StopMusic() = 0;
 		virtual void StopSound()=0;
 		virtual void StopAll() = 0;
+		virtual void SetMuting(bool muting)=0;
+		virtual bool IsMuted() const { return false; } // Default implementation, can be overridden
 	};
 
 
@@ -24,6 +26,8 @@ namespace boop
 		void StopMusic() override {};
 		void StopSound() override {};
 		void StopAll() override {};
+		void SetMuting(bool) override {};
+		bool IsMuted() const override { return false; }
 	};
 
 
@@ -43,5 +47,7 @@ namespace boop
 		void StopMusic() override;
 		void StopSound() override;
 		void StopAll() override;
+		void SetMuting(bool muting) override;
+		bool IsMuted() const override;
 	};
 }

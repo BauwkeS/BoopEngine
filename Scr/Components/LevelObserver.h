@@ -40,6 +40,8 @@ private:
 
 	int m_LetterIndexes[3]{0,0,0};
 	int m_SelectedLetter{ 0 };
+
+	bool m_musicMuted{ false };
 };
 
 class ChangeLetter final : public boop::Command {
@@ -99,5 +101,23 @@ public:
 	GoToEndScreen(GoToEndScreen&& other) = delete;
 	GoToEndScreen& operator=(const GoToEndScreen& other) = delete;
 	GoToEndScreen& operator=(GoToEndScreen&& other) = delete;
+
+};
+
+class SetMutingSound final : public boop::Command {
+private:
+	bool& m_Muting;
+public:
+	SetMutingSound(bool& mute)
+		: m_Muting{ mute } {
+	}
+	~SetMutingSound() {}
+
+	void Execute() override;
+
+	SetMutingSound(const SetMutingSound& other) = delete;
+	SetMutingSound(SetMutingSound&& other) = delete;
+	SetMutingSound& operator=(const SetMutingSound& other) = delete;
+	SetMutingSound& operator=(SetMutingSound&& other) = delete;
 
 };

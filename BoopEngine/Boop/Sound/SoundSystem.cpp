@@ -29,10 +29,11 @@ public:
 		Mix_CloseAudio();
 		SDL_Quit();
 	}
-	void PlaySound(const std::string& file, const float volume)
+	void PlaySound(const std::string& file, float volume)
 	{
 		std::string fullFile = ("Data\\sounds\\" + file); // Ensure the file path is correct
 
+		if (IsMuted()) volume = 0.0f; // If muted, set volume to 0
 
 		// Implementation for playing sound using SDL2
 		Mix_Chunk* sound = Mix_LoadWAV(fullFile.c_str());
@@ -49,9 +50,11 @@ public:
 		}
 	}
 
-	void PlayMusic(const std::string& file, const float volume)
+	void PlayMusic(const std::string& file, float volume)
 	{
 		std::string fullFile = ("Data\\sounds\\" + file); // Ensure the file path is correct
+
+		if (IsMuted()) volume = 0.0f; // If muted, set volume to 0
 
 		// Implementation for playing music using SDL2
 		if (m_Music) {
@@ -83,6 +86,22 @@ public:
 			Mix_FreeChunk(sound);
 		}
 		m_SoundEffects.clear();
+	}
+
+	void SetMuting(bool muting)
+	{
+		if (muting) {
+			Mix_Volume(-1, 0); // Mute all channels
+			Mix_VolumeMusic(0); // Mute music
+		}
+		else {
+			Mix_Volume(-1, MIX_MAX_VOLUME); // Restore sound effects volume
+			Mix_VolumeMusic(MIX_MAX_VOLUME); // Restore music volume
+		}
+	}
+
+	bool IsMuted() const {
+		return Mix_Volume(-1, -1) == 0 && Mix_VolumeMusic(-1) == 0; // Check if all channels and music are muted
 	}
 
 };
@@ -119,4 +138,14 @@ void boop::SDL2SoundSystem::StopAll()
 {
 	m_SoundSysImpl->StopMusic();
 	m_SoundSysImpl->StopSound();
+}
+
+void boop::SDL2SoundSystem::SetMuting(bool muting)
+{
+	m_SoundSysImpl->SetMuting(muting);
+}
+
+bool boop::SDL2SoundSystem::IsMuted() const
+{
+	return m_SoundSysImpl->IsMuted();
 }

@@ -263,12 +263,15 @@ namespace booble
 		//SET MUSIC
 		boop::ServiceLocator::RegisterSoundSystem(std::make_unique<boop::SDL2SoundSystem>());
 		boop::ServiceLocator::GetSoundSystem()->PlaySound("MainMenuMusic.wav", 0.5f);
+
+		//Level control
+		m_levelObserver = std::make_unique<LevelObserver>();
 	}
 
 	void GameLoader::InitializeLevels()
 	{
 		//Level control
-		m_levelObserver = std::make_unique<LevelObserver>();
+		//m_levelObserver = std::make_unique<LevelObserver>();
 
 		//RESET CONTROLLERS
 		boop::InputManager::GetInstance().DeleteControllers();
