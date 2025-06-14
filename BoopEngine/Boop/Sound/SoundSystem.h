@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+#include <string>
 
 namespace boop
 {
@@ -6,25 +8,31 @@ namespace boop
 	{
 	public:
 		virtual ~SoundSystem() = default;
-		virtual void PlaySound(const unsigned short id, const float volume) = 0;
+		virtual void PlaySound(const std::string& file, const float volume) = 0;
+		virtual void PlayMusic(const std::string& file, const float volume) = 0;
 	};
 
 
 	class SoundSystemNull final : public SoundSystem
 	{
 	public:
-		void PlaySound(const unsigned short id, const float volume) override;
+		void PlaySound(const std::string&, const float) override {};
+		void PlayMusic(const std::string&, const float) override {};
 	};
 
 
-	class SoundSystemLogger final : public SoundSystem
+	class SDL2SoundSystem final : public SoundSystem
 	{
 	private:
-		SoundSystem& m_SoundSystemWrapped;
+		class SDL2SoundSystemImpl;
+		std::unique_ptr<SDL2SoundSystemImpl> m_SoundSysImpl{};
 	public:
-		SoundSystemLogger(SoundSystem& soundSystemWrapped)
-			: m_SoundSystemWrapped(soundSystemWrapped) {
-		}
-		virtual void PlaySound(const unsigned short id, const float volume) override;
+	/*	SDL2SoundSystem(SoundSystem& ssImpl)
+			: m_SoundSysImpl(ssImpl) {
+		}*/
+		SDL2SoundSystem();
+		~SDL2SoundSystem();
+		void PlaySound(const std::string& file, const float volume) override;
+		void PlayMusic(const std::string& file, const float volume) override;
 	};
 }

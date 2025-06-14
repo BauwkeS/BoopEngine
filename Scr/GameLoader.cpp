@@ -13,6 +13,9 @@
 #include "../BoopEngine/Boop/Components/SpriteComponent.h"
 #include "../BoopEngine/Boop/Input/InputManager.h"
 
+#include "../BoopEngine/Boop/Sound/ServiceLocator.h"
+#include "../BoopEngine/Boop/Sound/SoundSystem.h"
+
 #include "Components/player.h"
 #include "Components/Health.h"
 #include "Components/HealthObserver.h"
@@ -257,6 +260,10 @@ namespace booble
 
 		//LOAD LEVEL
 		boop::SceneManager::GetInstance().ChangeScene("MainScreen");
+
+		//SET MUSIC
+		boop::ServiceLocator::RegisterSoundSystem(std::make_unique<boop::SDL2SoundSystem>());
+		boop::ServiceLocator::GetSoundSystem()->PlayMusic("MainMenuMusic.wav", 0.5f);
 	}
 
 	void GameLoader::InitializeLevels()
